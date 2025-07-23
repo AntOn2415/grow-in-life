@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/grow-in-life/static/css/main.696afcd1.css",
+    "main.js": "/grow-in-life/static/js/main.9a9611da.js",
+    "index.html": "/grow-in-life/index.html",
+    "main.696afcd1.css.map": "/grow-in-life/static/css/main.696afcd1.css.map",
+    "main.9a9611da.js.map": "/grow-in-life/static/js/main.9a9611da.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.696afcd1.css",
+    "static/js/main.9a9611da.js"
+  ]
+}
