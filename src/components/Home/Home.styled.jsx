@@ -1,8 +1,15 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  width: 100vw;
+  min-height: calc(100vh - 64px); /* враховуємо хедер */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  margin-top: 40px;
+  margin: 0;
+  padding: 0;
 `;
 
 export const Title = styled.h1`
