@@ -2,7 +2,7 @@
 
 import { sermonGodOverAll } from "./sermonGodOverAll";
 // Імпортуйте тут інші ваші файли проповідей, наприклад:
-// import { test1 } from "./test1";
+import { test1 } from "./test1";
 // import { yourMarkSermon } from "./yourMarkSermon";
 
 export const sermonsContent = {
@@ -10,7 +10,7 @@ export const sermonsContent = {
   // Додавайте сюди об'єкти проповідей, імпортуючи їх вище.
 
   matthew: [],
-  mark: [],
+  mark: [test1],
   luke: [sermonGodOverAll], // Зберігаємо існуючий вміст
   john: [],
   acts: [],
