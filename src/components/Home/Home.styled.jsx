@@ -1,3 +1,5 @@
+// Припускається, що це файл для ваших стилізованих компонентів, наприклад, Home.styled.jsx або подібний
+
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -10,13 +12,24 @@ export const Container = styled.div`
   text-align: center;
   margin: 0;
   padding: 0;
+
+  // Якщо Container має власний фон/колір, що відрізняється від body,
+  // і він повинен змінюватися з темою, розкоментуйте ці рядки:
+  // background-color: ${({ theme }) => theme.background};
+  // color: ${({ theme }) => theme.color};
+
+  // Якщо ви розкоментували вищезазначені властивості, додайте перехід для них:
+  // transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
 `;
 
 export const Title = styled.h1`
-  color: #2d6a4f;
+  color: ${({ theme }) => theme.color}; /* Використано основний колір тексту теми */
+  // Перехід для 'color' вже визначено у GlobalStyles.js для всіх h1 елементів
 `;
 
 export const Link = styled.a`
-  color: #1d3557;
+  color: ${({ theme }) =>
+    theme.navActive}; /* Використано колір активного елемента навігації для посилань */
   text-decoration: underline;
+  // Перехід для 'color' вже визначено у GlobalStyles.js для всіх a елементів
 `;

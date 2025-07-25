@@ -4,13 +4,17 @@ import styled from "styled-components";
 
 export const SidebarWrapper = styled.aside`
   /* NO POSITIONING PROPERTIES HERE. HANDLED BY GridSidebarContainer IN Layout.styled.jsx */
-  background: white; /* Фон сайдбару тепер білий */
+  background: ${({ theme }) => theme.navBg}; /* Фон сайдбару тепер береться з теми (navBg) */
   color: ${({ theme }) => theme.color};
   height: 100%; /* Займає 100% висоти свого батьківського Grid-Cell */
   display: flex;
   flex-direction: column;
   align-items: ${({ collapsed }) => (collapsed ? "center" : "flex-start")};
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1); // Тінь залишена без змін
+  padding: 60px 16px 10px; /* Додаємо відступи для внутрішнього контенту */
+
+  // ДОДАНО: Плавні переходи для фону та кольору тексту
+  transition: background 0.4s ease-in-out, color 0.4s ease-in-out;
 `;
 
 export const Menu = styled.nav`
@@ -29,6 +33,7 @@ export const Menu = styled.nav`
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari */
   }
+  // Переходи тут не потрібні, оскільки немає theme-залежних властивостей.
 `;
 
 export const CollapseBtn = styled.button`
@@ -44,12 +49,16 @@ export const CollapseBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); // Тінь залишена без змін
   /* Видалено: transition: width 0.2s, left 0.2s; - ширина тепер 100%, left не використовується */
-  transition: background 0.2s ease, color 0.2s ease; /* Додано плавний перехід для фону та кольору */
+
+  // ПЕРЕВІРЕНО: Перехід для фону та кольору вже є, це чудово!
+  // Цей transition вже є у вашому коді і він правильно обробляє зміну кольорів.
+  transition: background 0.2s ease, color 0.2s ease;
 `;
 
 export const MenuBottomSpacer = styled.div`
   height: 56px;
   flex-shrink: 0;
+  // Переходи тут не потрібні, оскільки немає theme-залежних властивостей.
 `;

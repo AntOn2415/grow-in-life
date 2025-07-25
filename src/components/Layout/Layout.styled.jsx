@@ -14,8 +14,11 @@ export const Wrapper = styled.div`
   color: ${({ theme }) => theme.color};
   /* Динамічний лівий відступ для основного контенту, щоб звільнити місце для сайдбару */
   padding-left: ${({ sidebarCollapsed, isHome }) =>
-    isHome ? "0" : sidebarCollapsed ? "60px" : "200px"};
-  transition: padding-left 0.2s ease-in-out; /* Плавний перехід відступу */
+    isHome ? "0" : sidebarCollapsed ? "60px" : "280px"}; /* Змінено з 200px на 250px */
+
+  // ДОДАНО/ОНОВЛЕНО: Плавні переходи для відступу, фону та кольору тексту
+  transition: padding-left 0.2s ease-in-out, background 0.4s ease-in-out,
+    /* Для зміни теми */ color 0.4s ease-in-out; /* Для зміни теми */
 `;
 
 export const Nav = styled.nav`
@@ -29,9 +32,11 @@ export const Nav = styled.nav`
   position: sticky;
   top: 0;
   z-index: 100;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  // ОНОВЛЕНО: Переходи для transform (приховування/показу) та background (зміна теми)
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease-in-out; /* Для зміни теми */
+  will-change: transform; /* Оптимізація для анімації transform */
 
   &.nav-hidden {
     transform: translateY(-100%);
@@ -51,13 +56,15 @@ export const GridSidebarContainer = styled.div`
   z-index: 110; /* Вищий z-index, щоб бути над Nav */
 
   /* Динамічна ширина сайдбару, враховуючи стан collapsed та isHome */
-  width: ${({ collapsed, isHome }) => (isHome ? "0" : collapsed ? "60px" : "200px")};
-  transition: width 0.2s ease-in-out; /* Плавний перехід ширини */
+  width: ${({ collapsed, isHome }) =>
+    isHome ? "0" : collapsed ? "60px" : "280px"}; /* Змінено з 200px на 250px */
+  transition: width 0.2s ease-in-out; /* Плавний перехід ширини вже був, це чудово */
 
   display: flex;
   flex-direction: column;
   height: 100%; /* Забезпечує заповнення висоти fixed-контейнера */
   /* Фон та тінь будуть встановлені в SidebarWrapper, який всередині */
+  /* Якщо SidebarWrapper буде мати theme.background, йому теж потрібен transition */
 `;
 
 export const Main = styled.main`
@@ -66,6 +73,8 @@ export const Main = styled.main`
   overflow-y: auto; /* Дозволяє основному контенту прокручуватися незалежно */
   padding: 24px;
   padding-top: 0; /* Додаємо відступ знизу для контенту */
+  /* Основний фон та колір тексту Main, як правило, успадковуються від Wrapper або body,
+     тому тут додаткові transition не потрібні, якщо ви не переозначаєте їх явно. */
 `;
 
 export const Link = styled(NavLink)`
@@ -74,9 +83,14 @@ export const Link = styled(NavLink)`
   font-weight: 500;
   padding: 8px 12px;
   border-radius: 4px;
+
+  // ДОДАНО: Переходи для кольору тексту та фону (для активного стану)
+  // 0.3s - для інтерактивних елементів, узгоджується з глобальними стилями для <a>
+  transition: color 0.3s ease-in-out, background 0.3s ease-in-out;
+
   &.active {
     background: ${({ theme }) => theme.navActive};
-    color: ${({ theme }) => theme.background};
+    color: ${({ theme }) => theme.background}; /* Колір тексту в активному стані */
   }
 `;
 

@@ -2,10 +2,13 @@
 import styled, { css } from "styled-components";
 
 export const StyledSectionTitle = styled.h3`
-  color: #465362; /* Базовий темний колір тексту */
+  color: ${({ theme }) => theme.color}; /* Тепер використовує основний колір тексту з теми */
   font-weight: 700;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+
+  // ДОДАНО: Плавні переходи для кольору та розміру шрифту
+  transition: color 0.4s ease-in-out, font-size 0.3s ease-in-out;
 
   /* Визначення розмірів на основі prop 'size' */
   ${props =>
@@ -42,7 +45,9 @@ export const StyledSectionTitle = styled.h3`
     props.color === "white" &&
     css`
       /* Залишаємо опцію, якщо десь знадобиться білий текст */
-      color: white;
+      color: white; /* Залишено як white, оскільки це явний override */
+      // Якщо color:white встановлюється через пропси, і ви хочете анімувати цей перехід,
+      // то глобальний transition на color вже спрацює.
     `}
 
   /* Вирівнювання тексту на основі prop 'alignment' */

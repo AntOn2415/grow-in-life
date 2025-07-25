@@ -5,10 +5,14 @@ export const MetaContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 15px;
-  margin-top: 15px;
-  font-size: 0.95em;
-  color: #f1f3f5; /* Світліший колір на темному фоні */
+  gap: 1rem;
+  font-size: 0.9em;
+  color: inherit; // Успадковує колір від батьківського компонента
+  transition: color 0.4s ease-in-out; // Забезпечує плавний перехід кольору
+
+  span {
+    white-space: nowrap; // Запобігає розриву тексту
+  }
 `;
 
 export const MetaItem = styled.span`
