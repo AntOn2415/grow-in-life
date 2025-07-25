@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/grow-in-life/static/css/main.696afcd1.css",
-    "main.js": "/grow-in-life/static/js/main.b30abc77.js",
+    "main.js": "/grow-in-life/static/js/main.1f12e661.js",
     "index.html": "/grow-in-life/index.html",
     "main.696afcd1.css.map": "/grow-in-life/static/css/main.696afcd1.css.map",
-    "main.b30abc77.js.map": "/grow-in-life/static/js/main.b30abc77.js.map"
+    "main.1f12e661.js.map": "/grow-in-life/static/js/main.1f12e661.js.map"
   },
   "entrypoints": [
     "static/css/main.696afcd1.css",
-    "static/js/main.b30abc77.js"
+    "static/js/main.1f12e661.js"
   ]
 }
