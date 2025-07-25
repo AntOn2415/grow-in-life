@@ -1,8 +1,10 @@
+// src/components/Sidebar/SermonsMenu/SermonsMenu.jsx
+
 import React, { useState } from "react";
 import { Section, SectionTitle, List, ListItem, Toggle } from "./SermonsMenu.styled";
-import { ntBooks } from "../../../data/sermons"; // для повної/короткої назви
-import { sermonsContent } from "../../../data/sermonsContent";
-import { useSermons } from "../../../contexts/SermonsContext"; // Імпортуємо хук з контексту
+import { sermonCategories, ntBooksList } from "../../../data/sermons/sermonCategories";
+import { sermonsContent } from "../../../data/sermons/sermonsContent";
+import { useSermons } from "../../../contexts/SermonsContext";
 
 export default function SermonsMenu({ collapsed }) {
   const { setSelectedSermon } = useSermons();
@@ -14,113 +16,102 @@ export default function SermonsMenu({ collapsed }) {
     openBook: null,
   });
 
-  const toggle = key =>
+  const toggleSection = id =>
     setOpenSections(prev => ({
       ...prev,
-      [key]: !prev[key],
+      [id]: !prev[id],
+      ...(id !== "books" && { openBook: null }),
+      ...(id === "books" && prev.openBook && { openBook: null }),
     }));
 
-  const handleBookToggle = book =>
+  const handleBookToggle = bookInternalKey => {
     setOpenSections(prev => ({
       ...prev,
-      openBook: prev.openBook === book ? null : book,
+      openBook: prev.openBook === bookInternalKey ? null : bookInternalKey,
     }));
+  };
 
-  const renderSermonItems = (book, sermons) => (
+  const getBookShortLabel = bookFullname => {
+    const book = ntBooksList.find(b => b.full === bookFullname);
+    return book ? book.short : bookFullname;
+  };
+
+  const renderSermonItems = (
+    sermons // collapsed доступний тут
+  ) => (
     <List style={{ marginLeft: collapsed ? 0 : 16 }}>
-      {sermons.map((sermon, i) => (
-        <ListItem
-          key={i}
-          as="button"
-          style={{
-            cursor: "pointer",
-            background: "none",
-            border: "none",
-            padding: 0,
-            color: "#465362",
-            font: "inherit",
-            textAlign: "left",
-          }}
-          // Тепер викликаємо setSelectedSermon з контексту
-          onClick={() => setSelectedSermon({ book, idx: i })}
-        >
-          {sermon.title}
-        </ListItem>
-      ))}
+      {sermons.map(
+        (
+          sermon,
+          index // Додаємо index для нумерації
+        ) => (
+          <ListItem key={sermon.id} as="button" onClick={() => setSelectedSermon(sermon.id)}>
+            {collapsed // Якщо сайдбар згорнутий, показуємо номер
+              ? `${index + 1}`
+              : // Якщо розгорнутий, показуємо заголовок
+                sermon.title}
+          </ListItem>
+        )
+      )}
     </List>
   );
 
-  const getLabel = bookName =>
-    collapsed ? ntBooks.find(b => b.full === bookName)?.short || bookName : bookName;
-
   return (
     <>
-      {/* Новий Заповіт */}
-      <Section>
-        <SectionTitle
-          role="button"
-          tabIndex={0}
-          onClick={() => toggle("books")}
-          onKeyDown={e => ["Enter", " "].includes(e.key) && toggle("books")}
-        >
-          Книги Нового Заповіту
-          <Toggle as="span">{openSections.books ? "−" : "+"}</Toggle>
-        </SectionTitle>
+      {sermonCategories.map(category => (
+        <Section key={category.id}>
+          <SectionTitle
+            role="button"
+            tabIndex={0}
+            onClick={() => toggleSection(category.id)}
+            onKeyDown={e => ["Enter", " "].includes(e.key) && toggleSection(category.id)}
+          >
+            {category.label}
+            <Toggle as="span">{openSections[category.id] ? "−" : "+"}</Toggle>
+          </SectionTitle>
 
-        {openSections.books && (
-          <List>
-            {Object.entries(sermonsContent)
-              .filter(([book]) => ntBooks.some(b => b.full === book))
-              .map(([book, sermons]) => (
-                <React.Fragment key={book}>
-                  <ListItem
-                    onClick={() => handleBookToggle(book)}
-                    style={{ cursor: "pointer" }}
-                    tabIndex={0}
-                    role="button"
-                    aria-expanded={openSections.openBook === book}
-                    onKeyDown={e => ["Enter", " "].includes(e.key) && handleBookToggle(book)}
-                  >
-                    {getLabel(book)} {openSections.openBook === book ? "−" : "+"}
-                  </ListItem>
-                  {openSections.openBook === book && renderSermonItems(book, sermons)}
-                </React.Fragment>
-              ))}
-          </List>
-        )}
-      </Section>
+          {openSections[category.id] && (
+            <>
+              {category.type === "books" && (
+                <List>
+                  {category.items
+                    .filter(
+                      book =>
+                        sermonsContent[book.internalKey] &&
+                        sermonsContent[book.internalKey].length > 0
+                    )
+                    .map(book => (
+                      <React.Fragment key={book.internalKey}>
+                        <ListItem
+                          as="button"
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => handleBookToggle(book.internalKey)}
+                          onKeyDown={e =>
+                            ["Enter", " "].includes(e.key) && handleBookToggle(book.internalKey)
+                          }
+                        >
+                          {collapsed // Якщо сайдбар згорнутий, показуємо скорочену назву
+                            ? getBookShortLabel(book.full)
+                            : // Якщо розгорнутий, показуємо повну назву
+                              book.full}{" "}
+                          {openSections.openBook === book.internalKey ? "−" : "+"}
+                        </ListItem>
+                        {openSections.openBook === book.internalKey &&
+                          sermonsContent[book.internalKey] &&
+                          renderSermonItems(sermonsContent[book.internalKey])}
+                      </React.Fragment>
+                    ))}
+                </List>
+              )}
 
-      {/* Тематичні */}
-      <Section>
-        <SectionTitle
-          role="button"
-          tabIndex={0}
-          onClick={() => toggle("thematic")}
-          onKeyDown={e => ["Enter", " "].includes(e.key) && toggle("thematic")}
-        >
-          Тематичні
-          <Toggle as="span">{openSections.thematic ? "−" : "+"}</Toggle>
-        </SectionTitle>
-        {openSections.thematic &&
-          sermonsContent["Тематичні"] &&
-          renderSermonItems("Тематичні", sermonsContent["Тематичні"])}
-      </Section>
-
-      {/* Особливі події */}
-      <Section>
-        <SectionTitle
-          role="button"
-          tabIndex={0}
-          onClick={() => toggle("special")}
-          onKeyDown={e => ["Enter", " "].includes(e.key) && toggle("special")}
-        >
-          Особливі події
-          <Toggle as="span">{openSections.special ? "−" : "+"}</Toggle>
-        </SectionTitle>
-        {openSections.special &&
-          sermonsContent["Особливі події"] &&
-          renderSermonItems("Особливі події", sermonsContent["Особливі події"])}
-      </Section>
+              {(category.type === "thematic" || category.type === "special") &&
+                sermonsContent[category.id] &&
+                renderSermonItems(sermonsContent[category.id])}
+            </>
+          )}
+        </Section>
+      ))}
     </>
   );
 }

@@ -1,24 +1,51 @@
 // src/components/SpecificContentDisplays/SermonDisplay/SermonDisplay.styled.js
 import styled from "styled-components";
+import { MetaContainer } from "../SermonMetaInfo/SermonMetaInfo.styled"; // Імпортуємо MetaContainer для стилізації
 
 export const SermonDisplayContainer = styled.div`
   /* Загальні стилі для контейнера вмісту проповіді */
-  /* Ці стилі можуть бути для всього блоку проповіді, якщо MainContentWrapper є для внутрішнього контенту */
-  /* max-width та margin: 0 auto; вже перенесено до MainContentWrapper */
-  /* padding: 0 1rem; теж може бути перенесено */
 `;
 
 export const SermonTitleWrapper = styled.div`
-  background-color: #4a90e2;
-  color: white;
-  padding: 1.5rem 0;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
+  /* Нова стилізація для секції "герой" */
+  background: linear-gradient(
+    135deg,
+    #1d3557 0%,
+    #457b9d 100%
+  ); /* Глибокий синій до світлішого синього градієнт */
+  color: #f1faee; /* Дуже світлий колір для тексту, щоб контрастувати з фоном */
+  padding: 4rem 1rem; /* Збільшені вертикальні відступи для більшого простору */
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem; /* Більше відступу знизу, щоб "герой" виглядав окремо */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Легка тінь для глибини */
+
+  /* Стилі для основного заголовка h2 всередині цього блоку */
+  h2 {
+    font-size: 2.8rem; /* Більший розмір шрифту */
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* Тінь для тексту заголовка */
+  }
+
+  /* Регулювання стилів MetaContainer, коли він знаходиться всередині SermonTitleWrapper */
+  ${MetaContainer} {
+    margin-top: 2rem; /* Більше місця для мета-інформації */
+    font-size: 1.1em;
+    color: #a8dadc; /* Трохи приглушений колір для мета-інформації */
+  }
+
+  /* Медіа-запити для адаптивності */
+  @media (max-width: 768px) {
+    padding: 3rem 1rem;
+    h2 {
+      font-size: 2.2rem;
+    }
+    ${MetaContainer} {
+      font-size: 1em;
+    }
+  }
 `;
 
-// Новий styled component для обгортки основного контенту (замість <main> з класами)
 export const MainContentWrapper = styled.main`
   max-width: 960px; /* container */
   margin-left: auto; /* mx-auto */

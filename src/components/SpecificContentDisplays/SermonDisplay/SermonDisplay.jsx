@@ -1,7 +1,7 @@
 // src/components/SpecificContentDisplays/SermonDisplay/SermonDisplay.js
 import React from "react";
 import Card from "../../Common/Card/Card";
-import SectionHeading from "../../Common/SectionHeading/SectionHeading";
+import SectionHeading from "../../Common/SectionHeading/SectionHeading"; // Залишаємо для інших заголовків
 import QuizCard from "../../InteractiveContent/QuizCard/QuizCard";
 import RevealCard from "../../InteractiveContent/RevealCard/RevealCard";
 import SermonMetaInfo from "../SermonMetaInfo/SermonMetaInfo";
@@ -12,7 +12,7 @@ import {
   StyledParagraph,
   RevealCardsGrid,
   SermonTitleWrapper,
-  MainContentWrapper, // <--- Додано новий styled component для <main>
+  MainContentWrapper,
 } from "./SermonDisplay.styled";
 
 function SermonDisplay({ sermonData }) {
@@ -20,7 +20,8 @@ function SermonDisplay({ sermonData }) {
     return <p>Завантаження проповіді...</p>;
   }
 
-  const { title, speaker, date, theme, sections } = sermonData;
+  // Деструктуризуємо нові властивості: book, description
+  const { title, speaker, date, book, description, theme, sections } = sermonData;
 
   const renderHtmlContent = htmlString => {
     return { __html: htmlString };
@@ -29,13 +30,18 @@ function SermonDisplay({ sermonData }) {
   return (
     <SermonDisplayContainer>
       <SermonTitleWrapper>
-        <SectionHeading as="h2" size="extraLarge" alignment="center" bottomMargin="4">
-          {title}
-        </SectionHeading>
-        <SermonMetaInfo speaker={speaker} date={date} theme={theme} />
+        {/* Використовуємо прямий h2 для основного заголовка проповіді */}
+        <h2>{title}</h2>
+        {/* Передаємо нові властивості до SermonMetaInfo */}
+        <SermonMetaInfo
+          speaker={speaker}
+          date={date}
+          theme={theme}
+          book={book}
+          description={description}
+        />
       </SermonTitleWrapper>
 
-      {/* Використовуємо MainContentWrapper замість <main> з класами */}
       <MainContentWrapper>
         <Card>
           <SermonTextWrapper>

@@ -1,3 +1,5 @@
+// src/Sidebar/SermonsMenu/SermonsMenu.styled.jsx
+
 import styled from "styled-components";
 
 export const Section = styled.div`
@@ -28,11 +30,23 @@ export const List = styled.ul`
   display: flex;
   flex-direction: column;
 `;
+
 export const ListItem = styled.li`
-  padding: 4px 0 4px 12px;
-  font-size: 14px;
-  color: ${({ theme }) => theme.color};
+  /* Стилі перенесені з інлайн-стилів */
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0; /* Замінює попередній padding */
+  color: #465362; /* Замінює колір з теми для цього елемента */
+  font: inherit; /* Успадковує всі властивості шрифту від батьківського елемента */
+  text-align: left;
+  display: block;
+  width: 100%;
+
+  /* Стилі, які були вже в ListItem, зберігаємо */
+  font-size: 14px; /* Якщо font: inherit встановлює font-size на inherit, то цей рядок перезапише його на 14px */
 `;
+
 export const Toggle = styled.span`
   color: ${({ theme }) => theme.buttonBg};
   font-size: 16px;

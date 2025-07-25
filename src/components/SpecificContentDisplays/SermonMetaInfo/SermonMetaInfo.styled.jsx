@@ -14,3 +14,14 @@ export const MetaContainer = styled.div`
 export const MetaItem = styled.span`
   /* Додаткові стилі для кожного елемента мета-інформації */
 `;
+
+export const DescriptionText = styled.p`
+  margin-top: 20px;
+  max-width: 600px; /* Обмеження ширини для читабельності */
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1em;
+  line-height: 1.5;
+  opacity: 0.9; /* Трохи приглушений */
+  text-align: center; /* Центруємо опис */
+`;
