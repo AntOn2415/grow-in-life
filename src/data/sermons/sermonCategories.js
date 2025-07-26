@@ -33,16 +33,7 @@ export const sermonCategories = [
       { full: "3 Івана", short: "3Ів", internalKey: "thirdJohn" }, // Додано internalKey
       { full: "Юди", short: "Юд", internalKey: "jude" },
       { full: "Обʼявлення", short: "Об", internalKey: "revelation" },
-      {
-        full: "Неемії",
-        short: "Неем",
-        internalKey: "nehemiah", // Додано internalKey
-        lessons: [
-          { chapter: 1, title: "Неемії 1 розділ" },
-          { chapter: 2, title: "Неемії 2 розділ" },
-          { chapter: 3, title: "Неемії 3 розділ" },
-        ],
-      },
+      {},
     ],
   },
   {

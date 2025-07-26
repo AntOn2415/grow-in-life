@@ -37,7 +37,7 @@ const GlobalStyles = createGlobalStyle`
   a {
     color: ${({ theme }) => theme.color}; // Колір посилань за замовчуванням
     text-decoration: none; // Без підкреслення
-    transition: color 0.3s ease-in-out; // Плавний перехід кольору посилання
+    transition: color 0.4s ease-in-out; // Плавний перехід кольору посилання
     &:hover {
       color: ${({ theme }) => theme.accentColor}; // Приклад: акцентний колір при наведенні
     }
@@ -57,7 +57,7 @@ const GlobalStyles = createGlobalStyle`
                 transform 0.2s ease-out, // Невеликий рух при наведенні
                 box-shadow 0.3s ease-in-out; // Тінь при наведенні
     &:hover {
-      transform: translateY(-2px);
+      transform: translateY(-1px);
       box-shadow: 0 4px 8px rgba(0,0,0,0.1); // Легка тінь
     }
     &:active {

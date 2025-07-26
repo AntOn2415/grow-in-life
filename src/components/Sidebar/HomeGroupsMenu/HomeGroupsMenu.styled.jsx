@@ -1,39 +1,72 @@
+// src/Sidebar/HomeGroupsMenu/HomeGroupsMenu.styled.jsx
 import styled from "styled-components";
 
 export const Section = styled.div`
   margin-bottom: 16px;
-  // Не має theme-залежних властивостей, які потребують transition.
 `;
 
 export const SectionTitle = styled.div`
   font-weight: bold;
   margin-bottom: 4px;
   font-size: 15px;
-  // Колір цього заголовка буде успадкований від батьківського компонента (наприклад, SidebarWrapper),
-  // де вже є transition: color 0.4s ease-in-out;. Тому тут окремо його додавати не потрібно.
+  color: ${({ theme }) => theme.color};
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  transition: color 0.4s ease-in-out;
+
+  &:hover {
+    color: ${({ theme }) => theme.accentColor};
+  }
 `;
 
 export const List = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0 0 8px 0;
-  // Не має theme-залежних властивостей, які потребують transition.
 `;
 
 export const ListItem = styled.li`
   padding: 4px 0 4px 12px;
   font-size: 14px;
-  color: ${({ theme }) => theme.color}; // Колір тексту елемента списку з теми
-
-  // ДОДАНО: Якщо елементи списку інтерактивні
   cursor: pointer;
+  border-radius: 4px;
 
-  // ДОДАНО: Плавні переходи для кольору тексту та фону (для hover)
-  transition: color 0.4s ease-in-out, background 0.3s ease-in-out;
+  transition: color 0.3s ease-in-out, background 0.3s ease-in-out;
+
+  // ✅ ЗМІНЕНО: Сталий колір тексту тепер accentColor
+  color: ${({ theme }) => theme.accentColor};
+  // ✅ ЗМІНЕНО: Сталий колір фону тепер hoverBg
+  background: ${({ theme }) => theme.hoverBg};
 
   &:hover {
-    background: ${({ theme }) => theme.hoverBg}; // Колір фону при наведенні
-    // Якщо потрібно, щоб і колір тексту змінювався при наведенні, додайте:
-    // color: ${({ theme }) => theme.accentColor};
+    // ✅ ЗМІНЕНО: Колір тексту при ховері тепер theme.color
+    color: ${({ theme }) => theme.color};
+    // ✅ ЗМІНЕНО: Колір фону при ховері тепер theme.background (або theme.bodyBg)
+    background: ${({ theme }) =>
+      theme.background ||
+      theme.bodyBg}; // Використовуйте theme.background або theme.bodyBg залежно від вашої теми
   }
+
+  ${({ $isActive }) =>
+    $isActive &&
+    `
+    background: ${({ theme }) => theme.accentBg};
+    color: ${({ theme }) => theme.buttonColor};
+    font-weight: bold;
+
+    &:hover {
+      background: ${({ theme }) => theme.accentBgHover || theme.accentBg};
+      color: ${({ theme }) => theme.buttonColor};
+    }
+  `}
+`;
+
+export const Toggle = styled.span`
+  font-size: 1.2rem;
+  margin-left: 8px;
+  line-height: 1;
+  transition: transform 0.2s ease-in-out;
 `;

@@ -3,7 +3,7 @@
 import { sermonGodOverAll } from "./sermonGodOverAll";
 // Імпортуйте тут інші ваші файли проповідей, наприклад:
 import { test1 } from "./test1";
-// import { yourMarkSermon } from "./yourMarkSermon";
+import { nehemiah4Commentary } from "./nehemiah4Commentary";
 
 export const sermonsContent = {
   // Новий Завіт - всі книги, ініціалізовані як порожні масиви.
@@ -39,7 +39,7 @@ export const sermonsContent = {
 
   // Категорії, що не є книгами (тематичні, особливі події)
   thematic: [
-    sermonGodOverAll, // Приклад: проповідь, яка є "тематичною"
+    nehemiah4Commentary, // Приклад: проповідь, яка є "тематичною"
   ],
   special: [
     // Приклад: проповідь, яка є "особливою подією"

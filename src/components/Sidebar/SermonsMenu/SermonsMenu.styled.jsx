@@ -42,7 +42,7 @@ export const ListItem = styled.li`
   cursor: pointer;
   background: none;
   border: none;
-  padding: 0;
+  padding: 0 5px;
   color: ${({ theme }) => theme.color}; /* Тепер використовує основний колір тексту з теми */
   font: inherit;
   text-align: left;

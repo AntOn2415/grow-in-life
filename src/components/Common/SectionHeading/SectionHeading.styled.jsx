@@ -2,7 +2,7 @@
 import styled, { css } from "styled-components";
 
 export const StyledSectionTitle = styled.h3`
-  color: ${({ theme }) => theme.color}; /* Тепер використовує основний колір тексту з теми */
+  color: ${({ theme }) => theme.color};
   font-weight: 700;
   margin-bottom: 1rem;
   margin-top: 1.5rem;

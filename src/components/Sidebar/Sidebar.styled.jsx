@@ -33,7 +33,6 @@ export const Menu = styled.nav`
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari */
   }
-  // Переходи тут не потрібні, оскільки немає theme-залежних властивостей.
 `;
 
 export const CollapseBtn = styled.button`
@@ -50,7 +49,6 @@ export const CollapseBtn = styled.button`
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); // Тінь залишена без змін
-  /* Видалено: transition: width 0.2s, left 0.2s; - ширина тепер 100%, left не використовується */
 
   // ПЕРЕВІРЕНО: Перехід для фону та кольору вже є, це чудово!
   // Цей transition вже є у вашому коді і він правильно обробляє зміну кольорів.
