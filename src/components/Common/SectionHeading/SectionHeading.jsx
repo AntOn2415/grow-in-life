@@ -1,16 +1,25 @@
+// src/components/Common/SectionHeading/SectionHeading.js
 import React from "react";
-import { StyledSectionTitle } from "./SectionHeading.styled";
+import { StyledHeading } from "./SectionHeading.styled"; // ✅ Імпортуємо стилі
+// import DOMPurify from 'dompurify'; // Розкоментуйте, якщо використовуєте DOMPurify
 
-export default function SectionHeading({ as, size, alignment, color, bottomMargin, children }) {
+// Компонент SectionHeading
+const SectionHeading = ({ as = "h3", size = "default", children }) => {
+  // Функція для безпечного рендерингу HTML
+  const renderHtmlContent = htmlString => {
+    // Якщо ви використовуєте DOMPurify, розкоментуйте рядок нижче
+    // return { __html: DOMPurify.sanitize(htmlString) };
+    return { __html: htmlString };
+  };
+
   return (
-    <StyledSectionTitle
+    <StyledHeading
       as={as}
       size={size}
-      alignment={alignment}
-      color={color}
-      bottomMargin={bottomMargin}
-    >
-      {children}
-    </StyledSectionTitle>
+      // Застосовуємо dangerouslySetInnerHTML до children, оскільки це може бути HTML-рядок
+      dangerouslySetInnerHTML={renderHtmlContent(children)}
+    />
   );
-}
+};
+
+export default SectionHeading;

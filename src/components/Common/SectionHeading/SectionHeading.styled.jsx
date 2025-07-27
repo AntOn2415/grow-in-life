@@ -1,59 +1,29 @@
-// src/components/Common/SectionHeading/SectionHeading.styled.js
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
-export const StyledSectionTitle = styled.h3`
-  color: ${({ theme }) => theme.color};
-  font-weight: 700;
-  margin-bottom: 1rem;
-  margin-top: 1.5rem;
+export const StyledHeading = styled.h3`
+  color: ${({ theme }) => theme.accentColor}; // ✅ Змінив на accentColor для заголовків секцій
+  font-weight: bold; /* Залишаємо, якщо не в темі */
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
 
-  // ДОДАНО: Плавні переходи для кольору та розміру шрифту
-  transition: color 0.4s ease-in-out, font-size 0.3s ease-in-out;
-
-  /* Визначення розмірів на основі prop 'size' */
-  ${props =>
-    props.size === "small" &&
-    css`
-      font-size: 1rem;
-    `}
-  ${props =>
-    props.size === "medium" &&
-    css`
-      font-size: 1.25rem;
-    `}
   ${props =>
     props.size === "default" &&
-    css`
-      font-size: 1.5rem;
-    `}
-  ${props =>
-    props.size === "large" &&
-    css`
-      font-size: 2.25rem;
-      margin-bottom: ${props => props.bottomMargin || "1rem"};
-    `}
-  ${props =>
-    props.size === "extraLarge" &&
-    css`
-      /* Додано для головного заголовка проповіді */
-      font-size: 2.5rem; /* Розмір з вашого h1 */
-      margin-bottom: ${props => props.bottomMargin || "1rem"};
-    `}
+    `
+    font-size: ${props.theme.fontSizes.xlarge}; // ✅ З теми
+  `}
 
-  /* Визначення кольору на основі prop 'color' */
   ${props =>
-    props.color === "white" &&
-    css`
-      /* Залишаємо опцію, якщо десь знадобиться білий текст */
-      color: white; /* Залишено як white, оскільки це явний override */
-      // Якщо color:white встановлюється через пропси, і ви хочете анімувати цей перехід,
-      // то глобальний transition на color вже спрацює.
-    `}
+    props.size === "medium" &&
+    `
+    font-size: ${props.theme.fontSizes.large}; // ✅ З теми
+  `}
 
-  /* Вирівнювання тексту на основі prop 'alignment' */
-  ${props =>
-    props.alignment === "center" &&
-    css`
-      text-align: center;
-    `}
+  a {
+    color: ${({ theme }) => theme.accentColor}; // ✅ З теми
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `;

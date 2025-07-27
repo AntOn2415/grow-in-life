@@ -1,3 +1,4 @@
+// src/contexts/ThemeProvider.js (або src/theme.js)
 import React, { createContext, useContext, useState } from "react";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 
@@ -23,10 +24,35 @@ const themes = {
     dangerColor: "#DC3545", // Червоний для помилки
     dangerText: "#721c24", // Темно-червоний для тексту помилки
 
-    // ОНОВЛЕНО: Градієнтні властивості для "герой" секції у світлій темі
-    // Починаємо з кольору хедера (navBg) і градуємо до фонового кольору (background)
     gradientStart: "#EFEADD",
     gradientEnd: "#F7F4EB",
+
+    // ✅ ДОДАНО: Розміри шрифтів
+    fontSizes: {
+      small: "0.875rem", // 14px
+      medium: "1rem", // 16px (базовий)
+      large: "1.25rem", // 20px
+      xlarge: "1.5rem", // 24px
+      xxlarge: "2.5rem", // 40px
+    },
+    // ✅ ДОДАНО: Радіуси заокруглення
+    borderRadius: {
+      small: "4px",
+      medium: "8px",
+      large: "12px",
+    },
+    // ✅ ДОДАНО: Тіні
+    shadows: {
+      small: "0 2px 4px rgba(0, 0, 0, 0.08)",
+      medium: "0 4px 12px rgba(0, 0, 0, 0.12)",
+      large: "0 8px 24px rgba(0, 0, 0, 0.16)",
+    },
+    // ✅ ДОДАНО: Додаткові кольори для інтерактивних елементів
+    // Ці кольори відповідають світло-блакитному та світло-жовтому, які були у вас раніше
+    interactiveBgLight: "#E0F2F7", // Легкий фон для HighlightBox (світло-блакитний)
+    interactiveBorderLight: "#A7D9EE", // Бордюр для HighlightBox (темніший блакитний)
+    interactiveBgYellow: "#FFFBE6", // Легкий фон для QuestionPrompt (світло-жовтий)
+    interactiveBorderYellow: "#FFD700", // Бордюр для QuestionPrompt (темніший жовтий)
   },
   dark: {
     background: "#2C2C2C",
@@ -51,6 +77,32 @@ const themes = {
 
     gradientStart: "#2C2C2C",
     gradientEnd: "#6B6B6B",
+
+    // ✅ ДОДАНО: Розміри шрифтів
+    fontSizes: {
+      small: "0.875rem",
+      medium: "1rem",
+      large: "1.25rem",
+      xlarge: "1.5rem",
+      xxlarge: "2.5rem",
+    },
+    // ✅ ДОДАНО: Радіуси заокруглення
+    borderRadius: {
+      small: "4px",
+      medium: "8px",
+      large: "12px",
+    },
+    // ✅ ДОДАНО: Тіні
+    shadows: {
+      small: "0 2px 4px rgba(0, 0, 0, 0.2)",
+      medium: "0 4px 12px rgba(0, 0, 0, 0.3)",
+      large: "0 8px 24px rgba(0, 0, 0, 0.4)",
+    },
+    // ✅ ДОДАНО: Додаткові кольори для інтерактивних елементів
+    interactiveBgLight: "#3A4A5A", // Темний фон для HighlightBox
+    interactiveBorderLight: "#6A8AA0", // Темний бордюр для HighlightBox
+    interactiveBgYellow: "#4A4030", // Темний фон для QuestionPrompt
+    interactiveBorderYellow: "#E0B000", // Темний бордюр для QuestionPrompt
   },
 };
 

@@ -37,6 +37,43 @@ export const homeGroupsContent = {
       tags: ["Неемія", "будівництво", "опозиція", "віра", "випробування", "боротьба"],
       loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah4"), // ✅ Шлях до файлу уроку
     },
+    {
+      id: "nehemiah-1-reflections", // Унікальний ID
+      title: "Неемія 1: Роздуми Живих Братів", // Повна назва
+      shortTitle: "Неемія 1", // Скорочена назва для меню
+      book: "Неемія",
+      bookInternalKey: "nehemiah", // internalKey книги Неемії
+      chapter: "1", // Глава
+      verses: "Неемії 1:1-11", // Вірші
+      date: "2025-07-27", // Дата уроку (можна змінити на реальну)
+      author: "Живі Брати", // Автор
+      duration: "60-90 хв", // Тривалість
+      tags: [
+        "Неемія",
+        "молитва",
+        "відновлення",
+        "лідерство",
+        "біль за народ",
+        "заповіт",
+        "Божа воля",
+      ], // Теги
+      loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah1Lesson"),
+    },
+    {
+      id: "nehemiah-2-reflections", // ✅ Унікальний ID для уроку Неемія 2
+      title: "Неемія 2: Боже Бажання та Початок Відбудови", // ✅ Повна назва
+      shortTitle: "Неемія 2", // ✅ Скорочена назва для меню
+      book: "Неемія",
+      bookInternalKey: "nehemiah",
+      chapter: "2", // ✅ Глава
+      verses: "Неемії 2:1-20", // ✅ Вірші
+      date: "2025-07-15", // ✅ Дата уроку
+      author: "Живі Брати", // ✅ Автор
+      duration: "60-90 хв", // ✅ Тривалість
+      tags: ["Неемія", "лідерство", "Божа рука", "відбудова", "протидія", "молитва", "Божа воля"], // ✅ Теги
+      // ✅ Ліниве завантаження уроку 2
+      loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah2Lesson"),
+    },
   ], // Неемії
   esther: [], // Естер
   job: [], // Йова
