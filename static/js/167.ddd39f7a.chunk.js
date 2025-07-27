@@ -74,7 +74,7 @@
 
   // ДОДАНО: Перехід для кольору іконки (на додаток до transform)
   transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
-`;var d=t(579);function m(e){let{quizData:r}=e;const[t,n]=(0,o.useState)(!1),[m,h]=(0,o.useState)(null);return(0,d.jsxs)(i,{children:[(0,d.jsxs)(s,{onClick:()=>{n(!t),t&&h(null)},children:[r.question,(0,d.jsx)(c,{isActive:t,children:t?"\u2212":"+"})]}),t&&(0,d.jsx)(a,{children:r.options.map((e,r)=>(0,d.jsx)(l,{onClick:()=>(e=>{h(e)})(r),isSelected:m===r,isCorrectOption:e.isCorrect,showFeedback:null!==m,children:e.text},r))})]})}},167:(e,r,t)=>{t.r(r),t.d(r,{default:()=>z});var o=t(43),n=t(574);const i=n.Ay.div`
+`;var d=t(579);function m(e){let{quizData:r}=e;const[t,n]=(0,o.useState)(!1),[m,h]=(0,o.useState)(null);return(0,d.jsxs)(i,{children:[(0,d.jsxs)(s,{onClick:()=>{n(!t),t&&h(null)},children:[r.question,(0,d.jsx)(c,{isActive:t,children:t?"\u2212":"+"})]}),t&&(0,d.jsx)(a,{children:r.options.map((e,r)=>(0,d.jsx)(l,{onClick:()=>(e=>{h(e)})(r),isSelected:m===r,isCorrectOption:e.isCorrect,showFeedback:null!==m,children:e.text},r))})]})}},167:(e,r,t)=>{t.r(r),t.d(r,{default:()=>C});var o=t(43),n=t(574);const i=n.Ay.div`
   // Цей компонент не має прямих властивостей кольору, які потрібно змінювати.
   // Його фон та колір тексту, швидше за все, контролюються батьківськими компонентами
   // (наприклад, Main, Wrapper у Layout) або глобальними стилями body, де переходи вже налаштовані.
@@ -108,7 +108,7 @@
   }
 `,h=n.Ay.span`
   /* Додаткові стилі для кожного елемента мета-інформації */
-`,p=n.Ay.p`
+`,u=n.Ay.p`
   margin-top: 20px;
   max-width: 600px; /* Обмеження ширини для читабельності */
   margin-left: auto;
@@ -117,7 +117,7 @@
   line-height: 1.5;
   opacity: 0.9; /* Трохи приглушений */
   text-align: center; /* Центруємо опис */
-`;var u=t(579);function g(e){let{speaker:r,date:t,theme:o,book:n,description:i}=e;return(0,u.jsxs)(m,{children:[n&&(0,u.jsxs)(h,{children:["\u041a\u043d\u0438\u0433\u0430: ",(0,u.jsx)("strong",{children:n})]}),r&&(0,u.jsxs)(h,{children:["\u0421\u043f\u0456\u043a\u0435\u0440: ",(0,u.jsx)("strong",{children:r})]}),t&&(0,u.jsxs)(h,{children:["\u0414\u0430\u0442\u0430: ",t]}),o&&(0,u.jsxs)(h,{children:["\u0422\u0435\u043c\u0430: ",(0,u.jsx)("strong",{children:o})]}),i&&(0,u.jsx)(p,{children:i})]})}const x=n.Ay.div`
+`;var g=t(579);function p(e){let{speaker:r,date:t,theme:o,book:n,description:i}=e;return(0,g.jsxs)(m,{children:[n&&(0,g.jsxs)(h,{children:["\u041a\u043d\u0438\u0433\u0430: ",(0,g.jsx)("strong",{children:n})]}),r&&(0,g.jsxs)(h,{children:["\u0421\u043f\u0456\u043a\u0435\u0440: ",(0,g.jsx)("strong",{children:r})]}),t&&(0,g.jsxs)(h,{children:["\u0414\u0430\u0442\u0430: ",t]}),o&&(0,g.jsxs)(h,{children:["\u0422\u0435\u043c\u0430: ",(0,g.jsx)("strong",{children:o})]}),i&&(0,g.jsx)(u,{children:i})]})}const x=n.Ay.div`
   /* Загальні стилі для контейнера вмісту проповіді */
   // Не має theme-залежних властивостей, які потребують transition.
 `,b=n.Ay.div`
@@ -169,18 +169,18 @@
   padding-left: 1rem;
   padding-right: 1rem;
   // Не має theme-залежних властивостей, які потребують transition.
-`,A=n.Ay.div`
+`,$=n.Ay.div`
   color: ${e=>{let{theme:r}=e;return r.color}}; // Колір тексту проповіді з теми
 
   // ДОДАНО: Плавний перехід для кольору тексту
   transition: color 0.4s ease-in-out;
-`,v=n.Ay.p`
+`,y=n.Ay.p`
   margin-bottom: 1rem;
   font-size: 1.15rem;
   line-height: 1.6;
   // Колір цього параграфа буде успадковано від батьківського SermonTextWrapper.
   // Оскільки SermonTextWrapper тепер має transition: color, то і параграф буде плавно змінювати колір.
-`,y=n.Ay.div`
+`,v=n.Ay.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
@@ -196,81 +196,93 @@
     grid-template-columns: repeat(3, 1fr);
   }
   // Не має theme-залежних властивостей, які потребують transition.
-`;const $=function(e){let{sermonData:r}=e;if(!r)return(0,u.jsx)("p",{children:"\u0417\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u043f\u0440\u043e\u043f\u043e\u0432\u0456\u0434\u0456..."});const{title:t,speaker:n,date:i,book:s,description:m,theme:h,sections:p}=r;return(0,u.jsxs)(x,{children:[(0,u.jsxs)(b,{children:[(0,u.jsx)("h2",{children:t}),(0,u.jsx)(g,{speaker:n,date:i,theme:h,book:s,description:m})]}),(0,u.jsx)(f,{children:(0,u.jsx)(a.A,{children:(0,u.jsx)(A,{children:p.map((e,r)=>"text"===e.type?(0,u.jsxs)(o.Fragment,{children:[e.title&&(0,u.jsx)(l.A,{as:e.subtitle?"h4":"h3",size:e.subtitle?"medium":"default",children:e.title}),e.content.map((e,r)=>{return(0,u.jsx)(v,{dangerouslySetInnerHTML:(t=e,{__html:t})},r);var t})]},r):"quiz"===e.type?(0,u.jsx)(c.A,{quizData:e},e.id):"reveal-cards"===e.type?(0,u.jsx)(y,{children:e.cards.map(e=>(0,u.jsx)(d.A,{cardData:e},e.id))},r):null)})})})]})};var j=t(230),w=t(197);const k=()=>{const{selectedSermon:e,setSelectedSermon:r}=(0,w.Pn)(),t=(e=>{if(!e)return null;for(const r in j.V)if(j.V.hasOwnProperty(r)){const t=j.V[r];if(Array.isArray(t)&&t.length>0){const r=t.find(r=>r.id===e);if(r)return r}}return null})(e);return(0,o.useEffect)(()=>{if(!e){let e=null;for(const r in j.V)if(j.V.hasOwnProperty(r)){const t=j.V[r];if(Array.isArray(t)&&t.length>0){e=t[0].id;break}}e&&r(e)}},[e,r]),(0,u.jsx)(i,{children:t?(0,u.jsx)($,{sermonData:t}):(0,u.jsx)(s,{children:"\u0411\u0443\u0434\u044c \u043b\u0430\u0441\u043a\u0430, \u043e\u0431\u0435\u0440\u0456\u0442\u044c \u043f\u0440\u043e\u043f\u043e\u0432\u0456\u0434\u044c \u0437\u0456 \u0441\u043f\u0438\u0441\u043a\u0443 \u0432 \u043c\u0435\u043d\u044e."})})};function z(){return(0,u.jsx)(k,{})}},441:(e,r,t)=>{t.d(r,{A:()=>s});t(43);var o=t(574);const n=o.Ay.h3`
-  color: ${e=>{let{theme:r}=e;return r.color}};
-  font-weight: 700;
-  margin-bottom: 1rem;
-  margin-top: 1.5rem;
+`;const j=function(e){let{sermonData:r}=e;if(!r)return(0,g.jsx)("p",{children:"\u0417\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u043f\u0440\u043e\u043f\u043e\u0432\u0456\u0434\u0456..."});const{title:t,speaker:n,date:i,book:s,description:m,theme:h,sections:u}=r;return(0,g.jsxs)(x,{children:[(0,g.jsxs)(b,{children:[(0,g.jsx)("h2",{children:t}),(0,g.jsx)(p,{speaker:n,date:i,theme:h,book:s,description:m})]}),(0,g.jsx)(f,{children:(0,g.jsx)(a.A,{children:(0,g.jsx)($,{children:u.map((e,r)=>"text"===e.type?(0,g.jsxs)(o.Fragment,{children:[e.title&&(0,g.jsx)(l.A,{as:e.subtitle?"h4":"h3",size:e.subtitle?"medium":"default",children:e.title}),e.content.map((e,r)=>{return(0,g.jsx)(y,{dangerouslySetInnerHTML:(t=e,{__html:t})},r);var t})]},r):"quiz"===e.type?(0,g.jsx)(c.A,{quizData:e},e.id):"reveal-cards"===e.type?(0,g.jsx)(v,{children:e.cards.map(e=>(0,g.jsx)(d.A,{cardData:e},e.id))},r):null)})})})]})};var A=t(230),k=t(197);const w=()=>{const{selectedSermon:e,setSelectedSermon:r}=(0,k.Pn)(),t=(e=>{if(!e)return null;for(const r in A.V)if(A.V.hasOwnProperty(r)){const t=A.V[r];if(Array.isArray(t)&&t.length>0){const r=t.find(r=>r.id===e);if(r)return r}}return null})(e);return(0,o.useEffect)(()=>{if(!e){let e=null;for(const r in A.V)if(A.V.hasOwnProperty(r)){const t=A.V[r];if(Array.isArray(t)&&t.length>0){e=t[0].id;break}}e&&r(e)}},[e,r]),(0,g.jsx)(i,{children:t?(0,g.jsx)(j,{sermonData:t}):(0,g.jsx)(s,{children:"\u0411\u0443\u0434\u044c \u043b\u0430\u0441\u043a\u0430, \u043e\u0431\u0435\u0440\u0456\u0442\u044c \u043f\u0440\u043e\u043f\u043e\u0432\u0456\u0434\u044c \u0437\u0456 \u0441\u043f\u0438\u0441\u043a\u0443 \u0432 \u043c\u0435\u043d\u044e."})})};function C(){return(0,g.jsx)(w,{})}},441:(e,r,t)=>{t.d(r,{A:()=>i});t(43);const o=t(574).Ay.h3`
+  color: ${e=>{let{theme:r}=e;return r.accentColor}}; // ✅ Змінив на accentColor для заголовків секцій
+  font-weight: bold; /* Залишаємо, якщо не в темі */
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
 
-  // ДОДАНО: Плавні переходи для кольору та розміру шрифту
-  transition: color 0.4s ease-in-out, font-size 0.3s ease-in-out;
+  ${e=>"default"===e.size&&`\n    font-size: ${e.theme.fontSizes.xlarge}; // \u2705 \u0417 \u0442\u0435\u043c\u0438\n  `}
 
-  /* Визначення розмірів на основі prop 'size' */
-  ${e=>"small"===e.size&&o.AH`
-      font-size: 1rem;
-    `}
-  ${e=>"medium"===e.size&&o.AH`
-      font-size: 1.25rem;
-    `}
-  ${e=>"default"===e.size&&o.AH`
-      font-size: 1.5rem;
-    `}
-  ${e=>"large"===e.size&&o.AH`
-      font-size: 2.25rem;
-      margin-bottom: ${e=>e.bottomMargin||"1rem"};
-    `}
-  ${e=>"extraLarge"===e.size&&o.AH`
-      /* Додано для головного заголовка проповіді */
-      font-size: 2.5rem; /* Розмір з вашого h1 */
-      margin-bottom: ${e=>e.bottomMargin||"1rem"};
-    `}
+  ${e=>"medium"===e.size&&`\n    font-size: ${e.theme.fontSizes.large}; // \u2705 \u0417 \u0442\u0435\u043c\u0438\n  `}
 
-  /* Визначення кольору на основі prop 'color' */
-  ${e=>"white"===e.color&&o.AH`
-      /* Залишаємо опцію, якщо десь знадобиться білий текст */
-      color: white; /* Залишено як white, оскільки це явний override */
-      // Якщо color:white встановлюється через пропси, і ви хочете анімувати цей перехід,
-      // то глобальний transition на color вже спрацює.
-    `}
-
-  /* Вирівнювання тексту на основі prop 'alignment' */
-  ${e=>"center"===e.alignment&&o.AH`
-      text-align: center;
-    `}
-`;var i=t(579);function s(e){let{as:r,size:t,alignment:o,color:s,bottomMargin:a,children:l}=e;return(0,i.jsx)(n,{as:r,size:t,alignment:o,color:s,bottomMargin:a,children:l})}},505:(e,r,t)=>{t.d(r,{A:()=>m});var o=t(43),n=t(574);const i=n.Ay.div`
-  background-color: ${e=>{let{theme:r}=e;return r.navBg}}; // Використано колір фону навігації для картки
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); // Тінь залишена без змін
-  width: 100%;
-  max-width: 320px; /* Для гарного відображення у сітці */
-  cursor: pointer;
-
-  // ОНОВЛЕНО: Більш специфічний перехід.
-  // 0.4s для зміни фону (з темою), 0.3s для тіні (наведення).
-  transition: background-color 0.4s ease-in-out, box-shadow 0.3s ease;
+  a {
+    color: ${e=>{let{theme:r}=e;return r.accentColor}}; // ✅ З теми
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;var n=t(579);const i=e=>{let{as:r="h3",size:t="default",children:i}=e;return(0,n.jsx)(o,{as:r,size:t,dangerouslySetInnerHTML:(s=i,{__html:s})});var s}},505:(e,r,t)=>{t.d(r,{A:()=>m});var o=t(43),n=t(574);const i=n.Ay.div`
+  background-color: ${e=>{let{theme:r}=e;return r.background}}; // ✅ З теми
+  border: 1px solid ${e=>{let{theme:r}=e;return r.borderColor}}; // ✅ З теми
+  border-radius: ${e=>{let{theme:r}=e;return r.borderRadius.medium}}; // ✅ З теми
+  box-shadow: ${e=>{let{theme:r}=e;return r.shadows.small}}; // ✅ З теми
+  overflow: hidden; /* Щоб вміст не виходив за рамки */
+  transition: box-shadow 0.2s ease-in-out;
 
   &:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); // Тінь при наведенні залишена без змін
+    box-shadow: ${e=>{let{theme:r}=e;return r.shadows.medium}}; // ✅ З теми
   }
 `,s=n.Ay.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  font-weight: bold;
-  color: ${e=>{let{theme:r}=e;return r.color}}; // Колір заголовка з теми
-  font-size: 1.1em;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background-color: ${e=>{let{theme:r}=e;return r.accentBg}}; // ✅ З теми
+  color: ${e=>{let{theme:r}=e;return r.buttonColor}}; // ✅ З теми (для контрасту на accentBg)
+  font-weight: bold; /* Залишаємо, якщо не в темі */
+  font-size: ${e=>{let{theme:r}=e;return r.fontSizes.large}}; // ✅ З теми
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
 
-  // ДОДАНО: Плавний перехід для кольору заголовка (оскільки це div, а не h-тег)
-  transition: color 0.4s ease-in-out;
+  &:hover {
+    background-color: ${e=>{let{theme:r}=e;return r.accentBgHover||r.accentBg}}; // ✅ З теми
+  }
+
+  span:first-child {
+    /* Для емодзі */
+    margin-right: 0.75rem;
+    font-size: ${e=>{let{theme:r}=e;return r.fontSizes.xlarge}}; // ✅ З теми
+  }
+
+  a {
+    /* Стилі для посилань всередині заголовка картки */
+    color: ${e=>{let{theme:r}=e;return r.buttonColor}}; // ✅ З теми
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `,a=n.Ay.div`
-  padding: 0 20px 15px;
-  color: ${e=>{let{theme:r}=e;return r.color}}; // Колір тексту контенту з теми
-  font-size: 0.95em;
-  line-height: 1.5;
+  padding: 1.5rem;
+  font-size: ${e=>{let{theme:r}=e;return r.fontSizes.medium}}; // ✅ З теми
+  color: ${e=>{let{theme:r}=e;return r.color}}; // ✅ З теми
+  line-height: 1.6;
 
-  // ДОДАНО: Плавний перехід для кольору контенту
-  transition: color 0.4s ease-in-out;
+  p {
+    margin-bottom: 1rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  a {
+    color: ${e=>{let{theme:r}=e;return r.accentColor}}; // ✅ З теми
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .bible-quote {
+    font-style: italic;
+    color: ${e=>{let{theme:r}=e;return r.colorSecondary}}; // ✅ З теми
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid ${e=>{let{theme:r}=e;return r.borderColor}}; // ✅ З теми
+  }
 `,l=n.Ay.button`
   background: none;
   border: none;
@@ -290,5 +302,5 @@
     // Можна використовувати theme.navActive або додати спеціальний toggleHoverColor до вашої теми
     color: ${e=>e.isActive?e.theme.navActive:e.theme.borderColor}; /* Приклад: Активний hover: колір navActive; Неактивний hover: колір borderColor */
   }
-`;var c=t(579);function d(e){let{isActive:r,onClick:t}=e;return(0,c.jsxs)(l,{onClick:t,isActive:r,children:[r?"\u25b2":"\u25bc"," "]})}function m(e){let{cardData:r}=e;const[t,n]=(0,o.useState)(!1),l=()=>n(!t);return(0,c.jsxs)(i,{children:[(0,c.jsxs)(s,{onClick:l,children:[r.emoji," ",r.title,(0,c.jsx)(d,{isActive:t,onClick:l})]}),t&&(0,c.jsx)(a,{children:r.content})]})}}}]);
-//# sourceMappingURL=167.c9d1c31c.chunk.js.map
+`;var c=t(579);function d(e){let{isActive:r,onClick:t}=e;return(0,c.jsxs)(l,{onClick:t,isActive:r,children:[r?"\u25b2":"\u25bc"," "]})}function m(e){let{cardData:r}=e;const[t,n]=(0,o.useState)(!1),l=()=>n(!t),m=e=>({__html:e});return(0,c.jsxs)(i,{children:[(0,c.jsxs)(s,{onClick:l,children:[r.emoji,(0,c.jsx)("span",{dangerouslySetInnerHTML:m(r.title)}),(0,c.jsx)(d,{isActive:t,onClick:l})]}),t&&(0,c.jsx)(a,{dangerouslySetInnerHTML:m(r.content)})]})}}}]);
+//# sourceMappingURL=167.ddd39f7a.chunk.js.map
