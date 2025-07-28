@@ -117,7 +117,7 @@
   line-height: 1.5;
   opacity: 0.9; /* Трохи приглушений */
   text-align: center; /* Центруємо опис */
-`;var g=t(579);function p(e){let{speaker:r,date:t,theme:o,book:n,description:i}=e;return(0,g.jsxs)(m,{children:[n&&(0,g.jsxs)(h,{children:["\u041a\u043d\u0438\u0433\u0430: ",(0,g.jsx)("strong",{children:n})]}),r&&(0,g.jsxs)(h,{children:["\u0421\u043f\u0456\u043a\u0435\u0440: ",(0,g.jsx)("strong",{children:r})]}),t&&(0,g.jsxs)(h,{children:["\u0414\u0430\u0442\u0430: ",t]}),o&&(0,g.jsxs)(h,{children:["\u0422\u0435\u043c\u0430: ",(0,g.jsx)("strong",{children:o})]}),i&&(0,g.jsx)(u,{children:i})]})}const x=n.Ay.div`
+`;var p=t(579);function g(e){let{speaker:r,date:t,theme:o,book:n,description:i}=e;return(0,p.jsxs)(m,{children:[n&&(0,p.jsxs)(h,{children:["\u041a\u043d\u0438\u0433\u0430: ",(0,p.jsx)("strong",{children:n})]}),r&&(0,p.jsxs)(h,{children:["\u0421\u043f\u0456\u043a\u0435\u0440: ",(0,p.jsx)("strong",{children:r})]}),t&&(0,p.jsxs)(h,{children:["\u0414\u0430\u0442\u0430: ",t]}),o&&(0,p.jsxs)(h,{children:["\u0422\u0435\u043c\u0430: ",(0,p.jsx)("strong",{children:o})]}),i&&(0,p.jsx)(u,{children:i})]})}const x=n.Ay.div`
   /* Загальні стилі для контейнера вмісту проповіді */
   // Не має theme-залежних властивостей, які потребують transition.
 `,b=n.Ay.div`
@@ -174,13 +174,13 @@
 
   // ДОДАНО: Плавний перехід для кольору тексту
   transition: color 0.4s ease-in-out;
-`,y=n.Ay.p`
+`,v=n.Ay.p`
   margin-bottom: 1rem;
   font-size: 1.15rem;
   line-height: 1.6;
   // Колір цього параграфа буде успадковано від батьківського SermonTextWrapper.
   // Оскільки SermonTextWrapper тепер має transition: color, то і параграф буде плавно змінювати колір.
-`,v=n.Ay.div`
+`,y=n.Ay.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
@@ -196,7 +196,7 @@
     grid-template-columns: repeat(3, 1fr);
   }
   // Не має theme-залежних властивостей, які потребують transition.
-`;const j=function(e){let{sermonData:r}=e;if(!r)return(0,g.jsx)("p",{children:"\u0417\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u043f\u0440\u043e\u043f\u043e\u0432\u0456\u0434\u0456..."});const{title:t,speaker:n,date:i,book:s,description:m,theme:h,sections:u}=r;return(0,g.jsxs)(x,{children:[(0,g.jsxs)(b,{children:[(0,g.jsx)("h2",{children:t}),(0,g.jsx)(p,{speaker:n,date:i,theme:h,book:s,description:m})]}),(0,g.jsx)(f,{children:(0,g.jsx)(a.A,{children:(0,g.jsx)($,{children:u.map((e,r)=>"text"===e.type?(0,g.jsxs)(o.Fragment,{children:[e.title&&(0,g.jsx)(l.A,{as:e.subtitle?"h4":"h3",size:e.subtitle?"medium":"default",children:e.title}),e.content.map((e,r)=>{return(0,g.jsx)(y,{dangerouslySetInnerHTML:(t=e,{__html:t})},r);var t})]},r):"quiz"===e.type?(0,g.jsx)(c.A,{quizData:e},e.id):"reveal-cards"===e.type?(0,g.jsx)(v,{children:e.cards.map(e=>(0,g.jsx)(d.A,{cardData:e},e.id))},r):null)})})})]})};var A=t(230),k=t(197);const w=()=>{const{selectedSermon:e,setSelectedSermon:r}=(0,k.Pn)(),t=(e=>{if(!e)return null;for(const r in A.V)if(A.V.hasOwnProperty(r)){const t=A.V[r];if(Array.isArray(t)&&t.length>0){const r=t.find(r=>r.id===e);if(r)return r}}return null})(e);return(0,o.useEffect)(()=>{if(!e){let e=null;for(const r in A.V)if(A.V.hasOwnProperty(r)){const t=A.V[r];if(Array.isArray(t)&&t.length>0){e=t[0].id;break}}e&&r(e)}},[e,r]),(0,g.jsx)(i,{children:t?(0,g.jsx)(j,{sermonData:t}):(0,g.jsx)(s,{children:"\u0411\u0443\u0434\u044c \u043b\u0430\u0441\u043a\u0430, \u043e\u0431\u0435\u0440\u0456\u0442\u044c \u043f\u0440\u043e\u043f\u043e\u0432\u0456\u0434\u044c \u0437\u0456 \u0441\u043f\u0438\u0441\u043a\u0443 \u0432 \u043c\u0435\u043d\u044e."})})};function C(){return(0,g.jsx)(w,{})}},441:(e,r,t)=>{t.d(r,{A:()=>i});t(43);const o=t(574).Ay.h3`
+`;const j=function(e){let{sermonData:r}=e;if(!r)return(0,p.jsx)("p",{children:"\u0417\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u043f\u0440\u043e\u043f\u043e\u0432\u0456\u0434\u0456..."});const{title:t,speaker:n,date:i,book:s,description:m,theme:h,sections:u}=r;return(0,p.jsxs)(x,{children:[(0,p.jsxs)(b,{children:[(0,p.jsx)("h2",{children:t}),(0,p.jsx)(g,{speaker:n,date:i,theme:h,book:s,description:m})]}),(0,p.jsx)(f,{children:(0,p.jsx)(a.A,{children:(0,p.jsx)($,{children:u.map((e,r)=>"text"===e.type?(0,p.jsxs)(o.Fragment,{children:[e.title&&(0,p.jsx)(l.A,{as:e.subtitle?"h4":"h3",size:e.subtitle?"medium":"default",children:e.title}),e.content.map((e,r)=>(0,p.jsx)(v,{children:e},r))]},r):"quiz"===e.type?(0,p.jsx)(c.A,{quizData:e},e.id):"reveal-cards"===e.type?(0,p.jsx)(y,{children:e.cards.map(e=>(0,p.jsx)(d.A,{cardData:e},e.id))},r):null)})})})]})};var A=t(230),k=t(197);const w=()=>{const{selectedSermon:e,setSelectedSermon:r}=(0,k.Pn)(),t=(e=>{if(!e)return null;for(const r in A.V)if(A.V.hasOwnProperty(r)){const t=A.V[r];if(Array.isArray(t)&&t.length>0){const r=t.find(r=>r.id===e);if(r)return r}}return null})(e);return(0,o.useEffect)(()=>{if(!e){let e=null;for(const r in A.V)if(A.V.hasOwnProperty(r)){const t=A.V[r];if(Array.isArray(t)&&t.length>0){e=t[0].id;break}}e&&r(e)}},[e,r]),(0,p.jsx)(i,{children:t?(0,p.jsx)(j,{sermonData:t}):(0,p.jsx)(s,{children:"\u0411\u0443\u0434\u044c \u043b\u0430\u0441\u043a\u0430, \u043e\u0431\u0435\u0440\u0456\u0442\u044c \u043f\u0440\u043e\u043f\u043e\u0432\u0456\u0434\u044c \u0437\u0456 \u0441\u043f\u0438\u0441\u043a\u0443 \u0432 \u043c\u0435\u043d\u044e."})})};function C(){return(0,p.jsx)(w,{})}},441:(e,r,t)=>{t.d(r,{A:()=>i});t(43);const o=t(574).Ay.h3`
   color: ${e=>{let{theme:r}=e;return r.accentColor}}; // ✅ Змінив на accentColor для заголовків секцій
   font-weight: bold; /* Залишаємо, якщо не в темі */
   margin-top: 2.5rem;
@@ -214,7 +214,7 @@
       text-decoration: underline;
     }
   }
-`;var n=t(579);const i=e=>{let{as:r="h3",size:t="default",children:i}=e;return(0,n.jsx)(o,{as:r,size:t,dangerouslySetInnerHTML:(s=i,{__html:s})});var s}},505:(e,r,t)=>{t.d(r,{A:()=>m});var o=t(43),n=t(574);const i=n.Ay.div`
+`;var n=t(579);const i=e=>{let{as:r="h3",size:t="default",children:i}=e;return(0,n.jsxs)(o,{as:r,size:t,children:[i," "]})}},505:(e,r,t)=>{t.d(r,{A:()=>m});var o=t(43),n=t(574);const i=n.Ay.div`
   background-color: ${e=>{let{theme:r}=e;return r.background}}; // ✅ З теми
   border: 1px solid ${e=>{let{theme:r}=e;return r.borderColor}}; // ✅ З теми
   border-radius: ${e=>{let{theme:r}=e;return r.borderRadius.medium}}; // ✅ З теми
@@ -302,5 +302,5 @@
     // Можна використовувати theme.navActive або додати спеціальний toggleHoverColor до вашої теми
     color: ${e=>e.isActive?e.theme.navActive:e.theme.borderColor}; /* Приклад: Активний hover: колір navActive; Неактивний hover: колір borderColor */
   }
-`;var c=t(579);function d(e){let{isActive:r,onClick:t}=e;return(0,c.jsxs)(l,{onClick:t,isActive:r,children:[r?"\u25b2":"\u25bc"," "]})}function m(e){let{cardData:r}=e;const[t,n]=(0,o.useState)(!1),l=()=>n(!t),m=e=>({__html:e});return(0,c.jsxs)(i,{children:[(0,c.jsxs)(s,{onClick:l,children:[r.emoji,(0,c.jsx)("span",{dangerouslySetInnerHTML:m(r.title)}),(0,c.jsx)(d,{isActive:t,onClick:l})]}),t&&(0,c.jsx)(a,{dangerouslySetInnerHTML:m(r.content)})]})}}}]);
-//# sourceMappingURL=167.ddd39f7a.chunk.js.map
+`;var c=t(579);function d(e){let{isActive:r,onClick:t}=e;return(0,c.jsxs)(l,{onClick:t,isActive:r,children:[r?"\u25b2":"\u25bc"," "]})}function m(e){let{cardData:r}=e;const[t,n]=(0,o.useState)(!1),l=()=>n(!t);return(0,c.jsxs)(i,{children:[(0,c.jsxs)(s,{onClick:l,children:[r.emoji,(0,c.jsx)("span",{children:r.title}),(0,c.jsx)(d,{isActive:t,onClick:l})]}),t&&(0,c.jsx)(a,{children:r.content})]})}}}]);
+//# sourceMappingURL=167.232aec5e.chunk.js.map
