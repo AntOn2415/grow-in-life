@@ -1,73 +1,119 @@
-// src/components/SpecificContentDisplays/HomeGroupLessonDisplay/HomeGroupLessonDisplay.styled.jsx
+// src/components/SpecificContentDisplays/HomeGroupLessonDisplay/HomeGroupLessonDisplay.styled.js
 import styled from "styled-components";
 
-// Замість LessonDisplayContainer використовуємо HomeGroupLessonDisplayContainer
+// Основний контейнер для сторінки уроку домашньої групи
 export const HomeGroupLessonDisplayContainer = styled.div`
-  padding: 20px;
-  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  max-width: 1200px;
   margin: 0 auto;
-  background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.color};
-  min-height: calc(100vh - var(--header-height, 60px));
 `;
 
-// Замість LessonTitleWrapper використовуємо HomeGroupLessonTitleWrapper
+// Обгортка для заголовка та мета-інформації уроку
 export const HomeGroupLessonTitleWrapper = styled.div`
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 2rem;
+
   h2 {
     font-size: 2.5rem;
-    color: ${({ theme }) => theme.accentColor};
-    margin-bottom: 10px;
-    line-height: 1.2;
+    color: ${props =>
+      props.theme.color}; /* Використовуємо theme.color для основного тексту заголовка */
+    margin-bottom: 0.5rem;
   }
 `;
 
+// Обгортка для основного вмісту (карток, тексту тощо)
 export const MainContentWrapper = styled.div`
-  /* Можливо, тут будуть додаткові стилі для контейнера з картою, якщо потрібно */
+  width: 100%;
 `;
 
-// Замість LessonTextWrapper використовуємо HomeGroupLessonTextWrapper
+// Обгортка для текстового вмісту уроку (всередині Card)
 export const HomeGroupLessonTextWrapper = styled.div`
-  line-height: 1.7;
+  padding: 1.5rem;
+  line-height: 1.8;
   font-size: 1.1rem;
+  color: ${props => props.theme.color}; /* Основний колір тексту */
 
   p {
     margin-bottom: 1em;
   }
 
-  h3 {
-    font-size: 1.8rem;
-    color: ${({ theme }) => theme.color};
-    margin-top: 30px;
-    margin-bottom: 15px;
+  ul {
+    list-style-type: disc;
+    margin-left: 1.5em;
+    margin-bottom: 1em;
   }
 
-  h4 {
-    font-size: 1.4rem;
-    color: ${({ theme }) => theme.color};
-    margin-top: 25px;
-    margin-bottom: 10px;
+  ol {
+    list-style-type: decimal;
+    margin-left: 1.5em;
+    margin-bottom: 1em;
+  }
+
+  li {
+    margin-bottom: 0.5em;
   }
 
   strong {
-    font-weight: bold;
-    color: ${({ theme }) => theme.accentColor};
+    color: ${props => props.theme.color}; /* Жирний текст залишається основним кольором */
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: ${props => props.theme.color};
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
+  }
+
+  h3 {
+    font-size: 1.6rem;
+  }
+
+  h4 {
+    font-size: 1.3rem;
   }
 `;
 
-export const StyledParagraph = styled.p`
-  /* Додаткові стилі для параграфів, якщо потрібно */
+// Стилізований компонент для кнопок-посилань на вірші
+export const VerseButton = styled.button`
+  /* Скидаємо базові стилі кнопок браузера */
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit; /* Успадковуємо шрифт від батьківського елемента */
+  cursor: pointer; /* Курсор як у посилання */
+  text-decoration: underline; /* Підкреслення, як у посилань */
+  color: ${props => props.theme.accentColor || "blue"}; /* Колір посилання з теми (accentColor) */
+  display: inline; /* Важливо, щоб кнопка вела себе як inline-елемент тексту */
+
+  &:hover {
+    color: ${props =>
+      props.theme.accentBg ||
+      "darkblue"}; /* Зміна кольору при наведенні (можливо, accentBg або інший колір для ховеру) */
+    text-decoration: none; /* Прибираємо підкреслення при наведенні */
+  }
+
+  &:focus {
+    /* ЗАВЖДИ забезпечуйте видимий індикатор фокусу для доступності! */
+    outline: 2px solid ${props => props.theme.accentColor || "blue"};
+    outline-offset: 2px; /* Відступ обведення від елемента */
+  }
+
+  &:active {
+    color: ${props => props.theme.accentColor || "purple"}; /* Колір при активному натисканні */
+  }
 `;
 
-export const RevealCardsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  margin-top: 25px;
-  margin-bottom: 30px;
-  padding: 15px;
-  background-color: ${({ theme }) => theme.cardBackground};
-  border-radius: 8px;
-  box-shadow: ${({ theme }) => theme.shadow};
-`;
+// Якщо у вас були інші експорти, наприклад RevealCardsGrid, додайте їх сюди.
+// export const RevealCardsGrid = styled.div`
+//   display: grid;
+//   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+//   gap: 1.5rem;
+//   margin-top: 1.5rem;
+// `;

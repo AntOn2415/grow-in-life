@@ -74,6 +74,31 @@ export const homeGroupsContent = {
       // ✅ Ліниве завантаження уроку 2
       loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah2Lesson"),
     },
+    {
+      id: "nehemiah-3-rebuilding",
+      title: "Неемія 3: Відбудова Стін Єрусалиму – Кожен на Своєму Місці",
+      shortTitle: "Неемія 3",
+      book: "Неемія",
+      bookInternalKey: "nehemiah",
+      chapter: "3",
+      verses: "Неемії 3:1-32",
+      date: "2025-07-22",
+      author: "Живі Брати",
+      duration: "60-90 хв",
+      tags: [
+        "Неемія",
+        "відбудова",
+        "єдність",
+        "служіння",
+        "різноманіття",
+        "організація",
+        "Божа рука",
+        "протидія",
+        "церква",
+        "Божа воля",
+      ],
+      loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah3Lesson"),
+    },
   ], // Неемії
   esther: [], // Естер
   job: [], // Йова

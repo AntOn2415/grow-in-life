@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { useTheme } from "../ThemeProvider";
+import { useTheme } from "../../contexts/ThemeProvider";
 import Sidebar from "../Sidebar/Sidebar";
 
 import { Wrapper, Nav, GridSidebarContainer, Main, Link, ToggleButton } from "./Layout.styled";

@@ -1,30 +1,29 @@
-// src/components/SpecificContentDisplays/HomeGroupLessonDisplay/HomeGroupLessonDisplay.js
+// src/components/SpecificContentDisplays/HomeGroupLessonDisplay/HomeGroupLessonDisplay.jsx
 import React from "react";
 import Card from "../../Common/Card/Card";
 import SectionHeading from "../../Common/SectionHeading/SectionHeading";
 import QuizCard from "../../InteractiveContent/QuizCard/QuizCard";
 import RevealCard from "../../InteractiveContent/RevealCard/RevealCard";
 
-// ✅ ЗМІНЕНО: Імпорт нового компонента метаінформації
 import HomeGroupLessonMetaInfo from "../HomeGroupLessonMetaInfo/HomeGroupLessonMetaInfo";
-
-// --- НОВІ ІМПОРТИ КОМПОНЕНТІВ ---
-import HighlightBox from "../../InteractiveContent/HighlightBox/HighlightBox"; // Приклад шляху
-import QuestionPrompt from "../../InteractiveContent/QuestionPrompt/QuestionPrompt"; // Приклад шляху
-import ListCards from "../../InteractiveContent/ListCards/ListCards"; // Приклад шляху
-import Timeline from "../../InteractiveContent/Timeline/Timeline"; // Приклад шляху
-// import QuoteBlock from "../../Common/QuoteBlock/QuoteBlock"; // Якщо ви вирішили його створити
+import Diagram from "../../InteractiveContent/Diagram/Diagram";
+import ImagePlaceholder from "../../InteractiveContent/ImagePlaceholder/ImagePlaceholder";
+import HighlightBox from "../../InteractiveContent/HighlightBox/HighlightBox";
+import QuestionPrompt from "../../InteractiveContent/QuestionPrompt/QuestionPrompt";
+import ListCards from "../../InteractiveContent/ListCards/ListCards";
+import Timeline from "../../InteractiveContent/Timeline/Timeline";
+import ContrastDisplay from "../../InteractiveContent/ContrastDisplay/ContrastDisplay";
 
 import {
   HomeGroupLessonDisplayContainer,
   HomeGroupLessonTextWrapper,
-  StyledParagraph,
-  RevealCardsGrid,
   HomeGroupLessonTitleWrapper,
   MainContentWrapper,
-  // --- НОВІ ІМПОРТИ СТИЛІВ, ЯКЩО ПОТРІБНО ---
-  // ListCardsContainer, // Приклад: якщо ListCards потребує зовнішнього контейнера
-  // TimelineWrapper, // Приклад: якщо Timeline потребує зовнішнього контейнера
+  // Переконайтеся, що VerseButton експортується звідси
+  // Це буде використовуватися в nehemiah3Lesson.js
+  // Але визначається в HomeGroupLessonDisplay.styled.js
+  // Його НЕ потрібно імпортувати тут, якщо ви не використовуєте його безпосередньо в цьому JSX.
+  // Залиште його в HomeGroupLessonDisplay.styled.js для визначення стилів
 } from "./HomeGroupLessonDisplay.styled";
 
 function HomeGroupLessonDisplay({ lessonData }) {
@@ -40,17 +39,11 @@ function HomeGroupLessonDisplay({ lessonData }) {
     verses,
     date,
     duration,
-    theme,
+    theme: lessonTheme,
     tags,
     description,
     sections,
   } = lessonData;
-
-  const renderHtmlContent = htmlString => {
-    // Важливо: для безпеки використовуйте DOMPurify, якщо контент може надходити від користувачів
-    // У цьому прикладі припускається, що контент є безпечним або вже очищеним
-    return { __html: htmlString };
-  };
 
   return (
     <HomeGroupLessonDisplayContainer>
@@ -63,18 +56,15 @@ function HomeGroupLessonDisplay({ lessonData }) {
           verses={verses}
           date={date}
           duration={duration}
-          theme={theme}
+          theme={lessonTheme}
           tags={tags}
         />
       </HomeGroupLessonTitleWrapper>
       <MainContentWrapper>
         <Card>
           <HomeGroupLessonTextWrapper>
-            {description && (
-              <StyledParagraph dangerouslySetInnerHTML={renderHtmlContent(description)} />
-            )}
+            {description && description}
             {sections.map((section, index) => {
-              // Краще використовувати switch-case для чистоти, коли багато типів секцій
               switch (section.type) {
                 case "text":
                   return (
@@ -87,41 +77,62 @@ function HomeGroupLessonDisplay({ lessonData }) {
                           {section.title}
                         </SectionHeading>
                       )}
+                      {/* content тепер масив JSX елементів, рендеримо їх напряму */}
                       {section.content.map((paragraph, pIndex) => (
-                        <StyledParagraph
-                          key={pIndex}
-                          dangerouslySetInnerHTML={renderHtmlContent(paragraph)}
-                        />
+                        <React.Fragment key={pIndex}>{paragraph}</React.Fragment>
                       ))}
                     </React.Fragment>
                   );
                 case "quiz":
                   return <QuizCard key={section.id} quizData={section} />;
                 case "reveal-cards":
-                  // Якщо 'reveal-cards' вже має свою внутрішню логіку рендерингу Card,
-                  // тоді RevealCardsGrid може бути не потрібна, або бути частиною самого компонента RevealCards.
-                  // Я залишив як у вашому прикладі, але будьте уважні до вкладеності.
                   return (
-                    <RevealCardsGrid key={index}>
+                    <React.Fragment key={index}>
+                      {section.title && (
+                        <SectionHeading as="h3" size="default">
+                          {section.title}
+                        </SectionHeading>
+                      )}
                       {section.cards.map(card => (
                         <RevealCard key={card.id} cardData={card} />
                       ))}
-                    </RevealCardsGrid>
+                    </React.Fragment>
                   );
-                // --- НОВІ ТИПИ СЕКЦІЙ ---
                 case "highlight-box":
-                  return <HighlightBox key={index} {...section} />; // Передаємо всі властивості секції
+                  return <HighlightBox key={index} {...section} />;
                 case "question-prompt":
                   return <QuestionPrompt key={index} {...section} />;
                 case "list-cards":
                   return <ListCards key={index} {...section} />;
                 case "timeline":
                   return <Timeline key={index} {...section} />;
-                // case "quote-block": // Якщо ви вирішили його створити
-                //   return <QuoteBlock key={index} {...section} />;
+                case "contrast-section":
+                  return <ContrastDisplay key={index} {...section} />;
+
+                case "diagram":
+                  return (
+                    <Diagram
+                      key={index}
+                      chartType={section.chartType}
+                      title={section.title}
+                      description={section.description}
+                      chartData={section.chartData}
+                      chartOptions={section.chartOptions}
+                    />
+                  );
+                case "image-placeholder":
+                  return (
+                    <ImagePlaceholder
+                      key={index}
+                      title={section.title}
+                      description={section.description}
+                      imageSrc={section.imageSrc}
+                      altText={section.altText}
+                      caption={section.caption}
+                    />
+                  );
 
                 default:
-                  // Якщо зустрічається невідомий тип секції, можна вивести попередження
                   console.warn(`Невідомий тип секції: ${section.type}`);
                   return null;
               }

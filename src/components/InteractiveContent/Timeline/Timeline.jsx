@@ -1,3 +1,4 @@
+// src/components/InteractiveContent/Timeline/Timeline.js
 import React from "react";
 import {
   TimelineContainer,
@@ -7,31 +8,25 @@ import {
   EventTitle,
   EventDescription,
 } from "./Timeline.styled";
-import SectionHeading from "../../Common/SectionHeading/SectionHeading"; // Можливо, вам вже імпортований
-// import DOMPurify from 'dompurify'; // Розкоментуйте, якщо використовуєте DOMPurify
+import SectionHeading from "../../Common/SectionHeading/SectionHeading";
 
 const Timeline = ({ title, events }) => {
-  // Функція для безпечного рендерингу HTML
-  const renderHtmlContent = htmlString => {
-    // Якщо ви використовуєте DOMPurify, розкоментуйте рядок нижче
-    // return { __html: DOMPurify.sanitize(htmlString) };
-    return { __html: htmlString };
-  };
-
   return (
     <TimelineContainer>
-      {/* Якщо title для Timeline теж може містити HTML */}
       {title && (
-        <SectionHeading as="h3" size="default" dangerouslySetInnerHTML={renderHtmlContent(title)} />
+        <SectionHeading as="h3" size="default">
+          {/* ✅ ВИПРАВЛЕНО: Рендеримо title безпосередньо */}
+          {title}
+        </SectionHeading>
       )}
       {events.map((event, index) => (
         <TimelineEvent key={index}>
           <EventDot />
           <EventContent>
-            {/* ✅ Застосовуємо dangerouslySetInnerHTML до EventTitle */}
-            <EventTitle dangerouslySetInnerHTML={renderHtmlContent(event.title)} />
-            {/* ✅ Застосовуємо dangerouslySetInnerHTML до EventDescription */}
-            <EventDescription dangerouslySetInnerHTML={renderHtmlContent(event.description)} />
+            {/* ✅ ВИПРАВЛЕНО: Рендеримо event.title безпосередньо */}
+            <EventTitle>{event.title}</EventTitle>
+            {/* ✅ ВИПРАВЛЕНО: Рендеримо event.description безпосередньо */}
+            <EventDescription>{event.description}</EventDescription>
           </EventContent>
         </TimelineEvent>
       ))}

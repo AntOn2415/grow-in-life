@@ -29,25 +29,20 @@ export const List = styled.ul`
 `;
 
 export const ListItem = styled.li`
-  padding: 4px 0 4px 12px;
+  padding: 4px 0 4px 0;
   font-size: 14px;
   cursor: pointer;
   border-radius: 4px;
+  text-align: left; /* ✅ ДОДАНО: Вирівнюємо текст по лівому краю за замовчуванням */
 
   transition: color 0.3s ease-in-out, background 0.3s ease-in-out;
 
-  // ✅ ЗМІНЕНО: Сталий колір тексту тепер accentColor
   color: ${({ theme }) => theme.accentColor};
-  // ✅ ЗМІНЕНО: Сталий колір фону тепер hoverBg
   background: ${({ theme }) => theme.hoverBg};
 
   &:hover {
-    // ✅ ЗМІНЕНО: Колір тексту при ховері тепер theme.color
     color: ${({ theme }) => theme.color};
-    // ✅ ЗМІНЕНО: Колір фону при ховері тепер theme.background (або theme.bodyBg)
-    background: ${({ theme }) =>
-      theme.background ||
-      theme.bodyBg}; // Використовуйте theme.background або theme.bodyBg залежно від вашої теми
+    background: ${({ theme }) => theme.background || theme.bodyBg};
   }
 
   ${({ $isActive }) =>

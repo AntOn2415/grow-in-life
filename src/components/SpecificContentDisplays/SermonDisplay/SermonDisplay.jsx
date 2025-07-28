@@ -1,7 +1,7 @@
 // src/components/SpecificContentDisplays/SermonDisplay/SermonDisplay.js
 import React from "react";
 import Card from "../../Common/Card/Card";
-import SectionHeading from "../../Common/SectionHeading/SectionHeading"; // Залишаємо для інших заголовків
+import SectionHeading from "../../Common/SectionHeading/SectionHeading";
 import QuizCard from "../../InteractiveContent/QuizCard/QuizCard";
 import RevealCard from "../../InteractiveContent/RevealCard/RevealCard";
 import SermonMetaInfo from "../SermonMetaInfo/SermonMetaInfo";
@@ -20,19 +20,12 @@ function SermonDisplay({ sermonData }) {
     return <p>Завантаження проповіді...</p>;
   }
 
-  // Деструктуризуємо нові властивості: book, description
   const { title, speaker, date, book, description, theme, sections } = sermonData;
-
-  const renderHtmlContent = htmlString => {
-    return { __html: htmlString };
-  };
 
   return (
     <SermonDisplayContainer>
       <SermonTitleWrapper>
-        {/* Використовуємо прямий h2 для основного заголовка проповіді */}
         <h2>{title}</h2>
-        {/* Передаємо нові властивості до SermonMetaInfo */}
         <SermonMetaInfo
           speaker={speaker}
           date={date}
@@ -57,11 +50,9 @@ function SermonDisplay({ sermonData }) {
                         {section.title}
                       </SectionHeading>
                     )}
+
                     {section.content.map((paragraph, pIndex) => (
-                      <StyledParagraph
-                        key={pIndex}
-                        dangerouslySetInnerHTML={renderHtmlContent(paragraph)}
-                      />
+                      <StyledParagraph key={pIndex}>{paragraph}</StyledParagraph>
                     ))}
                   </React.Fragment>
                 );
@@ -84,4 +75,5 @@ function SermonDisplay({ sermonData }) {
     </SermonDisplayContainer>
   );
 }
+
 export default SermonDisplay;
