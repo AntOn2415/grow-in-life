@@ -70,14 +70,6 @@ export const HomeGroupLessonTextWrapper = styled.div`
     margin-top: 1.5em;
     margin-bottom: 0.8em;
   }
-
-  h3 {
-    font-size: 1.6rem;
-  }
-
-  h4 {
-    font-size: 1.3rem;
-  }
 `;
 
 // Стилізований компонент для кнопок-посилань на вірші

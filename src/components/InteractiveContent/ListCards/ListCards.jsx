@@ -1,211 +1,243 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
-
+// src/components/ListCards/ListCards.jsx
+import React, {
+  useState,
+  useReducer,
+  useCallback,
+  useRef,
+  useEffect,
+  useLayoutEffect,
+} from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  ListCardsContainer,
-  CardItem,
+  ListContainer,
+  Title,
+  CardsGrid,
+  CardWrapper,
+  CardHeader,
+  Emoji,
   CardTitle,
-  CardContent,
-  CardEmoji,
+  CardContentWrapper,
   ReadMoreButton,
-  ExpandedContentWrapper,
 } from "./ListCards.styled";
-import SectionHeading from "../../Common/SectionHeading/SectionHeading";
 
-// Функція для плавного скролу
-const smoothScrollTo = (element, target, duration = 300) => {
-  let animationFrameId;
-  const start = element.scrollTop;
-  const change = target - start;
-  const startTime = performance.now();
-
-  function animateScroll(currentTime) {
-    const elapsed = currentTime - startTime;
-    // Використовуємо функцію згладжування (ease-in-out)
-    // easeInOutQuad: f(t) = 2t^2 for t < 0.5, else 1 - 2(1-t)^2
-    const progress = Math.min(elapsed / duration, 1);
-    const easeProgress =
-      progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
-
-    element.scrollTop = start + change * easeProgress;
-
-    if (elapsed < duration) {
-      animationFrameId = requestAnimationFrame(animateScroll);
-    }
+// --- Reducer для управління станом розширення карток ---
+const expansionReducer = (state, action) => {
+  switch (action.type) {
+    case "TOGGLE":
+      return {
+        ...state,
+        [action.payload]: !state[action.payload],
+      };
+    case "SET":
+      return {
+        ...state,
+        [action.payload.index]: action.payload.isExpanded,
+      };
+    case "RESET":
+      return {};
+    default:
+      return state;
   }
-
-  animationFrameId = requestAnimationFrame(animateScroll);
-
-  return () => {
-    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-  };
 };
 
-const ListCards = ({ title, cards }) => {
-  const [activeIndex, setActiveIndex] = useState(null);
-  const [showReadMore, setShowReadMore] = useState({});
-  // НОВИЙ СТАН: для збереження позиції скролу вікна перед відкриттям картки
-  const [windowScrollPosition, setWindowScrollPosition] = useState(0);
+// --- Single Card Component (для оптимізації) ---
+const Card = React.memo(({ card, index, isExpanded, toggleExpand, collapseCard }) => {
+  const contentRef = useRef(null);
+  const [initialContentHeight, setInitialContentHeight] = useState(0);
+  const [fullContentHeight, setFullContentHeight] = useState(0);
+  const [isContentLong, setIsContentLong] = useState(false);
 
-  const contentRefs = useRef([]); // Для перевірки чи потрібна кнопка "Читати далі"
-  const expandedContentInnerRefs = useRef([]); // Для вмісту всередині розгорнутої картки
-  const expandedWrapperRefs = useRef([]); // Для самої розгорнутої картки (обгортки)
-  const cancelScrollRef = useRef(null); // Для зберігання функції відміни скролу
+  const COLLAPSED_LINES = 5;
+  const AUTO_EXPAND_THRESHOLD_LINES = 2;
 
-  // Визначення, чи потрібна кнопка "Читати далі" (тільки при початковому рендері або зміні карт)
+  const performMeasurements = useCallback(() => {
+    if (!contentRef.current) return;
+    const el = contentRef.current;
+    const computedStyle = getComputedStyle(el);
+
+    let lineHeight = parseFloat(computedStyle.lineHeight);
+    if (isNaN(lineHeight)) {
+      const fontSize = parseFloat(computedStyle.fontSize);
+      lineHeight = fontSize * 1.2;
+    }
+
+    const originalOverflow = el.style.overflow;
+    el.style.overflow = "visible";
+    const fullHeight = el.scrollHeight;
+    el.style.overflow = originalOverflow;
+
+    const calculatedCollapsedHeight = lineHeight * COLLAPSED_LINES + (COLLAPSED_LINES > 0 ? 1 : 0);
+    setInitialContentHeight(calculatedCollapsedHeight);
+    setFullContentHeight(fullHeight);
+
+    const hiddenHeight = fullHeight - calculatedCollapsedHeight;
+    const autoExpandThresholdPx = lineHeight * AUTO_EXPAND_THRESHOLD_LINES;
+
+    setIsContentLong(hiddenHeight > autoExpandThresholdPx + 5);
+  }, [COLLAPSED_LINES]);
+
+  useLayoutEffect(() => {
+    const rafId = requestAnimationFrame(performMeasurements);
+    return () => cancelAnimationFrame(rafId);
+  }, [performMeasurements]);
+
   useEffect(() => {
-    const newShowReadMore = {};
-    contentRefs.current.forEach((ref, index) => {
-      // Додаємо невеликий допуск, щоб уникнути помилок округлення
-      if (ref) {
-        newShowReadMore[index] = ref.scrollHeight > ref.clientHeight + 4;
-      }
-    });
-    setShowReadMore(newShowReadMore);
-  }, [cards]);
+    const currentContentElement = contentRef.current;
+    if (!currentContentElement) return;
 
-  // Обробник кліку поза карткою для закриття
-  const handleClickOutside = useCallback(
-    e => {
-      if (activeIndex !== null) {
-        const activeCardWrapper = expandedWrapperRefs.current[activeIndex];
-        if (activeCardWrapper && !activeCardWrapper.contains(e.target)) {
-          if (cancelScrollRef.current) cancelScrollRef.current(); // Відміняємо попередній скрол
-          cancelScrollRef.current = smoothScrollTo(activeCardWrapper, 0, 500); // Скролимо догори
-          setTimeout(() => {
-            setActiveIndex(null); // Закриваємо картку після скролу
-            cancelScrollRef.current = null;
-            // Відновлюємо скрол вікна після закриття картки
-            window.scrollTo({ top: windowScrollPosition, behavior: "smooth" });
-          }, 500); // Час має відповідати тривалості smoothScrollTo
+    const resizeObserver = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        if (entry.target === currentContentElement) {
+          requestAnimationFrame(performMeasurements);
         }
       }
+    });
+
+    resizeObserver.observe(currentContentElement);
+
+    const timeoutId = setTimeout(() => {
+      requestAnimationFrame(performMeasurements);
+    }, 100);
+
+    return () => {
+      resizeObserver.unobserve(currentContentElement);
+      resizeObserver.disconnect();
+      clearTimeout(timeoutId);
+    };
+  }, [performMeasurements]);
+
+  const handleBlur = useCallback(
+    e => {
+      if (!e.currentTarget.contains(e.relatedTarget)) {
+        // Залишаємо onBlur для згортання, якщо користувач відійшов фокусом від картки
+        collapseCard(index);
+      }
     },
-    [activeIndex, windowScrollPosition] // Додаємо windowScrollPosition в залежності
+    [index, collapseCard]
   );
 
-  // Додаємо/видаляємо слухача подій для кліку поза карткою
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [handleClickOutside]);
+  const currentMaxHeight = isExpanded || !isContentLong ? fullContentHeight : initialContentHeight;
+  return (
+    <CardWrapper
+      variants={{
+        hidden: { y: 30, opacity: 0, scale: 0.95 },
+        visible: {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          transition: {
+            type: "spring",
+            stiffness: 120,
+            damping: 12,
+            mass: 0.8,
+          },
+        },
+      }}
+      layout
+      // ✅ ВИДАЛЕНО onClick З CardWrapper
+      onBlur={handleBlur}
+      // tabIndex залишаємо 0, щоб картка була фокусованою для onBlur, якщо є довгий контент.
+      // Але вона не буде розгортатися/згортатися за допомогою клавіатури, окрім кнопки.
+      tabIndex={isContentLong ? 0 : -1}
+      aria-expanded={isExpanded}
+      whileHover={{ scale: 1.01, translateY: -1 }}
+      whileFocus={{ scale: 1.01, translateY: -1 }}
+    >
+      <CardHeader>
+        <Emoji role="img" aria-label={`Emoji for ${card.title}`}>
+          {card.emoji}
+        </Emoji>
+        <CardTitle>{card.title}</CardTitle>
+      </CardHeader>
+      <CardContentWrapper
+        ref={contentRef}
+        animate={{
+          maxHeight: currentMaxHeight,
+        }}
+        transition={{ duration: 0.25, ease: "easeInOut" }}
+        // ✅ ВИДАЛЕНО onClick З CardContentWrapper
+      >
+        {card.content}
+      </CardContentWrapper>
+      <AnimatePresence>
+        {isContentLong && (
+          <ReadMoreButton
+            onClick={e => {
+              e.stopPropagation(); // Залишаємо, щоб уникнути спливання, якщо батьківський елемент мав би onClick
+              toggleExpand(index); // Ця кнопка тепер єдиний спосіб розгорнути/згорнути
+            }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            aria-controls={`card-content-${index}`}
+            tabIndex={0} // Важливо, щоб кнопка була фокусованою для клавіатури
+          >
+            {isExpanded ? (
+              <>
+                Згорнути{" "}
+                <motion.span animate={{ rotate: 180 }} transition={{ duration: 0.3 }}>
+                  ▲
+                </motion.span>
+              </>
+            ) : (
+              <>
+                Читати далі{" "}
+                <motion.span animate={{ rotate: 180 }} transition={{ duration: 0.3 }}>
+                  ▼
+                </motion.span>
+              </>
+            )}
+          </ReadMoreButton>
+        )}
+      </AnimatePresence>
+    </CardWrapper>
+  );
+});
 
-  // Обробник натискання кнопки "Читати далі"
-  const handleReadMoreClick = index => {
-    if (activeIndex === index) {
-      // Якщо картка вже відкрита, закриваємо її
-      const expandedWrapper = expandedWrapperRefs.current[index];
-      if (expandedWrapper) {
-        if (cancelScrollRef.current) cancelScrollRef.current(); // Відміняємо будь-який активний скрол
-        cancelScrollRef.current = smoothScrollTo(expandedWrapper, 0, 500); // Плавний скрол догори
-        setTimeout(() => {
-          setActiveIndex(null); // Закриваємо картку після завершення скролу
-          cancelScrollRef.current = null;
-          // Відновлюємо скрол вікна після закриття картки
-          window.scrollTo({ top: windowScrollPosition, behavior: "smooth" });
-        }, 500); // Час тайм-ауту має відповідати тривалості smoothScrollTo
-      } else {
-        setActiveIndex(null); // На випадок, якщо wrapper ще не існує
-      }
-    } else {
-      // Якщо картка закрита, відкриваємо її
-      // Зберігаємо поточну позицію скролу вікна перед відкриттям
-      setWindowScrollPosition(window.pageYOffset || document.documentElement.scrollTop);
-      setActiveIndex(index);
-    }
+// --- ListCards Component ---
+const ListCards = ({ title, cards }) => {
+  const [expandedCards, dispatch] = useReducer(expansionReducer, {});
+
+  const toggleExpand = useCallback(index => {
+    dispatch({ type: "TOGGLE", payload: index });
+  }, []);
+
+  const collapseCard = useCallback(index => {
+    dispatch({ type: "SET", payload: { index, isExpanded: false } });
+  }, []);
+
+  const containerVariants = {
+    hidden: { y: 30, opacity: 0, scale: 0.95 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
   };
 
-  // Ефект для скролу до початку контенту при відкритті картки
-  useEffect(() => {
-    if (activeIndex !== null) {
-      const wrapper = expandedWrapperRefs.current[activeIndex];
-      const inner = expandedContentInnerRefs.current[activeIndex];
-
-      if (wrapper && inner) {
-        // Використовуємо requestAnimationFrame для забезпечення, що DOM оновився
-        requestAnimationFrame(() => {
-          if (cancelScrollRef.current) cancelScrollRef.current(); // Відміняємо попередній скрол
-
-          const firstContentElement = inner.querySelector(
-            "p, div, span, h1, h2, h3, h4, h5, h6, ul, ol"
-          );
-
-          let targetScrollTop = 0;
-          if (firstContentElement) {
-            targetScrollTop = firstContentElement.offsetTop;
-          } else {
-            // Запасний варіант, якщо елементи контенту не знайдені
-            targetScrollTop = inner.offsetTop + (1.3 * 16 + 0.8 * 16) + 20;
-          }
-
-          cancelScrollRef.current = smoothScrollTo(wrapper, targetScrollTop, 500); // Плавний скрол
-        });
-      }
-    }
-    // При розмонтуванні компонента або зміні activeIndex, очищаємо поточний скрол
-    return () => {
-      if (cancelScrollRef.current) {
-        cancelScrollRef.current();
-        cancelScrollRef.current = null;
-      }
-    };
-  }, [activeIndex]);
-
   return (
-    <>
-      {title && (
-        <SectionHeading
-          as="h3"
-          size="default"
-          style={{
-            marginTop: "0.5rem",
-            marginBottom: "2rem",
-          }}
-        >
-          {title}
-        </SectionHeading>
-      )}
-      <ListCardsContainer>
-        {cards.map((card, index) => {
-          const isActive = activeIndex === index;
-
-          return (
-            <CardItem key={index} $isActive={isActive}>
-              {!isActive && (
-                <>
-                  {card.emoji && <CardEmoji>{card.emoji}</CardEmoji>}
-                  {card.title && <CardTitle>{card.title}</CardTitle>}
-                  <CardContent
-                    ref={el => {
-                      if (el) contentRefs.current[index] = el;
-                    }}
-                    $isActive={isActive}
-                  >
-                    {card.content}
-                  </CardContent>
-                  {showReadMore[index] && (
-                    <ReadMoreButton onClick={() => handleReadMoreClick(index)}>
-                      Читати далі...
-                    </ReadMoreButton>
-                  )}
-                </>
-              )}
-
-              {isActive && (
-                <ExpandedContentWrapper ref={el => (expandedWrapperRefs.current[index] = el)}>
-                  {card.emoji && <CardEmoji>{card.emoji}</CardEmoji>}
-                  {card.title && <CardTitle>{card.title}</CardTitle>}
-                  <div ref={el => (expandedContentInnerRefs.current[index] = el)}>
-                    {card.content}
-                  </div>
-                </ExpandedContentWrapper>
-              )}
-            </CardItem>
-          );
-        })}
-      </ListCardsContainer>
-    </>
+    <ListContainer>
+      {title && <Title>{title}</Title>}
+      <CardsGrid as={motion.div} variants={containerVariants} initial="hidden" animate="visible">
+        <AnimatePresence>
+          {cards.map((card, index) => (
+            <Card
+              key={index}
+              card={card}
+              index={index}
+              isExpanded={!!expandedCards[index]}
+              toggleExpand={toggleExpand}
+              collapseCard={collapseCard}
+            />
+          ))}
+        </AnimatePresence>
+      </CardsGrid>
+    </ListContainer>
   );
 };
 

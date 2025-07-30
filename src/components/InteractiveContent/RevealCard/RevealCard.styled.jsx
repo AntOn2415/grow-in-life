@@ -7,7 +7,6 @@ export const StyledRevealCard = styled.div`
   box-shadow: ${({ theme }) => theme.shadows.small}; // ✅ З теми
   overflow: hidden; /* Щоб вміст не виходив за рамки */
   transition: box-shadow 0.2s ease-in-out;
-
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.medium}; // ✅ З теми
   }

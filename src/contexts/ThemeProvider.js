@@ -9,7 +9,8 @@ const themes = {
     navBg: "#EFEADD", // Світліший бежевий (колір хедера, буде початком градієнта)
     navActive: "#D4C9B6", // Приглушений сіро-бежевий
     buttonBg: "#8D8D8D", // Середній сірий
-    buttonColor: "#FFFFFF", // Білий
+    buttonColor: "#FFFFFF",
+    hoverBtn: "#B3B3B3", // Світліший сірий для кнопок при наведенні
 
     borderColor: "#D3D3D3", // Світло-сірий для меж
     hoverBg: "#EBE6D8", // Дуже світлий бежевий для ховеру (трохи темніше за background)
@@ -77,6 +78,7 @@ const themes = {
     navActive: "#6B6B6B",
     buttonBg: "#B3B3B3",
     buttonColor: "#2C2C2C",
+    hoverBtn: "#8A8A8A", // Світліший сірий для кнопок при наведенні
 
     borderColor: "#4A4A4A",
     hoverBg: "#4C4C4C",
