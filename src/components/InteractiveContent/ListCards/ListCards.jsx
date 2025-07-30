@@ -1,4 +1,3 @@
-// src/components/ListCards/ListCards.jsx
 import React, {
   useState,
   useReducer,
@@ -7,7 +6,7 @@ import React, {
   useEffect,
   useLayoutEffect,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+// motion та AnimatePresence більше не імпортуються
 import {
   ListContainer,
   Title,
@@ -47,35 +46,59 @@ const Card = React.memo(({ card, index, isExpanded, toggleExpand, collapseCard }
   const [fullContentHeight, setFullContentHeight] = useState(0);
   const [isContentLong, setIsContentLong] = useState(false);
 
+  // Константи для розрахунків
   const COLLAPSED_LINES = 5;
   const AUTO_EXPAND_THRESHOLD_LINES = 2;
 
   const performMeasurements = useCallback(() => {
-    if (!contentRef.current) return;
+    if (!contentRef.current) {
+      // console.log("performMeasurements: contentRef.current is not available yet.");
+      return;
+    }
+
     const el = contentRef.current;
     const computedStyle = getComputedStyle(el);
 
+    // --- Розрахунок lineHeight ---
     let lineHeight = parseFloat(computedStyle.lineHeight);
-    if (isNaN(lineHeight)) {
+    if (isNaN(lineHeight) || lineHeight === 0) {
       const fontSize = parseFloat(computedStyle.fontSize);
-      lineHeight = fontSize * 1.2;
+      if (isNaN(fontSize) || fontSize === 0) {
+        lineHeight = 16; // Запасне значення, якщо font-size теж не визначився
+        // console.warn(`Could not determine font-size or line-height. Defaulting lineHeight to ${lineHeight}px.`);
+      } else {
+        lineHeight = fontSize * 1.2; // Стандартне співвідношення
+        // console.log(`lineHeight was NaN/0, recalculated from fontSize: ${fontSize}, new lineHeight: ${lineHeight}`);
+      }
     }
+    // console.log(`Final lineHeight: ${lineHeight}`);
 
+    // --- Розрахунок fullHeight ---
     const originalOverflow = el.style.overflow;
-    el.style.overflow = "visible";
-    const fullHeight = el.scrollHeight;
-    el.style.overflow = originalOverflow;
+    el.style.overflow = "visible"; // Тимчасово для коректного scrollHeight
+    const fullHeightRaw = el.scrollHeight;
+    el.style.overflow = originalOverflow; // Повертаємо назад
 
+    // Гарантуємо, що fullHeight не нуль і не NaN
+    const finalFullHeight = Math.max(fullHeightRaw, lineHeight * COLLAPSED_LINES + 20); // Забезпечуємо мінімальну висоту, якщо контент дуже короткий або не провантажився
+    // console.log(`Final full height: ${finalFullHeight}`);
+
+    // --- Розрахунок collapsedHeight ---
     const calculatedCollapsedHeight = lineHeight * COLLAPSED_LINES + (COLLAPSED_LINES > 0 ? 1 : 0);
-    setInitialContentHeight(calculatedCollapsedHeight);
-    setFullContentHeight(fullHeight);
+    const finalCollapsedHeight = Math.max(0, calculatedCollapsedHeight); // Гарантуємо, що не від'ємне
+    // console.log(`Final collapsed height: ${finalCollapsedHeight}`);
 
-    const hiddenHeight = fullHeight - calculatedCollapsedHeight;
+    setInitialContentHeight(finalCollapsedHeight);
+    setFullContentHeight(finalFullHeight);
+
+    // --- Перевірка на довгий контент ---
+    const hiddenHeight = finalFullHeight - finalCollapsedHeight;
     const autoExpandThresholdPx = lineHeight * AUTO_EXPAND_THRESHOLD_LINES;
+    setIsContentLong(hiddenHeight > autoExpandThresholdPx + 5); // Додаємо невеликий запас
+    // console.log(`isContentLong: ${hiddenHeight > autoExpandThresholdPx + 5}`);
+  }, [COLLAPSED_LINES, AUTO_EXPAND_THRESHOLD_LINES]);
 
-    setIsContentLong(hiddenHeight > autoExpandThresholdPx + 5);
-  }, [COLLAPSED_LINES]);
-
+  // Забезпечуємо, що вимірювання відбуваються після рендера та при зміні розмірів
   useLayoutEffect(() => {
     const rafId = requestAnimationFrame(performMeasurements);
     return () => cancelAnimationFrame(rafId);
@@ -95,9 +118,10 @@ const Card = React.memo(({ card, index, isExpanded, toggleExpand, collapseCard }
 
     resizeObserver.observe(currentContentElement);
 
+    // Додаткова затримка для початкового рендеру
     const timeoutId = setTimeout(() => {
       requestAnimationFrame(performMeasurements);
-    }, 100);
+    }, 150); // Збільшено затримку на всяк випадок
 
     return () => {
       resizeObserver.unobserve(currentContentElement);
@@ -109,40 +133,18 @@ const Card = React.memo(({ card, index, isExpanded, toggleExpand, collapseCard }
   const handleBlur = useCallback(
     e => {
       if (!e.currentTarget.contains(e.relatedTarget)) {
-        // Залишаємо onBlur для згортання, якщо користувач відійшов фокусом від картки
         collapseCard(index);
       }
     },
     [index, collapseCard]
   );
 
+  // Використовуємо безпечне значення для maxHeight, щоб уникнути NaN або від'ємних
   const currentMaxHeight = isExpanded || !isContentLong ? fullContentHeight : initialContentHeight;
+  const safeMaxHeight = Math.max(0, currentMaxHeight || 0);
+
   return (
-    <CardWrapper
-      variants={{
-        hidden: { y: 30, opacity: 0, scale: 0.95 },
-        visible: {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          transition: {
-            type: "spring",
-            stiffness: 120,
-            damping: 12,
-            mass: 0.8,
-          },
-        },
-      }}
-      layout
-      // ✅ ВИДАЛЕНО onClick З CardWrapper
-      onBlur={handleBlur}
-      // tabIndex залишаємо 0, щоб картка була фокусованою для onBlur, якщо є довгий контент.
-      // Але вона не буде розгортатися/згортатися за допомогою клавіатури, окрім кнопки.
-      tabIndex={isContentLong ? 0 : -1}
-      aria-expanded={isExpanded}
-      whileHover={{ scale: 1.01, translateY: -1 }}
-      whileFocus={{ scale: 1.01, translateY: -1 }}
-    >
+    <CardWrapper onBlur={handleBlur} tabIndex={isContentLong ? 0 : -1} aria-expanded={isExpanded}>
       <CardHeader>
         <Emoji role="img" aria-label={`Emoji for ${card.title}`}>
           {card.emoji}
@@ -151,47 +153,48 @@ const Card = React.memo(({ card, index, isExpanded, toggleExpand, collapseCard }
       </CardHeader>
       <CardContentWrapper
         ref={contentRef}
-        animate={{
-          maxHeight: currentMaxHeight,
-        }}
-        transition={{ duration: 0.25, ease: "easeInOut" }}
-        // ✅ ВИДАЛЕНО onClick З CardContentWrapper
+        style={{ maxHeight: `${safeMaxHeight}px` }} // Інлайн-стиль для анімації
       >
         {card.content}
       </CardContentWrapper>
-      <AnimatePresence>
-        {isContentLong && (
-          <ReadMoreButton
-            onClick={e => {
-              e.stopPropagation(); // Залишаємо, щоб уникнути спливання, якщо батьківський елемент мав би onClick
-              toggleExpand(index); // Ця кнопка тепер єдиний спосіб розгорнути/згорнути
-            }}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            aria-controls={`card-content-${index}`}
-            tabIndex={0} // Важливо, щоб кнопка була фокусованою для клавіатури
-          >
-            {isExpanded ? (
-              <>
-                Згорнути{" "}
-                <motion.span animate={{ rotate: 180 }} transition={{ duration: 0.3 }}>
-                  ▲
-                </motion.span>
-              </>
-            ) : (
-              <>
-                Читати далі{" "}
-                <motion.span animate={{ rotate: 180 }} transition={{ duration: 0.3 }}>
-                  ▼
-                </motion.span>
-              </>
-            )}
-          </ReadMoreButton>
-        )}
-      </AnimatePresence>
+      {isContentLong && (
+        <ReadMoreButton
+          onClick={e => {
+            e.stopPropagation();
+            toggleExpand(index);
+          }}
+          aria-controls={`card-content-${index}`}
+          tabIndex={0}
+        >
+          {isExpanded ? (
+            <>
+              Згорнути{" "}
+              <span
+                style={{
+                  display: "inline-block",
+                  transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
+                  transition: "transform 0.3s ease",
+                }}
+              >
+                ▲
+              </span>
+            </>
+          ) : (
+            <>
+              Читати далі{" "}
+              <span
+                style={{
+                  display: "inline-block",
+                  transform: isExpanded ? "rotate(0deg)" : "rotate(180deg)",
+                  transition: "transform 0.3s ease",
+                }}
+              >
+                ▼
+              </span>
+            </>
+          )}
+        </ReadMoreButton>
+      )}
     </CardWrapper>
   );
 });
@@ -208,34 +211,20 @@ const ListCards = ({ title, cards }) => {
     dispatch({ type: "SET", payload: { index, isExpanded: false } });
   }, []);
 
-  const containerVariants = {
-    hidden: { y: 30, opacity: 0, scale: 0.95 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
   return (
     <ListContainer>
       {title && <Title>{title}</Title>}
-      <CardsGrid as={motion.div} variants={containerVariants} initial="hidden" animate="visible">
-        <AnimatePresence>
-          {cards.map((card, index) => (
-            <Card
-              key={index}
-              card={card}
-              index={index}
-              isExpanded={!!expandedCards[index]}
-              toggleExpand={toggleExpand}
-              collapseCard={collapseCard}
-            />
-          ))}
-        </AnimatePresence>
+      <CardsGrid>
+        {cards.map((card, index) => (
+          <Card
+            key={index}
+            card={card}
+            index={index}
+            isExpanded={!!expandedCards[index]}
+            toggleExpand={toggleExpand}
+            collapseCard={collapseCard}
+          />
+        ))}
       </CardsGrid>
     </ListContainer>
   );

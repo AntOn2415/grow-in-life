@@ -1,19 +1,16 @@
+// src/components/InteractiveContent/ImagePlaceholder/ImagePlaceholder.jsx
 import React from "react";
-import { ImageContainer, StyledImage, ImageCaption } from "./ImagePlaceholder.styled"; // Імпортуємо всі потрібні styled-компоненти
+import { ImageContainer, StyledImage, ImageCaption } from "./ImagePlaceholder.styled";
 
-// Компонент ImagePlaceholder
-function ImagePlaceholder({ imageUrl, caption }) {
+function ImagePlaceholder({ imageUrl, caption, altText }) {
   return (
     <ImageContainer>
-      {" "}
-      {/* Використовуємо ImageContainer як основний обгортковий елемент */}
       {imageUrl ? (
-        <StyledImage src={imageUrl} alt={caption || "Зображення"} /> // Використовуємо StyledImage для самого зображення
+        <StyledImage src={imageUrl} alt={altText || "Зображення"} />
       ) : (
         <p>Зображення відсутнє.</p>
       )}
-      {caption && <ImageCaption>{caption}</ImageCaption>}{" "}
-      {/* Використовуємо ImageCaption для підпису */}
+      {caption && <ImageCaption>{caption}</ImageCaption>}
     </ImageContainer>
   );
 }

@@ -1,6 +1,5 @@
-// src/components/ListCards/ListCards.styled.jsx
 import styled from "styled-components";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion"; // Важливо: переконайтеся, що motion тут видалено
 
 export const ListContainer = styled.div`
   margin-top: 2rem;
@@ -18,14 +17,14 @@ export const Title = styled.h2`
   color: ${({ theme }) => theme.accentColor};
   font-size: ${({ theme }) => theme.fontSizes.xLarge};
   padding: 0;
-  margin-top: 2rem; // ✅ Зменшили відступ, наприклад, з 1rem до 0.5rem
+  margin-top: 2rem;
   margin-bottom: 2rem;
   font-weight: bold;
   line-height: 1.3;
 
   @media (max-width: 768px) {
     font-size: ${({ theme }) => theme.fontSizes.large};
-    margin-bottom: 0.1rem; // Зменшили відступ для мобільних пристроїв
+    margin-bottom: 0.1rem;
   }
 `;
 
@@ -47,23 +46,25 @@ export const CardsGrid = styled.div`
   }
 `;
 
-export const CardWrapper = styled(motion.article)`
+export const CardWrapper = styled.article`
   background: linear-gradient(
     135deg,
     ${({ theme }) => theme.cardBackground || theme.background} 0%,
     ${({ theme }) => theme.cardBackgroundGradientEnd || theme.accentBg} 100%
   );
   border-radius: ${({ theme }) => theme.borderRadius.large};
-  padding: 2.2rem;
+  padding: 1rem;
   box-shadow: ${({ theme }) => theme.shadows.small};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  // Ці transition вже існують і працюють на hover/focus
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  overflow: hidden;
+  overflow: hidden; // Важливо для max-height, щоб приховати вміст
   position: relative;
+
   border: 1px solid ${({ theme }) => theme.cardBorder || theme.borderColor};
-  will-change: transform, box-shadow, height;
+  will-change: transform, box-shadow, height; // 'height' теж може бути тут
   outline: none;
 
   &:hover {
@@ -101,18 +102,18 @@ export const CardTitle = styled.h3`
   font-size: ${({ theme }) => theme.fontSizes.large};
   color: ${({ theme }) => theme.color};
   margin: 0;
-  //font-weight: 700;
   line-height: 1.3;
 `;
 
-export const CardContentWrapper = styled(motion.div)`
+export const CardContentWrapper = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   line-height: 1.6;
   color: ${({ theme }) => theme.color};
-  overflow: hidden;
+  overflow: hidden; // Ключовий для роботи max-height
   flex: 1;
   position: relative;
   width: 100%;
+  transition: max-height 0.3s ease-in-out;
 
   p {
     margin-bottom: 1em;
@@ -122,7 +123,7 @@ export const CardContentWrapper = styled(motion.div)`
   }
 `;
 
-export const ReadMoreButton = styled(motion.button)`
+export const ReadMoreButton = styled.button`
   background: none;
   border: none;
   color: ${({ theme }) => theme.buttonBg};
@@ -132,7 +133,7 @@ export const ReadMoreButton = styled(motion.button)`
   padding: 0.5rem 0;
   align-self: flex-start;
   margin-top: 1.5rem;
-  transition: color 0.2s ease-in-out, transform 0.2s ease;
+  transition: color 0.2s ease-in-out, transform 0.2s ease; // Анімація для кнопки
   display: flex;
   align-items: center;
   gap: 0.5rem;

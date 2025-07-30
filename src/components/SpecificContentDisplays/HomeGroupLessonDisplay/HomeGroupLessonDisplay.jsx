@@ -13,17 +13,13 @@ import QuestionPrompt from "../../InteractiveContent/QuestionPrompt/QuestionProm
 import ListCards from "../../InteractiveContent/ListCards/ListCards";
 import Timeline from "../../InteractiveContent/Timeline/Timeline";
 import ContrastDisplay from "../../InteractiveContent/ContrastDisplay/ContrastDisplay";
+import DescriptionWithImage from "../../InteractiveContent/DescriptionWithImage/DescriptionWithImage";
 
 import {
   HomeGroupLessonDisplayContainer,
   HomeGroupLessonTextWrapper,
   HomeGroupLessonTitleWrapper,
   MainContentWrapper,
-  // Переконайтеся, що VerseButton експортується звідси
-  // Це буде використовуватися в nehemiah3Lesson.js
-  // Але визначається в HomeGroupLessonDisplay.styled.js
-  // Його НЕ потрібно імпортувати тут, якщо ви не використовуєте його безпосередньо в цьому JSX.
-  // Залиште його в HomeGroupLessonDisplay.styled.js для визначення стилів
 } from "./HomeGroupLessonDisplay.styled";
 
 function HomeGroupLessonDisplay({ lessonData }) {
@@ -126,9 +122,21 @@ function HomeGroupLessonDisplay({ lessonData }) {
                       key={index}
                       title={section.title}
                       description={section.description}
-                      imageSrc={section.imageSrc}
+                      imageUrl={section.imageUrl}
                       altText={section.altText}
                       caption={section.caption}
+                    />
+                  );
+                case "description-with-image":
+                  return (
+                    <DescriptionWithImage
+                      key={index}
+                      title={section.title}
+                      content={section.content}
+                      imageUrl={section.imageUrl}
+                      altText={section.altText}
+                      caption={section.caption}
+                      imagePosition={section.imagePosition}
                     />
                   );
 
