@@ -221,7 +221,6 @@
   box-shadow: ${e=>{let{theme:r}=e;return r.shadows.small}}; // ✅ З теми
   overflow: hidden; /* Щоб вміст не виходив за рамки */
   transition: box-shadow 0.2s ease-in-out;
-
   &:hover {
     box-shadow: ${e=>{let{theme:r}=e;return r.shadows.medium}}; // ✅ З теми
   }
@@ -303,4 +302,4 @@
     color: ${e=>e.isActive?e.theme.navActive:e.theme.borderColor}; /* Приклад: Активний hover: колір navActive; Неактивний hover: колір borderColor */
   }
 `;var c=t(579);function d(e){let{isActive:r,onClick:t}=e;return(0,c.jsxs)(l,{onClick:t,isActive:r,children:[r?"\u25b2":"\u25bc"," "]})}function m(e){let{cardData:r}=e;const[t,n]=(0,o.useState)(!1),l=()=>n(!t);return(0,c.jsxs)(i,{children:[(0,c.jsxs)(s,{onClick:l,children:[r.emoji,(0,c.jsx)("span",{children:r.title}),(0,c.jsx)(d,{isActive:t,onClick:l})]}),t&&(0,c.jsx)(a,{children:r.content})]})}}}]);
-//# sourceMappingURL=167.232aec5e.chunk.js.map
+//# sourceMappingURL=167.0b85cfea.chunk.js.map
