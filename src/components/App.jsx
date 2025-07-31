@@ -1,5 +1,5 @@
 // src/App.js
-import React, { Suspense, lazy } from "react"; // ✅ Додали Suspense та lazy
+import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "../contexts/ThemeProvider";
 import Layout from "./Layout";

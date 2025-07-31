@@ -1,12 +1,5 @@
-import React, {
-  useState,
-  useReducer,
-  useCallback,
-  useRef,
-  useEffect,
-  useLayoutEffect,
-} from "react";
-// motion та AnimatePresence більше не імпортуються
+import React, { useReducer, useCallback, useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion"; // AnimatePresence не потрібен, оскільки елементи не монтуються/демонтуються
 import {
   ListContainer,
   Title,
@@ -17,214 +10,200 @@ import {
   CardTitle,
   CardContentWrapper,
   ReadMoreButton,
+  ButtonWrapper,
 } from "./ListCards.styled";
 
-// --- Reducer для управління станом розширення карток ---
+// Reducer для управління станом активного рядка
+// Тепер state буде зберігати індекс активного ряду, або null, якщо жоден ряд не активний
 const expansionReducer = (state, action) => {
   switch (action.type) {
-    case "TOGGLE":
-      return {
-        ...state,
-        [action.payload]: !state[action.payload],
-      };
-    case "SET":
-      return {
-        ...state,
-        [action.payload.index]: action.payload.isExpanded,
-      };
-    case "RESET":
-      return {};
+    case "ACTIVATE_ROW":
+      return action.payload.rowIndex;
+    case "DEACTIVATE_ROW":
+      return null;
     default:
       return state;
   }
 };
 
-// --- Single Card Component (для оптимізації) ---
-const Card = React.memo(({ card, index, isExpanded, toggleExpand, collapseCard }) => {
-  const contentRef = useRef(null);
-  const [initialContentHeight, setInitialContentHeight] = useState(0);
-  const [fullContentHeight, setFullContentHeight] = useState(0);
-  const [isContentLong, setIsContentLong] = useState(false);
+const PREVIEW_HEIGHT = 160;
 
-  // Константи для розрахунків
-  const COLLAPSED_LINES = 5;
-  const AUTO_EXPAND_THRESHOLD_LINES = 2;
+const Card = React.memo(
+  ({ card, index, isExpanded, toggleExpand, collapseCard, handleRowBlur }) => {
+    const contentRef = useRef(null);
+    const [isOverflowing, setIsOverflowing] = useState(false);
+    const [contentFullHeight, setContentFullHeight] = useState(PREVIEW_HEIGHT);
 
-  const performMeasurements = useCallback(() => {
-    if (!contentRef.current) {
-      // console.log("performMeasurements: contentRef.current is not available yet.");
-      return;
-    }
+    useEffect(() => {
+      const checkOverflow = () => {
+        if (contentRef.current) {
+          const { scrollHeight } = contentRef.current;
+          setIsOverflowing(scrollHeight > PREVIEW_HEIGHT);
+          if (scrollHeight > PREVIEW_HEIGHT) {
+            setContentFullHeight(scrollHeight);
+          } else {
+            setContentFullHeight(PREVIEW_HEIGHT);
+          }
+        }
+      };
 
-    const el = contentRef.current;
-    const computedStyle = getComputedStyle(el);
+      checkOverflow();
+      window.addEventListener("resize", checkOverflow);
+      const timeoutId = setTimeout(checkOverflow, 150);
 
-    // --- Розрахунок lineHeight ---
-    let lineHeight = parseFloat(computedStyle.lineHeight);
-    if (isNaN(lineHeight) || lineHeight === 0) {
-      const fontSize = parseFloat(computedStyle.fontSize);
-      if (isNaN(fontSize) || fontSize === 0) {
-        lineHeight = 16; // Запасне значення, якщо font-size теж не визначився
-        // console.warn(`Could not determine font-size or line-height. Defaulting lineHeight to ${lineHeight}px.`);
-      } else {
-        lineHeight = fontSize * 1.2; // Стандартне співвідношення
-        // console.log(`lineHeight was NaN/0, recalculated from fontSize: ${fontSize}, new lineHeight: ${lineHeight}`);
+      return () => {
+        window.removeEventListener("resize", checkOverflow);
+        clearTimeout(timeoutId);
+      };
+    }, [card.content]);
+
+    useEffect(() => {
+      if (isExpanded && contentRef.current) {
+        setContentFullHeight(contentRef.current.scrollHeight);
+      } else if (!isExpanded) {
+        setContentFullHeight(PREVIEW_HEIGHT);
       }
+    }, [isExpanded]);
+
+    return (
+      // Використовуємо handleRowBlur на CardWrapper, щоб обробляти втрату фокусу з ряду
+      <CardWrapper
+        onBlur={handleRowBlur} // Новий обробник
+        tabIndex={isOverflowing ? 0 : -1}
+        aria-expanded={isExpanded}
+      >
+        <CardHeader>
+          <Emoji role="img" aria-label={`Emoji for ${card.title}`}>
+            {card.emoji}
+          </Emoji>
+          <CardTitle>{card.title}</CardTitle>
+        </CardHeader>
+
+        <motion.div
+          layout
+          initial={{ height: PREVIEW_HEIGHT }}
+          animate={{
+            height: isExpanded ? contentFullHeight : PREVIEW_HEIGHT,
+            opacity: 1,
+          }}
+          transition={{
+            duration: 0.3, // Тривалість анімації
+            ease: [0.4, 0, 0.2, 1],
+          }}
+          style={{ overflow: "hidden", width: "100%" }}
+        >
+          <CardContentWrapper ref={contentRef} isExpanded={isExpanded} id={`card-content-${index}`}>
+            {card.content}
+          </CardContentWrapper>
+        </motion.div>
+
+        {isOverflowing && (
+          <ButtonWrapper isExpanded={isExpanded}>
+            <ReadMoreButton
+              onClick={e => {
+                e.stopPropagation();
+                toggleExpand(index);
+              }}
+              aria-controls={`card-content-${index}`}
+              tabIndex={0}
+              isExpanded={isExpanded}
+            >
+              {isExpanded ? <>Згорнути</> : <>Читати далі</>}
+            </ReadMoreButton>
+          </ButtonWrapper>
+        )}
+      </CardWrapper>
+    );
+  }
+);
+
+const ListCards = ({ title, cards }) => {
+  // activeRowIndex зберігатиме індекс активного ряду (або null)
+  const [activeRowIndex, dispatch] = useReducer(expansionReducer, null);
+  const [columnCount, setColumnCount] = useState(3); // За замовчуванням 3 колонки
+  const gridRef = useRef(null); // Реф для CardsGrid
+
+  // Функція для визначення кількості колонок
+  const getColumnCount = useCallback(() => {
+    // Визначення кількості колонок на основі ширини вікна
+    if (window.innerWidth <= 768) {
+      return 1;
+    } else if (window.innerWidth <= 1200) {
+      return 2;
+    } else {
+      return 3;
     }
-    // console.log(`Final lineHeight: ${lineHeight}`);
-
-    // --- Розрахунок fullHeight ---
-    const originalOverflow = el.style.overflow;
-    el.style.overflow = "visible"; // Тимчасово для коректного scrollHeight
-    const fullHeightRaw = el.scrollHeight;
-    el.style.overflow = originalOverflow; // Повертаємо назад
-
-    // Гарантуємо, що fullHeight не нуль і не NaN
-    const finalFullHeight = Math.max(fullHeightRaw, lineHeight * COLLAPSED_LINES + 20); // Забезпечуємо мінімальну висоту, якщо контент дуже короткий або не провантажився
-    // console.log(`Final full height: ${finalFullHeight}`);
-
-    // --- Розрахунок collapsedHeight ---
-    const calculatedCollapsedHeight = lineHeight * COLLAPSED_LINES + (COLLAPSED_LINES > 0 ? 1 : 0);
-    const finalCollapsedHeight = Math.max(0, calculatedCollapsedHeight); // Гарантуємо, що не від'ємне
-    // console.log(`Final collapsed height: ${finalCollapsedHeight}`);
-
-    setInitialContentHeight(finalCollapsedHeight);
-    setFullContentHeight(finalFullHeight);
-
-    // --- Перевірка на довгий контент ---
-    const hiddenHeight = finalFullHeight - finalCollapsedHeight;
-    const autoExpandThresholdPx = lineHeight * AUTO_EXPAND_THRESHOLD_LINES;
-    setIsContentLong(hiddenHeight > autoExpandThresholdPx + 5); // Додаємо невеликий запас
-    // console.log(`isContentLong: ${hiddenHeight > autoExpandThresholdPx + 5}`);
-  }, [COLLAPSED_LINES, AUTO_EXPAND_THRESHOLD_LINES]);
-
-  // Забезпечуємо, що вимірювання відбуваються після рендера та при зміні розмірів
-  useLayoutEffect(() => {
-    const rafId = requestAnimationFrame(performMeasurements);
-    return () => cancelAnimationFrame(rafId);
-  }, [performMeasurements]);
+  }, []);
 
   useEffect(() => {
-    const currentContentElement = contentRef.current;
-    if (!currentContentElement) return;
+    const handleResize = () => {
+      setColumnCount(getColumnCount());
+      // При зміні кількості колонок скидаємо активний ряд
+      dispatch({ type: "DEACTIVATE_ROW" });
+    };
 
-    const resizeObserver = new ResizeObserver(entries => {
-      for (let entry of entries) {
-        if (entry.target === currentContentElement) {
-          requestAnimationFrame(performMeasurements);
-        }
-      }
-    });
-
-    resizeObserver.observe(currentContentElement);
-
-    // Додаткова затримка для початкового рендеру
-    const timeoutId = setTimeout(() => {
-      requestAnimationFrame(performMeasurements);
-    }, 150); // Збільшено затримку на всяк випадок
+    window.addEventListener("resize", handleResize);
+    // Встановлюємо початкове значення при монтуванні
+    setColumnCount(getColumnCount());
 
     return () => {
-      resizeObserver.unobserve(currentContentElement);
-      resizeObserver.disconnect();
-      clearTimeout(timeoutId);
+      window.removeEventListener("resize", handleResize);
     };
-  }, [performMeasurements]);
+  }, [getColumnCount]);
 
-  const handleBlur = useCallback(
-    e => {
-      if (!e.currentTarget.contains(e.relatedTarget)) {
-        collapseCard(index);
+  // Ця функція активує ряд
+  const toggleExpand = useCallback(
+    index => {
+      const clickedRowIndex = Math.floor(index / columnCount);
+      // Якщо клікнуто на картку вже активного ряду, то закриваємо весь ряд
+      if (activeRowIndex === clickedRowIndex) {
+        dispatch({ type: "DEACTIVATE_ROW" });
+      } else {
+        // Інакше активуємо новий ряд
+        dispatch({ type: "ACTIVATE_ROW", payload: { rowIndex: clickedRowIndex } });
       }
     },
-    [index, collapseCard]
+    [activeRowIndex, columnCount]
   );
 
-  // Використовуємо безпечне значення для maxHeight, щоб уникнути NaN або від'ємних
-  const currentMaxHeight = isExpanded || !isContentLong ? fullContentHeight : initialContentHeight;
-  const safeMaxHeight = Math.max(0, currentMaxHeight || 0);
-
-  return (
-    <CardWrapper onBlur={handleBlur} tabIndex={isContentLong ? 0 : -1} aria-expanded={isExpanded}>
-      <CardHeader>
-        <Emoji role="img" aria-label={`Emoji for ${card.title}`}>
-          {card.emoji}
-        </Emoji>
-        <CardTitle>{card.title}</CardTitle>
-      </CardHeader>
-      <CardContentWrapper
-        ref={contentRef}
-        style={{ maxHeight: `${safeMaxHeight}px` }} // Інлайн-стиль для анімації
-      >
-        {card.content}
-      </CardContentWrapper>
-      {isContentLong && (
-        <ReadMoreButton
-          onClick={e => {
-            e.stopPropagation();
-            toggleExpand(index);
-          }}
-          aria-controls={`card-content-${index}`}
-          tabIndex={0}
-        >
-          {isExpanded ? (
-            <>
-              Згорнути{" "}
-              <span
-                style={{
-                  display: "inline-block",
-                  transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
-                  transition: "transform 0.3s ease",
-                }}
-              >
-                ▲
-              </span>
-            </>
-          ) : (
-            <>
-              Читати далі{" "}
-              <span
-                style={{
-                  display: "inline-block",
-                  transform: isExpanded ? "rotate(0deg)" : "rotate(180deg)",
-                  transition: "transform 0.3s ease",
-                }}
-              >
-                ▼
-              </span>
-            </>
-          )}
-        </ReadMoreButton>
-      )}
-    </CardWrapper>
-  );
-});
-
-// --- ListCards Component ---
-const ListCards = ({ title, cards }) => {
-  const [expandedCards, dispatch] = useReducer(expansionReducer, {});
-
-  const toggleExpand = useCallback(index => {
-    dispatch({ type: "TOGGLE", payload: index });
+  // Функція для обробки втрати фокусу з ряду карток
+  const handleRowBlur = useCallback(e => {
+    // Перевіряємо, чи новий фокус НЕ знаходиться всередині gridRef
+    // (тобто, фокус перемістився за межі сітки карток)
+    if (gridRef.current && !gridRef.current.contains(e.relatedTarget)) {
+      dispatch({ type: "DEACTIVATE_ROW" });
+    }
   }, []);
 
   const collapseCard = useCallback(index => {
-    dispatch({ type: "SET", payload: { index, isExpanded: false } });
+    // Ця функція більше не використовується безпосередньо, але залишаємо для повноти
+    // Якщо потрібно буде закрити окрему картку, її можна використовувати
+    dispatch({ type: "DEACTIVATE_ROW" }); // Закриває весь ряд, якщо фокус втрачено
   }, []);
 
   return (
     <ListContainer>
       {title && <Title>{title}</Title>}
-      <CardsGrid>
-        {cards.map((card, index) => (
-          <Card
-            key={index}
-            card={card}
-            index={index}
-            isExpanded={!!expandedCards[index]}
-            toggleExpand={toggleExpand}
-            collapseCard={collapseCard}
-          />
-        ))}
+      <CardsGrid ref={gridRef}>
+        {" "}
+        {/* Призначаємо реф для відстеження фокусу */}
+        {cards.map((card, index) => {
+          const cardRowIndex = Math.floor(index / columnCount);
+          // isExpanded тепер залежить від того, чи є її ряд активним
+          const isCardExpanded = activeRowIndex === cardRowIndex;
+
+          return (
+            <Card
+              key={index}
+              card={card}
+              index={index}
+              isExpanded={isCardExpanded} // Передаємо новий стан розширення
+              toggleExpand={toggleExpand}
+              collapseCard={collapseCard} // Можна прибрати, якщо не використовується
+              handleRowBlur={handleRowBlur} // Передаємо обробник blur
+            />
+          );
+        })}
       </CardsGrid>
     </ListContainer>
   );
