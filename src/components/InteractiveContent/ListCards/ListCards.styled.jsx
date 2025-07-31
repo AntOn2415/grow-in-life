@@ -1,5 +1,4 @@
 import styled from "styled-components";
-// import { motion } from "framer-motion"; // Важливо: переконайтеся, що motion тут видалено
 
 export const ListContainer = styled.div`
   margin-top: 2rem;
@@ -31,40 +30,34 @@ export const Title = styled.h2`
 export const CardsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2.5rem;
+  gap: 2rem;
   justify-content: center;
   align-items: stretch;
 
   @media (max-width: 1200px) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 `;
 
 export const CardWrapper = styled.article`
-  background: linear-gradient(
-    135deg,
-    ${({ theme }) => theme.cardBackground || theme.background} 0%,
-    ${({ theme }) => theme.cardBackgroundGradientEnd || theme.accentBg} 100%
-  );
+  background: ${({ theme }) => theme.cardBackground || theme.background};
   border-radius: ${({ theme }) => theme.borderRadius.large};
   padding: 1rem;
   box-shadow: ${({ theme }) => theme.shadows.small};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  // Ці transition вже існують і працюють на hover/focus
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  overflow: hidden; // Важливо для max-height, щоб приховати вміст
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  overflow: hidden;
   position: relative;
-
   border: 1px solid ${({ theme }) => theme.cardBorder || theme.borderColor};
-  will-change: transform, box-shadow, height; // 'height' теж може бути тут
+  will-change: transform, box-shadow, height; /* 'height' тут не потрібен, якщо Framer Motion його анімує на дочірньому елементі */
   outline: none;
 
   &:hover {
@@ -109,17 +102,81 @@ export const CardContentWrapper = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   line-height: 1.6;
   color: ${({ theme }) => theme.color};
-  overflow: hidden; // Ключовий для роботи max-height
   flex: 1;
   position: relative;
   width: 100%;
-  transition: max-height 0.3s ease-in-out;
+
+  padding-bottom: ${({ isExpanded }) => (isExpanded ? "5.5rem" : "0")};
 
   p {
     margin-bottom: 1em;
   }
+
   p:last-child {
     margin-bottom: 0;
+  }
+`;
+
+export const ButtonWrapper = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: ${({ theme }) => theme.cardBackground || theme.background};
+  border-bottom-left-radius: ${({ theme }) => theme.borderRadius.large};
+  border-bottom-right-radius: ${({ theme }) => theme.borderRadius.large};
+  display: flex;
+  justify-content: flex-start;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -3rem;
+    left: 0;
+    width: 100%;
+    height: 3rem;
+    background: linear-gradient(
+      to bottom,
+      rgba(
+          ${({ theme }) => {
+            const bg = theme.cardBackground || theme.background;
+            const hexToRgb = hex =>
+              hex
+                .replace(
+                  /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
+                  (m, r, g, b) => "#" + r + r + g + g + b + b
+                )
+                .substring(1)
+                .match(/.{2}/g)
+                .map(x => parseInt(x, 16));
+            const rgb = hexToRgb(bg);
+            return rgb ? rgb.join(",") : "255,255,255";
+          }},
+          0
+        )
+        0%,
+      rgba(
+          ${({ theme }) => {
+            const bg = theme.cardBackground || theme.background;
+            const hexToRgb = hex =>
+              hex
+                .replace(
+                  /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
+                  (m, r, g, b) => "#" + r + r + g + g + b + b
+                )
+                .substring(1)
+                .match(/.{2}/g)
+                .map(x => parseInt(x, 16));
+            const rgb = hexToRgb(bg);
+            return rgb ? rgb.join(",") : "255,255,255";
+          }},
+          0.9
+        )
+        100%
+    );
+    pointer-events: none;
   }
 `;
 
@@ -132,17 +189,16 @@ export const ReadMoreButton = styled.button`
   cursor: pointer;
   padding: 0.5rem 0;
   align-self: flex-start;
-  margin-top: 1.5rem;
-  transition: color 0.2s ease-in-out, transform 0.2s ease; // Анімація для кнопки
+  transition: color 0.2s ease-in-out, transform 0.2s ease;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  z-index: 1;
 
   &:hover {
     border: none;
     box-shadow: none;
-
     color: ${({ theme }) => theme.hoverBtn};
-    transform: translateX(5px);
+    transform: ${({ isExpanded }) => (isExpanded ? "translateY(-2px)" : "translateY(2px)")};
   }
 `;

@@ -4,7 +4,8 @@ import { ThemeProvider as StyledThemeProvider } from "styled-components";
 
 const themes = {
   light: {
-    background: "#F7F4EB", // Дуже світлий, теплий бежевий (буде кінцем градієнта)
+    background: "#F7F4EB",
+    cardBackground: "#EFEADD", // Дуже світлий, теплий бежевий (буде кінцем градієнта)
     color: "#4A4A4A", // М'який темно-сірий (буде кольором тексту героя)
     navBg: "#EFEADD", // Світліший бежевий (колір хедера, буде початком градієнта)
     navActive: "#D4C9B6", // Приглушений сіро-бежевий
@@ -73,6 +74,7 @@ const themes = {
   },
   dark: {
     background: "#2C2C2C",
+    cardBackground: "#3A3A3A",
     color: "#E0E0E0",
     navBg: "#3A3A3A",
     navActive: "#6B6B6B",
