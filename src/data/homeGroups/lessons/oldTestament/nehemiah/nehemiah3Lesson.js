@@ -811,6 +811,215 @@ const nehemiah3Lesson = {
         },
       ],
     },
+    {
+      type: "timeline",
+      title: "Від передісторії з Ездри 4:2 до відбудови Єрусалиму",
+      events: [
+        {
+          year: "722–627 до Р. Х.",
+          title: "Передісторія: Падіння Північного царства Ізраїлю",
+          description:
+            "Ассирійці депортували ізраїльтян, замінили населення іншими народами → виникло змішане поклоніння (Єгова + інші боги). Ці народи стали самарянами — пізнішими противниками юдеїв.",
+          verses: [
+            <VerseButton type="button" data-verse="2 Цар. 17:23–34">
+              2 Царів 17:23–34
+            </VerseButton>,
+            <VerseButton type="button" data-verse="2 Цар. 18:9-12">
+              2 Царів 18:9-12
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "605–586 до Р. Х.",
+          title: "Вавилонський полон",
+          description: "3 хвилі: 605 (Даниїл), 597 (Єзекіїль), 586 (знищення Храму)",
+          verses: [
+            <VerseButton type="button" data-verse="2 Цар. 24–25">
+              2 Царів 24–25
+            </VerseButton>,
+            <VerseButton type="button" data-verse="2 Хр. 36:17–21">
+              2 Хронік 36:17–21
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "539 до Р. Х.",
+          title: "Персія захоплює Вавилон",
+          description: "Кір Великий стає володарем регіону",
+          verses: [
+            <VerseButton type="button" data-verse="Ездра 1:1">
+              Ездра 1:1
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "538 до Р. Х.",
+          title: "Указ Кіра",
+          description: "Дозвіл повернутися й відбудувати Храм",
+          verses: [
+            <VerseButton type="button" data-verse="Ездра 1:1–4">
+              Ездра 1:1–4
+            </VerseButton>,
+            <VerseButton type="button" data-verse="Іс. 44:28">
+              Ісая 44:28
+            </VerseButton>,
+            <VerseButton type="button" data-verse="2 Хр. 36:22–23">
+              2 Хронік 36:22–23
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "538 до Р. Х.",
+          title: "Повернення з Зоровавелем",
+          description: "Перша хвиля переселенців",
+          verses: [
+            <VerseButton type="button" data-verse="Ездра 2">
+              Ездра 2
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "536 до Р. Х.",
+          title: "Початок відбудови Храму",
+          description: "Встановлення жертівника й закладка фундаменту Храму",
+          verses: [
+            <VerseButton type="button" data-verse="Ездра 3">
+              Ездра 3
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "після 536 – до 520 до Р. Х.",
+          title: "Перший спротив",
+          description:
+            "Самаряни починають протидію: підкуплюють радників перського царя, щоби зупинити роботи.",
+          verses: [
+            <VerseButton type="button" data-verse="Ездра 4:1–5">
+              Ездра 4:1–5
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "прибл. 535–520 до Р. Х.",
+          title: "Пауза в будівництві (≈ 16 років)",
+          description:
+            "Будівництво Храму зупинено — відразу після фундаменту й до заклику пророків. Протидія + байдужість юдеїв.",
+          verses: [
+            <VerseButton type="button" data-verse="Ездра 4:24">
+              Ездра 4:24
+            </VerseButton>,
+            <VerseButton type="button" data-verse="Агей 1:1–4">
+              Агей 1:1–4
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "520 до Р. Х.",
+          title: "Пророки Агей і Захарія",
+          description: "Божий заклик відновити будову Храму",
+          verses: [
+            <VerseButton type="button" data-verse="Ездра 5:1–2">
+              Ездра 5:1–2
+            </VerseButton>,
+            <VerseButton type="button" data-verse="Агей 1:1–8">
+              Агей 1:1–8
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "520–519 до Р. Х.",
+          title: "Лист до Дарія та його реакція",
+          description:
+            "Перські урядовці, можливо під впливом самарян, звертаються до царя. Дарій перевіряє указ Кіра, дозволяє продовжити роботи й наказує фінансово підтримати юдеїв.",
+          verses: [
+            <VerseButton type="button" data-verse="Ездра 5:3–6:12">
+              Ездра 5:3–6:12
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "516 до Р. Х.",
+          title: "Завершення Храму",
+          description: "У 6-й рік Дарія І",
+          verses: [
+            <VerseButton type="button" data-verse="Ездра 6:14–15">
+              Ездра 6:14–15
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "бл. 480–470 до Р. Х.",
+          title: "Події з Естер",
+          description: "Порятунок євреїв у Персії",
+          verses: [
+            <VerseButton type="button" data-verse="Книга Естер">
+              Книга Естер
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "458 до Р. Х.",
+          title: "Повернення з Ездрою",
+          description: "Артаксеркс дозволяє релігійне очищення та навчання Закону",
+          verses: [
+            <VerseButton type="button" data-verse="Ездра 7:1–10">
+              Ездра 7:1–10
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "458 до Р. Х.",
+          title: "Другий Спротив",
+          description: "Лист із Самарії призводить до заборони відбудови міста",
+          verses: [
+            <VerseButton type="button" data-verse="Ездра 4:6–23">
+              Ездра 4:6–23
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "458–444 до Р. Х.",
+          title: "Період спротиву (≈ 14 років)",
+          description:
+            "Заборона тривала до повернення Неємії. Описується як скрутний час для Юдеї.",
+          verses: [
+            <VerseButton type="button" data-verse="Неем. 1:2-3">
+              Неємії 1:2-3
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "444 до Р. Х.",
+          title: "Повернення з Неємією",
+          description: "Артаксеркс дозволяє відбудову стін",
+          verses: [
+            <VerseButton type="button" data-verse="Неем. 2:1–9">
+              Неємії 2:1–9
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "444 до Р. Х.",
+          title: "Відбудова стін за 52 дні",
+          description: "Незважаючи на опір Товії, Санваллата тощо",
+          verses: [
+            <VerseButton type="button" data-verse="Неем. 6:15">
+              Неємії 6:15
+            </VerseButton>,
+          ],
+        },
+        {
+          year: "432 до Р. Х.",
+          title: "Повернення Неємії",
+          description: "Неємія знову проводить реформи після паузи",
+          verses: [
+            <VerseButton type="button" data-verse="Неем. 13:6">
+              Неємії 13:6
+            </VerseButton>,
+          ],
+        },
+      ],
+    },
   ],
 };
 

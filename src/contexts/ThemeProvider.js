@@ -1,56 +1,97 @@
 // src/contexts/ThemeProvider.js
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { ThemeProvider as StyledThemeProvider } from "styled-components";
+import { ThemeProvider as StyledThemeProvider, css } from "styled-components";
+
+const breakpoints = {
+  xs: "480px",
+  sm: "768px",
+  md: "992px",
+  lg: "1200px",
+  xl: "1440px",
+};
+
+const media = {
+  up:
+    key =>
+    (...args) =>
+      css`
+        @media (min-width: ${breakpoints[key]}) {
+          ${css(...args)}
+        }
+      `,
+  down:
+    key =>
+    (...args) =>
+      css`
+        @media (max-width: ${breakpoints[key]}) {
+          ${css(...args)}
+        }
+      `,
+  between:
+    (minKey, maxKey) =>
+    (...args) =>
+      css`
+        @media (min-width: ${breakpoints[minKey]}) and (max-width: ${breakpoints[maxKey]}) {
+          ${css(...args)}
+        }
+      `,
+};
+
+const commonSpacing = {
+  xsmall: "0.5rem", // 8px
+  small: "1rem", // 16px
+  medium: "1.5rem", // 24px
+  large: "2rem", // 32px
+  xlarge: "3rem", // 48px
+};
 
 const themes = {
   light: {
     background: "#F7F4EB",
-    cardBackground: "#EFEADD", // Дуже світлий, теплий бежевий (буде кінцем градієнта)
-    color: "#4A4A4A", // М'який темно-сірий (буде кольором тексту героя)
-    navBg: "#EFEADD", // Світліший бежевий (колір хедера, буде початком градієнта)
-    navActive: "#D4C9B6", // Приглушений сіро-бежевий
-    buttonBg: "#8D8D8D", // Середній сірий
+    cardBackground: "#EFEADD",
+    color: "#4A4A4A",
+    navBg: "#EFEADD",
+    navActive: "#D4C9B6",
+    buttonBg: "#8D8D8D",
     buttonColor: "#FFFFFF",
-    hoverBtn: "#B3B3B3", // Світліший сірий для кнопок при наведенні
+    hoverBtn: "#B3B3B3",
 
-    borderColor: "#D3D3D3", // Світло-сірий для меж
-    hoverBg: "#EBE6D8", // Дуже світлий бежевий для ховеру (трохи темніше за background)
-    accentBg: "#E8E2D4", // М'який акцентний фон для вибору (світліший за navActive)
-    accentColor: "#8D8D8D", // Колір акценту (як buttonBg)
+    borderColor: "#D3D3D3",
+    dividerColor: "#D3D3D3",
+    hoverBg: "#EBE6D8",
+    accentBg: "#E8E2D4",
+    accentColor: "#8D8D8D",
+    colorSecondary: "#7A7A7A", // Додано для EventYear, якщо немає
 
-    successBg: "#D4EDDA", // Світло-зелений для успіху
-    successColor: "#28A745", // Зелений для успіху
-    successText: "#155724", // Темно-зелений для тексту успіху
+    successBg: "#D4EDDA",
+    successColor: "#28A745",
+    successText: "#155724",
 
-    dangerBg: "#F8D7DA", // Світло-червоний для помилки
-    dangerColor: "#DC3545", // Червоний для помилки
-    dangerText: "#721c24", // Темно-червоний для тексту помилки
+    dangerBg: "#F8D7DA",
+    dangerColor: "#DC3545",
+    dangerText: "#721c24",
 
-    // ✅ НОВІ КОЛЬОРИ ДЛЯ CONTRASTDISPLAY (LIGHT THEME)
-    positiveBackground: "#D4EDDA", // Використовуємо successBg
-    positiveBorder: "#A3D9A3", // Трохи темніший зелений, щоб виділити
-    positiveText: "#155724", // Використовуємо successText
+    positiveBackground: "#D4EDDA",
+    positiveBorder: "#A3D9A3",
+    positiveText: "#155724",
 
-    negativeBackground: "#F8D7DA", // Використовуємо dangerBg
-    negativeBorder: "#D9A3A3", // Трохи темніший червоний, щоб виділити
-    negativeText: "#721c24", // Використовуємо dangerText
-    // END ✅ НОВІ КОЛЬОРИ
+    negativeBackground: "#F8D7DA",
+    negativeBorder: "#D9A3A3",
+    negativeText: "#721c24",
 
-    // ✅ НОВІ НЕЙТРАЛЬНІ КОЛЬОРИ ДЛЯ CONTRASTDISPLAY (LIGHT THEME)
-    // Ці кольори будуть використовуватися, коли type === 'neutral'
-    neutralBackground1: "#E8E2D4", // Використовуємо accentBg
-    neutralBorder1: "#D4C9B6", // Використовуємо navActive
-    neutralText1: "#4A4A4A", // Основний текст
+    neutralBackground1: "#E8E2D4",
+    neutralBorder1: "#D4C9B6",
+    neutralText1: "#4A4A4A",
 
-    neutralBackground2: "#EFEADD", // Використовуємо navBg
-    neutralBorder2: "#D4C9B6", // Використовуємо navActive
-    neutralText2: "#4A4A4A", // Основний текст
-    // END ✅ НОВІ НЕЙТРАЛЬНІ КОЛЬОРИ
+    neutralBackground2: "#EFEADD",
+    neutralBorder2: "#D4C9B6",
+    neutralText2: "#4A4A4A",
 
     gradientStart: "#EFEADD",
     gradientEnd: "#F7F4EB",
 
     fontSizes: {
+      xsmall: "0.75rem",
       small: "0.875rem", // 14px
       medium: "1rem", // 16px (базовий)
       large: "1.25rem", // 20px
@@ -71,6 +112,12 @@ const themes = {
     interactiveBorderLight: "#A7D9EE",
     interactiveBgYellow: "#FFFBE6",
     interactiveBorderYellow: "#FFD700",
+
+    // ✅ ДОДАНО: Spacing
+    spacing: commonSpacing,
+    // ✅ ДОДАНО: Брейкпоінти та медіа-функції
+    breakpoints,
+    media,
   },
   dark: {
     background: "#2C2C2C",
@@ -80,12 +127,14 @@ const themes = {
     navActive: "#6B6B6B",
     buttonBg: "#B3B3B3",
     buttonColor: "#2C2C2C",
-    hoverBtn: "#8A8A8A", // Світліший сірий для кнопок при наведенні
+    hoverBtn: "#8A8A8A",
 
     borderColor: "#4A4A4A",
+    dividerColor: "#5C5C5C",
     hoverBg: "#4C4C4C",
     accentBg: "#5C5C5C",
     accentColor: "#E0E0E0",
+    colorSecondary: "#B0B0B0", // Додано для EventYear, якщо немає
 
     successBg: "#1F4228",
     successColor: "#9CCC65",
@@ -95,30 +144,27 @@ const themes = {
     dangerColor: "#F8D7DA",
     dangerText: "#FAECEC",
 
-    // ✅ НОВІ КОЛЬОРИ ДЛЯ CONTRASTDISPLAY (DARK THEME)
-    positiveBackground: "#1F4228", // Використовуємо successBg
-    positiveBorder: "#346F41", // Трохи темніший зелений для межі
-    positiveText: "#D4EDDA", // Використовуємо successText
+    positiveBackground: "#1F4228",
+    positiveBorder: "#346F41",
+    positiveText: "#D4EDDA",
 
-    negativeBackground: "#5C1C1E", // Використовуємо dangerBg
-    negativeBorder: "#8B2B2F", // Трохи темніший червоний для межі
-    negativeText: "#FAECEC", // Використовуємо dangerText
-    // END ✅ НОВІ КОЛЬОРИ
+    negativeBackground: "#5C1C1E",
+    negativeBorder: "#8B2B2F",
+    negativeText: "#FAECEC",
 
-    // ✅ НОВІ НЕЙТРАЛЬНІ КОЛЬОРИ ДЛЯ CONTRASTDISPLAY (DARK THEME)
-    neutralBackground1: "#5C5C5C", // Використовуємо accentBg
-    neutralBorder1: "#6B6B6B", // Використовуємо navActive
-    neutralText1: "#E0E0E0", // Основний текст
+    neutralBackground1: "#5C5C5C",
+    neutralBorder1: "#6B6B6B",
+    neutralText1: "#E0E0E0",
 
-    neutralBackground2: "#3A3A3A", // Використовуємо navBg
-    neutralBorder2: "#6B6B6B", // Використовуємо navActive
-    neutralText2: "#E0E0E0", // Основний текст
-    // END ✅ НОВІ НЕЙТРАЛЬНІ КОЛЬОРИ
+    neutralBackground2: "#3A3A3A",
+    neutralBorder2: "#6B6B6B",
+    neutralText2: "#E0E0E0",
 
     gradientStart: "#2C2C2C",
     gradientEnd: "#6B6B6B",
 
     fontSizes: {
+      xsmall: "0.75rem",
       small: "0.875rem",
       medium: "1rem",
       large: "1.25rem",
@@ -139,6 +185,12 @@ const themes = {
     interactiveBorderLight: "#6A8AA0",
     interactiveBgYellow: "#4A4030",
     interactiveBorderYellow: "#E0B000",
+
+    // ✅ ДОДАНО: Spacing
+    spacing: commonSpacing,
+    // ✅ ДОДАНО: Брейкпоінти та медіа-функції
+    breakpoints,
+    media,
   },
 };
 

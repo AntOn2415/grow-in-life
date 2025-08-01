@@ -6,7 +6,6 @@ export const HomeGroupLessonDisplayContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
 `;
@@ -31,7 +30,6 @@ export const MainContentWrapper = styled.div`
 
 // Обгортка для текстового вмісту уроку (всередині Card)
 export const HomeGroupLessonTextWrapper = styled.div`
-  padding: 1.5rem;
   line-height: 1.8;
   font-size: 1.1rem;
   color: ${props => props.theme.color}; /* Основний колір тексту */
@@ -67,8 +65,6 @@ export const HomeGroupLessonTextWrapper = styled.div`
   h5,
   h6 {
     color: ${props => props.theme.color};
-    margin-top: 1.5em;
-    margin-bottom: 0.8em;
   }
 `;
 
@@ -101,11 +97,3 @@ export const VerseButton = styled.button`
     color: ${props => props.theme.accentColor || "purple"}; /* Колір при активному натисканні */
   }
 `;
-
-// Якщо у вас були інші експорти, наприклад RevealCardsGrid, додайте їх сюди.
-// export const RevealCardsGrid = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-//   gap: 1.5rem;
-//   margin-top: 1.5rem;
-// `;

@@ -11,7 +11,7 @@ import ImagePlaceholder from "../../InteractiveContent/ImagePlaceholder/ImagePla
 import HighlightBox from "../../InteractiveContent/HighlightBox/HighlightBox";
 import QuestionPrompt from "../../InteractiveContent/QuestionPrompt/QuestionPrompt";
 import ListCards from "../../InteractiveContent/ListCards/ListCards";
-import Timeline from "../../InteractiveContent/Timeline/Timeline";
+import Timeline from "../../InteractiveContent/Timeline/Timeline"; // Це вже є!
 import ContrastDisplay from "../../InteractiveContent/ContrastDisplay/ContrastDisplay";
 import DescriptionWithImage from "../../InteractiveContent/DescriptionWithImage/DescriptionWithImage";
 
