@@ -2,23 +2,21 @@
 import styled from "styled-components";
 
 export const ContrastDisplayContainer = styled.div`
-  // ✅ Додано export
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використано spacing
+  margin-bottom: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використано spacing
   width: 100%;
   box-sizing: border-box;
-  padding: 0 1rem;
+  padding: 0 ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: Використано spacing
 
-  @media (min-width: 768px) {
+  ${({ theme }) => theme.media.up("sm")` // ОНОВЛЕНО: Використано медіазапит з теми
     padding: 0;
-  }
+  `}
 `;
 
 export const ContrastItemsWrapper = styled.div`
-  // ✅ Додано export
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використано spacing
   justify-content: center;
   align-items: stretch;
   width: 100%;
@@ -26,72 +24,68 @@ export const ContrastItemsWrapper = styled.div`
 
 export const ContrastItem = styled.div`
   flex: 1 1 auto;
-  max-width: calc(50% - 0.75rem);
+  max-width: calc(50% - ${({ theme }) => theme.spacing.small}); // ОНОВЛЕНО: Використано spacing
 
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
+  padding: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використано spacing
   box-sizing: border-box;
 
-  background-color: ${({ theme }) => theme.cardBackground || theme.background};
-  border: 1px solid ${({ theme }) => theme.borderColor || theme.accentBg};
-  border-radius: ${({ theme }) => theme.borderRadius.medium};
-  box-shadow: ${({ theme }) => theme.shadows.small};
+  border: 1px solid ${({ theme }) => theme.colors.borderColor}; // ОНОВЛЕНО: Використано theme.colors
+  border-radius: ${({ theme }) => theme.borderRadius.medium}; // ОНОВЛЕНО: Використано borderRadius
+  box-shadow: ${({ theme }) => theme.shadows.small}; // ОНОВЛЕНО: Використано shadows
   transition: all 0.3s ease-in-out;
 
   background-color: ${props => {
-    if (props.$type === "positive") return props.theme.positiveBackground;
-    if (props.$type === "negative") return props.theme.negativeBackground;
-    if (props.$type === "neutral1") return props.theme.neutralBackground1;
-    if (props.$type === "neutral2") return props.theme.neutralBackground2;
-    return props.theme.cardBackground;
+    if (props.$type === "positive") return props.theme.colors.positiveBackground; // ОНОВЛЕНО
+    if (props.$type === "negative") return props.theme.colors.negativeBackground; // ОНОВЛЕНО
+    if (props.$type === "neutral1") return props.theme.colors.neutralBackground1; // ОНОВЛЕНО
+    if (props.$type === "neutral2") return props.theme.colors.neutralBackground2; // ОНОВЛЕНО
+    return props.theme.colors.cardBackground; // ОНОВЛЕНО
   }};
   border: 1px solid
     ${props => {
-      if (props.$type === "positive") return props.theme.positiveBorder;
-      if (props.$type === "negative") return props.theme.negativeBorder;
-      if (props.$type === "neutral1") return props.theme.neutralBorder1;
-      if (props.$type === "neutral2") return props.theme.neutralBorder2;
-      return props.theme.cardBorder;
+      if (props.$type === "positive") return props.theme.colors.positiveBorder; // ОНОВЛЕНО
+      if (props.$type === "negative") return props.theme.colors.negativeBorder; // ОНОВЛЕНО
+      if (props.$type === "neutral1") return props.theme.colors.neutralBorder1; // ОНОВЛЕНО
+      if (props.$type === "neutral2") return props.theme.colors.neutralBorder2; // ОНОВЛЕНО
+      return props.theme.colors.borderColor; // ОНОВЛЕНО
     }};
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.shadows.medium};
+    box-shadow: ${({ theme }) => theme.shadows.medium}; // ОНОВЛЕНО: Використано shadows
     transform: translateY(-2px);
   }
 
-  @media (max-width: 650px) {
+  ${({ theme }) => theme.media.down("sm")` // ОНОВЛЕНО: Використано медіазапит з теми
     max-width: 100%;
-  }
+  `}
   min-width: 280px;
 `;
 
 export const ItemHeading = styled.h4`
-  // ✅ Додано export
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
+  font-size: ${({ theme }) => theme.fontSizes.large}; // ОНОВЛЕНО: Використано fontSizes
+  margin-bottom: ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: Використано spacing
   display: flex;
   align-items: center;
   color: ${props => {
-    if (props.$type === "positive") return props.theme.positiveText;
-    if (props.$type === "negative") return props.theme.negativeText;
-    if (props.$type === "neutral1") return props.theme.neutralText1;
-    if (props.$type === "neutral2") return props.theme.neutralText2;
-    return props.theme.color;
+    if (props.$type === "positive") return props.theme.colors.positiveText; // ОНОВЛЕНО
+    if (props.$type === "negative") return props.theme.colors.negativeText; // ОНОВЛЕНО
+    if (props.$type === "neutral1") return props.theme.colors.neutralText1; // ОНОВЛЕНО
+    if (props.$type === "neutral2") return props.theme.colors.neutralText2; // ОНОВЛЕНО
+    return props.theme.colors.color; // ОНОВЛЕНО
   }};
 `;
 
 export const ItemEmoji = styled.span`
-  // ✅ Додано export
-  font-size: 2rem;
-  margin-right: 0.8rem;
+  font-size: ${({ theme }) => theme.fontSizes.xlarge}; // ОНОВЛЕНО: Використано fontSizes
+  margin-right: ${({ theme }) => theme.spacing.xsmall}; // ОНОВЛЕНО: Використано spacing
 `;
 
 export const ItemContent = styled.div`
-  // ✅ Додано export
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSizes.medium}; // ОНОВЛЕНО: Використано fontSizes
   line-height: 1.6;
-  color: ${({ theme }) => theme.color};
+  color: ${({ theme }) => theme.colors.color}; // ОНОВЛЕНО: Використано theme.colors
 
   p {
     margin-bottom: 1em;

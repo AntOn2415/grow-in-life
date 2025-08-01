@@ -1,52 +1,73 @@
 import styled from "styled-components";
 
 export const QuestionPromptContainer = styled.div`
-  background-color: ${({ theme }) => theme.interactiveBgYellow}; // ✅ З теми
-  border: 1px solid ${({ theme }) => theme.interactiveBorderYellow}; // ✅ З теми
-  padding: 1.5rem;
-  margin: 2rem 0;
-  border-radius: ${({ theme }) => theme.borderRadius.medium}; // ✅ З теми
+  background-color: ${({ theme }) => theme.colors.interactiveBgYellow};
+  border: 1px solid ${({ theme }) => theme.colors.interactiveBorderYellow};
+  padding: ${({ theme }) => theme.spacing.medium};
+  margin: ${({ theme }) => theme.spacing.large} 0;
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  box-shadow: ${({ theme }) => theme.shadows.small}; // ✅ З теми
+  box-shadow: ${({ theme }) => theme.shadows.small};
+  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out; // ДОДАНО: Перехід для фону та рамки
+
+  ${({ theme }) => theme.media.down("sm")`
+    padding: ${({ theme }) => theme.spacing.small};
+    margin: ${({ theme }) => theme.spacing.medium} 0;
+  `}
 `;
 
 export const QuestionEmoji = styled.span`
-  font-size: ${({ theme }) => theme.fontSizes.xxlarge}; // ✅ З теми
-  margin-bottom: 1rem;
+  font-size: ${({ theme }) => theme.fontSizes.xxlarge};
+  margin-bottom: ${({ theme }) => theme.spacing.small};
+
+  ${({ theme }) => theme.media.down("sm")`
+    font-size: ${({ theme }) => theme.fontSizes.xlarge};
+  `}
 `;
 
 export const QuestionText = styled.p`
-  font-size: ${({ theme }) => theme.fontSizes.large}; // ✅ З теми
-  font-weight: bold; /* Залишаємо, якщо не в темі */
-  color: ${({ theme }) => theme.color}; // ✅ З теми
-  margin-bottom: 1rem;
+  font-size: ${({ theme }) => theme.fontSizes.large};
+  font-weight: bold;
+  color: ${({ theme }) => theme.colors.color};
+  margin-bottom: ${({ theme }) => theme.spacing.small};
+  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту
+
+  ${({ theme }) => theme.media.down("sm")`
+    font-size: ${({ theme }) => theme.fontSizes.medium};
+  `}
 `;
 
 export const ToggleAnswerButton = styled.button`
-  background-color: ${({ theme }) => theme.buttonBg}; // ✅ З теми
-  color: ${({ theme }) => theme.buttonColor}; // ✅ З теми
+  background-color: ${({ theme }) => theme.colors.buttonBg};
+  color: ${({ theme }) => theme.colors.buttonColor};
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: ${({ theme }) => theme.borderRadius.small}; // ✅ З теми
+  padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.medium};
+  border-radius: ${({ theme }) => theme.borderRadius.small};
   cursor: pointer;
-  font-size: ${({ theme }) => theme.fontSizes.medium}; // ✅ З теми
-  font-weight: bold; /* Залишаємо, якщо не в темі */
-  transition: background-color 0.2s ease-in-out;
+  font-size: ${({ theme }) => theme.fontSizes.medium};
+  font-weight: bold;
+  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для фону та тексту
 
   &:hover {
-    background-color: ${({ theme }) => theme.accentColor}; // ✅ З теми
+    background-color: ${({ theme }) => theme.colors.accentColor};
   }
 `;
 
 export const AnswerText = styled.div`
-  background-color: ${({ theme }) => theme.background}; // ✅ З теми
-  border-left: 3px solid ${({ theme }) => theme.successColor}; // ✅ З теми
-  padding: 1rem;
-  margin-top: 1.5rem;
+  background-color: ${({ theme }) => theme.colors.background};
+  border-left: 3px solid ${({ theme }) => theme.colors.successColor};
+  padding: ${({ theme }) => theme.spacing.small};
+  margin-top: ${({ theme }) => theme.spacing.medium};
   font-style: italic;
-  color: ${({ theme }) => theme.color}; // ✅ З теми
-  border-radius: ${({ theme }) => theme.borderRadius.small}; // ✅ З теми
+  color: ${({ theme }) => theme.colors.color};
+  border-radius: ${({ theme }) => theme.borderRadius.small};
   width: 100%;
+  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out,
+    color 0.4s ease-in-out; // ДОДАНО: Перехід для фону, рамки та тексту
+
+  ${({ theme }) => theme.media.down("sm")`
+    padding: ${({ theme }) => theme.spacing.xsmall};
+  `}
 `;

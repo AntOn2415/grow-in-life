@@ -2,100 +2,113 @@
 import styled from "styled-components";
 
 export const StyledQuizCard = styled.div`
-  background-color: ${({ theme }) => theme.background}; // Основний фон картки
-  border: 1px solid ${({ theme }) => theme.borderColor}; // Межа картки
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); // Тінь залишена без змін
+  background-color: ${({ theme }) => theme.colors.background};
+  border: 1px solid ${({ theme }) => theme.colors.borderColor};
+  border-radius: ${({ theme }) => theme.borderRadius.small};
+  padding: ${({ theme }) => theme.spacing.medium};
+  margin-bottom: ${({ theme }) => theme.spacing.medium};
+  box-shadow: ${({ theme }) => theme.shadows.small};
 
-  // ДОДАНО: Плавні переходи для фону та межі картки
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out;
+  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out,
+    box-shadow 0.4s ease-in-out; // ДОДАНО: Переходи для фону, межі та тіні
+
+  ${({ theme }) => theme.media.down("sm")`
+    padding: ${({ theme }) => theme.spacing.small};
+    margin-bottom: ${({ theme }) => theme.spacing.small};
+  `}
 `;
 
 export const QuizQuestion = styled.h4`
-  font-size: 1.25rem;
+  font-size: ${({ theme }) => theme.fontSizes.large};
   font-weight: 600;
-  margin-bottom: 15px;
-  color: ${({ theme }) => theme.color}; // Колір тексту запитання
+  margin-bottom: ${({ theme }) => theme.spacing.small};
+  color: ${({ theme }) => theme.colors.color};
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту запитання
 
-  // ПЕРЕВІРЕНО: Перехід для 'color' вже визначено у GlobalStyles.js для всіх h4 елементів.
-  // Тому тут окремо його додавати не потрібно, він вже працює.
+  ${({ theme }) => theme.media.down("sm")`
+    font-size: ${({ theme }) => theme.fontSizes.medium};
+    margin-bottom: ${({ theme }) => theme.spacing.xsmall};
+  `}
 `;
 
 export const QuizOptionsList = styled.ul`
   list-style: none;
   padding: 0;
-  margin-top: 15px;
-  border-top: 1px solid ${({ theme }) => theme.borderColor}; // Межа для списку опцій
-  padding-top: 15px;
+  margin-top: ${({ theme }) => theme.spacing.small};
+  border-top: 1px solid ${({ theme }) => theme.colors.borderColor};
+  padding-top: ${({ theme }) => theme.spacing.small};
 
-  // ДОДАНО: Плавний перехід для кольору верхньої межі списку опцій
-  transition: border-color 0.4s ease-in-out;
+  transition: border-color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору верхньої межі списку опцій
+
+  ${({ theme }) => theme.media.down("sm")`
+    margin-top: ${({ theme }) => theme.spacing.xsmall};
+    padding-top: ${({ theme }) => theme.spacing.xsmall};
+  `}
 `;
 
 export const QuizOptionItem = styled.li`
-  background-color: ${({ theme }) => theme.background}; // Фон опції
-  border: 1px solid ${({ theme }) => theme.borderColor}; // Межа опції
-  border-radius: 5px;
-  padding: 10px 15px;
-  margin-bottom: 10px;
-  font-size: 1rem;
-  color: ${({ theme }) => theme.color}; // Колір тексту опції
+  background-color: ${({ theme }) => theme.colors.background};
+  border: 1px solid ${({ theme }) => theme.colors.borderColor};
+  border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
+  padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.small};
+  margin-bottom: ${({ theme }) => theme.spacing.xsmall};
+  font-size: ${({ theme }) => theme.fontSizes.medium};
+  color: ${({ theme }) => theme.colors.color};
   cursor: pointer;
 
-  // ЧУДОВО! Переходи вже визначені тут, вони охоплюють всі зміни кольорів та фону
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out,
+    color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для всіх кольорових властивостей
 
   &:last-child {
     margin-bottom: 0;
   }
 
   &:hover {
-    background-color: ${({ theme }) => theme.hoverBg}; // Колір фону при наведенні
+    background-color: ${({ theme }) => theme.colors.hoverBg};
   }
 
-  // Стилі для обраної відповіді
   ${props =>
     props.isSelected &&
     `
-    background-color: ${props.theme.accentBg}; // Акцентний фон для обраної
-    border-color: ${props.theme.accentColor}; // Акцентний колір межі для обраної
-    color: ${props.theme.buttonColor}; // Колір тексту для обраної (як buttonColor для контрасту)
+    background-color: ${props.theme.colors.accentBg};
+    border-color: ${props.theme.colors.accentColor};
+    color: ${props.theme.colors.buttonColor};
   `}
 
-  // Стилі для правильної відповіді, що відображаються ЛИШЕ ПІСЛЯ ВИБОРУ КОРИСТУВАЧЕМ
   ${props =>
     props.showFeedback &&
     props.isCorrectOption &&
     `
-    background-color: ${props.theme.successBg}; // Фон для правильної відповіді
-    border-color: ${props.theme.successColor}; // Межа для правильної відповіді
-    color: ${props.theme.successText}; // Текст для правильної відповіді
+    background-color: ${props.theme.colors.successBg};
+    border-color: ${props.theme.colors.successColor};
+    color: ${props.theme.colors.successText};
     font-weight: bold;
   `}
 
-  // Стилі для НЕПРАВИЛЬНОЇ відповіді, яку обрав користувач
   ${props =>
     props.showFeedback &&
     props.isSelected &&
     !props.isCorrectOption &&
     `
-    background-color: ${props.theme.dangerBg}; // Фон для неправильної відповіді
-    border-color: ${props.theme.dangerColor}; // Межа для неправильної відповіді
-    color: ${props.theme.dangerText}; // Текст для неправильної відповіді
+    background-color: ${props.theme.colors.dangerBg};
+    border-color: ${props.theme.colors.dangerColor};
+    color: ${props.theme.colors.dangerText};
+  `}
+  
+  ${({ theme }) => theme.media.down("sm")`
+    font-size: ${({ theme }) => theme.fontSizes.small};
+    padding: ${({ theme }) => theme.spacing.xsmall};
   `}
 `;
 
 export const QuizToggleIcon = styled.span`
-  font-size: 1.5rem;
+  font-size: ${({ theme }) => theme.fontSizes.xlarge};
   font-weight: bold;
-  color: ${({ theme }) => theme.color}; // Колір іконки
+  color: ${({ theme }) => theme.colors.color};
 
-  // ДОДАНО: Перехід для кольору іконки (на додаток до transform)
-  transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для кольору іконки
 `;

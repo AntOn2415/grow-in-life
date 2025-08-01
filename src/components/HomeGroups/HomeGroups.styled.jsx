@@ -1,16 +1,24 @@
 // src/components/HomeGroups/HomeGroups.styled.jsx
 import styled from "styled-components";
 
-// Перейменовуємо Container на HomeGroupsContainer
+// Контейнер для головного блоку HomeGroups
 export const HomeGroupsContainer = styled.div`
-  /* Ваші існуючі стилі для контейнера */
+  margin: ${({ theme }) => theme.spacing.large} 0; // ОНОВЛЕНО: Використано theme.spacing
+  padding: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використано theme.spacing
+  background-color: ${({ theme }) => theme.colors.background}; // ОНОВЛЕНО: Використано theme.colors
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
+  box-shadow: ${({ theme }) => theme.shadows.small};
+  transition: background-color 0.4s ease-in-out;
+  ${({ theme }) => theme.media.down("md")`
+    padding: ${({ theme }) => theme.spacing.small};
+    margin: ${({ theme }) => theme.spacing.medium} 0;
+  `};
 `;
 
-// Перейменовуємо NoSermonMessage на NoLessonMessage
+// Повідомлення, коли немає уроків
 export const NoLessonMessage = styled.p`
-  /* Ваші існуючі стилі для повідомлення */
   text-align: center;
-  margin-top: 50px;
-  font-size: 1.2rem;
-  color: ${({ theme }) => theme.colorSecondary};
+  margin-top: ${({ theme }) => theme.spacing.xxlarge}; // ОНОВЛЕНО: Використано theme.spacing
+  font-size: ${({ theme }) => theme.fontSizes.medium}; // ОНОВЛЕНО: Використано theme.fontSizes
+  color: ${({ theme }) => theme.colors.colorSecondary}; // ОНОВЛЕНО: Використано theme.colors
 `;

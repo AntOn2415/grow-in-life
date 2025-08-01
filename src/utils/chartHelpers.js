@@ -3,10 +3,10 @@
 /**
  * Повертає опції Chart.js з урахуванням теми.
  * @param {object} options - Початкові опції діаграми.
- * @param {object} themeColors - Об'єкт кольорів поточної теми.
+ * @param {object} theme - Об'єкт поточної теми (містить colors).
  * @returns {object} Оновлені опції діаграми.
  */
-export const getChartOptionsWithTheme = (options, themeColors) => {
+export const getChartOptionsWithTheme = (options, theme) => {
   let newOptions = {
     ...options,
     responsive: true,
@@ -26,7 +26,7 @@ export const getChartOptionsWithTheme = (options, themeColors) => {
         // Для Pie/Doughnut вона буде вимкнена, оскільки для них використовується кастомна HTML-легенда.
         display: !["pie", "doughnut"].includes(options.chartType),
         labels: {
-          color: themeColors?.color,
+          color: theme.colors?.color,
           font: {
             size: 12,
           },
@@ -56,14 +56,14 @@ export const getChartOptionsWithTheme = (options, themeColors) => {
         ticks: {
           // ✅ ДОДАНО: Вимкнення відображення міток на осі Y
           display: false,
-          color: themeColors?.color,
+          color: theme.colors?.color,
           font: {
             size: 10,
           },
         },
         grid: {
           display: false, // Вимкнено лінії сітки на осі Y
-          color: (themeColors?.borderColor || "#D3D3D3") + "80",
+          color: (theme.colors?.borderColor || "#D3D3D3") + "80",
         },
       },
       x: {
@@ -74,14 +74,14 @@ export const getChartOptionsWithTheme = (options, themeColors) => {
         ticks: {
           // ✅ ДОДАНО: Вимкнення відображення міток на осі X
           display: false,
-          color: themeColors?.color,
+          color: theme.colors?.color,
           font: {
             size: 10,
           },
         },
         grid: {
           display: false, // Вимкнено лінії сітки на осі X
-          color: (themeColors?.borderColor || "#D3D3D3") + "80",
+          color: (theme.colors?.borderColor || "#D3D3D3") + "80",
         },
       },
     },
@@ -98,14 +98,14 @@ export const getChartOptionsWithTheme = (options, themeColors) => {
 /**
  * Повертає дані Chart.js з застосованими кольорами теми.
  * @param {object} data - Початкові дані діаграми.
- * @param {object} themeColors - Об'єкт кольорів поточної теми.
+ * @param {object} theme - Об'єкт поточної теми (містить colors).
  * @param {string} type - Тип діаграми (для коректного застосування кольорів).
  * @returns {object} Оновлені дані діаграми.
  */
-export const getChartDataWithTheme = (data, themeColors, type) => {
+export const getChartDataWithTheme = (data, theme, type) => {
   if (!data || !data.datasets) return data;
 
-  if (!themeColors) {
+  if (!theme || !theme.colors) {
     return data;
   }
 
@@ -114,20 +114,20 @@ export const getChartDataWithTheme = (data, themeColors, type) => {
     const newDataset = { ...dataset };
 
     const dynamicColors = [
-      themeColors.accentColor,
-      themeColors.navActive,
-      themeColors.accentBg,
-      themeColors.color,
-      themeColors.navBg,
-      themeColors.background,
-      themeColors.borderColor,
-      themeColors.interactiveBgLight,
-      themeColors.interactiveBorderLight,
-      themeColors.interactiveBgYellow,
-      themeColors.interactiveBorderYellow,
-      themeColors.buttonBg,
-      themeColors.successColor,
-      themeColors.dangerColor,
+      theme.colors.accentColor,
+      theme.colors.navActive,
+      theme.colors.accentBg,
+      theme.colors.color,
+      theme.colors.navBg,
+      theme.colors.background,
+      theme.colors.borderColor,
+      theme.colors.interactiveBgLight,
+      theme.colors.interactiveBorderLight,
+      theme.colors.interactiveBgYellow,
+      theme.colors.interactiveBorderYellow,
+      theme.colors.buttonBg,
+      theme.colors.successColor,
+      theme.colors.dangerColor,
     ];
 
     if (
@@ -141,34 +141,34 @@ export const getChartDataWithTheme = (data, themeColors, type) => {
           { length: dataPointsCount },
           (_, i) => dynamicColors[i % dynamicColors.length]
         );
-        newDataset.borderColor = themeColors.borderColor;
+        newDataset.borderColor = theme.colors.borderColor;
       } else {
-        newDataset.backgroundColor = themeColors.accentColor + "B3";
-        newDataset.borderColor = themeColors.accentColor;
+        newDataset.backgroundColor = theme.colors.accentColor + "B3";
+        newDataset.borderColor = theme.colors.accentColor;
       }
     } else if (Array.isArray(newDataset.backgroundColor)) {
       newDataset.backgroundColor = newDataset.backgroundColor.map((color, i) =>
         color === "dynamic" ? dynamicColors[i % dynamicColors.length] : color
       );
       if (!newDataset.borderColor) {
-        newDataset.borderColor = themeColors.borderColor;
+        newDataset.borderColor = theme.colors.borderColor;
       }
     }
 
     if (newDataset.pointBackgroundColor === "dynamic") {
-      newDataset.pointBackgroundColor = themeColors.accentColor;
+      newDataset.pointBackgroundColor = theme.colors.accentColor;
     }
     if (newDataset.pointBorderColor === "dynamic") {
-      newDataset.pointBorderColor = themeColors.color;
+      newDataset.pointBorderColor = theme.colors.color;
     }
     if (newDataset.hoverBackgroundColor === "dynamic") {
-      newDataset.hoverBackgroundColor = themeColors.hoverBg;
+      newDataset.hoverBackgroundColor = theme.colors.hoverBg;
     }
     if (newDataset.hoverBorderColor === "dynamic") {
-      newDataset.hoverBorderColor = themeColors.borderColor;
+      newDataset.hoverBorderColor = theme.colors.borderColor;
     }
     if (newDataset.fill === true) {
-      newDataset.backgroundColor = themeColors.accentBg + "50";
+      newDataset.backgroundColor = theme.colors.accentBg + "50";
     }
 
     return newDataset;

@@ -3,68 +3,71 @@
 import styled from "styled-components";
 
 export const Section = styled.div`
-  margin-bottom: 16px;
-  // Не має theme-залежних властивостей, які потребують transition.
+  margin-bottom: ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: Використовуємо spacing
+
+  // Додамо медіазапит, щоб на мобільних приховувати цей елемент,
+  // оскільки він є частиною сайдбару, який там прихований.
+  ${({ theme }) => theme.media.down("md")`
+    display: none;
+  `}
 `;
 
 export const SectionTitle = styled.div`
   font-weight: bold;
-  margin-bottom: 4px;
-  font-size: 15px;
+  margin-bottom: ${({ theme }) => theme.spacing.xsmall}; // ОНОВЛЕНО: Використовуємо spacing
+  font-size: ${({ theme }) => theme.fontSizes.small}; // ОНОВЛЕНО: Використовуємо fontSizes
   cursor: pointer;
   user-select: none;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: ${({ theme }) => theme.spacing.xsmall}; // ОНОВЛЕНО: Використовуємо spacing
   min-height: 32px;
+  color: ${({ theme }) => theme.colors.color}; // ДОДАНО: Основний колір тексту
 
   // ОНОВЛЕНО: Плавний перехід для фону та кольору, для Hover та Focus
   transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
 
   &:hover,
   &:focus {
-    background: ${({ theme }) => theme.navActive}; // Колір фону при наведенні/фокусі
-    color: ${({ theme }) => theme.background}; // Колір тексту при наведенні/фокусі (для контрасту)
-    outline: none; // Прибираємо стандартний outline при фокусі
+    background: ${({ theme }) => theme.colors.navActive}; // ОНОВЛЕНО: Використовуємо theme.colors
+    color: ${({ theme }) => theme.colors.background}; // ОНОВЛЕНО: Використовуємо theme.colors
+    outline: none;
   }
 `;
 
 export const List = styled.ul`
   list-style: none;
   padding: 0;
-  margin: 0 0 8px 0;
+  margin: 0 0 ${({ theme }) => theme.spacing.xsmall} 0; // ОНОВЛЕНО: Використовуємо spacing
   display: flex;
   flex-direction: column;
-  // Не має theme-залежних властивостей, які потребують transition.
 `;
 
 export const ListItem = styled.li`
   cursor: pointer;
   background: none;
   border: none;
-  padding: 0 5px;
-  color: ${({ theme }) => theme.color}; /* Тепер використовує основний колір тексту з теми */
+  padding: 0 ${({ theme }) => theme.spacing.xsmall}; // ОНОВЛЕНО: Використовуємо spacing
+  color: ${({ theme }) => theme.colors.color}; // ОНОВЛЕНО: Використовуємо theme.colors
   font: inherit;
   text-align: left;
   display: block;
   width: 100%;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.fontSizes.xsmall}; // ОНОВЛЕНО: Використовуємо fontSizes
 
   // ДОДАНО: Плавні переходи для кольору тексту та фону (для hover)
   transition: color 0.4s ease-in-out, background 0.3s ease-in-out;
 
   &:hover {
-    background: ${({ theme }) => theme.hoverBg}; // Колір фону при наведенні
-    // Колір тексту при наведенні може залишитися theme.color або змінитись на theme.accentColor
-    // Якщо потрібно змінити, додайте: color: ${({ theme }) => theme.accentColor};
+    background: ${({ theme }) => theme.colors.hoverBg}; // ОНОВЛЕНО: Використовуємо theme.colors
   }
 `;
 
 export const Toggle = styled.span`
-  color: ${({ theme }) => theme.buttonBg}; // Колір іконки
-  font-size: 16px;
+  color: ${({ theme }) => theme.colors.buttonBg}; // ОНОВЛЕНО: Використовуємо theme.colors
+  font-size: 16px; // Цей розмір шрифту є універсальним для іконки, можна залишити
   margin-left: auto;
-  pointer-events: none; // Цей елемент не повинен перехоплювати події кліків
+  pointer-events: none;
 
   // ДОДАНО: Плавний перехід для кольору іконки
   transition: color 0.4s ease-in-out;

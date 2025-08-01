@@ -6,7 +6,7 @@ import Layout from "./Layout";
 
 import { SermonsProvider } from "../contexts/SermonsContext";
 import { HomeGroupsProvider } from "../contexts/HomeGroupsContext";
-import GlobalStyles from "../styles/GlobalStyles";
+import GlobalStyles from "../styles/global/GlobalStyles";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 const SermonsPage = lazy(() => import("../pages/SermonsPage"));

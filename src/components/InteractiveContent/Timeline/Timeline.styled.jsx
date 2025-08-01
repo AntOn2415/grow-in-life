@@ -2,14 +2,13 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 export const TimelineContainer = styled.div`
-  margin: 3rem 0;
+  margin: ${({ theme }) => theme.spacing.xlarge} 0;
   position: relative;
   padding-left: 30px;
-  padding-right: 15px; /* Відступ для вертикальної лінії */
+  padding-right: ${({ theme }) => theme.spacing.small};
   overflow-x: hidden;
   padding-bottom: 0;
 
-  /* Вертикальна лінія */
   &::before {
     content: "";
     position: absolute;
@@ -17,12 +16,15 @@ export const TimelineContainer = styled.div`
     top: 0;
     bottom: 0;
     width: 2px;
-    background-color: ${({ theme }) => theme.borderColor};
+    background-color: ${({ theme }) => theme.colors.borderColor};
     z-index: 0;
+    transition: background-color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору лінії
   }
 
   ${({ theme }) => theme.media.down("sm")`
     padding-left: 20px;
+    padding-right: ${({ theme }) => theme.spacing.xxsmall};
+    
     &::before {
       left: 9px;
     }
@@ -35,77 +37,78 @@ export const HorizontalLine = styled.div`
 
 export const TimelineEventWrapper = styled(motion.div)`
   position: relative;
-  margin-bottom: 2rem;
+  margin-bottom: ${({ theme }) => theme.spacing.xlarge};
   padding-left: 30px;
   text-align: left;
 
   ${({ theme }) => theme.media.down("sm")`
     padding-left: 20px;
-    margin-bottom: 1.5rem;
+    margin-bottom: ${({ theme }) => theme.spacing.large};
   `}
 `;
 
 export const EventDot = styled(motion.div)`
   position: absolute;
   left: 0;
-  top: 5px; /* Вирівнювання по вертикалі з верхньою частиною EventContent */
+  top: 5px;
   width: 12px;
   height: 12px;
-  background-color: ${({ theme }) => theme.accentColor};
+  background-color: ${({ theme }) => theme.colors.accentColor};
   border-radius: 50%;
-  border: 2px solid ${({ theme }) => theme.background};
+  border: 2px solid ${({ theme }) => theme.colors.background};
   z-index: 1;
   transform-origin: center;
+  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out; // ДОДАНО: Перехід для кольорів точки
 
   ${({ theme }) => theme.media.down("sm")`
     width: 10px;
     height: 10px;
-    border: 1px solid ${({ theme }) => theme.background};
+    border: 1px solid ${({ theme }) => theme.colors.background};
   `}
 `;
 
 export const EventContent = styled(motion.div)`
-  background-color: ${({ theme }) => theme.cardBackground};
-  padding: 1rem 1rem;
+  background-color: ${({ theme }) => theme.colors.cardBackground};
+  padding: ${({ theme }) => theme.spacing.small};
   border-radius: ${({ theme }) => theme.borderRadius.small};
   box-shadow: ${({ theme }) => theme.shadows.small};
-  border: 1px solid ${({ theme }) => theme.borderColor};
+  border: 1px solid ${({ theme }) => theme.colors.borderColor};
   min-height: auto;
   display: flex;
-  flex-direction: column; /* Основний вміст картки йде стовпчиком */
+  flex-direction: column;
   justify-content: center;
-  position: relative; /* Щоб EventTitle міг використовувати flex */
+  position: relative;
   cursor: pointer;
+  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out; // ДОДАНО: Перехід для фону і рамки
 `;
 
-// EventTitle тепер знову буде головним flex-контейнером для року/назви та іконки
 export const EventTitle = styled.h4`
-  color: ${({ theme }) => theme.accentColor};
+  color: ${({ theme }) => theme.colors.accentColor};
   font-size: ${({ theme }) => theme.fontSizes.large};
-  margin: 0; /* Прибираємо всі стандартні відступи h4 */
+  margin: 0;
   font-weight: bold;
   line-height: 1.3;
+  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
 
-  display: flex; /* РОБИМО EventTitle FLEX-КОНТЕЙНЕРОМ */
-  flex-direction: row; /* Рік/назва та іконка в рядок */
-  justify-content: space-between; /* Розносимо їх по краях */
-  align-items: flex-start; /* Вирівнюємо по верху, якщо вміст різний */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
 
-  /* Контейнер для року та назви */
   & > div:first-of-type {
     display: flex;
-    flex-direction: column; /* Рік над назвою */
-    align-items: flex-start; /* Вирівнюємо по лівому краю */
-    flex-grow: 1; /* Дозволяємо цьому блоку займати весь доступний простір */
-    margin-right: 10px; /* Відступ від іконки, щоб не було тісно */
+    flex-direction: column;
+    align-items: flex-start;
+    flex-grow: 1;
+    margin-right: 10px;
   }
 
-  /* Стилі для іконки (motion.span), яка є прямим нащадком EventTitle */
   & > span {
-    flex-shrink: 0; /* Щоб іконка не стискалася */
-    line-height: 1.3; /* Вирівнюємо по заголовку */
-    font-size: ${({ theme }) => theme.fontSizes.large}; /* Збільшимо розмір іконки */
-    color: ${({ theme }) => theme.colorSecondary}; /* Можливо, інший колір для контрасту */
+    flex-shrink: 0;
+    line-height: 1.3;
+    font-size: ${({ theme }) => theme.fontSizes.large};
+    color: ${({ theme }) => theme.colors.colorSecondary};
+    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору іконки
   }
 
   ${({ theme }) => theme.media.down("sm")`
@@ -123,26 +126,24 @@ export const EventTitle = styled.h4`
 
 export const EventYear = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.small};
-  color: ${({ theme }) => theme.colorSecondary};
-  margin-bottom: 0.2rem; /* Відступ між роком та заголовком */
-  white-space: nowrap; /* Рік в один рядок */
+  color: ${({ theme }) => theme.colors.colorSecondary};
+  margin-bottom: ${({ theme }) => theme.spacing.xxsmall};
+  white-space: nowrap;
   font-weight: normal;
+  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
 
   ${({ theme }) => theme.media.down("sm")`
     font-size: ${({ theme }) => theme.fontSizes.xsmall};
   `}
 `;
 
-// ✅ EventDescriptionWrapper ВИДАЛЕНО, оскільки його функціонал у CollapsibleContent.
-// ✅ Його стилі більше не потрібні тут.
-
 export const EventDescription = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.medium};
-  color: ${({ theme }) => theme.color};
+  color: ${({ theme }) => theme.colors.color};
   line-height: 1.5;
   margin-bottom: 0;
   word-wrap: break-word;
-  /* Видалені посилання на EventDescriptionWrapper */
+  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
 
   ${({ theme }) => theme.media.down("sm")`
     font-size: ${({ theme }) => theme.fontSizes.small};
@@ -150,18 +151,17 @@ export const EventDescription = styled.p`
 `;
 
 export const EventVersesContainer = styled.div`
-  padding-top: 0.2rem;
-  border-top: 1px solid ${({ theme }) => theme.dividerColor};
+  padding-top: ${({ theme }) => theme.spacing.xxsmall};
+  border-top: 1px solid ${({ theme }) => theme.colors.dividerColor};
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   cursor: default;
-  /* Видалені посилання на EventDescriptionWrapper */
+  transition: border-top-color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору рамки
 
   ${({ theme }) => theme.media.down("sm")`
     gap: 6px;
-    margin-top: ${({ theme }) => theme.spacing.small};
-    padding-top: ${({ theme }) => theme.spacing.xsmall};
-    /* Видалені посилання на EventDescriptionWrapper */
+    margin-top: ${({ theme }) => theme.spacing.xsmall};
+    padding-top: ${({ theme }) => theme.spacing.xxsmall};
   `}
 `;

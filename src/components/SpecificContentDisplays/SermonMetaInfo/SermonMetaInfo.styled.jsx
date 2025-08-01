@@ -5,13 +5,13 @@ export const MetaContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
-  font-size: 0.9em;
-  color: inherit; // Успадковує колір від батьківського компонента
-  transition: color 0.4s ease-in-out; // Забезпечує плавний перехід кольору
+  gap: ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: використовуємо spacing
+  font-size: ${({ theme }) => theme.fontSizes.small}; // ОНОВЛЕНО: використовуємо fontSizes
+  color: inherit;
+  transition: color 0.4s ease-in-out;
 
   span {
-    white-space: nowrap; // Запобігає розриву тексту
+    white-space: nowrap;
   }
 `;
 
@@ -20,12 +20,12 @@ export const MetaItem = styled.span`
 `;
 
 export const DescriptionText = styled.p`
-  margin-top: 20px;
-  max-width: 600px; /* Обмеження ширини для читабельності */
+  margin-top: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: використовуємо spacing
+  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  font-size: 1em;
+  font-size: ${({ theme }) => theme.fontSizes.medium}; // ОНОВЛЕНО: використовуємо fontSizes
   line-height: 1.5;
-  opacity: 0.9; /* Трохи приглушений */
-  text-align: center; /* Центруємо опис */
+  opacity: 0.9;
+  text-align: center;
 `;

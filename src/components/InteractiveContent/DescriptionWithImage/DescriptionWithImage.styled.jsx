@@ -1,47 +1,48 @@
 import styled from "styled-components";
 
 export const DescriptionWithImageContainer = styled.section`
-  margin: 3rem 0;
-  padding: 20px;
-  background-color: ${({ theme }) => theme.background};
+  margin: ${({ theme }) => theme.spacing.large} 0;
+  padding: ${({ theme }) => theme.spacing.medium};
+  background-color: ${({ theme }) => theme.colors.background};
   border-radius: ${({ theme }) => theme.borderRadius.medium};
   box-shadow: ${({ theme }) => theme.shadows.small};
   display: flex;
   flex-direction: column; /* За замовчуванням стовпець на мобільних */
-  gap: 2rem; /* Відступ між текстовим блоком та ілюстрацією */
+  gap: ${({ theme }) => theme.spacing.large};
   align-items: center; /* Центрування елементів */
+  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out; // ДОДАНО: Переходи для фону та тіні
 
   .content-area {
     display: flex;
     flex-direction: column;
-    width: 100%; /* Займає всю ширину контейнера */
-    gap: 1.5rem; /* Відступ між текстовим блоком та зображенням всередині content-area */
+    width: 100%;
+    gap: ${({ theme }) => theme.spacing.medium};
 
-    @media (min-width: 768px) {
+    ${({ theme }) => theme.media.up("md")`
       flex-direction: ${({ imagePosition }) => (imagePosition === "left" ? "row-reverse" : "row")};
-      align-items: flex-start; /* Вирівнювання по верху */
-    }
+      align-items: flex-start;
+    `}
   }
 
-  /* Якщо у вас є SectionHeading, він має власні стилі.
-     Якщо ви хочете стилізувати h3 безпосередньо тут, можете так: */
   h3 {
     text-align: center;
-    margin-bottom: 1.5rem;
-    color: ${({ theme }) => theme.color}; /* Використовуйте змінну з теми */
+    margin-bottom: ${({ theme }) => theme.spacing.medium};
+    color: ${({ theme }) => theme.colors.color};
     font-size: ${({ theme }) => theme.fontSizes.extraLarge};
-    width: 100%; /* Забезпечує, що заголовок займає всю ширину */
-    @media (min-width: 768px) {
+    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
+
+    ${({ theme }) => theme.media.up("md")`
       text-align: left;
-    }
+    `}
   }
 `;
 
 export const TextContentWrapper = styled.div`
-  flex: 2; /* Дозволяє займати більше місця для тексту */
+  flex: 2;
   font-size: ${({ theme }) => theme.fontSizes.medium};
   line-height: 1.6;
-  color: ${({ theme }) => theme.color};
+  color: ${({ theme }) => theme.colors.color};
+  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту
 
   p {
     margin-bottom: 1em;
@@ -51,42 +52,44 @@ export const TextContentWrapper = styled.div`
   }
 
   strong {
-    color: ${({ theme }) => theme.accentColor};
+    color: ${({ theme }) => theme.colors.accentColor};
+    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору акцентного тексту
   }
 
-  @media (min-width: 768px) {
-    padding-right: 20px; /* Відступ від зображення на великих екранах */
-  }
+  ${({ theme }) => theme.media.up("md")`
+    padding-right: ${({ theme }) => theme.spacing.medium};
+  `}
 `;
 
 export const ImageWrapper = styled.div`
-  flex: 1; /* Дозволяє займати доступне місце */
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  background-color: ${({ theme }) => theme.secondaryBackground};
-  padding: 15px;
-  padding-top: 0; /* Відступ зверху для зображення */
+  background-color: ${({ theme }) => theme.colors.secondaryBackground};
+  padding: ${({ theme }) => theme.spacing.small};
+  padding-top: 0;
   border-radius: ${({ theme }) => theme.borderRadius.small};
   box-shadow: ${({ theme }) => theme.shadows.extraSmall};
-  max-width: 100%; /* Забезпечення адаптивності */
+  max-width: 100%;
+  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out; // ДОДАНО: Переходи для фону та тіні
 
-  @media (min-width: 768px) {
-    max-width: 45%; /* Приклад, можна налаштувати */
-  }
+  ${({ theme }) => theme.media.up("md")`
+    max-width: 45%;
+  `}
 `;
 
 export const StyledImage = styled.img`
   max-width: 100%;
   height: auto;
   border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
-  margin-bottom: 0.5rem;
+  margin-bottom: ${({ theme }) => theme.spacing.xsmall};
 `;
 
 export const ImageCaption = styled.figcaption`
-  /* Перейменував на ImageCaption */
   font-size: ${({ theme }) => theme.fontSizes.small};
-  color: ${({ theme }) => theme.textColorLight};
+  color: ${({ theme }) => theme.colors.textColorLight};
   line-height: 1.4;
+  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту
 `;

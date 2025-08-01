@@ -5,38 +5,44 @@ import { NavLink } from "react-router-dom";
 
 export const Wrapper = styled.div`
   display: grid;
-  /* Тепер у нас лише одна колонка для контенту. Сайдбар буде position: fixed */
   grid-template-columns: 1fr;
-  /* Два рядки: для навігації та для основного контенту */
   grid-template-rows: auto 1fr;
   min-height: 100vh;
-  background: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.color};
+  background: ${({ theme }) => theme.colors.background}; // ОНОВЛЕНО
+  color: ${({ theme }) => theme.colors.color}; // ОНОВЛЕНО
+
   /* Динамічний лівий відступ для основного контенту, щоб звільнити місце для сайдбару */
   padding-left: ${({ sidebarCollapsed, isHome }) =>
-    isHome ? "0" : sidebarCollapsed ? "60px" : "280px"}; /* Змінено з 200px на 250px */
+    isHome ? "0" : sidebarCollapsed ? "60px" : "280px"};
 
   // ДОДАНО/ОНОВЛЕНО: Плавні переходи для відступу, фону та кольору тексту
-  transition: padding-left 0.2s ease-in-out, background 0.4s ease-in-out;
+  transition: padding-left 0.2s ease-in-out, background 0.4s ease-in-out, color 0.4s ease-in-out; // Додано transition для color
+
+  // Медіа-запити для Wrapper
+  ${({ theme }) => theme.media.down("md")` // Застосовуємо для екранів менших за 'md' (992px)
+    padding-left: 0; // На мобільних сайдбар не впливає на padding основного контенту
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr; // Залишаємо Nav зверху, контент знизу
+  `}
 `;
 
 export const Nav = styled.nav`
-  grid-column: 1; /* Тепер навігація займає єдину колонку */
+  grid-column: 1;
   grid-row: 1;
   display: flex;
   height: 60px;
-  padding: 0.5rem;
-  gap: 16px;
-  background: ${({ theme }) => theme.navBg};
+  padding: ${({ theme }) => theme.spacing.xsmall}; // ОНОВЛЕНО: використовуємо spacing
+  gap: ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: використовуємо spacing
+  background: ${({ theme }) => theme.colors.navBg}; // ОНОВЛЕНО
   justify-content: center;
+  align-items: center; // Центруємо елементи по вертикалі
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: ${({ theme }) => theme.shadows.small}; // ОНОВЛЕНО: використовуємо shadows
 
-  // ОНОВЛЕНО: Переходи для transform (приховування/показу) та background (зміна теми)
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease-in-out; /* Для зміни теми */
-  will-change: transform; /* Оптимізація для анімації transform */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease-in-out;
+  will-change: transform;
 
   &.nav-hidden {
     transform: translateY(-100%);
@@ -44,63 +50,79 @@ export const Nav = styled.nav`
   &.nav-visible {
     transform: translateY(0);
   }
+
+  // Медіа-запити для Nav
+  ${({ theme }) => theme.media.down("md")`
+    justify-content: space-between; // Розподіл елементів по ширині на мобільних
+    padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.medium};
+    height: 50px; // Можливо, менша висота для мобільних
+  `}
 `;
 
-// Styled component for the Sidebar container, now fixed
 export const GridSidebarContainer = styled.div`
-  /* Видаляємо grid-column та grid-row, оскільки тепер він position: fixed */
-  position: fixed; /* Сайдбар фіксований відносно вікна перегляду */
-  top: 0; /* Починається з самого верху */
-  bottom: 0; /* Простягається до самого низу */
-  left: 0; /* Прилипає до лівого краю */
-  z-index: 110; /* Вищий z-index, щоб бути над Nav */
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 110;
 
-  /* Динамічна ширина сайдбару, враховуючи стан collapsed та isHome */
-  width: ${({ collapsed, isHome }) =>
-    isHome ? "0" : collapsed ? "60px" : "280px"}; /* Змінено з 200px на 250px */
-  transition: width 0.2s ease-in-out; /* Плавний перехід ширини вже був, це чудово */
+  width: ${({ collapsed, isHome }) => (isHome ? "0" : collapsed ? "60px" : "280px")};
+  transition: width 0.2s ease-in-out;
 
   display: flex;
   flex-direction: column;
-  height: 100%; /* Забезпечує заповнення висоти fixed-контейнера */
-  /* Фон та тінь будуть встановлені в SidebarWrapper, який всередині */
-  /* Якщо SidebarWrapper буде мати theme.background, йому теж потрібен transition */
+  height: 100%;
+
+  // Медіа-запити для GridSidebarContainer
+  ${({ theme }) => theme.media.down("md")`
+    /* На мобільних сайдбар буде повністю прихований або з'являтиметься через інший механізм (наприклад, бургер-меню),
+       тому його ширина стає 0, або він керується іншим станом/логікою */
+    width: 0; 
+    overflow: hidden; // Приховуємо будь-який контент, що виходить за межі
+  `}
 `;
 
 export const Main = styled.main`
-  grid-column: 1; /* Тепер Main займає єдину колонку */
+  grid-column: 1;
   grid-row: 2;
-  overflow-y: auto; /* Дозволяє основному контенту прокручуватися незалежно */
-  padding: 24px;
-  padding-top: 0; /* Додаємо відступ знизу для контенту */
-  /* Основний фон та колір тексту Main, як правило, успадковуються від Wrapper або body,
-     тому тут додаткові transition не потрібні, якщо ви не переозначаєте їх явно. */
+  overflow-y: auto;
+  padding: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: використовуємо spacing
+  padding-top: 0;
+  // Медіа-запити для Main
+  ${({ theme }) => theme.media.down("md")`
+    padding: ${({ theme }) => theme.spacing.small}; // Менші відступи на мобільних
+    padding-top: 0;
+  `}
 `;
 
 export const Link = styled(NavLink)`
-  color: ${({ theme }) => theme.color};
+  color: ${({ theme }) => theme.colors.color}; // ОНОВЛЕНО
   text-decoration: none;
   font-weight: 500;
-  padding: 8px 12px;
-  border-radius: 4px;
+  padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО
+  border-radius: ${({ theme }) => theme.borderRadius.small}; // ОНОВЛЕНО
 
-  // ДОДАНО: Переходи для кольору тексту та фону (для активного стану)
-  // 0.3s - для інтерактивних елементів, узгоджується з глобальними стилями для <a>
   transition: color 0.3s ease-in-out, background 0.3s ease-in-out;
 
   &.active {
-    background: ${({ theme }) => theme.navActive};
-    color: ${({ theme }) => theme.background}; /* Колір тексту в активному стані */
+    background: ${({ theme }) => theme.colors.navActive}; // ОНОВЛЕНО
+    color: ${({ theme }) => theme.colors.background}; // ОНОВЛЕНО: Колір тексту в активному стані
   }
 `;
 
 export const ToggleButton = styled.button`
-  margin-left: 16px;
-  background: ${({ theme }) => theme.buttonBg};
-  color: ${({ theme }) => theme.buttonColor};
+  margin-left: ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: використовуємо spacing
+  background: ${({ theme }) => theme.colors.buttonBg}; // ОНОВЛЕНО
+  color: ${({ theme }) => theme.colors.buttonColor}; // ОНОВЛЕНО
   border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
+  border-radius: ${({ theme }) => theme.borderRadius.small}; // ОНОВЛЕНО
+  padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО
   cursor: pointer;
   min-width: 60px;
+
+  // Медіа-запити для ToggleButton
+  ${({ theme }) => theme.media.down("md")`
+    /* Приховуємо кнопку на мобільних, якщо сайдбар керується іншим механізмом (бургер-меню) */
+    display: none;
+  `}
 `;

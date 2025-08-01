@@ -47,18 +47,15 @@ const GlobalStyles = createGlobalStyle`
     color: ${({ theme }) => theme.buttonColor};
     transition: background-color 0.3s ease-in-out,
                 color 0.3s ease-in-out,
-                transform 0.2s ease-out,
                 box-shadow 0.3s ease-in-out;
     &:hover {
-      transform: translateY(-1px);
-      box-shadow: ${({ theme }) => theme.shadows.small}; // ✅ З теми
+      background: ${({ theme }) => theme.colors.hoverBtn}; // ОНОВЛЕНО
+      transition: background 0.3s ease-in-out;
     }
     &:active {
-      transform: translateY(0);
       box-shadow: none;
     }
   }
-
   input, textarea, select {
     border: 1px solid ${({ theme }) => theme.borderColor};
     background-color: ${({ theme }) => theme.background};
@@ -76,6 +73,18 @@ const GlobalStyles = createGlobalStyle`
   }
 
   h1, h2, h3, h4, h5, h6 {
+    color: ${({ theme }) => theme.color};
+    transition: color 0.4s ease-in-out;
+  }
+  p{
+    color: ${({ theme }) => theme.color};
+    transition: color 0.4s ease-in-out;
+  }
+  span{
+    color: ${({ theme }) => theme.color};
+    transition: color 0.4s ease-in-out;
+  }
+  strong{
     color: ${({ theme }) => theme.color};
     transition: color 0.4s ease-in-out;
   }

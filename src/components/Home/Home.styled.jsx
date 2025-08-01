@@ -1,35 +1,49 @@
-// Припускається, що це файл для ваших стилізованих компонентів, наприклад, Home.styled.jsx або подібний
-
+// src/components/Home/Home.styled.jsx
 import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100vw;
-  min-height: calc(100vh - 64px); /* враховуємо хедер */
+  min-height: calc(
+    100vh - ${({ theme }) => theme.spacing.headerHeight}
+  ); // ОНОВЛЕНО: Використано змінну з теми для висоти хедера
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   margin: 0;
-  padding: 0;
+  padding: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використано theme.spacing
 
-  // Якщо Container має власний фон/колір, що відрізняється від body,
-  // і він повинен змінюватися з темою, розкоментуйте ці рядки:
-  // background-color: ${({ theme }) => theme.background};
-  // color: ${({ theme }) => theme.color};
+  background-color: ${({ theme }) => theme.colors.background}; // ОНОВЛЕНО: Використано theme.colors
+  color: ${({ theme }) => theme.colors.color}; // ОНОВЛЕНО: Використано theme.colors
 
-  // Якщо ви розкоментували вищезазначені властивості, додайте перехід для них:
-  // transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+
+  // Медіазапит для мобільних
+  ${({ theme }) => theme.media.down("md")`
+    padding: ${({ theme }) => theme.spacing.small};
+    min-height: calc(100vh - ${({ theme }) => theme.spacing.headerHeightMobile});
+  `}
 `;
 
 export const Title = styled.h1`
-  color: ${({ theme }) => theme.color}; /* Використано основний колір тексту теми */
-  // Перехід для 'color' вже визначено у GlobalStyles.js для всіх h1 елементів
+  color: ${({ theme }) => theme.colors.color}; // ОНОВЛЕНО: Використано theme.colors
+  font-size: ${({ theme }) => theme.fontSizes.xxxlarge}; // ОНОВЛЕНО: Використано fontSizes
+  margin-bottom: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використано spacing
+
+  // Медіазапит для мобільних
+  ${({ theme }) => theme.media.down("md")`
+    font-size: ${({ theme }) => theme.fontSizes.xxlarge};
+  `}
 `;
 
 export const Link = styled.a`
   color: ${({ theme }) =>
-    theme.navActive}; /* Використано колір активного елемента навігації для посилань */
+    theme.colors.accentColor}; // ОНОВЛЕНО: Використано більш загальний theme.colors.accentColor
   text-decoration: underline;
-  // Перехід для 'color' вже визначено у GlobalStyles.js для всіх a елементів
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.accentColorHover}; // ОНОВЛЕНО: Додано hover-ефект
+  }
 `;

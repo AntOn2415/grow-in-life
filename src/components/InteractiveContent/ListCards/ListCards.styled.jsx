@@ -1,69 +1,71 @@
 import styled from "styled-components";
 
 export const ListContainer = styled.div`
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: ${({ theme }) => theme.spacing.large};
+  margin-bottom: ${({ theme }) => theme.spacing.large};
   width: 100%;
   box-sizing: border-box;
-  padding: 0 1rem;
+  padding: 0 ${({ theme }) => theme.spacing.small};
 
-  @media (min-width: 768px) {
+  ${({ theme }) => theme.media.up("md")`
     padding: 0;
-  }
+  `}
 `;
 
 export const Title = styled.h2`
-  color: ${({ theme }) => theme.accentColor};
-  font-size: ${({ theme }) => theme.fontSizes.xLarge};
+  color: ${({ theme }) => theme.colors.accentColor};
+  font-size: ${({ theme }) => theme.fontSizes.xlarge};
   padding: 0;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: ${({ theme }) => theme.spacing.large};
+  margin-bottom: ${({ theme }) => theme.spacing.large};
   font-weight: bold;
   line-height: 1.3;
+  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
 
-  @media (max-width: 768px) {
+  ${({ theme }) => theme.media.down("md")`
     font-size: ${({ theme }) => theme.fontSizes.large};
-    margin-bottom: 0.1rem;
-  }
+    margin-bottom: ${({ theme }) => theme.spacing.xxsmall};
+  `}
 `;
 
 export const CardsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: ${({ theme }) => theme.spacing.large};
   justify-content: center;
   align-items: stretch;
 
-  @media (max-width: 1200px) {
+  ${({ theme }) => theme.media.down("xl")`
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
+    gap: ${({ theme }) => theme.spacing.medium};
+  `}
 
-  @media (max-width: 768px) {
+  ${({ theme }) => theme.media.down("md")`
     grid-template-columns: 1fr;
-    gap: 1rem;
-  }
+    gap: ${({ theme }) => theme.spacing.small};
+  `}
 `;
 
 export const CardWrapper = styled.article`
-  background: ${({ theme }) => theme.cardBackground || theme.background};
+  background: ${({ theme }) => theme.colors.cardBackground || theme.colors.background};
   border-radius: ${({ theme }) => theme.borderRadius.large};
-  padding: 1rem;
+  padding: ${({ theme }) => theme.spacing.small};
   box-shadow: ${({ theme }) => theme.shadows.small};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.25s ease, background-color 0.4s ease-in-out, box-shadow 0.25s ease,
+    border-color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для border-color
   overflow: hidden;
   position: relative;
-  border: 1px solid ${({ theme }) => theme.cardBorder || theme.borderColor};
-  will-change: transform, box-shadow, height; /* 'height' тут не потрібен, якщо Framer Motion його анімує на дочірньому елементі */
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder || theme.colors.borderColor};
+  will-change: transform, box-shadow, height;
   outline: none;
 
   &:hover {
     transform: translateY(-5px);
     box-shadow: ${({ theme }) => theme.shadows.medium};
-    border-color: ${({ theme }) => theme.primaryColor};
+    border-color: ${({ theme }) => theme.colors.primaryColor};
   }
 
   &:focus-within {
@@ -80,12 +82,12 @@ export const CardWrapper = styled.article`
 export const CardHeader = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 1.2rem;
+  margin-bottom: ${({ theme }) => theme.spacing.xsmall};
 `;
 
 export const Emoji = styled.span`
-  font-size: 2rem;
-  margin-right: 0.8rem;
+  font-size: ${({ theme }) => theme.fontSizes.xxlarge};
+  margin-right: ${({ theme }) => theme.spacing.xsmall};
   line-height: 1;
   filter: grayscale(10%);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
@@ -93,18 +95,20 @@ export const Emoji = styled.span`
 
 export const CardTitle = styled.h3`
   font-size: ${({ theme }) => theme.fontSizes.large};
-  color: ${({ theme }) => theme.color};
+  color: ${({ theme }) => theme.colors.color};
   margin: 0;
   line-height: 1.3;
+  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
 `;
 
 export const CardContentWrapper = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   line-height: 1.6;
-  color: ${({ theme }) => theme.color};
+  color: ${({ theme }) => theme.colors.color};
   flex: 1;
   position: relative;
   width: 100%;
+  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
 
   padding-bottom: ${({ isExpanded }) => (isExpanded ? "5.5rem" : "0")};
 
@@ -122,13 +126,14 @@ export const ButtonWrapper = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  background: ${({ theme }) => theme.cardBackground || theme.background};
+  background: ${({ theme }) => theme.colors.cardBackground || theme.colors.background};
   border-bottom-left-radius: ${({ theme }) => theme.borderRadius.large};
   border-bottom-right-radius: ${({ theme }) => theme.borderRadius.large};
   display: flex;
   justify-content: flex-start;
-  padding: 0.5rem 1rem;
+  padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.small};
   box-sizing: border-box;
+  transition: background-color 0.4s ease-in-out; // ДОДАНО: Перехід для фону
 
   &::before {
     content: "";
@@ -141,7 +146,7 @@ export const ButtonWrapper = styled.div`
       to bottom,
       rgba(
           ${({ theme }) => {
-            const bg = theme.cardBackground || theme.background;
+            const bg = theme.colors.cardBackground || theme.colors.background;
             const hexToRgb = hex =>
               hex
                 .replace(
@@ -159,7 +164,7 @@ export const ButtonWrapper = styled.div`
         0%,
       rgba(
           ${({ theme }) => {
-            const bg = theme.cardBackground || theme.background;
+            const bg = theme.colors.cardBackground || theme.colors.background;
             const hexToRgb = hex =>
               hex
                 .replace(
@@ -183,22 +188,22 @@ export const ButtonWrapper = styled.div`
 export const ReadMoreButton = styled.button`
   background: none;
   border: none;
-  color: ${({ theme }) => theme.buttonBg};
+  color: ${({ theme }) => theme.colors.buttonBg};
   font-size: ${({ theme }) => theme.fontSizes.medium};
   font-weight: 700;
   cursor: pointer;
-  padding: 0.5rem 0;
+  padding: ${({ theme }) => theme.spacing.xsmall} 0;
   align-self: flex-start;
-  transition: color 0.2s ease-in-out, transform 0.2s ease;
+  transition: color 0.4s ease-in-out, transform 0.2s ease; // ОНОВЛЕНО: Перехід для кольору
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: ${({ theme }) => theme.spacing.xsmall};
   z-index: 1;
 
   &:hover {
     border: none;
     box-shadow: none;
-    color: ${({ theme }) => theme.hoverBtn};
+    color: ${({ theme }) => theme.colors.hoverBtn};
     transform: ${({ isExpanded }) => (isExpanded ? "translateY(-2px)" : "translateY(2px)")};
   }
 `;

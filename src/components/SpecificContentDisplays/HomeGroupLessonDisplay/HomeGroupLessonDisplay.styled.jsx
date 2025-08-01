@@ -8,18 +8,27 @@ export const HomeGroupLessonDisplayContainer = styled.div`
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
+  padding: ${({ theme }) => theme.spacing.medium};
+  // Медіа-запит для мобільних пристроїв
+  ${({ theme }) => theme.media.down("sm")`
+    padding: ${({ theme }) => theme.spacing.small};
+  `}
 `;
 
 // Обгортка для заголовка та мета-інформації уроку
 export const HomeGroupLessonTitleWrapper = styled.div`
   text-align: center;
-  margin-bottom: 2rem;
-
+  margin-bottom: ${({ theme }) => theme.spacing.large};
   h2 {
-    font-size: 2.5rem;
-    color: ${props =>
-      props.theme.color}; /* Використовуємо theme.color для основного тексту заголовка */
-    margin-bottom: 0.5rem;
+    font-size: ${({ theme }) => theme.fontSizes.xxlarge};
+    color: ${({ theme }) => theme.colors.color};
+    margin-bottom: ${({ theme }) => theme.spacing.xsmall};
+    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
+
+    // Медіа-запит для мобільних пристроїв, щоб зменшити шрифт
+    ${({ theme }) => theme.media.down("sm")`
+      font-size: ${({ theme }) => theme.fontSizes.xlarge};
+    `}
   }
 `;
 
@@ -31,8 +40,14 @@ export const MainContentWrapper = styled.div`
 // Обгортка для текстового вмісту уроку (всередині Card)
 export const HomeGroupLessonTextWrapper = styled.div`
   line-height: 1.8;
-  font-size: 1.1rem;
-  color: ${props => props.theme.color}; /* Основний колір тексту */
+  font-size: ${({ theme }) => theme.fontSizes.medium};
+  color: ${({ theme }) => theme.colors.color};
+  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для основного кольору тексту
+
+  // Медіа-запит для мобільних пристроїв, щоб трохи зменшити шрифт
+  ${({ theme }) => theme.media.down("sm")`
+    font-size: ${({ theme }) => theme.fontSizes.small};
+  `}
 
   p {
     margin-bottom: 1em;
@@ -40,13 +55,13 @@ export const HomeGroupLessonTextWrapper = styled.div`
 
   ul {
     list-style-type: disc;
-    margin-left: 1.5em;
+    margin-left: ${({ theme }) => theme.spacing.medium};
     margin-bottom: 1em;
   }
 
   ol {
     list-style-type: decimal;
-    margin-left: 1.5em;
+    margin-left: ${({ theme }) => theme.spacing.medium};
     margin-bottom: 1em;
   }
 
@@ -55,7 +70,8 @@ export const HomeGroupLessonTextWrapper = styled.div`
   }
 
   strong {
-    color: ${props => props.theme.color}; /* Жирний текст залишається основним кольором */
+    color: ${({ theme }) => theme.colors.color};
+    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору жирного тексту
   }
 
   h1,
@@ -64,36 +80,34 @@ export const HomeGroupLessonTextWrapper = styled.div`
   h4,
   h5,
   h6 {
-    color: ${props => props.theme.color};
+    color: ${({ theme }) => theme.colors.color};
+    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору заголовків
   }
 `;
 
 // Стилізований компонент для кнопок-посилань на вірші
 export const VerseButton = styled.button`
-  /* Скидаємо базові стилі кнопок браузера */
   background: none;
   border: none;
   padding: 0;
-  font: inherit; /* Успадковуємо шрифт від батьківського елемента */
-  cursor: pointer; /* Курсор як у посилання */
-  text-decoration: underline; /* Підкреслення, як у посилань */
-  color: ${props => props.theme.accentColor || "blue"}; /* Колір посилання з теми (accentColor) */
-  display: inline; /* Важливо, щоб кнопка вела себе як inline-елемент тексту */
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  color: ${({ theme }) => theme.colors.accentColor};
+  display: inline;
+  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору кнопки
 
   &:hover {
-    color: ${props =>
-      props.theme.accentBg ||
-      "darkblue"}; /* Зміна кольору при наведенні (можливо, accentBg або інший колір для ховеру) */
-    text-decoration: none; /* Прибираємо підкреслення при наведенні */
+    color: ${({ theme }) => theme.colors.accentBg || theme.colors.accentColor};
+    text-decoration: none;
   }
 
   &:focus {
-    /* ЗАВЖДИ забезпечуйте видимий індикатор фокусу для доступності! */
-    outline: 2px solid ${props => props.theme.accentColor || "blue"};
-    outline-offset: 2px; /* Відступ обведення від елемента */
+    outline: 2px solid ${({ theme }) => theme.colors.accentColor};
+    outline-offset: 2px;
   }
 
   &:active {
-    color: ${props => props.theme.accentColor || "purple"}; /* Колір при активному натисканні */
+    color: ${({ theme }) => theme.colors.accentColor};
   }
 `;

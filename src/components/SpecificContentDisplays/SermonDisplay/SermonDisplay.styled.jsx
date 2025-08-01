@@ -10,89 +10,78 @@ export const SermonDisplayContainer = styled.div`
 export const SermonTitleWrapper = styled.div`
   /* Нова стилізація для секції "герой" */
   background: ${({ theme }) =>
-    theme.mode === "light"
-      ? `linear-gradient(135deg, ${theme.gradientStart} 0%, ${theme.gradientEnd} 100%)` // У світлій темі: дуже світлий градієнт
-      : `linear-gradient(135deg, ${theme.gradientStart} 0%, ${theme.gradientEnd} 100%)`}; /* У темній темі: градієнт залишається */
-  color: ${({ theme }) =>
-    theme.color}; /* Основний колір тексту теми (темний у світлій, світлий у темній) */
-  padding: 4rem 1rem;
+    `linear-gradient(180deg, ${theme.colors.gradientStart} 0%, ${theme.colors.gradientEnd} 100%)`}; // ОНОВЛЕНО
+  color: ${({ theme }) => theme.colors.color}; // ОНОВЛЕНО: Використовуємо theme.colors
+  padding: ${({ theme }) => theme.spacing.xlarge} ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: Використовуємо spacing
   text-align: center;
-  margin-bottom: 3rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  margin-bottom: ${({ theme }) => theme.spacing.xlarge}; // ОНОВЛЕНО: Використовуємо spacing
+  box-shadow: ${({ theme }) => theme.shadows.medium}; // ОНОВЛЕНО: Використовуємо shadows
 
-  // *** Цей рядок є ключовим для анімації цього компонента ***
-  // ЧУДОВО! Перехід вже налаштований і працює коректно для background та color.
+  // Перехід налаштований і працює коректно
   transition: background 0.4s ease-in-out, color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
 
   /* Стилі для основного заголовка h2 всередині цього блоку */
   h2 {
-    font-size: 2.8rem;
-    margin-bottom: 1rem;
+    font-size: ${({ theme }) => theme.fontSizes.xxlarge}; // ОНОВЛЕНО: Використовуємо fontSizes
+    margin-bottom: ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: Використовуємо spacing
     line-height: 1.2;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); // Дуже легка тінь для тексту
-    // Колір цього h2 буде успадковано від SermonTitleWrapper.
-    // Оскільки SermonTitleWrapper має transition: color, то і h2 буде плавно змінювати колір.
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
   }
 
   /* Регулювання стилів MetaContainer, коли він знаходиться всередині SermonTitleWrapper */
   ${MetaContainer} {
-    margin-top: 2rem;
+    margin-top: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використовуємо spacing
     font-size: 1.1em;
-    // Колір буде успадковано від батьківського SermonTitleWrapper.
-    // Тому він також буде плавно змінюватися.
   }
 
   /* Медіа-запити для адаптивності */
-  @media (max-width: 768px) {
-    padding: 3rem 1rem;
+  ${({ theme }) => theme.media.down("sm")` // ОНОВЛЕНО: Використовуємо медіа-запит з теми
+    padding: ${({ theme }) => theme.spacing.large} ${({ theme }) =>
+    theme.spacing.small}; // ОНОВЛЕНО: Використовуємо spacing
     h2 {
-      font-size: 2.2rem;
+      font-size: ${({ theme }) => theme.fontSizes.xlarge}; // ОНОВЛЕНО: Використовуємо fontSizes
     }
     ${MetaContainer} {
       font-size: 1em;
     }
-  }
+  `}
 `;
 
 export const MainContentWrapper = styled.main`
   max-width: 960px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 2rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  // Не має theme-залежних властивостей, які потребують transition.
+  margin-top: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використовуємо spacing
+  padding-left: ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: Використовуємо spacing
+  padding-right: ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: Використовуємо spacing
 `;
 
 export const SermonTextWrapper = styled.div`
-  color: ${({ theme }) => theme.color}; // Колір тексту проповіді з теми
+  color: ${({ theme }) => theme.colors.color}; // ОНОВЛЕНО: Використовуємо theme.colors
 
   // ДОДАНО: Плавний перехід для кольору тексту
   transition: color 0.4s ease-in-out;
 `;
 
 export const StyledParagraph = styled.p`
-  margin-bottom: 1rem;
-  font-size: 1.15rem;
+  margin-bottom: ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: Використовуємо spacing
+  font-size: ${({ theme }) => theme.fontSizes.medium}; // ОНОВЛЕНО: Використовуємо fontSizes
   line-height: 1.6;
-  // Колір цього параграфа буде успадковано від батьківського SermonTextWrapper.
-  // Оскільки SermonTextWrapper тепер має transition: color, то і параграф буде плавно змінювати колір.
 `;
 
 export const RevealCardsGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використовуємо spacing
+  margin-top: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використовуємо spacing
+  margin-bottom: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використовуємо spacing
   justify-items: center;
 
-  @media (min-width: 768px) {
+  ${({ theme }) => theme.media.up("sm")` // ОНОВЛЕНО: Використовуємо медіа-запит з теми
     grid-template-columns: repeat(2, 1fr);
-  }
+  `}
 
-  @media (min-width: 1024px) {
+  ${({ theme }) => theme.media.up("md")` // ОНОВЛЕНО: Використовуємо медіа-запит з теми
     grid-template-columns: repeat(3, 1fr);
-  }
-  // Не має theme-залежних властивостей, які потребують transition.
+  `}
 `;

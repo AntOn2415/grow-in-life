@@ -2,34 +2,48 @@ import React from "react";
 import styled from "styled-components";
 
 const Section = styled.section`
-  margin-bottom: 48px;
-  background: ${({ theme }) => theme.background}; // Використано основний колір фону з теми
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(70, 83, 98, 0.06); // Тінь залишена без змін, оскільки в темі немає властивості для тіні
-  padding: 32px 24px;
+  margin-bottom: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використано spacing
+  background: ${({ theme }) => theme.colors.background}; // ОНОВЛЕНО: Використано theme.colors
+  border-radius: ${({ theme }) => theme.borderRadius.medium}; // ОНОВЛЕНО: Використано borderRadius
+  box-shadow: ${({ theme }) => theme.shadows.small}; // ОНОВЛЕНО: Використано shadows
+  padding: ${({ theme }) => theme.spacing.large} ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використано spacing
 
   // ДОДАНО: Плавний перехід для фону розділу
   transition: background 0.4s ease-in-out;
+
+  // Медіазапити для адаптивності
+  ${({ theme }) => theme.media.down("sm")`
+    padding: ${({ theme }) => theme.spacing.medium};
+  `}
 `;
 
 const Heading = styled.h2`
-  color: ${({ theme }) => theme.color}; // Використано основний колір тексту з теми
-  font-size: 2rem;
-  margin-bottom: 24px;
+  color: ${({ theme }) => theme.colors.color}; // ОНОВЛЕНО: Використано theme.colors
+  font-size: ${({ theme }) => theme.fontSizes.xlarge}; // ОНОВЛЕНО: Використано fontSizes
+  margin-bottom: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використано spacing
   text-align: center;
 
-  // ПЕРЕВІРЕНО: Перехід для 'color' вже визначено у GlobalStyles.js для всіх h2 елементів.
-  // Тому тут окремо його додавати не потрібно, він вже працює автоматично.
+  // Медіазапит для мобільних пристроїв
+  ${({ theme }) => theme.media.down("sm")`
+    font-size: ${({ theme }) => theme.fontSizes.large};
+    margin-bottom: ${({ theme }) => theme.spacing.medium};
+  `}
 `;
 
 const Text = styled.p`
-  color: ${({ theme }) => theme.color}; // Використано основний колір тексту з теми
-  font-size: 1.15rem;
-  margin-bottom: 20px;
+  color: ${({ theme }) => theme.colors.color}; // ОНОВЛЕНО: Використано theme.colors
+  font-size: ${({ theme }) => theme.fontSizes.medium}; // ОНОВЛЕНО: Використано fontSizes
+  margin-bottom: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використано spacing
   text-align: center;
 
   // ДОДАНО: Плавний перехід для кольору тексту, оскільки це <p>
   transition: color 0.4s ease-in-out;
+
+  // Медіазапит для мобільних пристроїв
+  ${({ theme }) => theme.media.down("sm")`
+    font-size: ${({ theme }) => theme.fontSizes.small};
+    margin-bottom: ${({ theme }) => theme.spacing.small};
+  `}
 `;
 
 export default function SermonSection({ heading, content }) {

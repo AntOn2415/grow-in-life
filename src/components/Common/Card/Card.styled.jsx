@@ -1,13 +1,17 @@
+// src/components/Home/Home.styled.jsx
 import styled from "styled-components";
 
 export const StyledCard = styled.section`
-  background-color: ${({ theme }) =>
-    theme.background}; /* Тепер використовує основний колір фону з теми */
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Тінь залишена без змін */
-  padding: 2rem;
-  margin-bottom: 2rem;
+  background-color: ${({ theme }) => theme.colors.background}; // ОНОВЛЕНО: Використано theme.colors
+  border-radius: ${({ theme }) => theme.borderRadius.large}; // ОНОВЛЕНО: Використано borderRadius
+  box-shadow: ${({ theme }) => theme.shadows.medium}; // ОНОВЛЕНО: Використано shadows
+  padding: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використано spacing
+  margin-bottom: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використано spacing
 
-  // ДОДАНО: Плавний перехід для фонового кольору та тіні
   transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+
+  ${({ theme }) => theme.media.down("md")`
+    padding: ${({ theme }) => theme.spacing.medium};
+    margin-bottom: ${({ theme }) => theme.spacing.medium};
+  `}
 `;
