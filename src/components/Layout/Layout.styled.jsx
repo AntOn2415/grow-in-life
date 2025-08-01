@@ -17,17 +17,17 @@ export const Wrapper = styled.div`
     isHome ? "0" : sidebarCollapsed ? "60px" : "280px"}; /* Змінено з 200px на 250px */
 
   // ДОДАНО/ОНОВЛЕНО: Плавні переходи для відступу, фону та кольору тексту
-  transition: padding-left 0.2s ease-in-out, background 0.4s ease-in-out,
-    /* Для зміни теми */ color 0.4s ease-in-out; /* Для зміни теми */
+  transition: padding-left 0.2s ease-in-out, background 0.4s ease-in-out;
 `;
 
 export const Nav = styled.nav`
   grid-column: 1; /* Тепер навігація займає єдину колонку */
   grid-row: 1;
   display: flex;
+  height: 60px;
+  padding: 0.5rem;
   gap: 16px;
   background: ${({ theme }) => theme.navBg};
-  padding: 16px;
   justify-content: center;
   position: sticky;
   top: 0;
@@ -102,4 +102,5 @@ export const ToggleButton = styled.button`
   border-radius: 4px;
   padding: 8px 16px;
   cursor: pointer;
+  min-width: 60px;
 `;

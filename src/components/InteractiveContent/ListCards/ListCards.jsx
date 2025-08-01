@@ -87,7 +87,7 @@ const Card = React.memo(
             opacity: 1,
           }}
           transition={{
-            duration: 0.3, // Тривалість анімації
+            duration: 0.25, // Тривалість анімації
             ease: [0.4, 0, 0.2, 1],
           }}
           style={{ overflow: "hidden", width: "100%" }}
