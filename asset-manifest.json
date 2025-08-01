@@ -1,36 +1,36 @@
 {
   "files": {
     "main.css": "/grow-in-life/static/css/main.696afcd1.css",
-    "main.js": "/grow-in-life/static/js/main.0d59c6b5.js",
-    "static/js/747.e0abfc98.chunk.js": "/grow-in-life/static/js/747.e0abfc98.chunk.js",
-    "static/js/167.b6719b62.chunk.js": "/grow-in-life/static/js/167.b6719b62.chunk.js",
-    "static/js/838.2aef14bc.chunk.js": "/grow-in-life/static/js/838.2aef14bc.chunk.js",
+    "main.js": "/grow-in-life/static/js/main.bcb5d48d.js",
+    "static/js/747.9dc2d52a.chunk.js": "/grow-in-life/static/js/747.9dc2d52a.chunk.js",
+    "static/js/167.2649fc46.chunk.js": "/grow-in-life/static/js/167.2649fc46.chunk.js",
+    "static/js/838.b781da03.chunk.js": "/grow-in-life/static/js/838.b781da03.chunk.js",
     "static/js/455.e7cc6393.chunk.js": "/grow-in-life/static/js/455.e7cc6393.chunk.js",
     "static/js/829.7f40d3e9.chunk.js": "/grow-in-life/static/js/829.7f40d3e9.chunk.js",
     "static/js/233.548bd863.chunk.js": "/grow-in-life/static/js/233.548bd863.chunk.js",
     "static/js/591.672beac6.chunk.js": "/grow-in-life/static/js/591.672beac6.chunk.js",
     "static/js/544.e45df6df.chunk.js": "/grow-in-life/static/js/544.e45df6df.chunk.js",
     "static/js/905.6d04c3d0.chunk.js": "/grow-in-life/static/js/905.6d04c3d0.chunk.js",
-    "static/js/967.99200146.chunk.js": "/grow-in-life/static/js/967.99200146.chunk.js",
+    "static/js/967.32b25a62.chunk.js": "/grow-in-life/static/js/967.32b25a62.chunk.js",
     "static/js/942.1f740f2f.chunk.js": "/grow-in-life/static/js/942.1f740f2f.chunk.js",
     "static/media/wall_of_Jerusalem.jpg": "/grow-in-life/static/media/wall_of_Jerusalem.7a91d7b8ac7c62b0882c.jpg",
     "index.html": "/grow-in-life/index.html",
     "main.696afcd1.css.map": "/grow-in-life/static/css/main.696afcd1.css.map",
-    "main.0d59c6b5.js.map": "/grow-in-life/static/js/main.0d59c6b5.js.map",
-    "747.e0abfc98.chunk.js.map": "/grow-in-life/static/js/747.e0abfc98.chunk.js.map",
-    "167.b6719b62.chunk.js.map": "/grow-in-life/static/js/167.b6719b62.chunk.js.map",
-    "838.2aef14bc.chunk.js.map": "/grow-in-life/static/js/838.2aef14bc.chunk.js.map",
+    "main.bcb5d48d.js.map": "/grow-in-life/static/js/main.bcb5d48d.js.map",
+    "747.9dc2d52a.chunk.js.map": "/grow-in-life/static/js/747.9dc2d52a.chunk.js.map",
+    "167.2649fc46.chunk.js.map": "/grow-in-life/static/js/167.2649fc46.chunk.js.map",
+    "838.b781da03.chunk.js.map": "/grow-in-life/static/js/838.b781da03.chunk.js.map",
     "455.e7cc6393.chunk.js.map": "/grow-in-life/static/js/455.e7cc6393.chunk.js.map",
     "829.7f40d3e9.chunk.js.map": "/grow-in-life/static/js/829.7f40d3e9.chunk.js.map",
     "233.548bd863.chunk.js.map": "/grow-in-life/static/js/233.548bd863.chunk.js.map",
     "591.672beac6.chunk.js.map": "/grow-in-life/static/js/591.672beac6.chunk.js.map",
     "544.e45df6df.chunk.js.map": "/grow-in-life/static/js/544.e45df6df.chunk.js.map",
     "905.6d04c3d0.chunk.js.map": "/grow-in-life/static/js/905.6d04c3d0.chunk.js.map",
-    "967.99200146.chunk.js.map": "/grow-in-life/static/js/967.99200146.chunk.js.map",
+    "967.32b25a62.chunk.js.map": "/grow-in-life/static/js/967.32b25a62.chunk.js.map",
     "942.1f740f2f.chunk.js.map": "/grow-in-life/static/js/942.1f740f2f.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.696afcd1.css",
-    "static/js/main.0d59c6b5.js"
+    "static/js/main.bcb5d48d.js"
   ]
 }
