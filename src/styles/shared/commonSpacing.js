@@ -1,5 +1,6 @@
 // src/styles/shared/commonSpacing.js
 export const commonSpacing = {
+  xxsmall: "0.2rem",
   xsmall: "0.5rem", // 8px
   small: "1rem", // 16px
   medium: "1.5rem", // 24px

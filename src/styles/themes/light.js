@@ -1,57 +1,71 @@
 // src/styles/themes/light.js
 import { breakpoints } from "../shared/breakpoints";
-import { media } from "../shared/media"; // <-- ВИПРАВЛЕНО
+import { media } from "../shared/media";
 import { commonSpacing } from "../shared/commonSpacing";
 
 export const light = {
   colors: {
-    background: "#F7F4EB",
-    cardBackground: "#EFEADD",
-    color: "#4A4A4A", // Основний колір тексту
-    navBg: "#EFEADD",
-    navActive: "#D4C9B6",
-    buttonBg: "#8D8D8D",
-    buttonColor: "#FFFFFF",
-    hoverBtn: "#B3B3B3",
+    // Основні кольори фону та тексту
+    background: "#FEFBF2", // Дуже світлий кремово-білий, щоб F7EEC4 виділявся
+    cardBackground: "#FFFCE6", // Світлий, майже білий жовтий для карток
+    color: "#4A453A", // Темний, теплий коричневий для основного тексту
+    colorSecondary: "#857D6F", // Вторинний колір тексту
 
-    borderColor: "#D3D3D3",
-    dividerColor: "#D3D3D3",
-    hoverBg: "#EBE6D8",
-    accentBg: "#E8E2D4",
-    accentColor: "#8D8D8D",
-    colorSecondary: "#7A7A7A", // Вторинний колір тексту
+    // Кольори навігації та кнопок
+    navBg: "#F7EEC4", // F7EEC4 як фон для навігації
+    navActive: "#E8D9B4", // Трохи темніший відтінок F7EEC4 для активного стану
+    buttonBg: "#A89A82", // Теплий сіро-коричневий для кнопок
+    buttonColor: "#FFFFFF", // Білий текст кнопок
+    hoverBtn: "#B8ACA2", // Світліший відтінок для ховеру кнопок
 
-    successBg: "#D4EDDA",
+    // Межі та розділювачі
+    borderColor: "#DDCBA6", // М'який сіро-жовтий, гармонійний з F7EEC4
+    dividerColor: "#EBE3D0", // Світліший для розділювачів
+
+    // Кольори для ховерів та акцентів
+    hoverBg: "#F3E7C9", // **ОНОВЛЕНО: Світліший, але помітний відтінок F7EEC4 для ховеру елементів списку**
+    accentBg: "#F7EEC4", // F7EEC4 як основний акцентний фон
+    accentColor: "#4A453A", // Темний текст на акценті F7EEC4
+
+    // **НОВІ КОЛЬОРИ ДЛЯ МЕНЮ**
+    navItemHover: "#E8D9B4", // Колір ховеру для елементів меню (темніший F7EEC4)
+    navItemActive: "#D3C29D", // Колір активного стану для елементів меню (ще темніший F7EEC4)
+    sectionTitleHover: "#8A7D69", // Темніший, більш насичений колір для ховеру заголовка розділу
+
+    // Кольори сповіщень
+    successBg: "#E6F3E6", // Світлий зелений
     successColor: "#28A745",
-    successText: "#155724",
+    successText: "#1F7A3E",
 
-    dangerBg: "#F8D7DA",
+    dangerBg: "#FBE7E7", // Світлий червоний
     dangerColor: "#DC3545",
-    dangerText: "#721c24",
+    dangerText: "#9B333B",
 
-    positiveBackground: "#D4EDDA",
-    positiveBorder: "#A3D9A3",
-    positiveText: "#155724",
+    positiveBackground: "#E6F3E6",
+    positiveBorder: "#B3E0B3",
+    positiveText: "#1F7A3E",
 
-    negativeBackground: "#F8D7DA",
-    negativeBorder: "#D9A3A3",
-    negativeText: "#721c24",
+    negativeBackground: "#FBE7E7",
+    negativeBorder: "#E0B3B3",
+    negativeText: "#9B333B",
 
-    neutralBackground1: "#E8E2D4",
-    neutralBorder1: "#D4C9B6",
-    neutralText1: "#4A4A4A",
+    neutralBackground1: "#EEE9DE", // Нейтральний фон
+    neutralBorder1: "#DDCBA6", // Нейтральний бордер
+    neutralText1: "#4A4A4A", // Нейтральний текст
 
-    neutralBackground2: "#EFEADD",
-    neutralBorder2: "#D4C9B6",
-    neutralText2: "#4A4A4A",
+    neutralBackground2: "#F7F4EB", // Інший нейтральний фон
+    neutralBorder2: "#EBE3D0", // Інший нейтральний бордер
+    neutralText2: "#4A4A4A", // Інший нейтральний текст
 
-    gradientStart: "#EFEADD",
-    gradientEnd: "#F7F4EB",
+    // Градієнти
+    gradientStart: "#FFFCE6", // Починаємо з дуже світлого жовтого
+    gradientEnd: "#FEFBF2", // Закінчуємо на базовому фоні
 
-    interactiveBgLight: "#E0F2F7",
+    // Інтерактивні елементи
+    interactiveBgLight: "#E0F2F7", // Збережений блакитний
     interactiveBorderLight: "#A7D9EE",
-    interactiveBgYellow: "#FFFBE6",
-    interactiveBorderYellow: "#FFD700",
+    interactiveBgYellow: "#F7EEC4", // Використовуємо F7EEC4 як фон інтерактивного жовтого
+    interactiveBorderYellow: "#E8D9B4", // Темніший відтінок F7EEC4 для бордера
   },
   fontSizes: {
     xsmall: "0.75rem",
@@ -67,9 +81,9 @@ export const light = {
     large: "12px",
   },
   shadows: {
-    small: "0 2px 4px rgba(0, 0, 0, 0.08)",
-    medium: "0 4px 12px rgba(0, 0, 0, 0.12)",
-    large: "0 8px 24px rgba(0, 0, 0, 0.16)",
+    small: "0 2px 4px rgba(0, 0, 0, 0.05)",
+    medium: "0 4px 12px rgba(0, 0, 0, 0.08)",
+    large: "0 8px 24px rgba(0, 0, 0, 0.1)",
   },
   spacing: commonSpacing,
   breakpoints,

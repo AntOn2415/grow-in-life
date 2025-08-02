@@ -3,16 +3,12 @@ import styled from "styled-components";
 
 // Контейнер для головного блоку HomeGroups
 export const HomeGroupsContainer = styled.div`
-  margin: ${({ theme }) => theme.spacing.large} 0; // ОНОВЛЕНО: Використано theme.spacing
-  padding: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використано theme.spacing
+  margin: 0;
+  //padding: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використано theme.spacing
   background-color: ${({ theme }) => theme.colors.background}; // ОНОВЛЕНО: Використано theme.colors
   border-radius: ${({ theme }) => theme.borderRadius.medium};
   box-shadow: ${({ theme }) => theme.shadows.small};
   transition: background-color 0.4s ease-in-out;
-  ${({ theme }) => theme.media.down("md")`
-    padding: ${({ theme }) => theme.spacing.small};
-    margin: ${({ theme }) => theme.spacing.medium} 0;
-  `};
 `;
 
 // Повідомлення, коли немає уроків

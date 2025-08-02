@@ -1,53 +1,29 @@
 import styled from "styled-components";
+import { SidebarWrapper, Menu, CollapseBtn } from "../Sidebar/Sidebar.styled";
 
-export const SidebarWrapper = styled.aside`
-  background: ${({ theme }) => theme.colors.navBg};
-  color: ${({ theme }) => theme.colors.color};
+export const RightSidebarWrapper = styled(SidebarWrapper)`
   height: calc(100% - (${({ theme }) => theme.spacing.large} * 1.5));
-  width: 100%;
   border: 1px solid ${({ theme }) => theme.colors.borderColor};
-  border-radius: ${({ theme }) => theme.borderRadius.medium};
-  box-sizing: border-box;
   margin-bottom: 24px;
+
   padding: ${({ collapsed, theme }) =>
     collapsed ? theme.spacing.xsmall : theme.spacing.small}; /* Змінено падінг */
 
-  display: flex;
-  flex-direction: column;
-  align-items: ${({ collapsed }) => (collapsed ? "center" : "flex-start")};
-  box-shadow: ${({ theme }) => theme.shadows.small};
-  position: relative;
-
   transition: width 0.2s ease-in-out, background 0.4s ease-in-out, color 0.4s ease-in-out,
-    border 0.4s ease-in-out, padding 0.2s ease-in-out; /* Додано padding до переходу */
+    border 0.4s ease-in-out, margin 0.2s ease, padding 0.2s ease-in-out; /* Додано padding до переходу */
 
   ${({ theme }) => theme.media.down("md")`
-    padding: 0;
-    margin: 0;
-    border: none;
-    border-radius: 0;
     width: 0;
   `}
 `;
 
-export const Menu = styled.nav`
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.xsmall};
-  margin-bottom: ${({ theme }) => theme.spacing.large};
-  overflow-y: auto;
-  overflow-x: hidden;
+export const RightSidebarMenu = styled(Menu)``;
 
-  scrollbar-width: none;
-`;
-
-export const CollapseBtn = styled.button`
+export const RightSidebarCollapseBtn = styled(CollapseBtn)`
   position: absolute;
   bottom: 0;
   right: 0;
-  margin-right: 5px;
+  margin-left: 6px;
   margin-bottom: 5px;
   background: ${({ theme }) => theme.colors.buttonBg};
   color: ${({ theme }) => theme.colors.buttonColor};
@@ -65,11 +41,11 @@ export const CollapseBtn = styled.button`
   z-index: 10;
 
   transition: background 0.2s ease, color 0.2s ease;
+  left: 0;
+  right: auto;
+
   &:hover {
     background: ${({ theme }) => theme.colors.hoverBtn}; // ОНОВЛЕНО
     transition: background 0.3s ease-in-out;
   }
-  ${({ theme }) => theme.media.down("md")`
-    display: none;
-  `}
 `;

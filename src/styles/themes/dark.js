@@ -21,6 +21,11 @@ export const dark = {
     accentColor: "#F7F4EB",
     colorSecondary: "#B0B0B0", // Вторинний колір тексту
 
+    // **НОВІ КОЛЬОРИ ДЛЯ МЕНЮ ТА ЗАГОЛОВКІВ**
+    navItemHover: "#4C4C4C", // Використовуємо колір з hoverBg
+    navItemActive: "#6B6B6B", // Використовуємо колір з navActive або neutralBorder1/2
+    sectionTitleHover: "#B0B0B0", // Використовуємо colorSecondary для контрасту на ховері заголовка
+
     successBg: "#1F4228",
     successColor: "#9CCC65",
     successText: "#D4EDDA",

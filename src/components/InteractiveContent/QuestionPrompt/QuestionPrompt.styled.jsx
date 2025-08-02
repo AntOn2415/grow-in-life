@@ -51,7 +51,8 @@ export const ToggleAnswerButton = styled.button`
   transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для фону та тексту
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.accentColor};
+    background: ${({ theme }) => theme.colors.hoverBtn}; // ОНОВЛЕНО
+    transition: background 0.3s ease-in-out;
   }
 `;
 

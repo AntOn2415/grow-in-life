@@ -48,10 +48,6 @@ const GlobalStyles = createGlobalStyle`
     transition: background-color 0.3s ease-in-out,
                 color 0.3s ease-in-out,
                 box-shadow 0.3s ease-in-out;
-    &:hover {
-      background: ${({ theme }) => theme.colors.hoverBtn}; // ОНОВЛЕНО
-      transition: background 0.3s ease-in-out;
-    }
     &:active {
       box-shadow: none;
     }
