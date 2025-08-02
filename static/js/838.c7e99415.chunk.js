@@ -155,16 +155,12 @@
     margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.medium}};
   `}}
 `;var n=r(579);function l(e){let{children:t}=e;return(0,n.jsx)(o,{children:t})}},4838:(e,t,r)=>{r.r(t),r.d(t,{default:()=>Ce});var o=r(5043),n=r(4574);const l=n.Ay.div`
-  margin: ${e=>{let{theme:t}=e;return t.spacing.large}} 0; // ОНОВЛЕНО: Використано theme.spacing
-  padding: ${e=>{let{theme:t}=e;return t.spacing.medium}}; // ОНОВЛЕНО: Використано theme.spacing
+  margin: 0;
+  //padding: ${e=>{let{theme:t}=e;return t.spacing.medium}}; // ОНОВЛЕНО: Використано theme.spacing
   background-color: ${e=>{let{theme:t}=e;return t.colors.background}}; // ОНОВЛЕНО: Використано theme.colors
   border-radius: ${e=>{let{theme:t}=e;return t.borderRadius.medium}};
   box-shadow: ${e=>{let{theme:t}=e;return t.shadows.small}};
   transition: background-color 0.4s ease-in-out;
-  ${e=>{let{theme:t}=e;return t.media.down("md")`
-    padding: ${e=>{let{theme:t}=e;return t.spacing.small}};
-    margin: ${e=>{let{theme:t}=e;return t.spacing.medium}} 0;
-  `}};
 `,i=n.Ay.p`
   text-align: center;
   margin-top: ${e=>{let{theme:t}=e;return t.spacing.xxlarge}}; // ОНОВЛЕНО: Використано theme.spacing
@@ -446,7 +442,8 @@
   transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для фону та тексту
 
   &:hover {
-    background-color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
+    background: ${e=>{let{theme:t}=e;return t.colors.hoverBtn}}; // ОНОВЛЕНО
+    transition: background 0.3s ease-in-out;
   }
 `,P=n.Ay.div`
   background-color: ${e=>{let{theme:t}=e;return t.colors.background}};
@@ -1102,4 +1099,4 @@
 
   transition: transform 0.2s ease-in-out, color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для кольору іконки
 `;var d=r(579);function m(e){let{quizData:t}=e;const[r,n]=(0,o.useState)(!1),[m,u]=(0,o.useState)(null);return(0,d.jsxs)(l,{children:[(0,d.jsxs)(i,{onClick:()=>{n(!r),r&&u(null)},children:[t.question,(0,d.jsx)(c,{isActive:r,children:r?"\u2212":"+"})]}),r&&(0,d.jsx)(s,{children:t.options.map((e,t)=>(0,d.jsx)(a,{onClick:()=>(e=>{u(e)})(t),isSelected:m===t,isCorrectOption:e.isCorrect,showFeedback:null!==m,children:e.text},t))})]})}}}]);
-//# sourceMappingURL=838.b781da03.chunk.js.map
+//# sourceMappingURL=838.c7e99415.chunk.js.map
