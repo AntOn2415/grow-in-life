@@ -21,6 +21,7 @@ export const Nav = styled.nav`
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
   box-shadow: ${({ theme }) => theme.shadows.small};
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease-in-out;
   will-change: transform;

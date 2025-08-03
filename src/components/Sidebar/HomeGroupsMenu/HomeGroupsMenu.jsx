@@ -15,6 +15,7 @@ import {
 } from "../../../data/homeGroups/homeGroupCategories";
 import { homeGroupsContent } from "../../../data/homeGroups/homeGroupsContent";
 import { useHomeGroups } from "../../../contexts/HomeGroupsContext";
+import Tooltip from "../../Common/Tooltip/Tooltip"; // <--- Імпортуємо компонент Tooltip
 
 export default function HomeGroupsMenu({ collapsed }) {
   const { setSelectedHomeGroupLesson, selectedHomeGroupLesson, setSelectedHomeGroupBook } =
@@ -69,7 +70,11 @@ export default function HomeGroupsMenu({ collapsed }) {
           onClick={() => setSelectedHomeGroupLesson(lesson.id)}
         >
           {collapsed ? (
-            <CircularNumber $collapsed={collapsed}>{index + 1}</CircularNumber>
+            <Tooltip content={lesson.title}>
+              {" "}
+              {/* <--- Tooltip для номерів уроків при колапсі */}
+              <CircularNumber $collapsed={collapsed}>{index + 1}</CircularNumber>
+            </Tooltip>
           ) : (
             lesson.title
           )}
@@ -90,9 +95,13 @@ export default function HomeGroupsMenu({ collapsed }) {
             onKeyDown={e => ["Enter", " "].includes(e.key) && toggleSection(category.id)}
           >
             {collapsed ? (
-              <SectionCategoryNumber $collapsed={collapsed}>
-                {categoryIndex + 1}
-              </SectionCategoryNumber>
+              <Tooltip content={category.label}>
+                {" "}
+                {/* <--- Tooltip для номерів категорій при колапсі */}
+                <SectionCategoryNumber $collapsed={collapsed}>
+                  {categoryIndex + 1}
+                </SectionCategoryNumber>
+              </Tooltip>
             ) : (
               category.label
             )}
@@ -128,7 +137,15 @@ export default function HomeGroupsMenu({ collapsed }) {
                             ["Enter", " "].includes(e.key) && handleBookToggle(book.internalKey)
                           }
                         >
-                          {collapsed ? getBookShortLabel(book.full) : book.full}{" "}
+                          {collapsed ? (
+                            <Tooltip content={book.full}>
+                              {" "}
+                              {/* <--- Tooltip для скорочених назв книг при колапсі */}
+                              {getBookShortLabel(book.full)}
+                            </Tooltip>
+                          ) : (
+                            book.full
+                          )}{" "}
                           {!collapsed && (
                             <Toggle
                               $collapsed={collapsed}
