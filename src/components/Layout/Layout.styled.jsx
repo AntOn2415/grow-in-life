@@ -1,4 +1,20 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
+
+// ОНОВЛЕНО: Цей масив тепер містить всі пропси, які потрібно ігнорувати
+const shouldForwardProp = prop =>
+  ![
+    "sidebarCollapsed",
+    "isHome",
+    "rightSidebarExpanded",
+    "navHeight",
+    "isRightSidebarSplit",
+    "isMobile",
+    "showMobile",
+    "collapsed",
+    "expanded",
+    "show",
+  ].includes(prop);
 
 export const Wrapper = styled.div`
   min-height: 100vh;
@@ -9,7 +25,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-export const ContentGrid = styled.div`
+export const ContentGrid = styled.div.withConfig({ shouldForwardProp })`
   display: grid;
   grid-template-columns: ${({ sidebarCollapsed, isHome, rightSidebarExpanded }) =>
     isHome
@@ -24,27 +40,15 @@ export const ContentGrid = styled.div`
   transition: grid-template-columns 0.2s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
-    ${({ isRightSidebarSplit }) =>
-      isRightSidebarSplit
-        ? `
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr;
-        height: 100vh;
-        overflow: hidden;
-        padding-top: 50px;
-        padding-bottom: 50px;
-      `
-        : `
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr;
-        min-height: calc(100vh - 50px - 50px);
-      `}
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    min-height: calc(100vh - 100px);
+    overflow: hidden;
   `}
 `;
 
-export const Main = styled.main`
+export const Main = styled.main.withConfig({ shouldForwardProp })`
   box-sizing: border-box;
   grid-column: 2;
   grid-row: 1;
@@ -57,23 +61,12 @@ export const Main = styled.main`
     grid-column: 1;
     grid-row: 1;
     padding: ${({ theme }) => theme.spacing.small};
-    
-    // КЛЮЧОВА ЗМІНА:
     padding-top: 50px;
-
-    ${({ isRightSidebarSplit }) =>
-      isRightSidebarSplit &&
-      `
-      overflow-y: auto;
-      height: 100%;
-      padding-top: 0;
-      padding-bottom: 0;
-    `}
   `}
 `;
 
 /* --- СТИЛІ ДЛЯ ЛІВОГО САЙДБАРУ --- */
-export const LeftSidebarContainer = styled.div`
+export const LeftSidebarContainer = styled.div.withConfig({ shouldForwardProp })`
   grid-column: 1;
   grid-row: 1;
   position: sticky;
@@ -86,27 +79,15 @@ export const LeftSidebarContainer = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   margin-left: ${({ theme }) => theme.spacing.small};
-
   transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1), margin 0.2s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
-    position: fixed;
-    top: 50px;
-    left: 0;
-    width: 300px;
-    height: calc(100vh - 50px - 50px);
-    overflow-y: auto;
-    background: ${({ theme }) => theme.colors.navBg};
-    z-index: 998;
-    transform: translateX(${({ showMobile }) => (showMobile ? "0" : "-100%")});
-    transition: transform 0.3s ease-in-out;
-    box-shadow: ${({ theme }) => theme.shadows.large};
-    margin-left: 0;
+    display: none;
   `}
 `;
 
 /* --- СТИЛІ ДЛЯ ПРАВОГО САЙДБАРУ --- */
-export const RightSidebarContainer = styled.div`
+export const RightSidebarContainer = styled.div.withConfig({ shouldForwardProp })`
   box-sizing: border-box;
   grid-column: 3;
   grid-row: 1;
@@ -123,40 +104,12 @@ export const RightSidebarContainer = styled.div`
   transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1), margin 0.2s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
-    position: fixed;
-    top: 50px;
-    right: 0;
-    width: 100%;
-    height: calc(100vh - 50px - 50px);
-    overflow-y: auto;
-    background: ${({ theme }) => theme.colors.navBg};
-    z-index: 998;
-    transform: translateX(${({ showMobile }) => (showMobile ? "0" : "100%")});
-    transition: transform 0.3s ease-in-out;
-    box-shadow: ${({ theme }) => theme.shadows.large};
-    margin-right: 0;
-    
-    ${({ isRightSidebarSplit }) =>
-      isRightSidebarSplit &&
-      `
-      position: relative;
-      width: 100%;
-      height: 100%;
-      grid-column: 1;
-      grid-row: 2;
-      overflow-y: auto;
-      top: auto;
-      right: auto;
-      transform: translateX(0);
-      transition: all 0.3s ease-in-out;
-      box-shadow: ${theme.shadows.medium};
-      z-index: 998;
-    `}
+    display: none;
   `}
 `;
 
 /* --- ОВЕРЛЕЇ ДЛЯ МОБІЛЬНИХ САЙДБАРІВ --- */
-export const MobileLeftSidebarOverlay = styled.div`
+export const MobileLeftSidebarOverlay = styled.div.withConfig({ shouldForwardProp })`
   display: none;
   ${({ theme }) => theme.media.down("md")`
     display: ${({ show }) => (show ? "block" : "none")};
@@ -171,7 +124,7 @@ export const MobileLeftSidebarOverlay = styled.div`
   `}
 `;
 
-export const MobileRightSidebarOverlay = styled.div`
+export const MobileRightSidebarOverlay = styled.div.withConfig({ shouldForwardProp })`
   display: none;
   ${({ theme }) => theme.media.down("md")`
     display: ${({ show }) => (show ? "block" : "none")};
@@ -190,4 +143,19 @@ export const MobileRightSidebarOverlay = styled.div`
       display: none;
     `}
   `}
+`;
+
+// НОВИЙ КОМПОНЕНТ ДЛЯ ПРАВОГО САЙДБАРУ
+export const MobileRightSidebarDiv = styled(motion.div).withConfig({ shouldForwardProp })`
+  position: fixed;
+  right: 0;
+  width: 100%;
+  overflow-y: auto;
+  z-index: 998;
+  background: ${({ theme }) => theme.colors.navBg};
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+  top: ${({ isRightSidebarSplit }) => (isRightSidebarSplit ? "50%" : "50px")};
+  height: ${({ isRightSidebarSplit }) =>
+    isRightSidebarSplit ? "calc(50vh - 50px)" : "calc(100vh - 100px)"};
 `;

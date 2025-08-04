@@ -72,8 +72,10 @@ export const ToggleButton = styled.button`
   }
 `;
 
-export const HamburgerIcon = styled.div`
-  display: none;
+export const HamburgerIcon = styled.button`
+  display: none; // За замовчуванням прихований
+
+  // Зміна: вмикаємо його лише на мобільних
   ${({ theme }) => theme.media.down("md")`
     display: flex;
     flex-direction: column;
@@ -86,6 +88,7 @@ export const HamburgerIcon = styled.div`
     padding: 0;
     z-index: 10;
     margin-left: ${({ theme }) => theme.spacing.medium};
+
 
     div {
       width: 25px;

@@ -8,7 +8,8 @@ import {
   HamburgerIcon, // Імпортуємо нові стилі
   MobileMenu, // Імпортуємо нові стилі
 } from "./Navigation.styled"; // ІМПОРТУЄМО СТИЛІ З НОВОГО ФАЙЛУ
-import { useMediaQuery } from "../../hooks/useMediaQuery"; // Припустимо, що у вас є такий хук
+import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { breakpoints } from "../../styles/shared/breakpoints";
 
 const navItems = [
   { to: "/", label: "Головна" },
@@ -22,7 +23,7 @@ const navItems = [
 const Navigation = React.forwardRef(({ showNav }, ref) => {
   const { toggleTheme, mode } = useTheme();
   const location = useLocation();
-  const isMobile = useMediaQuery("(max-width: 768px)"); // Використовуємо breakpoint 'md'
+  const isMobile = useMediaQuery(`(max-width: ${breakpoints.md})`);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // Стан для бургер-меню
 
   const toggleMobileMenu = () => {

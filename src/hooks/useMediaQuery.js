@@ -21,7 +21,7 @@ export const useMediaQuery = query => {
     return () => {
       media.removeEventListener("change", listener);
     };
-  }, [query]); // Залежність лише від 'query'
+  }, [query]);
 
   return matches;
 };

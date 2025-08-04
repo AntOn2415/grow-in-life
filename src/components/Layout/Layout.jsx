@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import Navigation from "../Navigation/Navigation";
 import Sidebar from "../Sidebar/Sidebar";
 import RightSidebar from "../RightSidebar/RightSidebar";
 import MobileBottomNav from "../MobileBottomNav/MobileBottomNav";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
-
+import { breakpoints } from "../../styles/shared/breakpoints";
 import {
   Wrapper,
   ContentGrid,
@@ -14,7 +15,20 @@ import {
   Main,
   MobileLeftSidebarOverlay,
   MobileRightSidebarOverlay,
+  MobileRightSidebarDiv,
 } from "./Layout.styled";
+
+// Варіанти анімації для лівого сайдбару
+const leftSidebarVariants = {
+  hidden: {
+    x: "-100%",
+    transition: { ease: "easeOut", duration: 0.3 },
+  },
+  visible: {
+    x: "0%",
+    transition: { ease: "easeIn", duration: 0.3 },
+  },
+};
 
 const Layout = () => {
   const [showNav, setShowNav] = useState(true);
@@ -30,23 +44,20 @@ const Layout = () => {
   const [showMobileRightSidebar, setShowMobileRightSidebar] = useState(false);
   const [isRightSidebarSplit, setIsRightSidebarSplit] = useState(false);
 
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery(`(max-width: ${breakpoints.md})`);
 
-  // Цей ефект буде скидати стани collapsed/expanded, якщо розмір екрана став мобільним
   useEffect(() => {
     if (isMobile) {
       setLeftSidebarCollapsed(false);
       setRightSidebarExpanded(false);
       setIsRightSidebarSplit(false);
     }
-  }, [isMobile]); // Залежність від isMobile
+  }, [isMobile]);
 
-  // Ефект для керування видимістю навігації при прокрутці
   useEffect(() => {
     if (navRef.current) {
       setNavHeight(navRef.current.offsetHeight);
     }
-
     let ticking = false;
     const handleScroll = () => {
       if (!ticking) {
@@ -67,16 +78,18 @@ const Layout = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [navHeight]);
 
-  // Закриваємо мобільні сайдбари при зміні маршруту
   useEffect(() => {
     setShowMobileLeftSidebar(false);
     setShowMobileRightSidebar(false);
     setIsRightSidebarSplit(false);
   }, [location.pathname]);
 
-  // Ефект для керування скролом на body
   useEffect(() => {
-    if (showMobileLeftSidebar || showMobileRightSidebar) {
+    if (!isMobile) {
+      document.body.style.overflow = "auto";
+      return;
+    }
+    if (showMobileLeftSidebar || showMobileRightSidebar || isRightSidebarSplit) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -84,7 +97,7 @@ const Layout = () => {
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [showMobileLeftSidebar, showMobileRightSidebar]);
+  }, [showMobileLeftSidebar, showMobileRightSidebar, isMobile, isRightSidebarSplit]);
 
   const handleRightSidebarToggle = () => {
     setRightSidebarExpanded(prev => {
@@ -131,7 +144,6 @@ const Layout = () => {
   return (
     <Wrapper>
       <Navigation ref={navRef} showNav={showNav} />
-
       <ContentGrid
         sidebarCollapsed={leftSidebarCollapsed}
         isHome={isHome}
@@ -148,15 +160,21 @@ const Layout = () => {
             <Sidebar collapsed={leftSidebarCollapsed} setCollapsed={setLeftSidebarCollapsed} />
           </LeftSidebarContainer>
         )}
-
         <Main
           rightSidebarExpanded={rightSidebarExpanded}
           navHeight={navHeight}
           isRightSidebarSplit={isRightSidebarSplit}
+          as={motion.main}
+          animate={
+            isMobile && isRightSidebarSplit
+              ? { y: "0%", height: "calc(50vh - 5px)" }
+              : { y: "0%", height: "100%" }
+          }
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          style={{ paddingTop: isMobile ? "50px" : `${navHeight}px` }}
         >
           <Outlet />
         </Main>
-
         {!isHome && !isMobile && (
           <RightSidebarContainer
             isHome={isHome}
@@ -172,59 +190,70 @@ const Layout = () => {
             />
           </RightSidebarContainer>
         )}
-
         {isMobile && (
           <>
+            <MobileBottomNav
+              onLeftMenuClick={toggleMobileLeftSidebar}
+              onRightMenuClick={toggleMobileRightSidebar}
+              currentActivePath={location.pathname}
+            />
+            <AnimatePresence>
+              {showMobileLeftSidebar && (
+                <motion.div
+                  key="left-sidebar"
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                  variants={leftSidebarVariants}
+                  style={{
+                    position: "fixed",
+                    top: "50px",
+                    left: 0,
+                    width: "300px",
+                    height: "calc(100vh - 50px)",
+                    overflowY: "auto",
+                    zIndex: 998,
+                    boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
+                  }}
+                >
+                  <Sidebar onCloseMobileSidebar={() => setShowMobileLeftSidebar(false)} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <AnimatePresence>
+              {showMobileRightSidebar && (
+                <MobileRightSidebarDiv
+                  key="right-sidebar"
+                  initial={{ y: "100%" }}
+                  animate={
+                    isRightSidebarSplit
+                      ? { y: "0%", height: "calc(50vh - 50px)", x: "0%" }
+                      : { y: "0%", height: "calc(100vh - 100px)", x: "0%" }
+                  }
+                  exit={{ y: "100%" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  isRightSidebarSplit={isRightSidebarSplit}
+                >
+                  <RightSidebar
+                    onToggle={handleRightSidebarToggle}
+                    rightSidebarExpanded={rightSidebarExpanded}
+                    onCloseMobileSidebar={() => setShowMobileRightSidebar(false)}
+                    toggleRightSidebarSplit={toggleRightSidebarSplit}
+                    isRightSidebarSplit={isRightSidebarSplit}
+                  />
+                </MobileRightSidebarDiv>
+              )}
+            </AnimatePresence>
             <MobileLeftSidebarOverlay
               show={showMobileLeftSidebar}
               onClick={() => setShowMobileLeftSidebar(false)}
             />
-            <LeftSidebarContainer
-              isMobile={true}
-              showMobile={showMobileLeftSidebar}
-              navHeight={navHeight}
-              collapsed={leftSidebarCollapsed}
-            >
-              <Sidebar
-                collapsed={leftSidebarCollapsed}
-                setCollapsed={setLeftSidebarCollapsed}
-                onCloseMobileSidebar={() => setShowMobileLeftSidebar(false)}
-              />
-            </LeftSidebarContainer>
-          </>
-        )}
-
-        {isMobile && (
-          <>
             <MobileRightSidebarOverlay
               show={showMobileRightSidebar}
               onClick={() => setShowMobileRightSidebar(false)}
               isRightSidebarSplit={isRightSidebarSplit}
             />
-            <RightSidebarContainer
-              isMobile={true}
-              showMobile={showMobileRightSidebar}
-              navHeight={navHeight}
-              expanded={rightSidebarExpanded}
-              isRightSidebarSplit={isRightSidebarSplit}
-            >
-              <RightSidebar
-                onToggle={handleRightSidebarToggle}
-                rightSidebarExpanded={rightSidebarExpanded}
-                onCloseMobileSidebar={() => setShowMobileRightSidebar(false)}
-                toggleRightSidebarSplit={toggleRightSidebarSplit}
-                isRightSidebarSplit={isRightSidebarSplit}
-              />
-            </RightSidebarContainer>
           </>
-        )}
-
-        {isMobile && (
-          <MobileBottomNav
-            onLeftMenuClick={toggleMobileLeftSidebar}
-            onRightMenuClick={toggleMobileRightSidebar}
-            currentActivePath={location.pathname}
-          />
         )}
       </ContentGrid>
     </Wrapper>
