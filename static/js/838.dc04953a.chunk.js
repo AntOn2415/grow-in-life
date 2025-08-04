@@ -478,7 +478,7 @@
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}};
   font-weight: bold;
   line-height: 1.3;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.4s ease-in-out;
 
   ${e=>{let{theme:t}=e;return t.media.down("md")`
     font-size: ${e=>{let{theme:t}=e;return t.fontSizes.large}};
@@ -486,18 +486,17 @@
   `}}
 `,W=n.Ay.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  // ОНОВЛЕНО: Використовуємо auto-fit для автоматичного перенесення карток
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: ${e=>{let{theme:t}=e;return t.spacing.large}};
   justify-content: center;
   align-items: stretch;
 
   ${e=>{let{theme:t}=e;return t.media.down("xl")`
-    grid-template-columns: repeat(2, 1fr);
     gap: ${e=>{let{theme:t}=e;return t.spacing.medium}};
   `}}
 
   ${e=>{let{theme:t}=e;return t.media.down("md")`
-    grid-template-columns: 1fr;
     gap: ${e=>{let{theme:t}=e;return t.spacing.small}};
   `}}
 `,F=n.Ay.article`
@@ -509,7 +508,7 @@
   flex-direction: column;
   align-items: flex-start;
   transition: transform 0.25s ease, background-color 0.4s ease-in-out, box-shadow 0.25s ease,
-    border-color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для border-color
+    border-color 0.4s ease-in-out;
   overflow: hidden;
   position: relative;
   border: 1px solid ${e=>{let{theme:t}=e;return t.colors.cardBorder||t.colors.borderColor}};
@@ -546,7 +545,7 @@
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
   margin: 0;
   line-height: 1.3;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.4s ease-in-out;
 `,V=n.Ay.div`
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
   line-height: 1.6;
@@ -554,7 +553,7 @@
   flex: 1;
   position: relative;
   width: 100%;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.4s ease-in-out;
 
   padding-bottom: ${e=>{let{isExpanded:t}=e;return t?"5.5rem":"0"}};
 
@@ -577,7 +576,7 @@
   justify-content: flex-start;
   padding: ${e=>{let{theme:t}=e;return t.spacing.xsmall}} ${e=>{let{theme:t}=e;return t.spacing.small}};
   box-sizing: border-box;
-  transition: background-color 0.4s ease-in-out; // ДОДАНО: Перехід для фону
+  transition: background-color 0.4s ease-in-out;
 
   &::before {
     content: "";
@@ -610,7 +609,7 @@
   cursor: pointer;
   padding: ${e=>{let{theme:t}=e;return t.spacing.xsmall}} 0;
   align-self: flex-start;
-  transition: color 0.4s ease-in-out, transform 0.2s ease; // ОНОВЛЕНО: Перехід для кольору
+  transition: color 0.4s ease-in-out, transform 0.2s ease;
   display: flex;
   align-items: center;
   gap: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
@@ -1003,11 +1002,12 @@
   text-decoration: underline;
   color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
   display: inline;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору кнопки
+  transition: color 0.4s ease-in-out, text-shadow 0.2s ease-in-out; // Transition for text shadow
 
   &:hover {
-    color: ${e=>{let{theme:t}=e;return t.colors.accentBg||t.colors.accentColor}};
+    color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
     text-decoration: none;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); // A subtle white glow (adjust color/opacity as needed)
   }
 
   &:focus {
@@ -1099,4 +1099,4 @@
 
   transition: transform 0.2s ease-in-out, color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для кольору іконки
 `;var d=r(579);function m(e){let{quizData:t}=e;const[r,n]=(0,o.useState)(!1),[m,u]=(0,o.useState)(null);return(0,d.jsxs)(l,{children:[(0,d.jsxs)(i,{onClick:()=>{n(!r),r&&u(null)},children:[t.question,(0,d.jsx)(c,{isActive:r,children:r?"\u2212":"+"})]}),r&&(0,d.jsx)(s,{children:t.options.map((e,t)=>(0,d.jsx)(a,{onClick:()=>(e=>{u(e)})(t),isSelected:m===t,isCorrectOption:e.isCorrect,showFeedback:null!==m,children:e.text},t))})]})}}}]);
-//# sourceMappingURL=838.c7e99415.chunk.js.map
+//# sourceMappingURL=838.dc04953a.chunk.js.map
