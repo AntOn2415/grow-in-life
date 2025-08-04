@@ -20,7 +20,7 @@ export const Title = styled.h2`
   margin-bottom: ${({ theme }) => theme.spacing.large};
   font-weight: bold;
   line-height: 1.3;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.4s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
     font-size: ${({ theme }) => theme.fontSizes.large};
@@ -30,18 +30,17 @@ export const Title = styled.h2`
 
 export const CardsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  // ОНОВЛЕНО: Використовуємо auto-fit для автоматичного перенесення карток
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: ${({ theme }) => theme.spacing.large};
   justify-content: center;
   align-items: stretch;
 
   ${({ theme }) => theme.media.down("xl")`
-    grid-template-columns: repeat(2, 1fr);
     gap: ${({ theme }) => theme.spacing.medium};
   `}
 
   ${({ theme }) => theme.media.down("md")`
-    grid-template-columns: 1fr;
     gap: ${({ theme }) => theme.spacing.small};
   `}
 `;
@@ -55,7 +54,7 @@ export const CardWrapper = styled.article`
   flex-direction: column;
   align-items: flex-start;
   transition: transform 0.25s ease, background-color 0.4s ease-in-out, box-shadow 0.25s ease,
-    border-color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для border-color
+    border-color 0.4s ease-in-out;
   overflow: hidden;
   position: relative;
   border: 1px solid ${({ theme }) => theme.colors.cardBorder || theme.colors.borderColor};
@@ -98,7 +97,7 @@ export const CardTitle = styled.h3`
   color: ${({ theme }) => theme.colors.color};
   margin: 0;
   line-height: 1.3;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.4s ease-in-out;
 `;
 
 export const CardContentWrapper = styled.div`
@@ -108,7 +107,7 @@ export const CardContentWrapper = styled.div`
   flex: 1;
   position: relative;
   width: 100%;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.4s ease-in-out;
 
   padding-bottom: ${({ isExpanded }) => (isExpanded ? "5.5rem" : "0")};
 
@@ -133,7 +132,7 @@ export const ButtonWrapper = styled.div`
   justify-content: flex-start;
   padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.small};
   box-sizing: border-box;
-  transition: background-color 0.4s ease-in-out; // ДОДАНО: Перехід для фону
+  transition: background-color 0.4s ease-in-out;
 
   &::before {
     content: "";
@@ -194,7 +193,7 @@ export const ReadMoreButton = styled.button`
   cursor: pointer;
   padding: ${({ theme }) => theme.spacing.xsmall} 0;
   align-self: flex-start;
-  transition: color 0.4s ease-in-out, transform 0.2s ease; // ОНОВЛЕНО: Перехід для кольору
+  transition: color 0.4s ease-in-out, transform 0.2s ease;
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xsmall};

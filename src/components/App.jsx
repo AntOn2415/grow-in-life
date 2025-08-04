@@ -7,6 +7,7 @@ import Layout from "./Layout";
 import { SermonsProvider } from "../contexts/SermonsContext";
 import { HomeGroupsProvider } from "../contexts/HomeGroupsContext";
 import GlobalStyles from "../styles/global/GlobalStyles";
+import NotFoundPage from "../components/NotFoundPage/NotFoundPage";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 const SermonsPage = lazy(() => import("../pages/SermonsPage"));
@@ -29,6 +30,7 @@ const App = () => (
               <Route path="sunday-school" element={<SundaySchoolPage />} />
               <Route path="seminars" element={<SeminarsPage />} />
               <Route path="news" element={<NewsPage />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>
         </Suspense>

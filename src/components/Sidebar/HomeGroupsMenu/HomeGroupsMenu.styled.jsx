@@ -1,24 +1,23 @@
 import styled from "styled-components";
 
-export const Section = styled.div`
-  ${({ theme }) => theme.media.down("md")`
-    display: none;
-  `}
-`;
+export const Section = styled.div``;
 
 export const SectionTitle = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xsmall};
   font-weight: bold;
   font-size: ${({ theme }) => theme.fontSizes.small};
-  color: ${({ theme }) => theme.colors.color};
+  // Колір SectionTitle залежить від $isEmpty
+  color: ${({ theme, $isEmpty }) => ($isEmpty ? theme.colors.textFaded : theme.colors.color)};
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: ${({ $collapsed }) => ($collapsed ? "center" : "space-between")};
+  justify-content: ${({ isCollapsed }) => (isCollapsed ? "center" : "space-between")};
   transition: color 0.4s ease-in-out;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.sectionTitleHover}; // Змінити тут
+    // Ховер-ефект лише якщо не порожній
+    color: ${({ theme, $isEmpty }) =>
+      $isEmpty ? theme.colors.textFaded : theme.colors.sectionTitleHover};
   }
 `;
 
@@ -30,46 +29,48 @@ export const List = styled.ul`
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xxsmall};
 
-  // margin-left для вкладених списків
-  margin-left: ${({ $collapsed }) => ($collapsed ? "0" : "10px")};
+  margin-left: ${({ isCollapsed }) => (isCollapsed ? "0" : "10px")};
 `;
 
 export const ListItem = styled.li`
-  padding: ${({ theme, $collapsed }) =>
-    $collapsed ? `${theme.spacing.xsmall} ${theme.spacing.xxsmall}` : `${theme.spacing.xsmall}`};
+  padding: ${({ theme, isCollapsed }) =>
+    isCollapsed ? `${theme.spacing.xsmall} ${theme.spacing.xxsmall}` : `${theme.spacing.xsmall}`};
   font-size: ${({ theme }) => theme.fontSizes.xsmall};
-  cursor: pointer;
+  // Колір ListItem залежить від $isEmpty
+  color: ${({ theme, $isEmpty }) => ($isEmpty ? theme.colors.textFaded : theme.colors.color)};
+  cursor: ${({ $isEmpty }) => ($isEmpty ? "default" : "pointer")};
   border-radius: ${({ theme }) => theme.borderRadius.small};
 
-  // ОНОВЛЕНО: Робимо ListItem flex-контейнером
   display: flex;
   align-items: center;
 
-  // ОНОВЛЕНО: Центруємо вміст, якщо сайдбар згорнутий і це урок (містить CircularNumber)
-  // Якщо це скорочена назва книги, вона залишатиметься зліва
-  justify-content: ${({ $collapsed, $isLesson }) =>
-    $collapsed && $isLesson ? "center" : "flex-start"};
+  justify-content: ${({ isCollapsed, $isLesson }) =>
+    isCollapsed && $isLesson ? "center" : "flex-start"};
 
   width: 100%;
-  color: ${({ theme }) => theme.colors.color};
   background-color: transparent;
   border: 1px solid transparent;
   box-shadow: none;
 
   transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out,
-    transform 0.2s ease-in-out;
+    transform 0.2s ease-in-out, border-color 0.25s ease-in-out;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.color};
-    background-color: ${({ theme }) => theme.colors.navItemHover}; // Змінити тут
-    box-shadow: none;
+    ${({ theme, $isEmpty }) =>
+      !$isEmpty && // Застосовуємо ховер лише якщо не порожній
+      `
+      color: ${theme.colors.color};
+      background-color: ${theme.colors.navItemHover};
+      box-shadow: none;
+    `}
   }
 
   ${({ $isActive, theme }) =>
     $isActive &&
     `
-    background-color: ${theme.colors.navItemActive}; // Змінити тут
+    background-color: ${theme.colors.navItemActive};
     color: ${theme.colors.color};
+    transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out; 
   `}
 `;
 
@@ -81,29 +82,33 @@ export const Toggle = styled.span`
 `;
 
 export const CircularNumber = styled.span`
-  display: inline-flex; /* Повертаємо назад inline-flex */
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 24px;
   height: 24px;
   border-radius: 50%;
+  // Колір border та color залежить від $isEmpty
   border: 1px solid ${({ theme }) => theme.colors.colorSecondary};
   font-size: ${({ theme }) => theme.fontSizes.xsmall};
   color: ${({ theme }) => theme.colors.colorSecondary};
-  margin: 0; /* Прибираємо margin: auto */
+  margin: 0;
   padding: 0;
+  transition: color 0.4s ease-in-out, border-color 0.4s ease-in-out;
 `;
 
 export const SectionCategoryNumber = styled.span`
-  display: inline-flex; /* Повертаємо назад inline-flex */
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.accentColor};
+
+  background-color: ${({ theme }) => theme.colors.colorSecondary};
   color: ${({ theme }) => theme.colors.buttonColor};
   font-size: ${({ theme }) => theme.fontSizes.small};
-  margin: 0; /* Прибираємо margin: auto */
+  margin: 0;
   padding: 0;
+  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
 `;

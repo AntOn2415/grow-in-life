@@ -9,24 +9,27 @@ export const SidebarWrapper = styled.aside`
   border-radius: ${({ theme }) => theme.borderRadius.medium};
   box-sizing: border-box;
   margin-bottom: 24px;
-  padding: ${({ collapsed, theme }) =>
-    collapsed ? theme.spacing.xsmall : theme.spacing.small}; /* Змінено падінг */
+  // Змінено 'collapsed' на '$isCollapsed'
+  padding: ${({ $isCollapsed, theme }) =>
+    $isCollapsed ? theme.spacing.xsmall : theme.spacing.small};
 
   display: flex;
   flex-direction: column;
-  align-items: ${({ collapsed }) => (collapsed ? "center" : "flex-start")};
+  // Змінено 'collapsed' на '$isCollapsed'
+  align-items: ${({ $isCollapsed }) => ($isCollapsed ? "center" : "flex-start")};
   box-shadow: ${({ theme }) => theme.shadows.small};
   position: relative;
 
   transition: width 0.2s ease-in-out, background 0.4s ease-in-out, color 0.4s ease-in-out,
-    border 0.4s ease-in-out, padding 0.2s ease-in-out; /* Додано padding до переходу */
+    border 0.4s ease-in-out, padding 0.2s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
-    padding: 0;
+    padding: ${({ theme }) => theme.spacing.medium};
     margin: 0;
     border: none;
     border-radius: 0;
-    width: 0;
+    width: 100%; 
+    height: 100%;
   `}
 `;
 
@@ -39,7 +42,6 @@ export const Menu = styled.nav`
   margin-bottom: ${({ theme }) => theme.spacing.large};
   overflow-y: auto;
   overflow-x: hidden;
-
   scrollbar-width: none;
 `;
 
@@ -66,7 +68,7 @@ export const CollapseBtn = styled.button`
 
   transition: background 0.2s ease, color 0.2s ease;
   &:hover {
-    background: ${({ theme }) => theme.colors.hoverBtn}; // ОНОВЛЕНО
+    background: ${({ theme }) => theme.colors.hoverBtn};
     transition: background 0.3s ease-in-out;
   }
   ${({ theme }) => theme.media.down("md")`

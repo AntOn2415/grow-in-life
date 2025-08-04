@@ -29,21 +29,24 @@ const icons = (
   </div>
 );
 
-export default function RightSidebar({ onToggle, rightSidebarExpanded }) {
+// Додаємо пропси, щоб розрізняти мобільний та десктопний режими
+export default function RightSidebar({ onToggle, rightSidebarExpanded, onCloseMobileSidebar }) {
   const location = useLocation();
 
   if (location.pathname === "/") {
     return null;
   }
 
+  // Визначаємо, чи ми в мобільному режимі
+  const isMobile = !!onCloseMobileSidebar;
+
+  // На мобільному завжди показуємо повний контент
+  const isExpanded = isMobile ? true : rightSidebarExpanded;
+
   return (
-    <RightSidebarWrapper collapsed={!rightSidebarExpanded}>
-      {" "}
-      {/* Передача пропсу collapsed */}
-      <RightSidebarMenu collapsed={!rightSidebarExpanded}>
-        {" "}
-        {/* Передача пропсу collapsed */}
-        {!rightSidebarExpanded ? (
+    <RightSidebarWrapper $isCollapsed={!isExpanded}>
+      <RightSidebarMenu $isCollapsed={!isExpanded}>
+        {!isExpanded ? (
           icons
         ) : (
           <div>
@@ -55,9 +58,13 @@ export default function RightSidebar({ onToggle, rightSidebarExpanded }) {
           </div>
         )}
       </RightSidebarMenu>
-      <RightSidebarCollapseBtn onClick={onToggle}>
-        {rightSidebarExpanded ? "›" : "‹"}
-      </RightSidebarCollapseBtn>
+
+      {/* Кнопка колапсу тільки для десктопу */}
+      {!isMobile && (
+        <RightSidebarCollapseBtn onClick={onToggle}>
+          {isExpanded ? "›" : "‹"}
+        </RightSidebarCollapseBtn>
+      )}
     </RightSidebarWrapper>
   );
 }

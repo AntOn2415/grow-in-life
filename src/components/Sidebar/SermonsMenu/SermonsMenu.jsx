@@ -6,7 +6,7 @@ import { sermonCategories, ntBooksList } from "../../../data/sermons/sermonCateg
 import { sermonsContent } from "../../../data/sermons/sermonsContent";
 import { useSermons } from "../../../contexts/SermonsContext";
 
-export default function SermonsMenu({ collapsed }) {
+export default function SermonsMenu({ isCollapsed }) {
   const { setSelectedSermon } = useSermons();
 
   const [openSections, setOpenSections] = useState({
@@ -39,14 +39,14 @@ export default function SermonsMenu({ collapsed }) {
   const renderSermonItems = (
     sermons // collapsed доступний тут
   ) => (
-    <List style={{ marginLeft: collapsed ? 0 : 16 }}>
+    <List style={{ marginLeft: isCollapsed ? 0 : 16 }}>
       {sermons.map(
         (
           sermon,
           index // Додаємо index для нумерації
         ) => (
           <ListItem key={sermon.id} as="button" onClick={() => setSelectedSermon(sermon.id)}>
-            {collapsed // Якщо сайдбар згорнутий, показуємо номер
+            {isCollapsed // Якщо сайдбар згорнутий, показуємо номер
               ? `${index + 1}`
               : // Якщо розгорнутий, показуємо заголовок
                 sermon.title}
@@ -91,7 +91,7 @@ export default function SermonsMenu({ collapsed }) {
                             ["Enter", " "].includes(e.key) && handleBookToggle(book.internalKey)
                           }
                         >
-                          {collapsed // Якщо сайдбар згорнутий, показуємо скорочену назву
+                          {isCollapsed // Якщо сайдбар згорнутий, показуємо скорочену назву
                             ? getBookShortLabel(book.full)
                             : // Якщо розгорнутий, показуємо повну назву
                               book.full}{" "}

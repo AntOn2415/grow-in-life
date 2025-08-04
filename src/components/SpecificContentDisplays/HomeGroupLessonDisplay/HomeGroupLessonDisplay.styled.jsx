@@ -95,11 +95,12 @@ export const VerseButton = styled.button`
   text-decoration: underline;
   color: ${({ theme }) => theme.colors.accentColor};
   display: inline;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору кнопки
+  transition: color 0.4s ease-in-out, text-shadow 0.2s ease-in-out; // Transition for text shadow
 
   &:hover {
-    color: ${({ theme }) => theme.colors.accentBg || theme.colors.accentColor};
+    color: ${({ theme }) => theme.colors.accentColor};
     text-decoration: none;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); // A subtle white glow (adjust color/opacity as needed)
   }
 
   &:focus {
