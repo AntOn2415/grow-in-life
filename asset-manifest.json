@@ -1,10 +1,10 @@
 {
   "files": {
     "main.css": "/grow-in-life/static/css/main.696afcd1.css",
-    "main.js": "/grow-in-life/static/js/main.49644136.js",
+    "main.js": "/grow-in-life/static/js/main.19014b1c.js",
     "static/js/747.9dc2d52a.chunk.js": "/grow-in-life/static/js/747.9dc2d52a.chunk.js",
     "static/js/167.2649fc46.chunk.js": "/grow-in-life/static/js/167.2649fc46.chunk.js",
-    "static/js/838.dc04953a.chunk.js": "/grow-in-life/static/js/838.dc04953a.chunk.js",
+    "static/js/838.fbf8303a.chunk.js": "/grow-in-life/static/js/838.fbf8303a.chunk.js",
     "static/js/455.e7cc6393.chunk.js": "/grow-in-life/static/js/455.e7cc6393.chunk.js",
     "static/js/829.7f40d3e9.chunk.js": "/grow-in-life/static/js/829.7f40d3e9.chunk.js",
     "static/js/233.548bd863.chunk.js": "/grow-in-life/static/js/233.548bd863.chunk.js",
@@ -16,10 +16,10 @@
     "static/media/wall_of_Jerusalem.jpg": "/grow-in-life/static/media/wall_of_Jerusalem.7a91d7b8ac7c62b0882c.jpg",
     "index.html": "/grow-in-life/index.html",
     "main.696afcd1.css.map": "/grow-in-life/static/css/main.696afcd1.css.map",
-    "main.49644136.js.map": "/grow-in-life/static/js/main.49644136.js.map",
+    "main.19014b1c.js.map": "/grow-in-life/static/js/main.19014b1c.js.map",
     "747.9dc2d52a.chunk.js.map": "/grow-in-life/static/js/747.9dc2d52a.chunk.js.map",
     "167.2649fc46.chunk.js.map": "/grow-in-life/static/js/167.2649fc46.chunk.js.map",
-    "838.dc04953a.chunk.js.map": "/grow-in-life/static/js/838.dc04953a.chunk.js.map",
+    "838.fbf8303a.chunk.js.map": "/grow-in-life/static/js/838.fbf8303a.chunk.js.map",
     "455.e7cc6393.chunk.js.map": "/grow-in-life/static/js/455.e7cc6393.chunk.js.map",
     "829.7f40d3e9.chunk.js.map": "/grow-in-life/static/js/829.7f40d3e9.chunk.js.map",
     "233.548bd863.chunk.js.map": "/grow-in-life/static/js/233.548bd863.chunk.js.map",
@@ -31,6 +31,6 @@
   },
   "entrypoints": [
     "static/css/main.696afcd1.css",
-    "static/js/main.49644136.js"
+    "static/js/main.19014b1c.js"
   ]
 }
