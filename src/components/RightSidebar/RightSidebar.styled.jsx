@@ -4,11 +4,10 @@ import { SidebarWrapper, Menu, CollapseBtn } from "../Sidebar/Sidebar.styled";
 export const RightSidebarWrapper = styled(SidebarWrapper)`
   /* Наслідуємо всі базові стилі від SidebarWrapper */
   /* Оверрайд для RightSidebar */
-  position: relative; /* Щоб кнопка була позиціонована відносно цього елемента */
+  position: relative;
   height: calc(100% - (${({ theme }) => theme.spacing.large} * 1.5));
   border: 1px solid ${({ theme }) => theme.colors.borderColor};
   margin-bottom: 24px;
-  // Виправлено 'collapsed' на '$collapsed' для узгодженості
   padding: ${({ $isCollapsed, theme }) =>
     $isCollapsed ? theme.spacing.xsmall : theme.spacing.small};
   transition: width 0.2s ease-in-out, background 0.4s ease-in-out, color 0.4s ease-in-out,

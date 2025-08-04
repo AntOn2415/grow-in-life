@@ -5,13 +5,13 @@ import SermonsMenu from "./SermonsMenu/SermonsMenu";
 import HomeGroupsMenu from "./HomeGroupsMenu/HomeGroupsMenu";
 import { motion } from "framer-motion";
 
-export default function Sidebar({ collapsed, setCollapsed, onCloseMobileSidebar }) {
+export default function Sidebar({ collapsed, setCollapsed, onCloseMobileSidebar, isMobile }) {
   const location = useLocation();
   const [showOverlay, setShowOverlay] = useState(false);
   const [menuVisible, setMenuVisible] = useState(true);
 
   // Визначаємо, чи ми в мобільному режимі
-  const isMobile = !!onCloseMobileSidebar;
+  // const isMobile = !!onCloseMobileSidebar; // Використовуємо пропс isMobile
 
   useEffect(() => {
     if (showOverlay) {
@@ -34,17 +34,15 @@ export default function Sidebar({ collapsed, setCollapsed, onCloseMobileSidebar 
 
   const handleToggle = () => {
     if (isMobile) {
-      // На мобільному просто закриваємо сайдбар
       onCloseMobileSidebar();
     } else {
-      // На десктопі перемикаємо стан
       setMenuVisible(false);
       setShowOverlay(true);
       setCollapsed(c => !c);
     }
   };
 
-  // На мобільних завжди показуємо повний контент
+  // Використовуємо `isMobile` для примусового розгорнутого стану
   const isCollapsed = isMobile ? false : collapsed;
 
   return (
@@ -60,7 +58,6 @@ export default function Sidebar({ collapsed, setCollapsed, onCloseMobileSidebar 
         {extraMenu}
       </Menu>
 
-      {/* Кнопка колапсу тільки для десктопу */}
       {!isMobile && (
         <CollapseBtn $isCollapsed={isCollapsed} onClick={handleToggle}>
           {isCollapsed ? "›" : "‹"}

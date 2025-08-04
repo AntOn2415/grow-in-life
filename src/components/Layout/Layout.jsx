@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Navigation from "../Navigation/Navigation";
-import Sidebar from "../Sidebar/Sidebar"; // Лівий сайдбар
-import RightSidebar from "../RightSidebar/RightSidebar"; // Правий сайдбар
-import MobileBottomNav from "../MobileBottomNav/MobileBottomNav"; // Мобільна нижня навігація
-import { useMediaQuery } from "../../hooks/useMediaQuery"; // Хук для медіа-запитів
+import Sidebar from "../Sidebar/Sidebar";
+import RightSidebar from "../RightSidebar/RightSidebar";
+import MobileBottomNav from "../MobileBottomNav/MobileBottomNav";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 
 import {
   Wrapper,
@@ -12,8 +12,8 @@ import {
   LeftSidebarContainer,
   RightSidebarContainer,
   Main,
-  MobileLeftSidebarOverlay, // Додаємо оверлей для мобільного лівого сайдбару
-  MobileRightSidebarOverlay, // Додаємо оверлей для мобільного правого сайдбару
+  MobileLeftSidebarOverlay,
+  MobileRightSidebarOverlay,
 } from "./Layout.styled";
 
 const Layout = () => {
@@ -26,12 +26,20 @@ const Layout = () => {
   const navRef = useRef(null);
   const [navHeight, setNavHeight] = useState(0);
 
-  // Нові стани для керування мобільними сайдбарами
   const [showMobileLeftSidebar, setShowMobileLeftSidebar] = useState(false);
   const [showMobileRightSidebar, setShowMobileRightSidebar] = useState(false);
+  const [isRightSidebarSplit, setIsRightSidebarSplit] = useState(false);
 
-  // Використовуємо хук для визначення мобільного розміру екрану
-  const isMobile = useMediaQuery("(max-width: 768px)"); // Припустимо, "md" це 768px
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
+  // Цей ефект буде скидати стани collapsed/expanded, якщо розмір екрана став мобільним
+  useEffect(() => {
+    if (isMobile) {
+      setLeftSidebarCollapsed(false);
+      setRightSidebarExpanded(false);
+      setIsRightSidebarSplit(false);
+    }
+  }, [isMobile]); // Залежність від isMobile
 
   // Ефект для керування видимістю навігації при прокрутці
   useEffect(() => {
@@ -61,26 +69,18 @@ const Layout = () => {
 
   // Закриваємо мобільні сайдбари при зміні маршруту
   useEffect(() => {
-    // Перевіряємо, чи був один з сайдбарів відкритий до зміни маршруту.
-    // Якщо так, закриваємо обидва.
-    setShowMobileLeftSidebar(prev => {
-      if (prev) return false;
-      return prev;
-    });
-    setShowMobileRightSidebar(prev => {
-      if (prev) return false;
-      return prev;
-    });
+    setShowMobileLeftSidebar(false);
+    setShowMobileRightSidebar(false);
+    setIsRightSidebarSplit(false);
   }, [location.pathname]);
 
+  // Ефект для керування скролом на body
   useEffect(() => {
-    // Якщо відкритий хоча б один мобільний сайдбар
     if (showMobileLeftSidebar || showMobileRightSidebar) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-    // Очищення стилю при розмонтуванні компонента
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -99,12 +99,12 @@ const Layout = () => {
     });
   };
 
-  // Функції для перемикання мобільних сайдбарів
   const toggleMobileLeftSidebar = () => {
     setShowMobileLeftSidebar(prev => {
       const newState = !prev;
       if (newState) {
-        setShowMobileRightSidebar(false); // Закриваємо правий, якщо відкриваємо лівий
+        setShowMobileRightSidebar(false);
+        setIsRightSidebarSplit(false);
       }
       return newState;
     });
@@ -114,10 +114,16 @@ const Layout = () => {
     setShowMobileRightSidebar(prev => {
       const newState = !prev;
       if (newState) {
-        setShowMobileLeftSidebar(false); // Закриваємо лівий, якщо відкриваємо правий
+        setShowMobileLeftSidebar(false);
+      } else {
+        setIsRightSidebarSplit(false);
       }
       return newState;
     });
+  };
+
+  const toggleRightSidebarSplit = () => {
+    setIsRightSidebarSplit(prev => !prev);
   };
 
   const isHome = location.pathname === "/";
@@ -130,12 +136,12 @@ const Layout = () => {
         sidebarCollapsed={leftSidebarCollapsed}
         isHome={isHome}
         rightSidebarExpanded={rightSidebarExpanded}
+        isRightSidebarSplit={isRightSidebarSplit}
       >
-        {/* Десктопний лівий сайдбар */}
         {!isHome && !isMobile && (
           <LeftSidebarContainer
             isHome={isHome}
-            isMobile={false} // Явно вказуємо, що це десктопна версія
+            isMobile={false}
             navHeight={navHeight}
             collapsed={leftSidebarCollapsed}
           >
@@ -143,80 +149,84 @@ const Layout = () => {
           </LeftSidebarContainer>
         )}
 
-        <Main rightSidebarExpanded={rightSidebarExpanded} navHeight={navHeight}>
+        <Main
+          rightSidebarExpanded={rightSidebarExpanded}
+          navHeight={navHeight}
+          isRightSidebarSplit={isRightSidebarSplit}
+        >
           <Outlet />
         </Main>
 
-        {/* Десктопний правий сайдбар */}
         {!isHome && !isMobile && (
           <RightSidebarContainer
-            isHome={isHome} // Передаємо isHome
-            isMobile={false} // Явно вказуємо, що це десктопна версія
+            isHome={isHome}
+            isMobile={false}
             navHeight={navHeight}
             expanded={rightSidebarExpanded}
           >
             <RightSidebar
               onToggle={handleRightSidebarToggle}
               rightSidebarExpanded={rightSidebarExpanded}
+              toggleRightSidebarSplit={toggleRightSidebarSplit}
+              isRightSidebarSplit={isRightSidebarSplit}
             />
           </RightSidebarContainer>
         )}
+
+        {isMobile && (
+          <>
+            <MobileLeftSidebarOverlay
+              show={showMobileLeftSidebar}
+              onClick={() => setShowMobileLeftSidebar(false)}
+            />
+            <LeftSidebarContainer
+              isMobile={true}
+              showMobile={showMobileLeftSidebar}
+              navHeight={navHeight}
+              collapsed={leftSidebarCollapsed}
+            >
+              <Sidebar
+                collapsed={leftSidebarCollapsed}
+                setCollapsed={setLeftSidebarCollapsed}
+                onCloseMobileSidebar={() => setShowMobileLeftSidebar(false)}
+              />
+            </LeftSidebarContainer>
+          </>
+        )}
+
+        {isMobile && (
+          <>
+            <MobileRightSidebarOverlay
+              show={showMobileRightSidebar}
+              onClick={() => setShowMobileRightSidebar(false)}
+              isRightSidebarSplit={isRightSidebarSplit}
+            />
+            <RightSidebarContainer
+              isMobile={true}
+              showMobile={showMobileRightSidebar}
+              navHeight={navHeight}
+              expanded={rightSidebarExpanded}
+              isRightSidebarSplit={isRightSidebarSplit}
+            >
+              <RightSidebar
+                onToggle={handleRightSidebarToggle}
+                rightSidebarExpanded={rightSidebarExpanded}
+                onCloseMobileSidebar={() => setShowMobileRightSidebar(false)}
+                toggleRightSidebarSplit={toggleRightSidebarSplit}
+                isRightSidebarSplit={isRightSidebarSplit}
+              />
+            </RightSidebarContainer>
+          </>
+        )}
+
+        {isMobile && (
+          <MobileBottomNav
+            onLeftMenuClick={toggleMobileLeftSidebar}
+            onRightMenuClick={toggleMobileRightSidebar}
+            currentActivePath={location.pathname}
+          />
+        )}
       </ContentGrid>
-
-      {/* Мобільний лівий сайдбар та оверлей */}
-      {isMobile && (
-        <>
-          <MobileLeftSidebarOverlay
-            show={showMobileLeftSidebar}
-            onClick={() => setShowMobileLeftSidebar(false)}
-          />
-          <LeftSidebarContainer
-            isMobile={true} // Вказуємо, що це мобільний режим
-            showMobile={showMobileLeftSidebar} // Пропс для керування transform та display
-            navHeight={navHeight}
-            collapsed={leftSidebarCollapsed} // Це може контролювати внутрішній вигляд сайдбару
-          >
-            {/* КОМПОНЕНТ Sidebar ПОВЕРНУТО СЮДИ */}
-            <Sidebar
-              collapsed={leftSidebarCollapsed} // Це може контролювати внутрішній вигляд сайдбару
-              setCollapsed={setLeftSidebarCollapsed}
-              onCloseMobileSidebar={() => setShowMobileLeftSidebar(false)} // Пропс для закриття зсередини
-            />
-          </LeftSidebarContainer>
-        </>
-      )}
-
-      {/* Мобільний правий сайдбар та оверлей */}
-      {isMobile && (
-        <>
-          <MobileRightSidebarOverlay
-            show={showMobileRightSidebar}
-            onClick={() => setShowMobileRightSidebar(false)}
-          />
-          <RightSidebarContainer
-            isMobile={true} // Вказуємо, що це мобільний режим
-            showMobile={showMobileRightSidebar} // Пропс для керування transform та display
-            navHeight={navHeight}
-            expanded={rightSidebarExpanded} // Залишаємо для потенційних стилів
-          >
-            {/* КОМПОНЕНТ RightSidebar ПОВЕРНУТО СЮДИ */}
-            <RightSidebar
-              onToggle={handleRightSidebarToggle}
-              rightSidebarExpanded={rightSidebarExpanded}
-              onCloseMobileSidebar={() => setShowMobileRightSidebar(false)} // Пропс для закриття зсередини
-            />
-          </RightSidebarContainer>
-        </>
-      )}
-
-      {/* Мобільна нижня навігація */}
-      {isMobile && (
-        <MobileBottomNav
-          onLeftMenuClick={toggleMobileLeftSidebar}
-          onRightMenuClick={toggleMobileRightSidebar}
-          currentActivePath={location.pathname}
-        />
-      )}
     </Wrapper>
   );
 };

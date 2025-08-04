@@ -24,12 +24,28 @@ export const ContentGrid = styled.div`
   transition: grid-template-columns 0.2s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
-    grid-template-columns: 1fr;
-    min-height: calc(100vh - 50px - 60px); /* Враховуємо верхню та нижню навігацію */
+    ${({ isRightSidebarSplit }) =>
+      isRightSidebarSplit
+        ? `
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+        height: 100vh;
+        overflow: hidden;
+        padding-top: 50px;
+        padding-bottom: 50px;
+      `
+        : `
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        min-height: calc(100vh - 50px - 50px);
+      `}
   `}
 `;
 
 export const Main = styled.main`
+  box-sizing: border-box;
   grid-column: 2;
   grid-row: 1;
   overflow-y: auto;
@@ -39,9 +55,20 @@ export const Main = styled.main`
 
   ${({ theme }) => theme.media.down("md")`
     grid-column: 1;
+    grid-row: 1;
     padding: ${({ theme }) => theme.spacing.small};
-    padding-top: 50px; /* Відступ зверху для мобільної навігації */
-    padding-bottom: 50px; /* Відступ знизу для мобільної навігації */
+    
+    // КЛЮЧОВА ЗМІНА:
+    padding-top: 50px;
+
+    ${({ isRightSidebarSplit }) =>
+      isRightSidebarSplit &&
+      `
+      overflow-y: auto;
+      height: 100%;
+      padding-top: 0;
+      padding-bottom: 0;
+    `}
   `}
 `;
 
@@ -64,13 +91,13 @@ export const LeftSidebarContainer = styled.div`
 
   ${({ theme }) => theme.media.down("md")`
     position: fixed;
-    top: 50px; /* Запускаємо сайдбар відразу під мобільним хедером */
+    top: 50px;
     left: 0;
     width: 300px;
-    height: calc(100vh - 50px - 50px); /* Висота: 100vh мінус хедер і нижня навігація */
+    height: calc(100vh - 50px - 50px);
     overflow-y: auto;
     background: ${({ theme }) => theme.colors.navBg};
-    z-index: 998; /* Знижуємо z-index, щоб не перекривати Nav (z-index: 1000) */
+    z-index: 998;
     transform: translateX(${({ showMobile }) => (showMobile ? "0" : "-100%")});
     transition: transform 0.3s ease-in-out;
     box-shadow: ${({ theme }) => theme.shadows.large};
@@ -80,6 +107,7 @@ export const LeftSidebarContainer = styled.div`
 
 /* --- СТИЛІ ДЛЯ ПРАВОГО САЙДБАРУ --- */
 export const RightSidebarContainer = styled.div`
+  box-sizing: border-box;
   grid-column: 3;
   grid-row: 1;
   position: sticky;
@@ -96,17 +124,34 @@ export const RightSidebarContainer = styled.div`
 
   ${({ theme }) => theme.media.down("md")`
     position: fixed;
-    top: 50px; /* Запускаємо сайдбар відразу під мобільним хедером */
+    top: 50px;
     right: 0;
     width: 100%;
-    height: calc(100vh - 50px - 50px); /* Висота: 100vh мінус хедер і нижня навігація */
+    height: calc(100vh - 50px - 50px);
     overflow-y: auto;
     background: ${({ theme }) => theme.colors.navBg};
-    z-index: 998; /* Знижуємо z-index, щоб не перекривати Nav (z-index: 1000) */
+    z-index: 998;
     transform: translateX(${({ showMobile }) => (showMobile ? "0" : "100%")});
     transition: transform 0.3s ease-in-out;
     box-shadow: ${({ theme }) => theme.shadows.large};
     margin-right: 0;
+    
+    ${({ isRightSidebarSplit }) =>
+      isRightSidebarSplit &&
+      `
+      position: relative;
+      width: 100%;
+      height: 100%;
+      grid-column: 1;
+      grid-row: 2;
+      overflow-y: auto;
+      top: auto;
+      right: auto;
+      transform: translateX(0);
+      transition: all 0.3s ease-in-out;
+      box-shadow: ${theme.shadows.medium};
+      z-index: 998;
+    `}
   `}
 `;
 
@@ -121,7 +166,7 @@ export const MobileLeftSidebarOverlay = styled.div`
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 997; /* Ще нижчий z-index, щоб був під сайдбаром */
+    z-index: 997;
     cursor: pointer;
   `}
 `;
@@ -136,7 +181,13 @@ export const MobileRightSidebarOverlay = styled.div`
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 997; /* Ще нижчий z-index, щоб був під сайдбаром */
+    z-index: 997;
     cursor: pointer;
+    
+    ${({ isRightSidebarSplit }) =>
+      isRightSidebarSplit &&
+      `
+      display: none;
+    `}
   `}
 `;
