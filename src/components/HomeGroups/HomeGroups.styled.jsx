@@ -4,10 +4,7 @@ import styled from "styled-components";
 // Контейнер для головного блоку HomeGroups
 export const HomeGroupsContainer = styled.div`
   margin: 0;
-  //padding: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використано theme.spacing
-  background-color: ${({ theme }) => theme.colors.background}; // ОНОВЛЕНО: Використано theme.colors
-  border-radius: ${({ theme }) => theme.borderRadius.medium};
-  box-shadow: ${({ theme }) => theme.shadows.small};
+  background-color: ${({ theme }) => theme.colors.background};
   transition: background-color 0.25s ease-in-out;
 `;
 

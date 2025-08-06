@@ -17,11 +17,9 @@ const shouldForwardProp = prop =>
     "isOpen",
   ].includes(prop);
 
-// ОНОВЛЕНО: Замість min-height використовуємо height: 100vh
-// та дозволяємо прокручування на цьому рівні.
 export const Wrapper = styled.div`
   height: 100vh;
-  overflow-y: auto; // <-- ТЕПЕР ПРОКРУЧУВАННЯ ТУТ!
+  overflow-y: auto;
   background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.color};
   transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
@@ -48,26 +46,48 @@ export const ContentGrid = styled.div.withConfig({ shouldForwardProp })`
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
     min-height: calc(100vh - 100px);
-    overflow: hidden; // <-- ЗАЛИШАЄМО ЦЕ ТУТ, ЩОБ ЗАПОБІГТИ СТРИБКАМ
+    overflow: hidden;
     transition: none;
   `}
 `;
 
 export const Main = styled.main.withConfig({ shouldForwardProp })`
-  box-sizing: border-box;
   grid-column: 2;
   grid-row: 1;
   overflow-y: auto;
-  padding: ${({ theme }) => theme.spacing.medium};
   padding-top: ${({ navHeight }) => navHeight}px;
   transition: padding 0.2s ease-in-out, background 0.25s ease-in-out;
+
+  /* Базові стилі для десктопу, які будуть перевизначатися */
+  padding-left: ${({ theme, sidebarCollapsed, rightSidebarExpanded }) =>
+    sidebarCollapsed && !rightSidebarExpanded ? "15%" : theme.spacing.xlarge};
+  padding-right: ${({ theme, sidebarCollapsed, rightSidebarExpanded }) =>
+    sidebarCollapsed && !rightSidebarExpanded ? "15%" : theme.spacing.xlarge};
+
+  /* Медіазапити в порядку "від більшого до меншого" */
+  ${({ theme }) => theme.media.down("lg")`
+    padding-left: ${theme.spacing.large};
+    padding-right: ${theme.spacing.large};
+  `}
 
   ${({ theme }) => theme.media.down("md")`
     grid-column: 1;
     grid-row: 1;
-    padding: ${({ theme }) => theme.spacing.small};
+    padding-left: ${theme.spacing.medium};
+    padding-right: ${theme.spacing.medium};
     padding-top: 50px;
     transition: none;
+  `}
+  
+  ${({ theme }) => theme.media.down("sm")`
+    padding-left: ${theme.spacing.small};
+    padding-right: ${theme.spacing.small};
+    padding-bottom: 50px;
+  `}
+  
+  ${({ theme }) => theme.media.down("xs")`
+    padding-left: ${theme.spacing.xsmall};
+    padding-right: ${theme.spacing.xsmall};
   `}
 `;
 

@@ -182,6 +182,7 @@ const Layout = () => {
           </LeftSidebarContainer>
         )}
         <Main
+          sidebarCollapsed={leftSidebarCollapsed}
           rightSidebarExpanded={rightSidebarExpanded}
           navHeight={navHeight}
           isRightSidebarSplit={isRightSidebarSplit}

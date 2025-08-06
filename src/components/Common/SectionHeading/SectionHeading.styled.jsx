@@ -23,7 +23,6 @@ export const StyledHeading = styled.h3`
   margin-bottom: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використано theme.spacing
   line-height: 1.2;
   transition: color 0.25s ease-in-out;
-
   ${props =>
     props.size === "default" &&
     `

@@ -6,13 +6,8 @@ export const HomeGroupLessonDisplayContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 1200px;
+  //max-width: 1200px;
   margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.medium};
-  // Медіа-запит для мобільних пристроїв
-  ${({ theme }) => theme.media.down("sm")`
-    padding: ${({ theme }) => theme.spacing.small};
-  `}
 `;
 
 // Обгортка для заголовка та мета-інформації уроку
@@ -42,7 +37,7 @@ export const HomeGroupLessonTextWrapper = styled.div`
   line-height: 1.8;
   font-size: ${({ theme }) => theme.fontSizes.medium};
   color: ${({ theme }) => theme.colors.color};
-  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для основного кольору тексту
+  transition: color 0.25s ease-in-out;
 
   // Медіа-запит для мобільних пристроїв, щоб трохи зменшити шрифт
   ${({ theme }) => theme.media.down("sm")`
