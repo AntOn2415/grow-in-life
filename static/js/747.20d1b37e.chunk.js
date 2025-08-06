@@ -14,7 +14,7 @@
   background-color: ${e=>{let{theme:t}=e;return t.colors.background}}; // ОНОВЛЕНО: Використано theme.colors
   color: ${e=>{let{theme:t}=e;return t.colors.color}}; // ОНОВЛЕНО: Використано theme.colors
 
-  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+  transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
 
   // Медіазапит для мобільних
   ${e=>{let{theme:t}=e;return t.media.down("md")`
@@ -39,4 +39,4 @@
     color: ${e=>{let{theme:t}=e;return t.colors.accentColorHover}}; // ОНОВЛЕНО: Додано hover-ефект
   }
 `;var i=r(579);const s=()=>(0,i.jsxs)(n,{children:[(0,i.jsx)(l,{children:"\u0417\u0440\u043e\u0441\u0442\u0430\u0439 \u0443 \u0416\u0438\u0442\u0442\u0456"}),(0,i.jsx)("p",{children:(0,i.jsx)(c,{href:"https://www.bible.com/uk/bible/143/ezra.7.10",children:"\u0415\u0437\u0434\u0440\u0430 \u043d\u0430\u0432\u0447\u0430\u0432\u0441\u044f, \u0432\u0438\u043a\u043e\u043d\u0443\u0432\u0430\u0432 \u0437\u0430\u043a\u043e\u043d \u0456 \u043d\u0430\u0432\u0447\u0430\u0432 \u0456\u043d\u0448\u0438\u0445."})})]});function a(){return(0,i.jsx)(s,{})}}}]);
-//# sourceMappingURL=747.9dc2d52a.chunk.js.map
+//# sourceMappingURL=747.20d1b37e.chunk.js.map

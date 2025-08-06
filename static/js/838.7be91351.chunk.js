@@ -4,8 +4,8 @@
   border-radius: ${e=>{let{theme:t}=e;return t.borderRadius.medium}};
   box-shadow: ${e=>{let{theme:t}=e;return t.shadows.small}};
   overflow: hidden;
-  transition: box-shadow 0.2s ease-in-out, background-color 0.4s ease-in-out,
-    border-color 0.4s ease-in-out; // ДОДАНО: Переходи для фону та межі
+  transition: box-shadow 0.2s ease-in-out, background-color 0.25s ease-in-out,
+    border-color 0.25s ease-in-out; // ДОДАНО: Переходи для фону та межі
 
   &:hover {
     box-shadow: ${e=>{let{theme:t}=e;return t.shadows.medium}};
@@ -20,7 +20,7 @@
   font-weight: bold;
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.large}};
   cursor: pointer;
-  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out; // ДОДАНО: Переходи для фону та тексту
+  transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out; // ДОДАНО: Переходи для фону та тексту
 
   &:hover {
     background-color: ${e=>{let{theme:t}=e;return t.colors.accentBgHover||t.colors.accentBg}};
@@ -34,7 +34,7 @@
   a {
     color: ${e=>{let{theme:t}=e;return t.colors.buttonColor}};
     text-decoration: none;
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору посилання
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору посилання
     &:hover {
       text-decoration: underline;
     }
@@ -49,7 +49,7 @@
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
   line-height: 1.6;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту
 
   p {
     margin-bottom: 1em;
@@ -61,7 +61,7 @@
   a {
     color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
     text-decoration: none;
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору посилання
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору посилання
     &:hover {
       text-decoration: underline;
     }
@@ -73,7 +73,7 @@
     margin-top: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
     padding-left: ${e=>{let{theme:t}=e;return t.spacing.small}};
     border-left: 2px solid ${e=>{let{theme:t}=e;return t.colors.borderColor}};
-    transition: color 0.4s ease-in-out, border-color 0.4s ease-in-out; // ДОДАНО: Переходи для тексту та межі
+    transition: color 0.25s ease-in-out, border-color 0.25s ease-in-out; // ДОДАНО: Переходи для тексту та межі
   }
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
@@ -105,7 +105,7 @@
   padding: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано spacing
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано spacing
 
-  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  transition: background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
 
   ${e=>{let{theme:t}=e;return t.media.down("md")`
     padding: ${e=>{let{theme:t}=e;return t.spacing.medium}};
@@ -117,7 +117,7 @@
   margin-top: ${e=>{let{theme:t}=e;return t.spacing.xxlarge}}; // ОНОВЛЕНО: Використано theme.spacing
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано theme.spacing
   line-height: 1.2;
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 
   ${e=>"default"===e.size&&`\n    font-size: ${e.theme.fontSizes.xlarge}; // \u041e\u041d\u041e\u0412\u041b\u0415\u041d\u041e: \u0412\u0438\u043a\u043e\u0440\u0438\u0441\u0442\u0430\u043d\u043e theme.fontSizes\n  `}
 
@@ -148,7 +148,7 @@
   padding: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано spacing
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано spacing
 
-  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  transition: background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
 
   ${e=>{let{theme:t}=e;return t.media.down("md")`
     padding: ${e=>{let{theme:t}=e;return t.spacing.medium}};
@@ -160,7 +160,7 @@
   background-color: ${e=>{let{theme:t}=e;return t.colors.background}}; // ОНОВЛЕНО: Використано theme.colors
   border-radius: ${e=>{let{theme:t}=e;return t.borderRadius.medium}};
   box-shadow: ${e=>{let{theme:t}=e;return t.shadows.small}};
-  transition: background-color 0.4s ease-in-out;
+  transition: background-color 0.25s ease-in-out;
 `,i=n.Ay.p`
   text-align: center;
   margin-top: ${e=>{let{theme:t}=e;return t.spacing.xxlarge}}; // ОНОВЛЕНО: Використано theme.spacing
@@ -216,8 +216,8 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out,
-    box-shadow 0.4s ease-in-out; // ДОДАНО: Переходи для кольорів
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out; // ДОДАНО: Переходи для кольорів
 
   // Медіазапити для адаптації на мобільних
   ${e=>{let{theme:t}=e;return t.media.down("md")`
@@ -233,7 +233,7 @@
   margin: ${e=>{let{theme:t}=e;return t.spacing.large}} 0; // ОНОВЛЕНО: Використано spacing
   box-shadow: ${e=>{let{theme:t}=e;return t.shadows.small}};
   text-align: center;
-  transition: all 0.4s ease-in-out;
+  transition: all 0.25s ease-in-out;
 
   // Медіазапит для мобільних
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
@@ -244,7 +244,7 @@
   h4 {
     margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.small}}; // ОНОВЛЕНО: Використано spacing
     color: ${e=>{let{theme:t}=e;return t.colors.accentColor}}; // ОНОВЛЕНО: Використано theme.colors
-    transition: color 0.4s ease-in-out;
+    transition: color 0.25s ease-in-out;
 
     // Медіазапит для мобільних
     ${e=>{let{theme:t}=e;return t.media.down("sm")`
@@ -256,7 +256,7 @@
     color: ${e=>{let{theme:t}=e;return t.colors.color}}; // ОНОВЛЕНО: Використано theme.colors
     font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
     margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.medium}}; // ОНОВЛЕНО: Використано spacing
-    transition: color 0.4s ease-in-out, font-size 0.4s ease-in-out;
+    transition: color 0.25s ease-in-out, font-size 0.25s ease-in-out;
 
     // Медіазапит для мобільних
     ${e=>{let{theme:t}=e;return t.media.down("sm")`
@@ -272,21 +272,21 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
-  transition: border-radius 0.4s ease-in-out;
+  transition: border-radius 0.25s ease-in-out;
 `,v=n.Ay.p`
   font-style: italic;
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.small}};
   color: ${e=>{let{theme:t}=e;return t.colors.color}}; // ОНОВЛЕНО: Використано theme.colors
   margin-top: ${e=>{let{theme:t}=e;return t.spacing.xsmall}}; // ОНОВЛЕНО: Використано spacing
-  transition: color 0.4s ease-in-out, font-size 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out, font-size 0.25s ease-in-out;
 `;const z=function(e){let{imageUrl:t,caption:r,altText:o}=e;return(0,m.jsxs)(y,{children:[t?(0,m.jsx)(w,{src:t,alt:o||"\u0417\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u043d\u044f"}):(0,m.jsx)("p",{children:"\u0417\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u043d\u044f \u0432\u0456\u0434\u0441\u0443\u0442\u043d\u0454."}),r&&(0,m.jsx)(v,{children:r})]})},j=(n.Ay.div`
   background-color: ${e=>{let{theme:t}=e;return t.colors.background}};
   border: 1px solid ${e=>{let{theme:t}=e;return t.colors.borderColor}};
   border-radius: ${e=>{let{theme:t}=e;return t.borderRadius.medium}};
   box-shadow: ${e=>{let{theme:t}=e;return t.shadows.small}};
   overflow: hidden;
-  transition: box-shadow 0.2s ease-in-out, background-color 0.4s ease-in-out,
-    border-color 0.4s ease-in-out;
+  transition: box-shadow 0.2s ease-in-out, background-color 0.25s ease-in-out,
+    border-color 0.25s ease-in-out;
 
   &:hover {
     box-shadow: ${e=>{let{theme:t}=e;return t.shadows.medium}};
@@ -301,7 +301,7 @@
   font-weight: bold;
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.large}};
   cursor: pointer;
-  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+  transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
 
   &:hover {
     background-color: ${e=>{let{theme:t}=e;return t.colors.accentBgHover||t.colors.accentBg}};
@@ -315,7 +315,7 @@
   a {
     color: ${e=>{let{theme:t}=e;return t.colors.buttonColor}};
     text-decoration: none;
-    transition: color 0.4s ease-in-out;
+    transition: color 0.25s ease-in-out;
     &:hover {
       text-decoration: underline;
     }
@@ -330,7 +330,7 @@
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
   line-height: 1.6;
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 
   p {
     margin-bottom: 1em;
@@ -342,7 +342,7 @@
   a {
     color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
     text-decoration: none;
-    transition: color 0.4s ease-in-out;
+    transition: color 0.25s ease-in-out;
     &:hover {
       text-decoration: underline;
     }
@@ -354,7 +354,7 @@
     margin-top: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
     padding-left: ${e=>{let{theme:t}=e;return t.spacing.small}};
     border-left: 2px solid ${e=>{let{theme:t}=e;return t.colors.borderColor}};
-    transition: color 0.4s ease-in-out, border-color 0.4s ease-in-out;
+    transition: color 0.25s ease-in-out, border-color 0.25s ease-in-out;
   }
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
@@ -370,8 +370,8 @@
   display: flex;
   align-items: flex-start;
   box-shadow: ${e=>{let{theme:t}=e;return t.shadows.small}};
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out,
-    box-shadow 0.4s ease-in-out; // ДОДАНО: Переходи для фону, межі та тіні
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out; // ДОДАНО: Переходи для фону, межі та тіні
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     padding: ${e=>{let{theme:t}=e;return t.spacing.small}};
@@ -396,7 +396,7 @@
   margin-top: 0;
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
   font-weight: bold;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
 `,S=e=>{let{title:t,content:r,emoji:o}=e;return(0,m.jsxs)(j,{children:[o&&(0,m.jsx)(k,{children:o}),(0,m.jsxs)(A,{children:[t&&(0,m.jsx)(C,{children:t}),r&&(0,m.jsx)("p",{children:r})]})]})};var B=r(3546),R=r(6446);const T=n.Ay.div`
   background-color: ${e=>{let{theme:t}=e;return t.colors.interactiveBgYellow}};
   border: 1px solid ${e=>{let{theme:t}=e;return t.colors.interactiveBorderYellow}};
@@ -407,7 +407,7 @@
   flex-direction: column;
   align-items: flex-start;
   box-shadow: ${e=>{let{theme:t}=e;return t.shadows.small}};
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out; // ДОДАНО: Перехід для фону та рамки
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out; // ДОДАНО: Перехід для фону та рамки
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     padding: ${e=>{let{theme:t}=e;return t.spacing.small}};
@@ -425,7 +425,7 @@
   font-weight: bold;
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.small}};
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
@@ -439,11 +439,11 @@
   cursor: pointer;
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
   font-weight: bold;
-  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для фону та тексту
+  transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out; // ОНОВЛЕНО: Перехід для фону та тексту
 
   &:hover {
     background: ${e=>{let{theme:t}=e;return t.colors.hoverBtn}}; // ОНОВЛЕНО
-    transition: background 0.3s ease-in-out;
+    transition: background 0.25s ease-in-out;
   }
 `,P=n.Ay.div`
   background-color: ${e=>{let{theme:t}=e;return t.colors.background}};
@@ -454,13 +454,13 @@
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
   border-radius: ${e=>{let{theme:t}=e;return t.borderRadius.small}};
   width: 100%;
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out,
-    color 0.4s ease-in-out; // ДОДАНО: Перехід для фону, рамки та тексту
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
+    color 0.25s ease-in-out; // ДОДАНО: Перехід для фону, рамки та тексту
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     padding: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
   `}}
-`,I=e=>{let{question:t,answer:r,emoji:n}=e;const[l,i]=(0,o.useState)(!1);return(0,m.jsxs)(T,{children:[(0,m.jsx)(E,{children:n||"\u2753"}),(0,m.jsx)(D,{children:t}),r&&(0,m.jsx)(O,{onClick:()=>{i(!l)},children:l?"\u0421\u0445\u043e\u0432\u0430\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u044c":"\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u044c"}),(0,m.jsx)(B.N,{children:l&&r&&(0,m.jsx)(R.P.div,{initial:{height:0,opacity:0,overflow:"hidden"},animate:{height:"auto",opacity:1},exit:{height:0,opacity:0},transition:{duration:.3,ease:[.4,0,.2,1]},children:(0,m.jsx)(P,{children:r})})})]})},H=n.Ay.div`
+`,I=e=>{let{question:t,answer:r,emoji:n}=e;const[l,i]=(0,o.useState)(!1);return(0,m.jsxs)(T,{children:[(0,m.jsx)(E,{children:n||"\u2753"}),(0,m.jsx)(D,{children:t}),r&&(0,m.jsx)(O,{onClick:()=>{i(!l)},children:l?"\u0421\u0445\u043e\u0432\u0430\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u044c":"\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u044c"}),(0,m.jsx)(B.N,{children:l&&r&&(0,m.jsx)(R.P.div,{initial:{height:0,opacity:0,overflow:"hidden"},animate:{height:"auto",opacity:1},exit:{height:0,opacity:0},transition:{duration:.25,ease:[.4,0,.2,1]},children:(0,m.jsx)(P,{children:r})})})]})},H=n.Ay.div`
   margin-top: ${e=>{let{theme:t}=e;return t.spacing.large}};
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}};
   width: 100%;
@@ -478,7 +478,7 @@
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}};
   font-weight: bold;
   line-height: 1.3;
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 
   ${e=>{let{theme:t}=e;return t.media.down("md")`
     font-size: ${e=>{let{theme:t}=e;return t.fontSizes.large}};
@@ -507,8 +507,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  transition: transform 0.25s ease, background-color 0.4s ease-in-out, box-shadow 0.25s ease,
-    border-color 0.4s ease-in-out;
+  transition: transform 0.25s ease, background-color 0.25s ease-in-out, box-shadow 0.25s ease,
+    border-color 0.25s ease-in-out;
   overflow: hidden;
   position: relative;
   border: 1px solid ${e=>{let{theme:t}=e;return t.colors.cardBorder||t.colors.borderColor}};
@@ -545,7 +545,7 @@
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
   margin: 0;
   line-height: 1.3;
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 `,V=n.Ay.div`
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
   line-height: 1.6;
@@ -553,7 +553,7 @@
   flex: 1;
   position: relative;
   width: 100%;
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 
   padding-bottom: ${e=>{let{isExpanded:t}=e;return t?"5.5rem":"0"}};
 
@@ -576,7 +576,7 @@
   justify-content: flex-start;
   padding: ${e=>{let{theme:t}=e;return t.spacing.xsmall}} ${e=>{let{theme:t}=e;return t.spacing.small}};
   box-sizing: border-box;
-  transition: background-color 0.4s ease-in-out;
+  transition: background-color 0.25s ease-in-out;
 
   &::before {
     content: "";
@@ -609,7 +609,7 @@
   cursor: pointer;
   padding: ${e=>{let{theme:t}=e;return t.spacing.xsmall}} 0;
   align-self: flex-start;
-  transition: color 0.4s ease-in-out, transform 0.2s ease;
+  transition: color 0.25s ease-in-out, transform 0.2s ease;
   display: flex;
   align-items: center;
   gap: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
@@ -638,7 +638,7 @@
     width: 2px;
     background-color: ${e=>{let{theme:t}=e;return t.colors.borderColor}};
     z-index: 0;
-    transition: background-color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору лінії
+    transition: background-color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору лінії
   }
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
@@ -672,7 +672,7 @@
   border: 2px solid ${e=>{let{theme:t}=e;return t.colors.background}};
   z-index: 1;
   transform-origin: center;
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out; // ДОДАНО: Перехід для кольорів точки
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out; // ДОДАНО: Перехід для кольорів точки
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     width: 10px;
@@ -691,14 +691,14 @@
   justify-content: center;
   position: relative;
   cursor: pointer;
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out; // ДОДАНО: Перехід для фону і рамки
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out; // ДОДАНО: Перехід для фону і рамки
 `,te=n.Ay.h4`
   color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.large}};
   margin: 0;
   font-weight: bold;
   line-height: 1.3;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору
 
   display: flex;
   flex-direction: row;
@@ -718,7 +718,7 @@
     line-height: 1.3;
     font-size: ${e=>{let{theme:t}=e;return t.fontSizes.large}};
     color: ${e=>{let{theme:t}=e;return t.colors.colorSecondary}};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору іконки
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору іконки
   }
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
@@ -738,7 +738,7 @@
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.xxsmall}};
   white-space: nowrap;
   font-weight: normal;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     font-size: ${e=>{let{theme:t}=e;return t.fontSizes.xsmall}};
@@ -749,7 +749,7 @@
   line-height: 1.5;
   margin-bottom: 0;
   word-wrap: break-word;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     font-size: ${e=>{let{theme:t}=e;return t.fontSizes.small}};
@@ -761,7 +761,7 @@
   flex-wrap: wrap;
   gap: 8px;
   cursor: default;
-  transition: border-top-color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору рамки
+  transition: border-top-color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору рамки
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     gap: 6px;
@@ -802,7 +802,7 @@
   border: 1px solid ${e=>{let{theme:t}=e;return t.colors.borderColor}}; // ОНОВЛЕНО: Використано theme.colors
   border-radius: ${e=>{let{theme:t}=e;return t.borderRadius.medium}}; // ОНОВЛЕНО: Використано borderRadius
   box-shadow: ${e=>{let{theme:t}=e;return t.shadows.small}}; // ОНОВЛЕНО: Використано shadows
-  transition: all 0.3s ease-in-out;
+  transition: all 0.25s ease-in-out;
 
   background-color: ${e=>"positive"===e.$type?e.theme.colors.positiveBackground:"negative"===e.$type?e.theme.colors.negativeBackground:"neutral1"===e.$type?e.theme.colors.neutralBackground1:"neutral2"===e.$type?e.theme.colors.neutralBackground2:e.theme.colors.cardBackground};
   border: 1px solid
@@ -847,7 +847,7 @@
   flex-direction: column; /* За замовчуванням стовпець на мобільних */
   gap: ${e=>{let{theme:t}=e;return t.spacing.large}};
   align-items: center; /* Центрування елементів */
-  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out; // ДОДАНО: Переходи для фону та тіні
+  transition: background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out; // ДОДАНО: Переходи для фону та тіні
 
   .content-area {
     display: flex;
@@ -866,7 +866,7 @@
     margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.medium}};
     color: ${e=>{let{theme:t}=e;return t.colors.color}};
     font-size: ${e=>{let{theme:t}=e;return t.fontSizes.extraLarge}};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
 
     ${e=>{let{theme:t}=e;return t.media.up("md")`
       text-align: left;
@@ -877,7 +877,7 @@
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
   line-height: 1.6;
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту
 
   p {
     margin-bottom: 1em;
@@ -888,7 +888,7 @@
 
   strong {
     color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору акцентного тексту
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору акцентного тексту
   }
 
   ${e=>{let{theme:t}=e;return t.media.up("md")`
@@ -906,7 +906,7 @@
   border-radius: ${e=>{let{theme:t}=e;return t.borderRadius.small}};
   box-shadow: ${e=>{let{theme:t}=e;return t.shadows.extraSmall}};
   max-width: 100%;
-  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out; // ДОДАНО: Переходи для фону та тіні
+  transition: background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out; // ДОДАНО: Переходи для фону та тіні
 
   ${e=>{let{theme:t}=e;return t.media.up("md")`
     max-width: 45%;
@@ -920,7 +920,7 @@
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.small}};
   color: ${e=>{let{theme:t}=e;return t.colors.textColorLight}};
   line-height: 1.4;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту
 `,we=e=>{let{title:t,content:r,imageUrl:o,altText:n,caption:l,imagePosition:i}=e;return r||o?(0,m.jsxs)(xe,{imagePosition:i,children:[t&&(0,m.jsx)(a.A,{as:"h3",children:t}),(0,m.jsxs)("div",{className:"content-area",children:[" ",r&&(0,m.jsxs)($e,{children:[r," "]}),o&&(0,m.jsxs)(be,{children:[(0,m.jsx)(fe,{src:o,alt:n}),l&&(0,m.jsx)(ye,{children:l})]})]})]}):null};var ve=r(8056);const ze=function(e){let{lessonData:t}=e;if(!t)return(0,m.jsx)("p",{children:"\u0417\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u0443\u0440\u043e\u043a\u0443 \u0434\u043e\u043c\u0430\u0448\u043d\u044c\u043e\u0457 \u0433\u0440\u0443\u043f\u0438..."});const{title:r,author:n,book:l,chapter:i,verses:u,date:g,duration:p,theme:x,tags:$,description:b,sections:y}=t;return(0,m.jsxs)(ve.Sg,{children:[(0,m.jsxs)(ve.ae,{children:[(0,m.jsx)("h2",{children:r}),(0,m.jsx)(h,{author:n,book:l,chapter:i,verses:u,date:g,duration:p,theme:x,tags:$})]}),(0,m.jsx)(ve.IZ,{children:(0,m.jsx)(s.A,{children:(0,m.jsxs)(ve.tG,{children:[b&&b,y.map((e,t)=>{switch(e.type){case"text":return(0,m.jsxs)(o.Fragment,{children:[e.title&&(0,m.jsx)(a.A,{as:e.subtitle?"h4":"h3",size:e.subtitle?"medium":"default",children:e.title}),e.content.map((e,t)=>(0,m.jsx)(o.Fragment,{children:e},t))]},t);case"quiz":return(0,m.jsx)(c.A,{quizData:e},e.id);case"reveal-cards":return(0,m.jsxs)(o.Fragment,{children:[e.title&&(0,m.jsx)(a.A,{as:"h3",size:"default",children:e.title}),e.cards.map(e=>(0,m.jsx)(d.A,{cardData:e},e.id))]},t);case"highlight-box":return(0,m.jsx)(S,{...e},t);case"question-prompt":return(0,m.jsx)(I,{...e},t);case"list-cards":return(0,m.jsx)(X,{...e},t);case"timeline":return(0,m.jsx)(ae,{...e},t);case"contrast-section":return(0,m.jsx)(pe,{...e},t);case"diagram":return(0,m.jsx)(f,{chartType:e.chartType,title:e.title,description:e.description,chartData:e.chartData,chartOptions:e.chartOptions},t);case"image-placeholder":return(0,m.jsx)(z,{title:e.title,description:e.description,imageUrl:e.imageUrl,altText:e.altText,caption:e.caption},t);case"description-with-image":return(0,m.jsx)(we,{title:e.title,content:e.content,imageUrl:e.imageUrl,altText:e.altText,caption:e.caption,imagePosition:e.imagePosition},t);default:return console.warn(`\u041d\u0435\u0432\u0456\u0434\u043e\u043c\u0438\u0439 \u0442\u0438\u043f \u0441\u0435\u043a\u0446\u0456\u0457: ${e.type}`),null}})]})})})]})};var je=r(6841),ke=r(5003);const Ae=()=>{const{selectedHomeGroupLesson:e,setSelectedHomeGroupLesson:t}=(0,ke.t)(),[r,n]=(0,o.useState)(null),[s,a]=(0,o.useState)(!0),c=(e=>{if(!e)return null;for(const t in je.H)if(je.H.hasOwnProperty(t)){const r=je.H[t];if(Array.isArray(r)&&r.length>0){const t=r.find(t=>t.id===e);if(t)return t}}return null})(e);return(0,o.useEffect)(()=>{if(!e){let e=null;for(const t in je.H)if(je.H.hasOwnProperty(t)){const r=je.H[t];if(Array.isArray(r)&&r.length>0){e=r[0].id;break}}e?t(e):a(!1)}},[e,t]),(0,o.useEffect)(()=>{e&&(async()=>{if(a(!0),n(null),c&&c.loadLesson)try{const e=await c.loadLesson();n(e.default)}catch(e){console.error("\u041f\u043e\u043c\u0438\u043b\u043a\u0430 \u0437\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u0443\u0440\u043e\u043a\u0443:",e),n(null)}finally{a(!1)}else a(!1)})()},[c,e]),(0,m.jsx)(l,{children:s?(0,m.jsx)(i,{children:"\u0417\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u0443\u0440\u043e\u043a\u0443..."}):r?(0,m.jsx)(ze,{lessonData:r}):(0,m.jsx)(i,{children:"\u0411\u0443\u0434\u044c \u043b\u0430\u0441\u043a\u0430, \u043e\u0431\u0435\u0440\u0456\u0442\u044c \u0443\u0440\u043e\u043a \u0434\u043e\u043c\u0430\u0448\u043d\u044c\u043e\u0457 \u0433\u0440\u0443\u043f\u0438 \u0437\u0456 \u0441\u043f\u0438\u0441\u043a\u0443 \u0432 \u043c\u0435\u043d\u044e."})})};function Ce(){return(0,m.jsx)(Ae,{})}},8056:(e,t,r)=>{r.d(t,{IZ:()=>i,Sg:()=>n,ae:()=>l,sY:()=>a,tG:()=>s});var o=r(4574);const n=o.Ay.div`
   display: flex;
   flex-direction: column;
@@ -939,7 +939,7 @@
     font-size: ${e=>{let{theme:t}=e;return t.fontSizes.xxlarge}};
     color: ${e=>{let{theme:t}=e;return t.colors.color}};
     margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
 
     // Медіа-запит для мобільних пристроїв, щоб зменшити шрифт
     ${e=>{let{theme:t}=e;return t.media.down("sm")`
@@ -952,7 +952,7 @@
   line-height: 1.8;
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для основного кольору тексту
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для основного кольору тексту
 
   // Медіа-запит для мобільних пристроїв, щоб трохи зменшити шрифт
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
@@ -981,7 +981,7 @@
 
   strong {
     color: ${e=>{let{theme:t}=e;return t.colors.color}};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору жирного тексту
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору жирного тексту
   }
 
   h1,
@@ -991,7 +991,7 @@
   h5,
   h6 {
     color: ${e=>{let{theme:t}=e;return t.colors.color}};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору заголовків
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору заголовків
   }
 `,a=o.Ay.button`
   background: none;
@@ -1002,7 +1002,7 @@
   text-decoration: underline;
   color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
   display: inline;
-  transition: color 0.4s ease-in-out, text-shadow 0.2s ease-in-out; // Transition for text shadow
+  transition: color 0.25s ease-in-out, text-shadow 0.2s ease-in-out; // Transition for text shadow
 
   &:hover {
     color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
@@ -1026,8 +1026,8 @@
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.medium}};
   box-shadow: ${e=>{let{theme:t}=e;return t.shadows.small}};
 
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out,
-    box-shadow 0.4s ease-in-out; // ДОДАНО: Переходи для фону, межі та тіні
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out; // ДОДАНО: Переходи для фону, межі та тіні
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     padding: ${e=>{let{theme:t}=e;return t.spacing.small}};
@@ -1042,7 +1042,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту запитання
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту запитання
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
@@ -1055,7 +1055,7 @@
   border-top: 1px solid ${e=>{let{theme:t}=e;return t.colors.borderColor}};
   padding-top: ${e=>{let{theme:t}=e;return t.spacing.small}};
 
-  transition: border-color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору верхньої межі списку опцій
+  transition: border-color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору верхньої межі списку опцій
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     margin-top: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
@@ -1071,8 +1071,8 @@
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
   cursor: pointer;
 
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out,
-    color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для всіх кольорових властивостей
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
+    color 0.25s ease-in-out; // ОНОВЛЕНО: Перехід для всіх кольорових властивостей
 
   &:last-child {
     margin-bottom: 0;
@@ -1097,6 +1097,6 @@
   font-weight: bold;
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
 
-  transition: transform 0.2s ease-in-out, color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для кольору іконки
+  transition: transform 0.2s ease-in-out, color 0.25s ease-in-out; // ОНОВЛЕНО: Перехід для кольору іконки
 `;var d=r(579);function m(e){let{quizData:t}=e;const[r,n]=(0,o.useState)(!1),[m,u]=(0,o.useState)(null);return(0,d.jsxs)(l,{children:[(0,d.jsxs)(i,{onClick:()=>{n(!r),r&&u(null)},children:[t.question,(0,d.jsx)(c,{isActive:r,children:r?"\u2212":"+"})]}),r&&(0,d.jsx)(s,{children:t.options.map((e,t)=>(0,d.jsx)(a,{onClick:()=>(e=>{u(e)})(t),isSelected:m===t,isCorrectOption:e.isCorrect,showFeedback:null!==m,children:e.text},t))})]})}}}]);
-//# sourceMappingURL=838.fbf8303a.chunk.js.map
+//# sourceMappingURL=838.7be91351.chunk.js.map

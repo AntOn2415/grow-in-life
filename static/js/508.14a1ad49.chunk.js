@@ -16,7 +16,7 @@
     font-size: ${e=>{let{theme:t}=e;return t.fontSizes.xxlarge}};
     color: ${e=>{let{theme:t}=e;return t.colors.color}};
     margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
 
     // Медіа-запит для мобільних пристроїв, щоб зменшити шрифт
     ${e=>{let{theme:t}=e;return t.media.down("sm")`
@@ -29,7 +29,7 @@
   line-height: 1.8;
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для основного кольору тексту
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для основного кольору тексту
 
   // Медіа-запит для мобільних пристроїв, щоб трохи зменшити шрифт
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
@@ -58,7 +58,7 @@
 
   strong {
     color: ${e=>{let{theme:t}=e;return t.colors.color}};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору жирного тексту
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору жирного тексту
   }
 
   h1,
@@ -68,7 +68,7 @@
   h5,
   h6 {
     color: ${e=>{let{theme:t}=e;return t.colors.color}};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору заголовків
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору заголовків
   }
 `,a=i.Ay.button`
   background: none;
@@ -79,7 +79,7 @@
   text-decoration: underline;
   color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
   display: inline;
-  transition: color 0.4s ease-in-out, text-shadow 0.2s ease-in-out; // Transition for text shadow
+  transition: color 0.25s ease-in-out, text-shadow 0.2s ease-in-out; // Transition for text shadow
 
   &:hover {
     color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
@@ -96,4 +96,4 @@
     color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
   }
 `}}]);
-//# sourceMappingURL=508.cde8e817.chunk.js.map
+//# sourceMappingURL=508.14a1ad49.chunk.js.map

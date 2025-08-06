@@ -4,8 +4,8 @@
   border-radius: ${e=>{let{theme:t}=e;return t.borderRadius.medium}};
   box-shadow: ${e=>{let{theme:t}=e;return t.shadows.small}};
   overflow: hidden;
-  transition: box-shadow 0.2s ease-in-out, background-color 0.4s ease-in-out,
-    border-color 0.4s ease-in-out; // ДОДАНО: Переходи для фону та межі
+  transition: box-shadow 0.2s ease-in-out, background-color 0.25s ease-in-out,
+    border-color 0.25s ease-in-out; // ДОДАНО: Переходи для фону та межі
 
   &:hover {
     box-shadow: ${e=>{let{theme:t}=e;return t.shadows.medium}};
@@ -20,7 +20,7 @@
   font-weight: bold;
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.large}};
   cursor: pointer;
-  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out; // ДОДАНО: Переходи для фону та тексту
+  transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out; // ДОДАНО: Переходи для фону та тексту
 
   &:hover {
     background-color: ${e=>{let{theme:t}=e;return t.colors.accentBgHover||t.colors.accentBg}};
@@ -34,7 +34,7 @@
   a {
     color: ${e=>{let{theme:t}=e;return t.colors.buttonColor}};
     text-decoration: none;
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору посилання
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору посилання
     &:hover {
       text-decoration: underline;
     }
@@ -49,7 +49,7 @@
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
   line-height: 1.6;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту
 
   p {
     margin-bottom: 1em;
@@ -61,7 +61,7 @@
   a {
     color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
     text-decoration: none;
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору посилання
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору посилання
     &:hover {
       text-decoration: underline;
     }
@@ -73,7 +73,7 @@
     margin-top: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
     padding-left: ${e=>{let{theme:t}=e;return t.spacing.small}};
     border-left: 2px solid ${e=>{let{theme:t}=e;return t.colors.borderColor}};
-    transition: color 0.4s ease-in-out, border-color 0.4s ease-in-out; // ДОДАНО: Переходи для тексту та межі
+    transition: color 0.25s ease-in-out, border-color 0.25s ease-in-out; // ДОДАНО: Переходи для тексту та межі
   }
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
@@ -105,7 +105,7 @@
   padding: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано spacing
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано spacing
 
-  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  transition: background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
 
   ${e=>{let{theme:t}=e;return t.media.down("md")`
     padding: ${e=>{let{theme:t}=e;return t.spacing.medium}};
@@ -117,7 +117,7 @@
   margin-top: ${e=>{let{theme:t}=e;return t.spacing.xxlarge}}; // ОНОВЛЕНО: Використано theme.spacing
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано theme.spacing
   line-height: 1.2;
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 
   ${e=>"default"===e.size&&`\n    font-size: ${e.theme.fontSizes.xlarge}; // \u041e\u041d\u041e\u0412\u041b\u0415\u041d\u041e: \u0412\u0438\u043a\u043e\u0440\u0438\u0441\u0442\u0430\u043d\u043e theme.fontSizes\n  `}
 
@@ -148,7 +148,7 @@
   padding: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано spacing
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано spacing
 
-  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  transition: background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
 
   ${e=>{let{theme:t}=e;return t.media.down("md")`
     padding: ${e=>{let{theme:t}=e;return t.spacing.medium}};
@@ -179,7 +179,7 @@
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}}; // ОНОВЛЕНО: Використано fontSizes
 
   // ДОДАНО: Плавний перехід для кольору тексту, оскільки це <p>
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 `);var l=r(2099),a=r(1441),c=r(8763),m=r(505);const d=n.Ay.div`
   display: flex;
   flex-wrap: wrap;
@@ -187,7 +187,7 @@
   gap: ${e=>{let{theme:t}=e;return t.spacing.small}}; // ОНОВЛЕНО: використовуємо spacing
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.small}}; // ОНОВЛЕНО: використовуємо fontSizes
   color: inherit;
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 
   span {
     white-space: nowrap;
@@ -216,7 +216,7 @@
   box-shadow: ${e=>{let{theme:t}=e;return t.shadows.medium}}; // ОНОВЛЕНО: Використовуємо shadows
 
   // Перехід налаштований і працює коректно
-  transition: background 0.4s ease-in-out, color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  transition: background 0.25s ease-in-out, color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
 
   /* Стилі для основного заголовка h2 всередині цього блоку */
   h2 {
@@ -253,7 +253,7 @@
   color: ${e=>{let{theme:t}=e;return t.colors.color}}; // ОНОВЛЕНО: Використовуємо theme.colors
 
   // ДОДАНО: Плавний перехід для кольору тексту
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 `,z=n.Ay.p`
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.small}}; // ОНОВЛЕНО: Використовуємо spacing
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}}; // ОНОВЛЕНО: Використовуємо fontSizes
@@ -281,8 +281,8 @@
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.medium}};
   box-shadow: ${e=>{let{theme:t}=e;return t.shadows.small}};
 
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out,
-    box-shadow 0.4s ease-in-out; // ДОДАНО: Переходи для фону, межі та тіні
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out; // ДОДАНО: Переходи для фону, межі та тіні
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     padding: ${e=>{let{theme:t}=e;return t.spacing.small}};
@@ -297,7 +297,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту запитання
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту запитання
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
@@ -310,7 +310,7 @@
   border-top: 1px solid ${e=>{let{theme:t}=e;return t.colors.borderColor}};
   padding-top: ${e=>{let{theme:t}=e;return t.spacing.small}};
 
-  transition: border-color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору верхньої межі списку опцій
+  transition: border-color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору верхньої межі списку опцій
 
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     margin-top: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
@@ -326,8 +326,8 @@
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
   cursor: pointer;
 
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out,
-    color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для всіх кольорових властивостей
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
+    color 0.25s ease-in-out; // ОНОВЛЕНО: Перехід для всіх кольорових властивостей
 
   &:last-child {
     margin-bottom: 0;
@@ -352,6 +352,6 @@
   font-weight: bold;
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
 
-  transition: transform 0.2s ease-in-out, color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для кольору іконки
+  transition: transform 0.2s ease-in-out, color 0.25s ease-in-out; // ОНОВЛЕНО: Перехід для кольору іконки
 `;var m=r(579);function d(e){let{quizData:t}=e;const[r,n]=(0,o.useState)(!1),[d,u]=(0,o.useState)(null);return(0,m.jsxs)(s,{children:[(0,m.jsxs)(i,{onClick:()=>{n(!r),r&&u(null)},children:[t.question,(0,m.jsx)(c,{isActive:r,children:r?"\u2212":"+"})]}),r&&(0,m.jsx)(l,{children:t.options.map((e,t)=>(0,m.jsx)(a,{onClick:()=>(e=>{u(e)})(t),isSelected:d===t,isCorrectOption:e.isCorrect,showFeedback:null!==d,children:e.text},t))})]})}}}]);
-//# sourceMappingURL=167.2649fc46.chunk.js.map
+//# sourceMappingURL=167.3dfc35a5.chunk.js.map
