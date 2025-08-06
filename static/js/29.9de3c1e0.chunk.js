@@ -2,13 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 1200px;
+  //max-width: 1200px;
   margin: 0 auto;
-  padding: ${t=>{let{theme:e}=t;return e.spacing.medium}};
-  // Медіа-запит для мобільних пристроїв
-  ${t=>{let{theme:e}=t;return e.media.down("sm")`
-    padding: ${t=>{let{theme:e}=t;return e.spacing.small}};
-  `}}
 `,r=o.Ay.div`
   text-align: center;
   margin-bottom: ${t=>{let{theme:e}=t;return e.spacing.large}};
@@ -29,7 +24,7 @@
   line-height: 1.8;
   font-size: ${t=>{let{theme:e}=t;return e.fontSizes.medium}};
   color: ${t=>{let{theme:e}=t;return e.colors.color}};
-  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для основного кольору тексту
+  transition: color 0.25s ease-in-out;
 
   // Медіа-запит для мобільних пристроїв, щоб трохи зменшити шрифт
   ${t=>{let{theme:e}=t;return e.media.down("sm")`
@@ -96,4 +91,4 @@
     color: ${t=>{let{theme:e}=t;return e.colors.accentColor}};
   }
 `}}]);
-//# sourceMappingURL=29.9e284de9.chunk.js.map
+//# sourceMappingURL=29.9de3c1e0.chunk.js.map

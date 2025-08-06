@@ -118,7 +118,6 @@
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано theme.spacing
   line-height: 1.2;
   transition: color 0.25s ease-in-out;
-
   ${e=>"default"===e.size&&`\n    font-size: ${e.theme.fontSizes.xlarge}; // \u041e\u041d\u041e\u0412\u041b\u0415\u041d\u041e: \u0412\u0438\u043a\u043e\u0440\u0438\u0441\u0442\u0430\u043d\u043e theme.fontSizes\n  `}
 
   ${e=>"medium"===e.size&&`\n    font-size: ${e.theme.fontSizes.large}; // \u041e\u041d\u041e\u0412\u041b\u0415\u041d\u041e: \u0412\u0438\u043a\u043e\u0440\u0438\u0441\u0442\u0430\u043d\u043e theme.fontSizes\n  `}
@@ -142,24 +141,14 @@
     }
   }
 `;var l=r(579);const i=e=>{let{as:t="h3",size:r="default",children:o}=e;return(0,l.jsxs)(n,{as:t,size:r,children:[o," "]})}},2099:(e,t,r)=>{r.d(t,{A:()=>l});r(5043);const o=r(4574).Ay.section`
-  background-color: ${e=>{let{theme:t}=e;return t.colors.background}}; // ОНОВЛЕНО: Використано theme.colors
-  border-radius: ${e=>{let{theme:t}=e;return t.borderRadius.large}}; // ОНОВЛЕНО: Використано borderRadius
-  box-shadow: ${e=>{let{theme:t}=e;return t.shadows.medium}}; // ОНОВЛЕНО: Використано shadows
-  padding: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано spacing
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано spacing
 
-  transition: background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
-
   ${e=>{let{theme:t}=e;return t.media.down("md")`
-    padding: ${e=>{let{theme:t}=e;return t.spacing.medium}};
     margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.medium}};
   `}}
 `;var n=r(579);function l(e){let{children:t}=e;return(0,n.jsx)(o,{children:t})}},4838:(e,t,r)=>{r.r(t),r.d(t,{default:()=>Ce});var o=r(5043),n=r(4574);const l=n.Ay.div`
   margin: 0;
-  //padding: ${e=>{let{theme:t}=e;return t.spacing.medium}}; // ОНОВЛЕНО: Використано theme.spacing
-  background-color: ${e=>{let{theme:t}=e;return t.colors.background}}; // ОНОВЛЕНО: Використано theme.colors
-  border-radius: ${e=>{let{theme:t}=e;return t.borderRadius.medium}};
-  box-shadow: ${e=>{let{theme:t}=e;return t.shadows.small}};
+  background-color: ${e=>{let{theme:t}=e;return t.colors.background}};
   transition: background-color 0.25s ease-in-out;
 `,i=n.Ay.p`
   text-align: center;
@@ -397,7 +386,7 @@
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
   font-weight: bold;
   transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
-`,S=e=>{let{title:t,content:r,emoji:o}=e;return(0,m.jsxs)(j,{children:[o&&(0,m.jsx)(k,{children:o}),(0,m.jsxs)(A,{children:[t&&(0,m.jsx)(C,{children:t}),r&&(0,m.jsx)("p",{children:r})]})]})};var B=r(3546),R=r(6446);const T=n.Ay.div`
+`,S=e=>{let{title:t,content:r,emoji:o}=e;return(0,m.jsxs)(j,{children:[o&&(0,m.jsx)(k,{children:o}),(0,m.jsxs)(A,{children:[t&&(0,m.jsx)(C,{children:t}),r&&(0,m.jsx)("p",{children:r})]})]})};var B=r(3546),T=r(6446);const R=n.Ay.div`
   background-color: ${e=>{let{theme:t}=e;return t.colors.interactiveBgYellow}};
   border: 1px solid ${e=>{let{theme:t}=e;return t.colors.interactiveBorderYellow}};
   padding: ${e=>{let{theme:t}=e;return t.spacing.medium}};
@@ -460,7 +449,7 @@
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     padding: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
   `}}
-`,I=e=>{let{question:t,answer:r,emoji:n}=e;const[l,i]=(0,o.useState)(!1);return(0,m.jsxs)(T,{children:[(0,m.jsx)(E,{children:n||"\u2753"}),(0,m.jsx)(D,{children:t}),r&&(0,m.jsx)(O,{onClick:()=>{i(!l)},children:l?"\u0421\u0445\u043e\u0432\u0430\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u044c":"\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u044c"}),(0,m.jsx)(B.N,{children:l&&r&&(0,m.jsx)(R.P.div,{initial:{height:0,opacity:0,overflow:"hidden"},animate:{height:"auto",opacity:1},exit:{height:0,opacity:0},transition:{duration:.25,ease:[.4,0,.2,1]},children:(0,m.jsx)(P,{children:r})})})]})},H=n.Ay.div`
+`,I=e=>{let{question:t,answer:r,emoji:n}=e;const[l,i]=(0,o.useState)(!1);return(0,m.jsxs)(R,{children:[(0,m.jsx)(E,{children:n||"\u2753"}),(0,m.jsx)(D,{children:t}),r&&(0,m.jsx)(O,{onClick:()=>{i(!l)},children:l?"\u0421\u0445\u043e\u0432\u0430\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u044c":"\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u044c"}),(0,m.jsx)(B.N,{children:l&&r&&(0,m.jsx)(T.P.div,{initial:{height:0,opacity:0,overflow:"hidden"},animate:{height:"auto",opacity:1},exit:{height:0,opacity:0},transition:{duration:.25,ease:[.4,0,.2,1]},children:(0,m.jsx)(P,{children:r})})})]})},H=n.Ay.div`
   margin-top: ${e=>{let{theme:t}=e;return t.spacing.large}};
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}};
   width: 100%;
@@ -621,7 +610,7 @@
     color: ${e=>{let{theme:t}=e;return t.colors.hoverBtn}};
     transform: ${e=>{let{isExpanded:t}=e;return t?"translateY(-2px)":"translateY(2px)"}};
   }
-`,G=(e,t)=>{switch(t.type){case"ACTIVATE_ROW":return t.payload.rowIndex;case"DEACTIVATE_ROW":return null;default:return e}},M=160,Z=o.memo(e=>{let{card:t,index:r,isExpanded:n,toggleExpand:l,collapseCard:i,handleRowBlur:s}=e;const a=(0,o.useRef)(null),[c,d]=(0,o.useState)(!1),[u,h]=(0,o.useState)(M);return(0,o.useEffect)(()=>{const e=()=>{if(a.current){const{scrollHeight:e}=a.current;d(e>M),h(e>M?e:M)}};e(),window.addEventListener("resize",e);const t=setTimeout(e,150);return()=>{window.removeEventListener("resize",e),clearTimeout(t)}},[t.content]),(0,o.useEffect)(()=>{n&&a.current?h(a.current.scrollHeight):n||h(M)},[n]),(0,m.jsxs)(F,{onBlur:s,tabIndex:c?0:-1,"aria-expanded":n,children:[(0,m.jsxs)(Y,{children:[(0,m.jsx)(_,{role:"img","aria-label":`Emoji for ${t.title}`,children:t.emoji}),(0,m.jsx)(q,{children:t.title})]}),(0,m.jsx)(R.P.div,{layout:!0,initial:{height:M},animate:{height:n?u:M,opacity:1},transition:{duration:.25,ease:[.4,0,.2,1]},style:{overflow:"hidden",width:"100%"},children:(0,m.jsx)(V,{ref:a,isExpanded:n,id:`card-content-${r}`,children:t.content})}),c&&(0,m.jsx)(N,{isExpanded:n,children:(0,m.jsx)(U,{onClick:e=>{e.stopPropagation(),l(r)},"aria-controls":`card-content-${r}`,tabIndex:0,isExpanded:n,children:n?(0,m.jsx)(m.Fragment,{children:"\u0417\u0433\u043e\u0440\u043d\u0443\u0442\u0438"}):(0,m.jsx)(m.Fragment,{children:"\u0427\u0438\u0442\u0430\u0442\u0438 \u0434\u0430\u043b\u0456"})})})]})}),X=e=>{let{title:t,cards:r}=e;const[n,l]=(0,o.useReducer)(G,null),[i,s]=(0,o.useState)(3),a=(0,o.useRef)(null),c=(0,o.useCallback)(()=>window.innerWidth<=768?1:window.innerWidth<=1200?2:3,[]);(0,o.useEffect)(()=>{const e=()=>{s(c()),l({type:"DEACTIVATE_ROW"})};return window.addEventListener("resize",e),s(c()),()=>{window.removeEventListener("resize",e)}},[c]);const d=(0,o.useCallback)(e=>{const t=Math.floor(e/i);l(n===t?{type:"DEACTIVATE_ROW"}:{type:"ACTIVATE_ROW",payload:{rowIndex:t}})},[n,i]),u=(0,o.useCallback)(e=>{a.current&&!a.current.contains(e.relatedTarget)&&l({type:"DEACTIVATE_ROW"})},[]),h=(0,o.useCallback)(e=>{l({type:"DEACTIVATE_ROW"})},[]);return(0,m.jsxs)(H,{children:[t&&(0,m.jsx)(L,{children:t}),(0,m.jsxs)(W,{ref:a,children:[" ",r.map((e,t)=>{const r=Math.floor(t/i),o=n===r;return(0,m.jsx)(Z,{card:e,index:t,isExpanded:o,toggleExpand:d,collapseCard:h,handleRowBlur:u},t)})]})]})},J=n.Ay.div`
+`,G=(e,t)=>{switch(t.type){case"ACTIVATE_ROW":return t.payload.rowIndex;case"DEACTIVATE_ROW":return null;default:return e}},M=160,Z=o.memo(e=>{let{card:t,index:r,isExpanded:n,toggleExpand:l,collapseCard:i,handleRowBlur:s}=e;const a=(0,o.useRef)(null),[c,d]=(0,o.useState)(!1),[u,h]=(0,o.useState)(M);return(0,o.useEffect)(()=>{const e=()=>{if(a.current){const{scrollHeight:e}=a.current;d(e>M),h(e>M?e:M)}};e(),window.addEventListener("resize",e);const t=setTimeout(e,150);return()=>{window.removeEventListener("resize",e),clearTimeout(t)}},[t.content]),(0,o.useEffect)(()=>{n&&a.current?h(a.current.scrollHeight):n||h(M)},[n]),(0,m.jsxs)(F,{onBlur:s,tabIndex:c?0:-1,"aria-expanded":n,children:[(0,m.jsxs)(Y,{children:[(0,m.jsx)(_,{role:"img","aria-label":`Emoji for ${t.title}`,children:t.emoji}),(0,m.jsx)(q,{children:t.title})]}),(0,m.jsx)(T.P.div,{layout:!0,initial:{height:M},animate:{height:n?u:M,opacity:1},transition:{duration:.25,ease:[.4,0,.2,1]},style:{overflow:"hidden",width:"100%"},children:(0,m.jsx)(V,{ref:a,isExpanded:n,id:`card-content-${r}`,children:t.content})}),c&&(0,m.jsx)(N,{isExpanded:n,children:(0,m.jsx)(U,{onClick:e=>{e.stopPropagation(),l(r)},"aria-controls":`card-content-${r}`,tabIndex:0,isExpanded:n,children:n?(0,m.jsx)(m.Fragment,{children:"\u0417\u0433\u043e\u0440\u043d\u0443\u0442\u0438"}):(0,m.jsx)(m.Fragment,{children:"\u0427\u0438\u0442\u0430\u0442\u0438 \u0434\u0430\u043b\u0456"})})})]})}),X=e=>{let{title:t,cards:r}=e;const[n,l]=(0,o.useReducer)(G,null),[i,s]=(0,o.useState)(3),a=(0,o.useRef)(null),c=(0,o.useCallback)(()=>window.innerWidth<=768?1:window.innerWidth<=1200?2:3,[]);(0,o.useEffect)(()=>{const e=()=>{s(c()),l({type:"DEACTIVATE_ROW"})};return window.addEventListener("resize",e),s(c()),()=>{window.removeEventListener("resize",e)}},[c]);const d=(0,o.useCallback)(e=>{const t=Math.floor(e/i);l(n===t?{type:"DEACTIVATE_ROW"}:{type:"ACTIVATE_ROW",payload:{rowIndex:t}})},[n,i]),u=(0,o.useCallback)(e=>{a.current&&!a.current.contains(e.relatedTarget)&&l({type:"DEACTIVATE_ROW"})},[]),h=(0,o.useCallback)(e=>{l({type:"DEACTIVATE_ROW"})},[]);return(0,m.jsxs)(H,{children:[t&&(0,m.jsx)(L,{children:t}),(0,m.jsxs)(W,{ref:a,children:[" ",r.map((e,t)=>{const r=Math.floor(t/i),o=n===r;return(0,m.jsx)(Z,{card:e,index:t,isExpanded:o,toggleExpand:d,collapseCard:h,handleRowBlur:u},t)})]})]})},J=n.Ay.div`
   margin: ${e=>{let{theme:t}=e;return t.spacing.xlarge}} 0;
   position: relative;
   padding-left: 30px;
@@ -651,7 +640,7 @@
   `}}
 `,K=(n.Ay.div`
   display: none;
-`,(0,n.Ay)(R.P.div)`
+`,(0,n.Ay)(T.P.div)`
   position: relative;
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.xlarge}};
   padding-left: 30px;
@@ -661,7 +650,7 @@
     padding-left: 20px;
     margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}};
   `}}
-`),Q=(0,n.Ay)(R.P.div)`
+`),Q=(0,n.Ay)(T.P.div)`
   position: absolute;
   left: 0;
   top: 5px;
@@ -679,7 +668,7 @@
     height: 10px;
     border: 1px solid ${e=>{let{theme:t}=e;return t.colors.background}};
   `}}
-`,ee=(0,n.Ay)(R.P.div)`
+`,ee=(0,n.Ay)(T.P.div)`
   background-color: ${e=>{let{theme:t}=e;return t.colors.cardBackground}};
   padding: ${e=>{let{theme:t}=e;return t.spacing.small}};
   border-radius: ${e=>{let{theme:t}=e;return t.borderRadius.small}};
@@ -768,12 +757,12 @@
     margin-top: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
     padding-top: ${e=>{let{theme:t}=e;return t.spacing.xxsmall}};
   `}}
-`,le=(0,n.Ay)(R.P.div)`
+`,le=(0,n.Ay)(T.P.div)`
   overflow: hidden;
-`,ie=(0,n.Ay)(R.P.div)`
+`,ie=(0,n.Ay)(T.P.div)`
   padding-top: 0.8rem; /* Перемістили padding-top сюди */
   /* Зміни в opacity можна застосовувати тут, якщо потрібно */
-`,se=e=>{let{isOpen:t,children:r,...o}=e;return(0,m.jsx)(B.N,{initial:!1,children:t&&(0,m.jsx)(le,{initial:"collapsed",animate:"open",exit:"collapsed",variants:{open:{height:"auto",opacity:1},collapsed:{height:0,opacity:0}},transition:{duration:.25,ease:[.4,0,.2,1]},layout:!0,...o,children:(0,m.jsx)(ie,{initial:{opacity:0},animate:{opacity:1},exit:{opacity:0},transition:{duration:.2,delay:.1},children:r})})})},ae=e=>{let{title:t,events:r}=e;const{currentTheme:n}=(0,$.D)(),[l,i]=(0,o.useState)(null),s=e=>{e.stopPropagation()};return(0,m.jsxs)(J,{children:[t&&(0,m.jsx)(a.A,{as:"h3",size:"default",children:t}),r.map((e,t)=>(0,m.jsxs)(K,{initial:{opacity:0,y:50},whileInView:{opacity:1,y:0},viewport:{once:!0,amount:.5},transition:{duration:.5,delay:.1*t},children:[(0,m.jsx)(Q,{animate:l===t?{scale:[1,1.2,1],backgroundColor:n.accentColor}:{scale:1,backgroundColor:n.accentColor},transition:{duration:.5,repeat:l===t?1/0:0,repeatType:"loop"}}),(0,m.jsxs)(ee,{onClick:()=>(e=>{i(l===e?null:e)})(t),whileHover:{scale:1.03},transition:{scale:{duration:.15,ease:"easeOut"},backgroundColor:{duration:.2,ease:"easeOut"}},animate:{scale:l===t?1.03:1,backgroundColor:l===t?n.hoverBg:n.cardBackground},children:[(0,m.jsxs)(te,{style:{cursor:"pointer"},children:[(0,m.jsxs)("div",{children:[e.year&&(0,m.jsx)(re,{children:e.year}),e.title]}),(0,m.jsx)(R.P.span,{initial:!1,animate:{rotate:l===t?90:0},transition:{duration:.2},style:{marginLeft:"10px",display:"inline-block"},children:"\u25b6"})]}),(0,m.jsxs)(se,{isOpen:l===t,children:[e.description&&(0,m.jsx)(oe,{children:e.description}),e.verses&&e.verses.length>0&&(0,m.jsx)(ne,{onClick:s,children:e.verses.map((e,t)=>o.cloneElement(e,{key:t}))})]})]})]},t))]})},ce=n.Ay.div`
+`,se=e=>{let{isOpen:t,children:r,...o}=e;return(0,m.jsx)(B.N,{initial:!1,children:t&&(0,m.jsx)(le,{initial:"collapsed",animate:"open",exit:"collapsed",variants:{open:{height:"auto",opacity:1},collapsed:{height:0,opacity:0}},transition:{duration:.25,ease:[.4,0,.2,1]},layout:!0,...o,children:(0,m.jsx)(ie,{initial:{opacity:0},animate:{opacity:1},exit:{opacity:0},transition:{duration:.2,delay:.1},children:r})})})},ae=e=>{let{title:t,events:r}=e;const{currentTheme:n}=(0,$.D)(),[l,i]=(0,o.useState)(null),s=e=>{e.stopPropagation()};return(0,m.jsxs)(J,{children:[t&&(0,m.jsx)(a.A,{as:"h3",size:"default",children:t}),r.map((e,t)=>(0,m.jsxs)(K,{initial:{opacity:0,y:50},whileInView:{opacity:1,y:0},viewport:{once:!0,amount:.5},transition:{duration:.5,delay:.1*t},children:[(0,m.jsx)(Q,{animate:l===t?{scale:[1,1.2,1],backgroundColor:n.accentColor}:{scale:1,backgroundColor:n.accentColor},transition:{duration:.5,repeat:l===t?1/0:0,repeatType:"loop"}}),(0,m.jsxs)(ee,{onClick:()=>(e=>{i(l===e?null:e)})(t),whileHover:{scale:1.03},transition:{scale:{duration:.15,ease:"easeOut"},backgroundColor:{duration:.2,ease:"easeOut"}},animate:{scale:l===t?1.03:1,backgroundColor:l===t?n.hoverBg:n.cardBackground},children:[(0,m.jsxs)(te,{style:{cursor:"pointer"},children:[(0,m.jsxs)("div",{children:[e.year&&(0,m.jsx)(re,{children:e.year}),e.title]}),(0,m.jsx)(T.P.span,{initial:!1,animate:{rotate:l===t?90:0},transition:{duration:.2},style:{marginLeft:"10px",display:"inline-block"},children:"\u25b6"})]}),(0,m.jsxs)(se,{isOpen:l===t,children:[e.description&&(0,m.jsx)(oe,{children:e.description}),e.verses&&e.verses.length>0&&(0,m.jsx)(ne,{onClick:s,children:e.verses.map((e,t)=>o.cloneElement(e,{key:t}))})]})]})]},t))]})},ce=n.Ay.div`
   margin-top: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано spacing
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано spacing
   width: 100%;
@@ -925,13 +914,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 1200px;
+  //max-width: 1200px;
   margin: 0 auto;
-  padding: ${e=>{let{theme:t}=e;return t.spacing.medium}};
-  // Медіа-запит для мобільних пристроїв
-  ${e=>{let{theme:t}=e;return t.media.down("sm")`
-    padding: ${e=>{let{theme:t}=e;return t.spacing.small}};
-  `}}
 `,l=o.Ay.div`
   text-align: center;
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}};
@@ -952,7 +936,7 @@
   line-height: 1.8;
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
-  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для основного кольору тексту
+  transition: color 0.25s ease-in-out;
 
   // Медіа-запит для мобільних пристроїв, щоб трохи зменшити шрифт
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
@@ -1099,4 +1083,4 @@
 
   transition: transform 0.2s ease-in-out, color 0.25s ease-in-out; // ОНОВЛЕНО: Перехід для кольору іконки
 `;var d=r(579);function m(e){let{quizData:t}=e;const[r,n]=(0,o.useState)(!1),[m,u]=(0,o.useState)(null);return(0,d.jsxs)(l,{children:[(0,d.jsxs)(i,{onClick:()=>{n(!r),r&&u(null)},children:[t.question,(0,d.jsx)(c,{isActive:r,children:r?"\u2212":"+"})]}),r&&(0,d.jsx)(s,{children:t.options.map((e,t)=>(0,d.jsx)(a,{onClick:()=>(e=>{u(e)})(t),isSelected:m===t,isCorrectOption:e.isCorrect,showFeedback:null!==m,children:e.text},t))})]})}}}]);
-//# sourceMappingURL=838.7be91351.chunk.js.map
+//# sourceMappingURL=838.4e1d89d9.chunk.js.map
