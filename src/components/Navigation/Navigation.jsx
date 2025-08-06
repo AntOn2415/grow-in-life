@@ -15,7 +15,7 @@ const navItems = [
   { to: "/", label: "Головна" },
   { to: "/sermons", label: "Проповіді" },
   { to: "/home-groups", label: "Домашні групи" },
-  { to: "/sunday-school", label: "Воскресна школа" },
+  { to: "/sunday-school", label: "Недільна школа" },
   { to: "/seminars", label: "Семінари" },
   { to: "/news", label: "Новини" },
 ];

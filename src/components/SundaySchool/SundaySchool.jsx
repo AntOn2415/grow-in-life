@@ -10,7 +10,7 @@ const Title = styled.h2`
 
 const SundaySchool = () => (
   <Container>
-    <Title>Воскресна школа</Title>
+    <Title>Недільна школа</Title>
     <p>Тут інформація про воскресну школу.</p>
   </Container>
 );

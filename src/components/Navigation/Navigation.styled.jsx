@@ -121,10 +121,10 @@ export const MobileMenu = styled.div`
     display: flex;
     flex-direction: column;
     position: fixed;
-    top: 40px; /* Відступ зверху тепер 40px */
+    top: 50px; /* Відступ зверху тепер 40px */
     left: 0;
     width: 100%;
-    height: calc(100vh - 40px);
+    height: calc(100vh - 50px);
     background: ${({ theme }) => theme.colors.navBg};
     padding: ${({ theme }) => theme.spacing.medium};
     box-shadow: ${({ theme }) => theme.shadows.medium};
