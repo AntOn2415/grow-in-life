@@ -10,8 +10,8 @@ export const RightSidebarWrapper = styled(SidebarWrapper)`
   margin-bottom: 24px;
   padding: ${({ $isCollapsed, theme }) =>
     $isCollapsed ? theme.spacing.xsmall : theme.spacing.small};
-  transition: width 0.2s ease-in-out, background 0.4s ease-in-out, color 0.4s ease-in-out,
-    border 0.4s ease-in-out, margin 0.2s ease, padding 0.2s ease-in-out;
+  transition: width 0.2s ease-in-out, background 0.25s ease-in-out, color 0.25s ease-in-out,
+    border 0.25s ease-in-out, margin 0.2s ease, padding 0.2s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
     width: 100%;
@@ -52,6 +52,6 @@ export const RightSidebarCollapseBtn = styled(CollapseBtn)`
 
   &:hover {
     background: ${({ theme }) => theme.colors.hoverBtn};
-    transition: background 0.3s ease-in-out;
+    transition: background 0.25s ease-in-out;
   }
 `;

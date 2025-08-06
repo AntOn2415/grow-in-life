@@ -18,15 +18,14 @@ import {
   MobileRightSidebarDiv,
 } from "./Layout.styled";
 
-// Варіанти анімації для лівого сайдбару
 const leftSidebarVariants = {
   hidden: {
     x: "-100%",
-    transition: { ease: "easeOut", duration: 0.3 },
+    transition: { ease: "easeOut", duration: 0.25 },
   },
   visible: {
     x: "0%",
-    transition: { ease: "easeIn", duration: 0.3 },
+    transition: { ease: "easeIn", duration: 0.25 },
   },
 };
 
@@ -79,9 +78,8 @@ const Layout = () => {
   }, [navHeight]);
 
   useEffect(() => {
-    setShowMobileLeftSidebar(false);
-    setShowMobileRightSidebar(false);
-    setIsRightSidebarSplit(false);
+    // В цьому компоненті більше немає логіки закриття сайдбарів при зміні маршруту.
+    // Ця відповідальність перенесена на самі елементи меню.
   }, [location.pathname]);
 
   useEffect(() => {
@@ -112,27 +110,37 @@ const Layout = () => {
     });
   };
 
-  const toggleMobileLeftSidebar = () => {
-    setShowMobileLeftSidebar(prev => {
-      const newState = !prev;
-      if (newState) {
-        setShowMobileRightSidebar(false);
-        setIsRightSidebarSplit(false);
-      }
-      return newState;
-    });
+  const toggleMobileLeftSidebar = shouldOpen => {
+    if (shouldOpen === false) {
+      setShowMobileLeftSidebar(false);
+    } else {
+      setShowMobileLeftSidebar(prev => {
+        const newState = !prev;
+        if (newState) {
+          setShowMobileRightSidebar(false);
+          setIsRightSidebarSplit(false);
+        }
+        return newState;
+      });
+    }
   };
 
-  const toggleMobileRightSidebar = () => {
-    setShowMobileRightSidebar(prev => {
-      const newState = !prev;
-      if (newState) {
-        setShowMobileLeftSidebar(false);
-      } else {
-        setIsRightSidebarSplit(false);
-      }
-      return newState;
-    });
+  const toggleMobileRightSidebar = shouldOpen => {
+    if (shouldOpen === false) {
+      setShowMobileRightSidebar(false);
+      setIsRightSidebarSplit(false);
+    } else {
+      setShowMobileRightSidebar(prev => {
+        const newState = !prev;
+        if (newState) {
+          setShowMobileLeftSidebar(false);
+          setIsRightSidebarSplit(true);
+        } else {
+          setIsRightSidebarSplit(false);
+        }
+        return newState;
+      });
+    }
   };
 
   const toggleRightSidebarSplit = () => {
@@ -170,7 +178,7 @@ const Layout = () => {
               ? { y: "0%", height: "calc(50vh - 5px)" }
               : { y: "0%", height: "100%" }
           }
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
           style={{ paddingTop: isMobile ? "50px" : `${navHeight}px` }}
         >
           <Outlet />
@@ -195,7 +203,8 @@ const Layout = () => {
             <MobileBottomNav
               onLeftMenuClick={toggleMobileLeftSidebar}
               onRightMenuClick={toggleMobileRightSidebar}
-              currentActivePath={location.pathname}
+              isLeftMenuOpen={showMobileLeftSidebar}
+              isRightMenuOpen={showMobileRightSidebar}
             />
             <AnimatePresence>
               {showMobileLeftSidebar && (
@@ -216,7 +225,10 @@ const Layout = () => {
                     boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
                   }}
                 >
-                  <Sidebar onCloseMobileSidebar={() => setShowMobileLeftSidebar(false)} />
+                  <Sidebar
+                    onCloseMobileSidebar={() => setShowMobileLeftSidebar(false)}
+                    isMobile={isMobile}
+                  />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -225,14 +237,13 @@ const Layout = () => {
                 <MobileRightSidebarDiv
                   key="right-sidebar"
                   initial={{ y: "100%" }}
-                  animate={
-                    isRightSidebarSplit
-                      ? { y: "0%", height: "calc(50vh - 50px)", x: "0%" }
-                      : { y: "0%", height: "calc(100vh - 100px)", x: "0%" }
-                  }
+                  animate={{
+                    y: 0,
+                    top: isRightSidebarSplit ? "50%" : "50px",
+                    height: isRightSidebarSplit ? "calc(50vh - 50px)" : "calc(100vh - 100px)",
+                  }}
                   exit={{ y: "100%" }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  isRightSidebarSplit={isRightSidebarSplit}
+                  transition={{ duration: 0.25, ease: "easeInOut" }}
                 >
                   <RightSidebar
                     onToggle={handleRightSidebarToggle}

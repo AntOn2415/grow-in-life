@@ -12,7 +12,7 @@ export const SectionTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: ${({ isCollapsed }) => (isCollapsed ? "center" : "space-between")};
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 
   &:hover {
     // Ховер-ефект лише якщо не порожній
@@ -70,7 +70,7 @@ export const ListItem = styled.li`
     `
     background-color: ${theme.colors.navItemActive};
     color: ${theme.colors.color};
-    transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out; 
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out; 
   `}
 `;
 
@@ -94,7 +94,7 @@ export const CircularNumber = styled.span`
   color: ${({ theme }) => theme.colors.colorSecondary};
   margin: 0;
   padding: 0;
-  transition: color 0.4s ease-in-out, border-color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out, border-color 0.25s ease-in-out;
 `;
 
 export const SectionCategoryNumber = styled.span`
@@ -110,5 +110,5 @@ export const SectionCategoryNumber = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.small};
   margin: 0;
   padding: 0;
-  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+  transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
 `;

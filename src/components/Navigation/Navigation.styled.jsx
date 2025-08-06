@@ -16,8 +16,8 @@ export const Nav = styled.nav`
   z-index: 1000;
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
   box-shadow: ${({ theme }) => theme.shadows.small};
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease-in-out,
-    border-bottom 0.3s ease-in-out;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease-in-out,
+    border-bottom 0.25s ease-in-out;
   will-change: transform;
 
   &.nav-hidden {
@@ -29,6 +29,7 @@ export const Nav = styled.nav`
 
   ${({ theme }) => theme.media.down("md")`
     position: fixed;
+    
     height: 50px;
     padding: 0 ${({ theme }) => theme.spacing.medium};
     justify-content: space-between;
@@ -41,7 +42,7 @@ export const Link = styled(NavLink)`
   font-weight: 500;
   padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.small};
   border-radius: ${({ theme }) => theme.borderRadius.small};
-  transition: color 0.3s ease-in-out, background 0.3s ease-in-out;
+  transition: color 0.25s ease-in-out, background 0.25s ease-in-out;
   &:hover {
     background: ${({ theme }) => theme.colors.navActive};
     color: ${({ theme }) => theme.colors.background};
@@ -68,7 +69,7 @@ export const ToggleButton = styled.button`
 
   &:hover {
     background: ${({ theme }) => theme.colors.hoverBtn};
-    transition: background 0.3s ease-in-out;
+    transition: background 0.25s ease-in-out;
   }
 `;
 
@@ -95,7 +96,7 @@ export const HamburgerIcon = styled.button`
       height: 3px;
       background: ${({ theme }) => theme.colors.color};
       border-radius: 10px;
-      transition: all 0.3s linear;
+      transition: all 0.25s linear;
       position: relative;
       transform-origin: 1px;
 
@@ -121,7 +122,7 @@ export const MobileMenu = styled.div`
     display: flex;
     flex-direction: column;
     position: fixed;
-    top: 50px; /* Відступ зверху тепер 40px */
+    top: 50px;
     left: 0;
     width: 100%;
     height: calc(100vh - 50px);
@@ -129,18 +130,19 @@ export const MobileMenu = styled.div`
     padding: ${({ theme }) => theme.spacing.medium};
     box-shadow: ${({ theme }) => theme.shadows.medium};
     transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(-100%)")};
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.25s ease-in-out, background 0.25s ease-in-out;
     z-index: 999;
 
     ${Link} {
       display: block;
       width: 100%;
-      padding: ${({ theme }) => theme.spacing.small} 0;
+      padding: ${({ theme }) => theme.spacing.small};
       border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
       text-align: left;
       font-size: ${({ theme }) => theme.fontSizes.medium};
       color: ${({ theme }) => theme.colors.color};
-
+    
+      transition: color 0.25s ease-in-out, border-bottom 0.25s ease-in-out, background 0.25s ease-in-out;
       &:last-child {
         border-bottom: none;
       }

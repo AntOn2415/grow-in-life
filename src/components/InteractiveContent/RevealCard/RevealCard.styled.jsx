@@ -6,8 +6,8 @@ export const StyledRevealCard = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.medium};
   box-shadow: ${({ theme }) => theme.shadows.small};
   overflow: hidden;
-  transition: box-shadow 0.2s ease-in-out, background-color 0.4s ease-in-out,
-    border-color 0.4s ease-in-out; // ДОДАНО: Переходи для фону та межі
+  transition: box-shadow 0.2s ease-in-out, background-color 0.25s ease-in-out,
+    border-color 0.25s ease-in-out; // ДОДАНО: Переходи для фону та межі
 
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.medium};
@@ -24,7 +24,7 @@ export const CardTitle = styled.div`
   font-weight: bold;
   font-size: ${({ theme }) => theme.fontSizes.large};
   cursor: pointer;
-  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out; // ДОДАНО: Переходи для фону та тексту
+  transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out; // ДОДАНО: Переходи для фону та тексту
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.accentBgHover || theme.colors.accentBg};
@@ -38,7 +38,7 @@ export const CardTitle = styled.div`
   a {
     color: ${({ theme }) => theme.colors.buttonColor};
     text-decoration: none;
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору посилання
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору посилання
     &:hover {
       text-decoration: underline;
     }
@@ -55,7 +55,7 @@ export const CardContent = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   color: ${({ theme }) => theme.colors.color};
   line-height: 1.6;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту
 
   p {
     margin-bottom: 1em;
@@ -67,7 +67,7 @@ export const CardContent = styled.div`
   a {
     color: ${({ theme }) => theme.colors.accentColor};
     text-decoration: none;
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору посилання
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору посилання
     &:hover {
       text-decoration: underline;
     }
@@ -79,7 +79,7 @@ export const CardContent = styled.div`
     margin-top: ${({ theme }) => theme.spacing.xsmall};
     padding-left: ${({ theme }) => theme.spacing.small};
     border-left: 2px solid ${({ theme }) => theme.colors.borderColor};
-    transition: color 0.4s ease-in-out, border-color 0.4s ease-in-out; // ДОДАНО: Переходи для тексту та межі
+    transition: color 0.25s ease-in-out, border-color 0.25s ease-in-out; // ДОДАНО: Переходи для тексту та межі
   }
 
   ${({ theme }) => theme.media.down("sm")`

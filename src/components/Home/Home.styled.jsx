@@ -17,7 +17,7 @@ export const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.background}; // ОНОВЛЕНО: Використано theme.colors
   color: ${({ theme }) => theme.colors.color}; // ОНОВЛЕНО: Використано theme.colors
 
-  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+  transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
 
   // Медіазапит для мобільних
   ${({ theme }) => theme.media.down("md")`

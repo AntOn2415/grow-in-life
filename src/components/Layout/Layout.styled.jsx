@@ -20,7 +20,7 @@ export const Wrapper = styled.div`
   min-height: 100vh;
   background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.color};
-  transition: background 0.4s ease-in-out, color 0.4s ease-in-out;
+  transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
   display: flex;
   flex-direction: column;
 `;
@@ -55,7 +55,7 @@ export const Main = styled.main.withConfig({ shouldForwardProp })`
   overflow-y: auto;
   padding: ${({ theme }) => theme.spacing.medium};
   padding-top: ${({ navHeight }) => navHeight}px;
-  transition: padding 0.2s ease-in-out, background 0.4s ease-in-out;
+  transition: padding 0.2s ease-in-out, background 0.25s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
     grid-column: 1;
@@ -79,7 +79,7 @@ export const LeftSidebarContainer = styled.div.withConfig({ shouldForwardProp })
   flex-direction: column;
   justify-content: flex-end;
   margin-left: ${({ theme }) => theme.spacing.small};
-  transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1), margin 0.2s ease-in-out;
+  transition: top 0.25s cubic-bezier(0.4, 0, 0.2, 1), margin 0.2s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
     display: none;
@@ -101,7 +101,7 @@ export const RightSidebarContainer = styled.div.withConfig({ shouldForwardProp }
   flex-direction: column;
   justify-content: flex-end;
   margin-right: ${({ theme }) => theme.spacing.small};
-  transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1), margin 0.2s ease-in-out;
+  transition: top 0.25s cubic-bezier(0.4, 0, 0.2, 1), margin 0.2s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
     display: none;

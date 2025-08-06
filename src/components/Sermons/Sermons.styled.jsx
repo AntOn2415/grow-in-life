@@ -32,5 +32,5 @@ export const NoSermonMessage = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.medium}; // ОНОВЛЕНО: Використано fontSizes
 
   // ДОДАНО: Плавний перехід для кольору тексту, оскільки це <p>
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 `;

@@ -36,7 +36,7 @@ const QuestionPrompt = ({ question, answer, emoji }) => {
             exit={{ height: 0, opacity: 0 }}
             // Параметри переходу для жвавості
             transition={{
-              duration: 0.3, // Тривалість анімації
+              duration: 0.25, // Тривалість анімації
               ease: [0.4, 0, 0.2, 1], // Крива Безьє для "жвавого" відчуття (ease-in-out-cubic)
             }}
           >

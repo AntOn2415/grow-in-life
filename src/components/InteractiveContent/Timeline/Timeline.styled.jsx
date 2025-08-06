@@ -18,7 +18,7 @@ export const TimelineContainer = styled.div`
     width: 2px;
     background-color: ${({ theme }) => theme.colors.borderColor};
     z-index: 0;
-    transition: background-color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору лінії
+    transition: background-color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору лінії
   }
 
   ${({ theme }) => theme.media.down("sm")`
@@ -58,7 +58,7 @@ export const EventDot = styled(motion.div)`
   border: 2px solid ${({ theme }) => theme.colors.background};
   z-index: 1;
   transform-origin: center;
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out; // ДОДАНО: Перехід для кольорів точки
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out; // ДОДАНО: Перехід для кольорів точки
 
   ${({ theme }) => theme.media.down("sm")`
     width: 10px;
@@ -79,7 +79,7 @@ export const EventContent = styled(motion.div)`
   justify-content: center;
   position: relative;
   cursor: pointer;
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out; // ДОДАНО: Перехід для фону і рамки
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out; // ДОДАНО: Перехід для фону і рамки
 `;
 
 export const EventTitle = styled.h4`
@@ -88,7 +88,7 @@ export const EventTitle = styled.h4`
   margin: 0;
   font-weight: bold;
   line-height: 1.3;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору
 
   display: flex;
   flex-direction: row;
@@ -108,7 +108,7 @@ export const EventTitle = styled.h4`
     line-height: 1.3;
     font-size: ${({ theme }) => theme.fontSizes.large};
     color: ${({ theme }) => theme.colors.colorSecondary};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору іконки
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору іконки
   }
 
   ${({ theme }) => theme.media.down("sm")`
@@ -130,7 +130,7 @@ export const EventYear = styled.span`
   margin-bottom: ${({ theme }) => theme.spacing.xxsmall};
   white-space: nowrap;
   font-weight: normal;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору
 
   ${({ theme }) => theme.media.down("sm")`
     font-size: ${({ theme }) => theme.fontSizes.xsmall};
@@ -143,7 +143,7 @@ export const EventDescription = styled.p`
   line-height: 1.5;
   margin-bottom: 0;
   word-wrap: break-word;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору
 
   ${({ theme }) => theme.media.down("sm")`
     font-size: ${({ theme }) => theme.fontSizes.small};
@@ -157,7 +157,7 @@ export const EventVersesContainer = styled.div`
   flex-wrap: wrap;
   gap: 8px;
   cursor: default;
-  transition: border-top-color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору рамки
+  transition: border-top-color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору рамки
 
   ${({ theme }) => theme.media.down("sm")`
     gap: 6px;

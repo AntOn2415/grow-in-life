@@ -34,7 +34,7 @@ export const ContrastItem = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.borderColor}; // ОНОВЛЕНО: Використано theme.colors
   border-radius: ${({ theme }) => theme.borderRadius.medium}; // ОНОВЛЕНО: Використано borderRadius
   box-shadow: ${({ theme }) => theme.shadows.small}; // ОНОВЛЕНО: Використано shadows
-  transition: all 0.3s ease-in-out;
+  transition: all 0.25s ease-in-out;
 
   background-color: ${props => {
     if (props.$type === "positive") return props.theme.colors.positiveBackground; // ОНОВЛЕНО

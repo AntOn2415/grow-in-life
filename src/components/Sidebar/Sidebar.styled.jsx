@@ -20,8 +20,8 @@ export const SidebarWrapper = styled.aside`
   box-shadow: ${({ theme }) => theme.shadows.small};
   position: relative;
 
-  transition: width 0.2s ease-in-out, background 0.4s ease-in-out, color 0.4s ease-in-out,
-    border 0.4s ease-in-out, padding 0.2s ease-in-out;
+  transition: width 0.2s ease-in-out, background 0.25s ease-in-out, color 0.25s ease-in-out,
+    border 0.25s ease-in-out, padding 0.2s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
     padding: ${({ theme }) => theme.spacing.medium};
@@ -69,7 +69,7 @@ export const CollapseBtn = styled.button`
   transition: background 0.2s ease, color 0.2s ease;
   &:hover {
     background: ${({ theme }) => theme.colors.hoverBtn};
-    transition: background 0.3s ease-in-out;
+    transition: background 0.25s ease-in-out;
   }
   ${({ theme }) => theme.media.down("md")`
     display: none;

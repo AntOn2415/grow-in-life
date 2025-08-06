@@ -9,7 +9,7 @@ const Section = styled.section`
   padding: ${({ theme }) => theme.spacing.large} ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використано spacing
 
   // ДОДАНО: Плавний перехід для фону розділу
-  transition: background 0.4s ease-in-out;
+  transition: background 0.25s ease-in-out;
 
   // Медіазапити для адаптивності
   ${({ theme }) => theme.media.down("sm")`
@@ -37,7 +37,7 @@ const Text = styled.p`
   text-align: center;
 
   // ДОДАНО: Плавний перехід для кольору тексту, оскільки це <p>
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 
   // Медіазапит для мобільних пристроїв
   ${({ theme }) => theme.media.down("sm")`

@@ -16,8 +16,8 @@ export const DiagramContainer = styled.div`
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out,
-    box-shadow 0.4s ease-in-out; // ДОДАНО: Переходи для кольорів
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out; // ДОДАНО: Переходи для кольорів
 
   // Медіазапити для адаптації на мобільних
   ${({ theme }) => theme.media.down("md")`

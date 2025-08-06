@@ -18,7 +18,7 @@ export const SermonTitleWrapper = styled.div`
   box-shadow: ${({ theme }) => theme.shadows.medium}; // ОНОВЛЕНО: Використовуємо shadows
 
   // Перехід налаштований і працює коректно
-  transition: background 0.4s ease-in-out, color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  transition: background 0.25s ease-in-out, color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
 
   /* Стилі для основного заголовка h2 всередині цього блоку */
   h2 {
@@ -60,7 +60,7 @@ export const SermonTextWrapper = styled.div`
   color: ${({ theme }) => theme.colors.color}; // ОНОВЛЕНО: Використовуємо theme.colors
 
   // ДОДАНО: Плавний перехід для кольору тексту
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 `;
 
 export const StyledParagraph = styled.p`

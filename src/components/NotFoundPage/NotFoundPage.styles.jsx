@@ -43,7 +43,7 @@ export const HomeLink = styled.a`
   text-decoration: none;
   border-radius: ${({ theme }) => theme.borderRadius.small};
   font-size: ${({ theme }) => theme.fontSizes.medium};
-  transition: background-color 0.3s ease;
+  transition: background-color 0.25s ease;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.hoverBtn}; /* Колір ховеру кнопки з теми */

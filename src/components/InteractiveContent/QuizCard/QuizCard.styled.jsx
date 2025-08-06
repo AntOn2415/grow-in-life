@@ -9,8 +9,8 @@ export const StyledQuizCard = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.medium};
   box-shadow: ${({ theme }) => theme.shadows.small};
 
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out,
-    box-shadow 0.4s ease-in-out; // ДОДАНО: Переходи для фону, межі та тіні
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out; // ДОДАНО: Переходи для фону, межі та тіні
 
   ${({ theme }) => theme.media.down("sm")`
     padding: ${({ theme }) => theme.spacing.small};
@@ -27,7 +27,7 @@ export const QuizQuestion = styled.h4`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту запитання
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту запитання
 
   ${({ theme }) => theme.media.down("sm")`
     font-size: ${({ theme }) => theme.fontSizes.medium};
@@ -42,7 +42,7 @@ export const QuizOptionsList = styled.ul`
   border-top: 1px solid ${({ theme }) => theme.colors.borderColor};
   padding-top: ${({ theme }) => theme.spacing.small};
 
-  transition: border-color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору верхньої межі списку опцій
+  transition: border-color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору верхньої межі списку опцій
 
   ${({ theme }) => theme.media.down("sm")`
     margin-top: ${({ theme }) => theme.spacing.xsmall};
@@ -60,8 +60,8 @@ export const QuizOptionItem = styled.li`
   color: ${({ theme }) => theme.colors.color};
   cursor: pointer;
 
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out,
-    color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для всіх кольорових властивостей
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
+    color 0.25s ease-in-out; // ОНОВЛЕНО: Перехід для всіх кольорових властивостей
 
   &:last-child {
     margin-bottom: 0;
@@ -110,5 +110,5 @@ export const QuizToggleIcon = styled.span`
   font-weight: bold;
   color: ${({ theme }) => theme.colors.color};
 
-  transition: transform 0.2s ease-in-out, color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для кольору іконки
+  transition: transform 0.2s ease-in-out, color 0.25s ease-in-out; // ОНОВЛЕНО: Перехід для кольору іконки
 `;

@@ -10,7 +10,7 @@ export const QuestionPromptContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   box-shadow: ${({ theme }) => theme.shadows.small};
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out; // ДОДАНО: Перехід для фону та рамки
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out; // ДОДАНО: Перехід для фону та рамки
 
   ${({ theme }) => theme.media.down("sm")`
     padding: ${({ theme }) => theme.spacing.small};
@@ -32,7 +32,7 @@ export const QuestionText = styled.p`
   font-weight: bold;
   color: ${({ theme }) => theme.colors.color};
   margin-bottom: ${({ theme }) => theme.spacing.small};
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту
 
   ${({ theme }) => theme.media.down("sm")`
     font-size: ${({ theme }) => theme.fontSizes.medium};
@@ -48,11 +48,11 @@ export const ToggleAnswerButton = styled.button`
   cursor: pointer;
   font-size: ${({ theme }) => theme.fontSizes.medium};
   font-weight: bold;
-  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out; // ОНОВЛЕНО: Перехід для фону та тексту
+  transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out; // ОНОВЛЕНО: Перехід для фону та тексту
 
   &:hover {
     background: ${({ theme }) => theme.colors.hoverBtn}; // ОНОВЛЕНО
-    transition: background 0.3s ease-in-out;
+    transition: background 0.25s ease-in-out;
   }
 `;
 
@@ -65,8 +65,8 @@ export const AnswerText = styled.div`
   color: ${({ theme }) => theme.colors.color};
   border-radius: ${({ theme }) => theme.borderRadius.small};
   width: 100%;
-  transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out,
-    color 0.4s ease-in-out; // ДОДАНО: Перехід для фону, рамки та тексту
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
+    color 0.25s ease-in-out; // ДОДАНО: Перехід для фону, рамки та тексту
 
   ${({ theme }) => theme.media.down("sm")`
     padding: ${({ theme }) => theme.spacing.xsmall};

@@ -8,7 +8,7 @@ export const StyledCard = styled.section`
   padding: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використано spacing
   margin-bottom: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використано spacing
 
-  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  transition: background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
     padding: ${({ theme }) => theme.spacing.medium};
@@ -22,7 +22,7 @@ export const StyledHeading = styled.h3`
   margin-top: ${({ theme }) => theme.spacing.xxlarge}; // ОНОВЛЕНО: Використано theme.spacing
   margin-bottom: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використано theme.spacing
   line-height: 1.2;
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 
   ${props =>
     props.size === "default" &&

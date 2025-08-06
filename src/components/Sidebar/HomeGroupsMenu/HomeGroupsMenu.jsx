@@ -18,7 +18,8 @@ import { homeGroupsContent } from "../../../data/homeGroups/homeGroupsContent";
 import { useHomeGroups } from "../../../contexts/HomeGroupsContext";
 import Tooltip from "../../Common/Tooltip/Tooltip";
 
-export default function HomeGroupsMenu({ isCollapsed }) {
+// 🔥 Приймаємо пропси onNavLinkClick та isMobile
+export default function HomeGroupsMenu({ isCollapsed, onNavLinkClick, isMobile }) {
   const { setSelectedHomeGroupLesson, selectedHomeGroupLesson, setSelectedHomeGroupBook } =
     useHomeGroups();
 
@@ -98,7 +99,6 @@ export default function HomeGroupsMenu({ isCollapsed }) {
   };
 
   const renderLessonItems = lessons => {
-    // Не рендеримо список уроків, якщо їх немає
     if (!lessons || lessons.length === 0) {
       return null;
     }
@@ -111,7 +111,13 @@ export default function HomeGroupsMenu({ isCollapsed }) {
             $isActive={selectedHomeGroupLesson === lesson.id}
             isCollapsed={isCollapsed}
             $isLesson={true}
-            onClick={() => setSelectedHomeGroupLesson(lesson.id)}
+            // 🔥 Викликаємо onNavLinkClick, який закриє сайдбар
+            onClick={() => {
+              setSelectedHomeGroupLesson(lesson.id);
+              if (isMobile) {
+                onNavLinkClick();
+              }
+            }}
           >
             {isCollapsed && showCollapsedItems ? (
               <Tooltip content={lesson.title}>
@@ -152,19 +158,16 @@ export default function HomeGroupsMenu({ isCollapsed }) {
     <>
       {homeGroupCategories
         .filter(category => {
-          // Фільтруємо категорії верхнього рівня
           if (category.id === "old-testament-books" || category.id === "new-testament-books") {
-            // Для розділів книг перевіряємо, чи є хоча б одна книга з контентом
             return category.items.some(
               book =>
                 homeGroupsContent[book.internalKey] &&
                 homeGroupsContent[book.internalKey].length > 0
             );
           } else if (category.type === "thematic" || category.type === "special") {
-            // Для тематичних/спеціальних розділів перевіряємо, чи є контент
             return homeGroupsContent[category.id] && homeGroupsContent[category.id].length > 0;
           }
-          return false; // За замовчуванням приховати, якщо не відповідає жодному типу
+          return false;
         })
         .map((category, categoryIndex) => (
           <Section key={category.id}>
@@ -295,7 +298,6 @@ export default function HomeGroupsMenu({ isCollapsed }) {
                             </ListItem>
                             <AnimatePresence>
                               {openSections.openBook === book.internalKey &&
-                                // Перевірка перед рендерингом уроків
                                 homeGroupsContent[book.internalKey] &&
                                 homeGroupsContent[book.internalKey].length > 0 && (
                                   <motion.div
@@ -316,7 +318,6 @@ export default function HomeGroupsMenu({ isCollapsed }) {
                   )}
 
                   {(category.type === "thematic" || category.type === "special") &&
-                    // Перевірка перед рендерингом уроків
                     homeGroupsContent[category.id] &&
                     homeGroupsContent[category.id].length > 0 &&
                     renderLessonItems(homeGroupsContent[category.id])}

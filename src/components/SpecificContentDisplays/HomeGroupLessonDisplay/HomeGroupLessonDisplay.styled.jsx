@@ -23,7 +23,7 @@ export const HomeGroupLessonTitleWrapper = styled.div`
     font-size: ${({ theme }) => theme.fontSizes.xxlarge};
     color: ${({ theme }) => theme.colors.color};
     margin-bottom: ${({ theme }) => theme.spacing.xsmall};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
 
     // Медіа-запит для мобільних пристроїв, щоб зменшити шрифт
     ${({ theme }) => theme.media.down("sm")`
@@ -42,7 +42,7 @@ export const HomeGroupLessonTextWrapper = styled.div`
   line-height: 1.8;
   font-size: ${({ theme }) => theme.fontSizes.medium};
   color: ${({ theme }) => theme.colors.color};
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для основного кольору тексту
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для основного кольору тексту
 
   // Медіа-запит для мобільних пристроїв, щоб трохи зменшити шрифт
   ${({ theme }) => theme.media.down("sm")`
@@ -71,7 +71,7 @@ export const HomeGroupLessonTextWrapper = styled.div`
 
   strong {
     color: ${({ theme }) => theme.colors.color};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору жирного тексту
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору жирного тексту
   }
 
   h1,
@@ -81,7 +81,7 @@ export const HomeGroupLessonTextWrapper = styled.div`
   h5,
   h6 {
     color: ${({ theme }) => theme.colors.color};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору заголовків
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору заголовків
   }
 `;
 
@@ -95,7 +95,7 @@ export const VerseButton = styled.button`
   text-decoration: underline;
   color: ${({ theme }) => theme.colors.accentColor};
   display: inline;
-  transition: color 0.4s ease-in-out, text-shadow 0.2s ease-in-out; // Transition for text shadow
+  transition: color 0.25s ease-in-out, text-shadow 0.2s ease-in-out; // Transition for text shadow
 
   &:hover {
     color: ${({ theme }) => theme.colors.accentColor};

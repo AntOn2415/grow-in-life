@@ -15,9 +15,9 @@ const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme.background};
     color: ${({ theme }) => theme.color};
 
-    transition: background-color 0.4s ease-in-out,
-                color 0.4s ease-in-out,
-                border-color 0.4s ease-in-out;
+    transition: background-color 0.25s ease-in-out,
+                color 0.25s ease-in-out,
+                border-color 0.25s ease-in-out;
 
     font-family: 'Roboto', 'Arial', sans-serif; // ✅ Переконайтесь, що це ваш фактичний шрифт
     line-height: 1.6;
@@ -32,7 +32,7 @@ const GlobalStyles = createGlobalStyle`
   a {
     color: ${({ theme }) => theme.accentColor}; // ✅ Використовуємо accentColor для посилань
     text-decoration: none;
-    transition: color 0.4s ease-in-out;
+    transition: color 0.25s ease-in-out;
     &:hover {
       color: ${({ theme }) => theme.color}; // ✅ Поміняли на theme.color при ховері
     }
@@ -45,9 +45,9 @@ const GlobalStyles = createGlobalStyle`
     border-radius: ${({ theme }) => theme.borderRadius.small}; // ✅ З теми
     background-color: ${({ theme }) => theme.buttonBg};
     color: ${({ theme }) => theme.buttonColor};
-    transition: background-color 0.3s ease-in-out,
-                color 0.3s ease-in-out,
-                box-shadow 0.3s ease-in-out;
+    transition: background-color 0.25s ease-in-out,
+                color 0.25s ease-in-out,
+                box-shadow 0.25s ease-in-out;
     &:active {
       box-shadow: none;
     }
@@ -58,9 +58,9 @@ const GlobalStyles = createGlobalStyle`
     color: ${({ theme }) => theme.color};
     padding: 0.5rem;
     border-radius: ${({ theme }) => theme.borderRadius.small}; // ✅ З теми
-    transition: border-color 0.3s ease-in-out,
-                background-color 0.3s ease-in-out,
-                color 0.3s ease-in-out;
+    transition: border-color 0.25s ease-in-out,
+                background-color 0.25s ease-in-out,
+                color 0.25s ease-in-out;
     &:focus {
       outline: none;
       border-color: ${({ theme }) => theme.accentColor};
@@ -70,23 +70,23 @@ const GlobalStyles = createGlobalStyle`
 
   h1, h2, h3, h4, h5, h6 {
     color: ${({ theme }) => theme.color};
-    transition: color 0.4s ease-in-out;
+    transition: color 0.25s ease-in-out;
   }
   p{
     color: ${({ theme }) => theme.color};
-    transition: color 0.4s ease-in-out;
+    transition: color 0.25s ease-in-out;
   }
   span{
     color: ${({ theme }) => theme.color};
-    transition: color 0.4s ease-in-out;
+    transition: color 0.25s ease-in-out;
   }
   strong{
     color: ${({ theme }) => theme.color};
-    transition: color 0.4s ease-in-out;
+    transition: color 0.25s ease-in-out;
   }
 
   img {
-    transition: filter 0.4s ease-in-out;
+    transition: filter 0.25s ease-in-out;
   }
 `;
 

@@ -12,9 +12,14 @@ export const BottomNavContainer = styled.div`
     background: ${({ theme }) => theme.colors.navBg};
     border-top: 1px solid ${({ theme }) => theme.colors.borderColor};
     box-shadow: ${({ theme }) => theme.shadows.medium};
-    z-index: 1000; /* Встановлюємо високий z-index */
+    z-index: 1000;
     justify-content: space-around;
     align-items: center;
+    transition: background 0.25s ease-in-out, border-top 0.25s ease-in-out;
+    
+    &.hidden {
+      display: none;
+    }
   `}
 `;
 
@@ -29,22 +34,19 @@ export const NavLinkItem = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.xsmall};
   font-weight: 500;
   cursor: pointer;
-  transition: color 0.3s ease-in-out;
+  transition: color 0.25s ease-in-out;
   padding: ${({ theme }) => theme.spacing.xsmall};
 
   &:hover {
     color: ${({ theme }) => theme.colors.navActive};
   }
   &[data-active="true"] {
-    /* Змінено тут */
-    color: ${({ theme }) => theme.colors.navActive};
-  }
-  &.active {
     color: ${({ theme }) => theme.colors.navActive};
   }
 `;
 
 export const IconWrapper = styled.div`
-  font-size: ${({ theme }) => theme.fontSizes.large}; /* Розмір іконок */
+  font-size: ${({ theme }) => theme.fontSizes.large};
   margin-bottom: ${({ theme }) => theme.spacing.xxsmall};
+  transition: color 0.25s ease-in-out;
 `;

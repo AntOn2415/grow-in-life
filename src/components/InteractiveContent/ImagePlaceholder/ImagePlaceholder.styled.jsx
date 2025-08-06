@@ -9,7 +9,7 @@ export const ImageContainer = styled.div`
   margin: ${({ theme }) => theme.spacing.large} 0; // ОНОВЛЕНО: Використано spacing
   box-shadow: ${({ theme }) => theme.shadows.small};
   text-align: center;
-  transition: all 0.4s ease-in-out;
+  transition: all 0.25s ease-in-out;
 
   // Медіазапит для мобільних
   ${({ theme }) => theme.media.down("sm")`
@@ -20,7 +20,7 @@ export const ImageContainer = styled.div`
   h4 {
     margin-bottom: ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: Використано spacing
     color: ${({ theme }) => theme.colors.accentColor}; // ОНОВЛЕНО: Використано theme.colors
-    transition: color 0.4s ease-in-out;
+    transition: color 0.25s ease-in-out;
 
     // Медіазапит для мобільних
     ${({ theme }) => theme.media.down("sm")`
@@ -32,7 +32,7 @@ export const ImageContainer = styled.div`
     color: ${({ theme }) => theme.colors.color}; // ОНОВЛЕНО: Використано theme.colors
     font-size: ${({ theme }) => theme.fontSizes.medium};
     margin-bottom: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: Використано spacing
-    transition: color 0.4s ease-in-out, font-size 0.4s ease-in-out;
+    transition: color 0.25s ease-in-out, font-size 0.25s ease-in-out;
 
     // Медіазапит для мобільних
     ${({ theme }) => theme.media.down("sm")`
@@ -50,7 +50,7 @@ export const StyledImage = styled.img`
   display: block;
   margin-left: auto;
   margin-right: auto;
-  transition: border-radius 0.4s ease-in-out;
+  transition: border-radius 0.25s ease-in-out;
 `;
 
 export const ImageCaption = styled.p`
@@ -58,5 +58,5 @@ export const ImageCaption = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.small};
   color: ${({ theme }) => theme.colors.color}; // ОНОВЛЕНО: Використано theme.colors
   margin-top: ${({ theme }) => theme.spacing.xsmall}; // ОНОВЛЕНО: Використано spacing
-  transition: color 0.4s ease-in-out, font-size 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out, font-size 0.25s ease-in-out;
 `;

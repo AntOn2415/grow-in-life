@@ -25,7 +25,7 @@ export const SectionTitle = styled.div`
   color: ${({ theme }) => theme.colors.color}; // ДОДАНО: Основний колір тексту
 
   // ОНОВЛЕНО: Плавний перехід для фону та кольору, для Hover та Focus
-  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
 
   &:hover,
   &:focus {
@@ -56,7 +56,7 @@ export const ListItem = styled.li`
   font-size: ${({ theme }) => theme.fontSizes.xsmall}; // ОНОВЛЕНО: Використовуємо fontSizes
 
   // ДОДАНО: Плавні переходи для кольору тексту та фону (для hover)
-  transition: color 0.4s ease-in-out, background 0.3s ease-in-out;
+  transition: color 0.25s ease-in-out, background 0.25s ease-in-out;
 
   &:hover {
     background: ${({ theme }) => theme.colors.hoverBg}; // ОНОВЛЕНО: Використовуємо theme.colors
@@ -70,5 +70,5 @@ export const Toggle = styled.span`
   pointer-events: none;
 
   // ДОДАНО: Плавний перехід для кольору іконки
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 `;

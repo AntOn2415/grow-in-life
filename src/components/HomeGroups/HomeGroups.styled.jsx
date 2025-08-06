@@ -8,7 +8,7 @@ export const HomeGroupsContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.background}; // ОНОВЛЕНО: Використано theme.colors
   border-radius: ${({ theme }) => theme.borderRadius.medium};
   box-shadow: ${({ theme }) => theme.shadows.small};
-  transition: background-color 0.4s ease-in-out;
+  transition: background-color 0.25s ease-in-out;
 `;
 
 // Повідомлення, коли немає уроків

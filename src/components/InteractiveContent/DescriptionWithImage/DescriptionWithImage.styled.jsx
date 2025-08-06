@@ -10,7 +10,7 @@ export const DescriptionWithImageContainer = styled.section`
   flex-direction: column; /* За замовчуванням стовпець на мобільних */
   gap: ${({ theme }) => theme.spacing.large};
   align-items: center; /* Центрування елементів */
-  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out; // ДОДАНО: Переходи для фону та тіні
+  transition: background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out; // ДОДАНО: Переходи для фону та тіні
 
   .content-area {
     display: flex;
@@ -29,7 +29,7 @@ export const DescriptionWithImageContainer = styled.section`
     margin-bottom: ${({ theme }) => theme.spacing.medium};
     color: ${({ theme }) => theme.colors.color};
     font-size: ${({ theme }) => theme.fontSizes.extraLarge};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору заголовка
 
     ${({ theme }) => theme.media.up("md")`
       text-align: left;
@@ -42,7 +42,7 @@ export const TextContentWrapper = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   line-height: 1.6;
   color: ${({ theme }) => theme.colors.color};
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту
 
   p {
     margin-bottom: 1em;
@@ -53,7 +53,7 @@ export const TextContentWrapper = styled.div`
 
   strong {
     color: ${({ theme }) => theme.colors.accentColor};
-    transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору акцентного тексту
+    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору акцентного тексту
   }
 
   ${({ theme }) => theme.media.up("md")`
@@ -73,7 +73,7 @@ export const ImageWrapper = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.small};
   box-shadow: ${({ theme }) => theme.shadows.extraSmall};
   max-width: 100%;
-  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out; // ДОДАНО: Переходи для фону та тіні
+  transition: background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out; // ДОДАНО: Переходи для фону та тіні
 
   ${({ theme }) => theme.media.up("md")`
     max-width: 45%;
@@ -91,5 +91,5 @@ export const ImageCaption = styled.figcaption`
   font-size: ${({ theme }) => theme.fontSizes.small};
   color: ${({ theme }) => theme.colors.textColorLight};
   line-height: 1.4;
-  transition: color 0.4s ease-in-out; // ДОДАНО: Перехід для кольору тексту
+  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту
 `;

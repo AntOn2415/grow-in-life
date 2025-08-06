@@ -8,7 +8,7 @@ export const StyledCard = styled.section`
   padding: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використано spacing
   margin-bottom: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використано spacing
 
-  transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  transition: background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
     padding: ${({ theme }) => theme.spacing.medium};

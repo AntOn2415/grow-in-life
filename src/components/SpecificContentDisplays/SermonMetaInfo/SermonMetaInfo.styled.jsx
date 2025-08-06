@@ -8,7 +8,7 @@ export const MetaContainer = styled.div`
   gap: ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: використовуємо spacing
   font-size: ${({ theme }) => theme.fontSizes.small}; // ОНОВЛЕНО: використовуємо fontSizes
   color: inherit;
-  transition: color 0.4s ease-in-out;
+  transition: color 0.25s ease-in-out;
 
   span {
     white-space: nowrap;
