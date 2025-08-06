@@ -18,6 +18,10 @@ export const light = {
     buttonColor: "#FFFFFF", // Білий текст кнопок
     hoverBtn: "#B8ACA2", // Світліший відтінок для ховеру кнопок
 
+    // для кольорів тексту кнопок мобільної навігації
+    mobileNavButtonColor: "#8A7D69",
+    mobileNavButtonActiveColor: "#4A453A",
+
     // Межі та розділювачі
     borderColor: "#DDCBA6", // М'який сіро-жовтий, гармонійний з F7EEC4
     dividerColor: "#EBE3D0", // Світліший для розділювачів

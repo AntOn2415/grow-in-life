@@ -16,10 +16,15 @@ export const dark = {
 
     borderColor: "#4A4A4A",
     dividerColor: "#5C5C5C",
+
     hoverBg: "#4C4C4C",
     accentBg: "#5C5C5C",
     accentColor: "#F7F4EB",
     colorSecondary: "#B0B0B0", // Вторинний колір тексту
+
+    // для кольорів тексту кнопок мобільної навігації
+    mobileNavButtonColor: "#5C5C5C",
+    mobileNavButtonActiveColor: "#E0E0E0",
 
     // **НОВІ КОЛЬОРИ ДЛЯ МЕНЮ ТА ЗАГОЛОВКІВ**
     navItemHover: "#4C4C4C", // Використовуємо колір з hoverBg

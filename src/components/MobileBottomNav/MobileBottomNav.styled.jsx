@@ -29,7 +29,7 @@ export const NavLinkItem = styled.div`
   align-items: center;
   justify-content: center;
   flex: 1;
-  color: ${({ theme }) => theme.colors.color};
+  color: ${({ theme }) => theme.colors.mobileNavButtonColor};
   text-decoration: none;
   font-size: ${({ theme }) => theme.fontSizes.xsmall};
   font-weight: 500;
@@ -38,10 +38,10 @@ export const NavLinkItem = styled.div`
   padding: ${({ theme }) => theme.spacing.xsmall};
 
   &:hover {
-    color: ${({ theme }) => theme.colors.navActive};
+    color: ${({ theme }) => theme.colors.mobileNavButtonActiveColor};
   }
   &[data-active="true"] {
-    color: ${({ theme }) => theme.colors.navActive};
+    color: ${({ theme }) => theme.colors.mobileNavButtonActiveColor};
   }
 `;
 

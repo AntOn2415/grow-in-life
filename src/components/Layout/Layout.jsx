@@ -1,3 +1,5 @@
+// Layout.jsx
+
 import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -43,6 +45,9 @@ const Layout = () => {
   const [showMobileRightSidebar, setShowMobileRightSidebar] = useState(false);
   const [isRightSidebarSplit, setIsRightSidebarSplit] = useState(false);
 
+  // Новий стан для контролю висоти Main
+  const [mainHeight, setMainHeight] = useState("100%");
+
   const isMobile = useMediaQuery(`(max-width: ${breakpoints.md})`);
 
   useEffect(() => {
@@ -52,6 +57,25 @@ const Layout = () => {
       setIsRightSidebarSplit(false);
     }
   }, [isMobile]);
+
+  // useEffect для синхронізації висоти Main з анімацією сайдбару
+  useEffect(() => {
+    let timeoutId;
+    if (isMobile && showMobileRightSidebar) {
+      if (isRightSidebarSplit) {
+        // Затримка на 250 мс (тривалість анімації сайдбару) перед зміною висоти
+        timeoutId = setTimeout(() => {
+          setMainHeight("calc(50vh - 1px)");
+        }, 250);
+      } else {
+        // При закритті або відміні поділу змінюємо висоту одразу
+        setMainHeight("100%");
+      }
+    } else {
+      setMainHeight("100%");
+    }
+    return () => clearTimeout(timeoutId);
+  }, [isRightSidebarSplit, showMobileRightSidebar, isMobile]);
 
   useEffect(() => {
     if (navRef.current) {
@@ -78,24 +102,13 @@ const Layout = () => {
   }, [navHeight]);
 
   useEffect(() => {
-    // В цьому компоненті більше немає логіки закриття сайдбарів при зміні маршруту.
-    // Ця відповідальність перенесена на самі елементи меню.
-  }, [location.pathname]);
-
-  useEffect(() => {
-    if (!isMobile) {
-      document.body.style.overflow = "auto";
-      return;
-    }
-    if (showMobileLeftSidebar || showMobileRightSidebar || isRightSidebarSplit) {
+    const isAnySidebarOpen = showMobileLeftSidebar || showMobileRightSidebar || isRightSidebarSplit;
+    if (isMobile && isAnySidebarOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [showMobileLeftSidebar, showMobileRightSidebar, isMobile, isRightSidebarSplit]);
+  }, [showMobileLeftSidebar, showMobileRightSidebar, isRightSidebarSplit, isMobile]);
 
   const handleRightSidebarToggle = () => {
     setRightSidebarExpanded(prev => {
@@ -173,13 +186,12 @@ const Layout = () => {
           navHeight={navHeight}
           isRightSidebarSplit={isRightSidebarSplit}
           as={motion.main}
-          animate={
-            isMobile && isRightSidebarSplit
-              ? { y: "0%", height: "calc(50vh - 5px)" }
-              : { y: "0%", height: "100%" }
-          }
-          transition={{ duration: 0.25, ease: "easeInOut" }}
-          style={{ paddingTop: isMobile ? "50px" : `${navHeight}px` }}
+          style={{
+            paddingTop: isMobile ? "50px" : `${navHeight}px`,
+            // ВИКОРИСТОВУЄМО СТАН mainHeight
+            height: isMobile ? mainHeight : "100%",
+            transition: isMobile ? "height 0.25s ease-in-out" : "none", // Додаємо плавність для зміни висоти
+          }}
         >
           <Outlet />
         </Main>
@@ -257,11 +269,11 @@ const Layout = () => {
             </AnimatePresence>
             <MobileLeftSidebarOverlay
               show={showMobileLeftSidebar}
-              onClick={() => setShowMobileLeftSidebar(false)}
+              onClick={() => toggleMobileLeftSidebar(false)}
             />
             <MobileRightSidebarOverlay
               show={showMobileRightSidebar}
-              onClick={() => setShowMobileRightSidebar(false)}
+              onClick={() => toggleMobileRightSidebar(false)}
               isRightSidebarSplit={isRightSidebarSplit}
             />
           </>
