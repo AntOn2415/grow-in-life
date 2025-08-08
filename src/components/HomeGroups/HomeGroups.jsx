@@ -1,22 +1,47 @@
-// src/components/HomeGroups/HomeGroups.jsx
-import React, { useEffect, useState } from "react"; // ✅ ДОДАНО useState
+import React, { useEffect, useState, useRef } from "react";
+import { useOutletContext, useLocation } from "react-router-dom";
 import { HomeGroupsContainer, NoLessonMessage } from "./HomeGroups.styled";
 import HomeGroupLessonDisplay from "../SpecificContentDisplays/HomeGroupLessonDisplay/HomeGroupLessonDisplay";
 import { homeGroupsContent } from "../../data/homeGroups/homeGroupsContent";
 import { useHomeGroups } from "../../contexts/HomeGroupsContext";
+import {
+  homeGroupCategories,
+  oldTestamentBooksList,
+  newTestamentBooksList,
+} from "../../data/homeGroups/homeGroupCategories";
 
+// Оптимізована функція для пошуку уроку
 const getLessonMetaDataById = lessonId => {
-  // ✅ ЗМІНЕНО НАЗВУ: тепер отримуємо метадані
   if (!lessonId) return null;
 
   for (const categoryKey in homeGroupsContent) {
-    if (homeGroupsContent.hasOwnProperty(categoryKey)) {
-      const lessonsArray = homeGroupsContent[categoryKey];
-      if (Array.isArray(lessonsArray) && lessonsArray.length > 0) {
-        const foundLesson = lessonsArray.find(lesson => lesson.id === lessonId);
-        if (foundLesson) {
-          return foundLesson; // Повертаємо об'єкт з метаданими та loadLesson
+    const lessonsArray = homeGroupsContent[categoryKey];
+    if (lessonsArray) {
+      const foundLesson = lessonsArray.find(lesson => lesson.id === lessonId);
+      if (foundLesson) {
+        return foundLesson;
+      }
+    }
+  }
+  return null;
+};
+
+// Оптимізована функція для пошуку першого уроку
+const findFirstLesson = () => {
+  for (const category of homeGroupCategories) {
+    if (category.id === "old-testament-books" || category.id === "new-testament-books") {
+      const booksList =
+        category.id === "old-testament-books" ? oldTestamentBooksList : newTestamentBooksList;
+      for (const book of booksList) {
+        const lessons = homeGroupsContent[book.internalKey];
+        if (lessons && lessons.length > 0) {
+          return lessons[0].id;
         }
+      }
+    } else if (category.type === "thematic" || category.type === "special") {
+      const lessons = homeGroupsContent[category.id];
+      if (lessons && lessons.length > 0) {
+        return lessons[0].id;
       }
     }
   }
@@ -24,68 +49,78 @@ const getLessonMetaDataById = lessonId => {
 };
 
 const HomeGroups = () => {
+  const { mainRef } = useOutletContext();
   const { selectedHomeGroupLesson, setSelectedHomeGroupLesson } = useHomeGroups();
-  const [loadedLessonContent, setLoadedLessonContent] = useState(null); // ✅ НОВИЙ СТАН: для зберігання завантаженого уроку
-  const [loading, setLoading] = useState(true); // ✅ НОВИЙ СТАН: для індикації завантаження
+  const [loadedLessonContent, setLoadedLessonContent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
-  // Отримуємо метадані обраного уроку (з loadLesson функцією)
-  const selectedLessonMetaData = getLessonMetaDataById(selectedHomeGroupLesson);
+  // ✅ НОВИЙ СТАН: Прапорець для відстеження, чи це перше завантаження компонента
+  const isInitialLoad = useRef(true);
 
+  // useEffect для ініціалізації уроку
   useEffect(() => {
-    // Встановлюємо перший урок за замовчуванням, якщо жоден не вибрано
     if (!selectedHomeGroupLesson) {
-      let firstLessonId = null;
-      for (const categoryKey in homeGroupsContent) {
-        if (homeGroupsContent.hasOwnProperty(categoryKey)) {
-          const lessonsArray = homeGroupsContent[categoryKey];
-          if (Array.isArray(lessonsArray) && lessonsArray.length > 0) {
-            firstLessonId = lessonsArray[0].id;
-            break;
-          }
-        }
-      }
+      const firstLessonId = findFirstLesson();
       if (firstLessonId) {
         setSelectedHomeGroupLesson(firstLessonId);
       } else {
-        setLoading(false); // Якщо немає уроків взагалі
+        setLoading(false);
       }
     }
   }, [selectedHomeGroupLesson, setSelectedHomeGroupLesson]);
 
-  // ✅ НОВИЙ useEffect для завантаження контенту уроку
+  // ВИПРАВЛЕНИЙ useEffect для завантаження контенту уроку
   useEffect(() => {
     const loadLessonContent = async () => {
-      setLoading(true); // Починаємо завантаження
-      setLoadedLessonContent(null); // Очищаємо попередній контент
+      setLoading(true);
+      setLoadedLessonContent(null);
 
-      if (selectedLessonMetaData && selectedLessonMetaData.loadLesson) {
+      if (mainRef && mainRef.current && !isInitialLoad.current) {
+        mainRef.current.scrollTop = 0;
+      }
+
+      const lessonMetaData = getLessonMetaDataById(selectedHomeGroupLesson);
+      if (lessonMetaData && lessonMetaData.loadLesson) {
         try {
-          const module = await selectedLessonMetaData.loadLesson();
-          // Припускаємо, що module.default містить об'єкт уроку (як nehemiah4.js)
+          const module = await lessonMetaData.loadLesson();
           setLoadedLessonContent(module.default);
         } catch (error) {
           console.error("Помилка завантаження уроку:", error);
-          setLoadedLessonContent(null); // У випадку помилки скидаємо контент
+          setLoadedLessonContent(null);
         } finally {
-          setLoading(false); // Завершуємо завантаження
+          setLoading(false);
         }
       } else {
-        setLoading(false); // Немає метаданих або функції loadLesson
+        setLoading(false);
       }
     };
 
     if (selectedHomeGroupLesson) {
-      // Запускаємо завантаження, лише якщо selectedHomeGroupLesson встановлено
       loadLessonContent();
     }
-  }, [selectedLessonMetaData, selectedHomeGroupLesson]); // Залежності: зміни метаданих або ID обраного уроку
+  }, [selectedHomeGroupLesson, mainRef]);
+
+  // useEffect для відновлення скролу після завантаження контенту
+  useEffect(() => {
+    if (loadedLessonContent && mainRef && mainRef.current) {
+      const savedScrollY = sessionStorage.getItem(`scrollPosition-${location.pathname}`);
+
+      if (savedScrollY && isInitialLoad.current) {
+        const parsedScroll = parseInt(savedScrollY, 10);
+        mainRef.current.scrollTop = parsedScroll;
+      }
+
+      isInitialLoad.current = false;
+    }
+  }, [loadedLessonContent, mainRef, location.pathname]);
 
   return (
     <HomeGroupsContainer>
       {loading ? (
-        <NoLessonMessage>Завантаження уроку...</NoLessonMessage> // Показати, поки урок завантажується
+        <NoLessonMessage>Завантаження уроку...</NoLessonMessage>
       ) : loadedLessonContent ? (
-        <HomeGroupLessonDisplay lessonData={loadedLessonContent} /> // Передаємо завантажений контент
+        <HomeGroupLessonDisplay lessonData={loadedLessonContent} />
       ) : (
         <NoLessonMessage>
           Будь ласка, оберіть урок домашньої групи зі списку в меню.

@@ -1,5 +1,3 @@
-// Layout.jsx
-
 import React, { useState, useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -31,24 +29,56 @@ const leftSidebarVariants = {
   },
 };
 
+const getInitialSidebarState = () => {
+  const savedLeftSidebarState = sessionStorage.getItem("leftSidebarCollapsed");
+  const savedRightSidebarState = sessionStorage.getItem("rightSidebarExpanded");
+  const savedRightSidebarSplitState = sessionStorage.getItem("isRightSidebarSplit");
+
+  return {
+    leftSidebarCollapsed: savedLeftSidebarState ? JSON.parse(savedLeftSidebarState) : false,
+    rightSidebarExpanded: savedRightSidebarState ? JSON.parse(savedRightSidebarState) : false,
+    isRightSidebarSplit: savedRightSidebarSplitState
+      ? JSON.parse(savedRightSidebarSplitState)
+      : false,
+  };
+};
+
 const Layout = () => {
   const [showNav, setShowNav] = useState(true);
   const lastScroll = useRef(0);
-  const [leftSidebarCollapsed, setLeftSidebarCollapsed] = useState(false);
-  const [rightSidebarExpanded, setRightSidebarExpanded] = useState(false);
+  const {
+    leftSidebarCollapsed: initialLeftCollapsed,
+    rightSidebarExpanded: initialRightExpanded,
+    isRightSidebarSplit: initialRightSplit,
+  } = getInitialSidebarState();
+
+  const [leftSidebarCollapsed, setLeftSidebarCollapsed] = useState(initialLeftCollapsed);
+  const [rightSidebarExpanded, setRightSidebarExpanded] = useState(initialRightExpanded);
   const [previousLeftCollapsedState, setPreviousLeftCollapsedState] = useState(false);
+  const [isRightSidebarSplit, setIsRightSidebarSplit] = useState(initialRightSplit);
+  const [mainHeight, setMainHeight] = useState("100%");
+  const [showMobileLeftSidebar, setShowMobileLeftSidebar] = useState(false);
+  const [showMobileRightSidebar, setShowMobileRightSidebar] = useState(false);
+
   const location = useLocation();
   const navRef = useRef(null);
   const [navHeight, setNavHeight] = useState(0);
 
-  const [showMobileLeftSidebar, setShowMobileLeftSidebar] = useState(false);
-  const [showMobileRightSidebar, setShowMobileRightSidebar] = useState(false);
-  const [isRightSidebarSplit, setIsRightSidebarSplit] = useState(false);
-
-  // Новий стан для контролю висоти Main
-  const [mainHeight, setMainHeight] = useState("100%");
+  const mainRef = useRef(null);
 
   const isMobile = useMediaQuery(`(max-width: ${breakpoints.md})`);
+
+  useEffect(() => {
+    sessionStorage.setItem("leftSidebarCollapsed", JSON.stringify(leftSidebarCollapsed));
+  }, [leftSidebarCollapsed]);
+
+  useEffect(() => {
+    sessionStorage.setItem("rightSidebarExpanded", JSON.stringify(rightSidebarExpanded));
+  }, [rightSidebarExpanded]);
+
+  useEffect(() => {
+    sessionStorage.setItem("isRightSidebarSplit", JSON.stringify(isRightSidebarSplit));
+  }, [isRightSidebarSplit]);
 
   useEffect(() => {
     if (isMobile) {
@@ -58,17 +88,14 @@ const Layout = () => {
     }
   }, [isMobile]);
 
-  // useEffect для синхронізації висоти Main з анімацією сайдбару
   useEffect(() => {
     let timeoutId;
     if (isMobile && showMobileRightSidebar) {
       if (isRightSidebarSplit) {
-        // Затримка на 250 мс (тривалість анімації сайдбару) перед зміною висоти
         timeoutId = setTimeout(() => {
           setMainHeight("calc(50vh - 1px)");
         }, 250);
       } else {
-        // При закритті або відміні поділу змінюємо висоту одразу
         setMainHeight("100%");
       }
     } else {
@@ -77,15 +104,33 @@ const Layout = () => {
     return () => clearTimeout(timeoutId);
   }, [isRightSidebarSplit, showMobileRightSidebar, isMobile]);
 
+  // ✅ ВИПРАВЛЕНО: Зміна умов для показу хедера
+  // Тепер хедер показується, тільки якщо лівий сайдбар відкритий
+  // АБО правий сайдбар відкритий НЕ в режимі розділення екрана (тобто на весь екран)
+  useEffect(() => {
+    if (isMobile && (showMobileLeftSidebar || (showMobileRightSidebar && !isRightSidebarSplit))) {
+      setShowNav(true);
+    } else if (!isMobile) {
+      setShowNav(true);
+    }
+  }, [isMobile, showMobileLeftSidebar, showMobileRightSidebar, isRightSidebarSplit]);
+
   useEffect(() => {
     if (navRef.current) {
       setNavHeight(navRef.current.offsetHeight);
     }
     let ticking = false;
     const handleScroll = () => {
+      const mainElement = mainRef.current;
+      const curr = mainElement ? mainElement.scrollTop : 0;
+
+      // ✅ ВИПРАВЛЕНО: Умова повернення, коли хедер має бути показаний
+      if (isMobile && (showMobileLeftSidebar || (showMobileRightSidebar && !isRightSidebarSplit))) {
+        return;
+      }
+
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const curr = window.scrollY;
           if (curr > lastScroll.current && curr > navHeight) {
             setShowNav(false);
           } else if (curr < lastScroll.current) {
@@ -97,9 +142,29 @@ const Layout = () => {
         ticking = true;
       }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [navHeight]);
+    const mainElement = mainRef.current;
+    if (mainElement) {
+      mainElement.addEventListener("scroll", handleScroll);
+    }
+    return () => {
+      if (mainElement) {
+        mainElement.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [navHeight, isMobile, showMobileLeftSidebar, showMobileRightSidebar, isRightSidebarSplit]);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (mainRef.current) {
+        const scrollPosition = mainRef.current.scrollTop;
+        sessionStorage.setItem(`scrollPosition-${location.pathname}`, scrollPosition);
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [location.pathname]);
 
   useEffect(() => {
     const isAnySidebarOpen = showMobileLeftSidebar || showMobileRightSidebar || isRightSidebarSplit;
@@ -182,19 +247,18 @@ const Layout = () => {
           </LeftSidebarContainer>
         )}
         <Main
+          ref={mainRef}
           sidebarCollapsed={leftSidebarCollapsed}
           rightSidebarExpanded={rightSidebarExpanded}
           navHeight={navHeight}
           isRightSidebarSplit={isRightSidebarSplit}
           as={motion.main}
           style={{
-            paddingTop: isMobile ? "50px" : `${navHeight}px`,
-            // ВИКОРИСТОВУЄМО СТАН mainHeight
             height: isMobile ? mainHeight : "100%",
-            transition: isMobile ? "height 0.25s ease-in-out" : "none", // Додаємо плавність для зміни висоти
+            //transition: isMobile ? "height 0.25s ease-in-out" : "padding-top 0.25s ease-in-out",
           }}
         >
-          <Outlet />
+          <Outlet context={{ mainRef }} />
         </Main>
         {!isHome && !isMobile && (
           <RightSidebarContainer

@@ -2,7 +2,8 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
 export const Nav = styled.nav`
-  position: sticky;
+  /* ✅ Змінено: замість sticky використовуємо fixed для десктопу */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -88,7 +89,6 @@ export const HamburgerIcon = styled.button`
     cursor: pointer;
     padding: 0;
     z-index: 10;
-    margin-left: ${({ theme }) => theme.spacing.medium};
 
 
     div {

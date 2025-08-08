@@ -2,17 +2,10 @@ import styled from "styled-components";
 import { SidebarWrapper, Menu, CollapseBtn } from "../Sidebar/Sidebar.styled";
 
 export const RightSidebarWrapper = styled(SidebarWrapper)`
-  /* Наслідуємо всі базові стилі від SidebarWrapper */
-  /* Оверрайд для RightSidebar */
+  /* ✅ ВИПРАВЛЕНО: Прибрано зайві, дубльовані властивості */
   position: relative;
-  height: calc(100% - (${({ theme }) => theme.spacing.large} * 1.5));
-  border: 1px solid ${({ theme }) => theme.colors.borderColor};
-  margin-bottom: 24px;
-  padding: ${({ $isCollapsed, theme }) =>
-    $isCollapsed ? theme.spacing.xsmall : theme.spacing.small};
-  transition: width 0.2s ease-in-out, background 0.25s ease-in-out, color 0.25s ease-in-out,
-    border 0.25s ease-in-out, margin 0.2s ease, padding 0.2s ease-in-out;
 
+  // ✅ ВИПРАВЛЕНО: Змінена позиція кнопки для правого сайдбару
   ${({ theme }) => theme.media.down("md")`
     width: 100%;
     height: 100%;
@@ -28,9 +21,11 @@ export const RightSidebarMenu = styled(Menu)``;
 export const RightSidebarCollapseBtn = styled(CollapseBtn)`
   position: absolute;
   bottom: 0;
-  right: 0;
-  margin-left: 6px;
+  left: auto;
+  right: 6px;
   margin-bottom: 5px;
+
+  // Інші стилі залишаємо як є
   background: ${({ theme }) => theme.colors.buttonBg};
   color: ${({ theme }) => theme.colors.buttonColor};
   border: none;
@@ -45,8 +40,6 @@ export const RightSidebarCollapseBtn = styled(CollapseBtn)`
   box-shadow: ${({ theme }) => theme.shadows.small};
   font-size: 1.2rem;
   z-index: 10;
-  left: 0;
-  right: auto;
 
   transition: background 0.2s ease, color 0.2s ease;
 

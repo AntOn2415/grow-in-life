@@ -9,13 +9,14 @@ export const SidebarWrapper = styled.aside`
   border-radius: ${({ theme }) => theme.borderRadius.medium};
   box-sizing: border-box;
   margin-bottom: 24px;
-  // Змінено 'collapsed' на '$isCollapsed'
   padding: ${({ $isCollapsed, theme }) =>
     $isCollapsed ? theme.spacing.xsmall : theme.spacing.small};
 
+  padding-bottom: ${({ $isCollapsed, theme }) =>
+    $isCollapsed ? `calc(${theme.spacing.xsmall} + 45px)` : `calc(${theme.spacing.small} + 45px)`};
+
   display: flex;
   flex-direction: column;
-  // Змінено 'collapsed' на '$isCollapsed'
   align-items: ${({ $isCollapsed }) => ($isCollapsed ? "center" : "flex-start")};
   box-shadow: ${({ theme }) => theme.shadows.small};
   position: relative;
@@ -30,6 +31,7 @@ export const SidebarWrapper = styled.aside`
     border-radius: 0;
     width: 100%; 
     height: 100%;
+    padding-bottom: ${({ theme }) => theme.spacing.medium};
   `}
 `;
 
@@ -39,7 +41,6 @@ export const Menu = styled.nav`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xsmall};
-  margin-bottom: ${({ theme }) => theme.spacing.large};
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: none;
@@ -48,9 +49,13 @@ export const Menu = styled.nav`
 export const CollapseBtn = styled.button`
   position: absolute;
   bottom: 0;
-  right: 0;
-  margin-right: 5px;
+  // ✅ ВИПРАВЛЕНО: Перенесення кнопки вліво, якщо вона відкрита
+  left: 6px;
+  right: 2px;
+
   margin-bottom: 5px;
+
+  // Інші стилі залишаємо як є
   background: ${({ theme }) => theme.colors.buttonBg};
   color: ${({ theme }) => theme.colors.buttonColor};
   border: none;
@@ -67,11 +72,9 @@ export const CollapseBtn = styled.button`
   z-index: 10;
 
   transition: background 0.2s ease, color 0.2s ease;
+
   &:hover {
     background: ${({ theme }) => theme.colors.hoverBtn};
     transition: background 0.25s ease-in-out;
   }
-  ${({ theme }) => theme.media.down("md")`
-    display: none;
-  `}
 `;

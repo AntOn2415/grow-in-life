@@ -18,23 +18,45 @@ import { homeGroupsContent } from "../../../data/homeGroups/homeGroupsContent";
 import { useHomeGroups } from "../../../contexts/HomeGroupsContext";
 import Tooltip from "../../Common/Tooltip/Tooltip";
 
-// 🔥 Приймаємо пропси onNavLinkClick та isMobile
-export default function HomeGroupsMenu({ isCollapsed, onNavLinkClick, isMobile }) {
-  const { setSelectedHomeGroupLesson, selectedHomeGroupLesson, setSelectedHomeGroupBook } =
-    useHomeGroups();
-
-  const [openSections, setOpenSections] = useState({
+// ✅ 1. Нова функція для отримання початкового стану з localStorage
+const getInitialOpenSections = () => {
+  try {
+    const savedState = localStorage.getItem("openSections");
+    if (savedState) {
+      return JSON.parse(savedState);
+    }
+  } catch (error) {
+    console.error("Failed to parse openSections from localStorage", error);
+  }
+  return {
     "old-testament-books": false,
     "new-testament-books": false,
     thematic: false,
     special: false,
     openBook: null,
-  });
+  };
+};
+
+export default function HomeGroupsMenu({ isCollapsed, onNavLinkClick, isMobile }) {
+  const { setSelectedHomeGroupLesson, selectedHomeGroupLesson, setSelectedHomeGroupBook } =
+    useHomeGroups();
+
+  // ✅ 2. Використовуємо функцію для ініціалізації стану
+  const [openSections, setOpenSections] = useState(getInitialOpenSections);
 
   const [showContent, setShowContent] = useState(!isCollapsed);
   const [showCollapsedItems, setShowCollapsedItems] = useState(isCollapsed);
 
-  const animationDuration = 300;
+  const animationDuration = 250;
+
+  // ✅ 3. Новий useEffect для збереження стану в localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem("openSections", JSON.stringify(openSections));
+    } catch (error) {
+      console.error("Failed to save openSections to localStorage", error);
+    }
+  }, [openSections]); // Залежність від openSections
 
   useEffect(() => {
     let timer1, timer2;
@@ -111,7 +133,6 @@ export default function HomeGroupsMenu({ isCollapsed, onNavLinkClick, isMobile }
             $isActive={selectedHomeGroupLesson === lesson.id}
             isCollapsed={isCollapsed}
             $isLesson={true}
-            // 🔥 Викликаємо onNavLinkClick, який закриє сайдбар
             onClick={() => {
               setSelectedHomeGroupLesson(lesson.id);
               if (isMobile) {

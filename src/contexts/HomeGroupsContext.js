@@ -1,47 +1,86 @@
-// src/contexts/HomeGroupsContext.js
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { homeGroupsContent } from "../data/homeGroups/homeGroupsContent";
 
 const HomeGroupsContext = createContext(null);
 
+// ✅ Нова функція для отримання початкового стану з localStorage
+const getInitialState = () => {
+  try {
+    const savedState = localStorage.getItem("homeGroupsState");
+    if (savedState) {
+      return JSON.parse(savedState);
+    }
+  } catch (error) {
+    console.error("Помилка при отриманні стану з localStorage", error);
+  }
+  return {
+    selectedHomeGroupLesson: null,
+    selectedHomeGroupBook: null,
+  };
+};
+
+// Функція для пошуку першого доступного уроку
+const findFirstLesson = () => {
+  for (const categoryKey in homeGroupsContent) {
+    const lessonsArray = homeGroupsContent[categoryKey];
+    if (lessonsArray && lessonsArray.length > 0) {
+      return {
+        lessonId: lessonsArray[0].id,
+        bookKey: categoryKey,
+      };
+    }
+  }
+  return { lessonId: null, bookKey: null };
+};
+
 export const HomeGroupsProvider = ({ children }) => {
-  const [selectedHomeGroupLesson, setSelectedHomeGroupLesson] = useState(null);
-  // ✅ ДОДАНО: Стан для відстеження активної (розгорнутої) книги/категорії
-  const [selectedHomeGroupBook, setSelectedHomeGroupBook] = useState(null);
+  // ✅ Використовуємо єдиний об'єкт стану, ініціалізований з localStorage
+  const [state, setState] = useState(getInitialState);
 
-  // Логіка для встановлення першого уроку за замовчуванням при першому завантаженні
+  // ✅ useEffect для встановлення першого уроку, якщо жодного не вибрано
   useEffect(() => {
-    if (!selectedHomeGroupLesson) {
-      let firstLessonId = null;
-      let firstBookKey = null; // ✅ ДОДАНО: Для встановлення першої відкритої книги
-      for (const categoryKey in homeGroupsContent) {
-        if (homeGroupsContent.hasOwnProperty(categoryKey)) {
-          const lessonsArray = homeGroupsContent[categoryKey];
-          if (Array.isArray(lessonsArray) && lessonsArray.length > 0) {
-            firstLessonId = lessonsArray[0].id; // Беремо ID першого уроку з першої категорії
-            firstBookKey = categoryKey; // ✅ Встановлюємо ключ першої категорії як книгу за замовчуванням
-            break;
-          }
-        }
-      }
-
-      if (firstLessonId) {
-        setSelectedHomeGroupLesson(firstLessonId);
-      }
-      if (firstBookKey) {
-        // ✅ Встановлюємо книгу за замовчуванням, якщо знайдено
-        setSelectedHomeGroupBook(firstBookKey);
+    if (!state.selectedHomeGroupLesson) {
+      const { lessonId, bookKey } = findFirstLesson();
+      if (lessonId) {
+        setState(prevState => ({
+          ...prevState,
+          selectedHomeGroupLesson: lessonId,
+          selectedHomeGroupBook: bookKey,
+        }));
       }
     }
-  }, [selectedHomeGroupLesson, setSelectedHomeGroupLesson, setSelectedHomeGroupBook]); // ✅ ОНОВЛЕНО ЗАЛЕЖНОСТІ
+  }, [state.selectedHomeGroupLesson]);
+
+  // ✅ useEffect для збереження стану в localStorage при кожній зміні
+  useEffect(() => {
+    try {
+      localStorage.setItem("homeGroupsState", JSON.stringify(state));
+    } catch (error) {
+      console.error("Помилка при збереженні стану в localStorage", error);
+    }
+  }, [state]); // Залежність від всього об'єкта стану
+
+  const setSelectedHomeGroupLesson = lessonId => {
+    setState(prev => ({
+      ...prev,
+      selectedHomeGroupLesson: lessonId,
+    }));
+  };
+
+  const setSelectedHomeGroupBook = bookKey => {
+    setState(prev => ({
+      ...prev,
+      selectedHomeGroupBook: bookKey,
+    }));
+  };
 
   return (
     <HomeGroupsContext.Provider
       value={{
-        selectedHomeGroupLesson,
+        selectedHomeGroupLesson: state.selectedHomeGroupLesson,
         setSelectedHomeGroupLesson,
-        selectedHomeGroupBook, // ✅ НАДАНО: Додаємо до контексту
-        setSelectedHomeGroupBook, // ✅ НАДАНО: Додаємо до контексту
+        selectedHomeGroupBook: state.selectedHomeGroupBook,
+        setSelectedHomeGroupBook,
       }}
     >
       {children}

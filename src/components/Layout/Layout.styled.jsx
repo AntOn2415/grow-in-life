@@ -55,16 +55,17 @@ export const Main = styled.main.withConfig({ shouldForwardProp })`
   grid-column: 2;
   grid-row: 1;
   overflow-y: auto;
-  padding-top: ${({ navHeight }) => navHeight}px;
+
+  // ✅ ВИПРАВЛЕНО: Відступ зверху для десктопу тепер динамічний
+  padding-top: ${({ navHeight }) => navHeight + 50}px;
+
   transition: padding 0.2s ease-in-out, background 0.25s ease-in-out;
 
-  /* Базові стилі для десктопу, які будуть перевизначатися */
   padding-left: ${({ theme, sidebarCollapsed, rightSidebarExpanded }) =>
     sidebarCollapsed && !rightSidebarExpanded ? "15%" : theme.spacing.xlarge};
   padding-right: ${({ theme, sidebarCollapsed, rightSidebarExpanded }) =>
     sidebarCollapsed && !rightSidebarExpanded ? "15%" : theme.spacing.xlarge};
 
-  /* Медіазапити в порядку "від більшого до меншого" */
   ${({ theme }) => theme.media.down("lg")`
     padding-left: ${theme.spacing.large};
     padding-right: ${theme.spacing.large};
@@ -75,7 +76,8 @@ export const Main = styled.main.withConfig({ shouldForwardProp })`
     grid-row: 1;
     padding-left: ${theme.spacing.medium};
     padding-right: ${theme.spacing.medium};
-    padding-top: 50px;
+    padding-top: calc(50px + ${theme.spacing.medium}); 
+    padding-bottom: 50px;
     transition: none;
   `}
   
@@ -91,7 +93,6 @@ export const Main = styled.main.withConfig({ shouldForwardProp })`
   `}
 `;
 
-/* --- СТИЛІ ДЛЯ ЛІВОГО САЙДБАРУ --- */
 export const LeftSidebarContainer = styled.div.withConfig({ shouldForwardProp })`
   grid-column: 1;
   grid-row: 1;
@@ -113,7 +114,6 @@ export const LeftSidebarContainer = styled.div.withConfig({ shouldForwardProp })
   `}
 `;
 
-/* --- СТИЛІ ДЛЯ ПРАВОГО САЙДБАРУ --- */
 export const RightSidebarContainer = styled.div.withConfig({ shouldForwardProp })`
   box-sizing: border-box;
   grid-column: 3;
@@ -136,7 +136,6 @@ export const RightSidebarContainer = styled.div.withConfig({ shouldForwardProp }
   `}
 `;
 
-/* --- ОВЕРЛЕЇ ДЛЯ МОБІЛЬНИХ САЙДБАРІВ --- */
 export const MobileLeftSidebarOverlay = styled.div.withConfig({ shouldForwardProp })`
   display: none;
   ${({ theme }) => theme.media.down("md")`
@@ -179,7 +178,6 @@ export const MobileRightSidebarOverlay = styled.div.withConfig({ shouldForwardPr
   `}
 `;
 
-// НОВИЙ КОМПОНЕНТ ДЛЯ ПРАВОГО САЙДБАРУ
 export const MobileRightSidebarDiv = styled(motion.div).withConfig({ shouldForwardProp })`
   position: fixed;
   right: 0;
@@ -193,7 +191,6 @@ export const MobileRightSidebarDiv = styled(motion.div).withConfig({ shouldForwa
     isRightSidebarSplit ? "calc(50vh - 50px)" : "calc(100vh - 100px)"};
 `;
 
-// НОВИЙ КОМПОНЕНТ ОВЕРЛЕЮ ДЛЯ САЙДБАРІВ НА МОБІЛЬНИХ (ДЛЯ ОСНОВНОГО ЛЕЙАУТУ)
 export const Overlay = styled.div.withConfig({ shouldForwardProp })`
   position: fixed;
   top: 0;
