@@ -7,7 +7,7 @@ export const SectionTitle = styled.div`
   font-weight: bold;
   font-size: ${({ theme }) => theme.fontSizes.small};
   // Колір SectionTitle залежить від $isEmpty
-  color: ${({ theme, $isEmpty }) => ($isEmpty ? theme.colors.textFaded : theme.colors.color)};
+  color: ${({ theme }) => theme.colors.color};
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -16,8 +16,7 @@ export const SectionTitle = styled.div`
 
   &:hover {
     // Ховер-ефект лише якщо не порожній
-    color: ${({ theme, $isEmpty }) =>
-      $isEmpty ? theme.colors.textFaded : theme.colors.sectionTitleHover};
+    color: ${({ theme }) => theme.colors.sectionTitleHover};
   }
 `;
 
@@ -36,11 +35,9 @@ export const ListItem = styled.li`
   padding: ${({ theme, isCollapsed }) =>
     isCollapsed ? `${theme.spacing.xsmall} ${theme.spacing.xxsmall}` : `${theme.spacing.xsmall}`};
   font-size: ${({ theme }) => theme.fontSizes.xsmall};
-  // Колір ListItem залежить від $isEmpty
-  color: ${({ theme, $isEmpty }) => ($isEmpty ? theme.colors.textFaded : theme.colors.color)};
-  cursor: ${({ $isEmpty }) => ($isEmpty ? "default" : "pointer")};
+  color: ${({ theme }) => theme.colors.color};
+  cursor: pointer;
   border-radius: ${({ theme }) => theme.borderRadius.small};
-
   display: flex;
   align-items: center;
 
@@ -105,10 +102,15 @@ export const SectionCategoryNumber = styled.span`
   height: 28px;
   border-radius: 50%;
 
-  background-color: ${({ theme }) => theme.colors.colorSecondary};
+  background-color: ${({ theme }) => theme.colors.buttonBg};
   color: ${({ theme }) => theme.colors.buttonColor};
   font-size: ${({ theme }) => theme.fontSizes.small};
   margin: 0;
   padding: 0;
   transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+
+  &:hover {
+    // Ховер-ефект лише якщо не порожній
+    background-color: ${({ theme }) => theme.colors.colorSecondary};
+  }
 `;

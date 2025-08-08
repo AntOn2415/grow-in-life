@@ -10,7 +10,7 @@ export const SidebarWrapper = styled.aside`
   box-sizing: border-box;
   margin-bottom: 24px;
   padding: ${({ $isCollapsed, theme }) =>
-    $isCollapsed ? theme.spacing.xsmall : theme.spacing.small};
+    $isCollapsed ? `${theme.spacing.small} ${theme.spacing.xsmall}` : theme.spacing.small};
 
   padding-bottom: ${({ $isCollapsed, theme }) =>
     $isCollapsed ? `calc(${theme.spacing.xsmall} + 45px)` : `calc(${theme.spacing.small} + 45px)`};
@@ -31,7 +31,7 @@ export const SidebarWrapper = styled.aside`
     border-radius: 0;
     width: 100%; 
     height: 100%;
-    padding-bottom: ${({ theme }) => theme.spacing.medium};
+    //padding-bottom: ${({ theme }) => theme.spacing.medium};
   `}
 `;
 
@@ -49,13 +49,9 @@ export const Menu = styled.nav`
 export const CollapseBtn = styled.button`
   position: absolute;
   bottom: 0;
-  // ✅ ВИПРАВЛЕНО: Перенесення кнопки вліво, якщо вона відкрита
   left: 6px;
   right: 2px;
-
   margin-bottom: 5px;
-
-  // Інші стилі залишаємо як є
   background: ${({ theme }) => theme.colors.buttonBg};
   color: ${({ theme }) => theme.colors.buttonColor};
   border: none;

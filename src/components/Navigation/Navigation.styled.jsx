@@ -46,11 +46,9 @@ export const Link = styled(NavLink)`
   transition: color 0.25s ease-in-out, background 0.25s ease-in-out;
   &:hover {
     background: ${({ theme }) => theme.colors.navActive};
-    color: ${({ theme }) => theme.colors.background};
   }
   &.active {
     background: ${({ theme }) => theme.colors.navActive};
-    color: ${({ theme }) => theme.colors.background};
   }
 
   ${({ theme }) => theme.media.down("md")`

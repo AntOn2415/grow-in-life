@@ -1,15 +1,17 @@
+// src/components/RightSidebar/RightSidebar.styled.js
 import styled from "styled-components";
 import { SidebarWrapper, Menu, CollapseBtn } from "../Sidebar/Sidebar.styled";
 
 export const RightSidebarWrapper = styled(SidebarWrapper)`
-  /* ✅ ВИПРАВЛЕНО: Прибрано зайві, дубльовані властивості */
   position: relative;
-
-  // ✅ ВИПРАВЛЕНО: Змінена позиція кнопки для правого сайдбару
+  padding: ${({ $isCollapsed, theme }) =>
+    $isCollapsed ? `${theme.spacing.small} ${theme.spacing.xsmall}` : theme.spacing.small};
+  padding-right: ${({ theme }) => theme.spacing.xsmall};
+  // Розширюємо на весь екран на мобільних пристроях
   ${({ theme }) => theme.media.down("md")`
     width: 100%;
     height: 100%;
-    padding: ${({ theme }) => theme.spacing.medium};
+    padding: ${({ theme }) => `0 ${theme.spacing.xsmall}`};
     margin: 0;
     border: none;
     border-radius: 0;
@@ -24,8 +26,6 @@ export const RightSidebarCollapseBtn = styled(CollapseBtn)`
   left: auto;
   right: 6px;
   margin-bottom: 5px;
-
-  // Інші стилі залишаємо як є
   background: ${({ theme }) => theme.colors.buttonBg};
   color: ${({ theme }) => theme.colors.buttonColor};
   border: none;
@@ -47,4 +47,7 @@ export const RightSidebarCollapseBtn = styled(CollapseBtn)`
     background: ${({ theme }) => theme.colors.hoverBtn};
     transition: background 0.25s ease-in-out;
   }
+  ${({ theme }) => theme.media.down("md")`
+   display: none
+  `}
 `;

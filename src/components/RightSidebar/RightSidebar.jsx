@@ -7,13 +7,13 @@ import {
   RightSidebarMenu,
   RightSidebarCollapseBtn,
 } from "./RightSidebar.styled";
+import BibleMenu from "../BibleMenu/BibleMenu";
 
 export default function RightSidebar({
-  onToggle,
-  rightSidebarExpanded,
-  onCloseMobileSidebar,
   isRightSidebarSplit,
   toggleRightSidebarSplit,
+  isMobile,
+  onCloseMobileSidebar,
 }) {
   const location = useLocation();
 
@@ -21,33 +21,20 @@ export default function RightSidebar({
     return null;
   }
 
-  // Визначаємо, чи ми в мобільному режимі, за наявністю пропсу onCloseMobileSidebar
-  const isMobile = !!onCloseMobileSidebar;
+  const isExpanded = isRightSidebarSplit;
 
-  // На мобільному завжди показуємо повний контент
-  const isExpanded = isMobile ? true : rightSidebarExpanded;
-
-  // Використовуємо $isCollapsed для стилів, щоб уникнути конфлікту
   return (
     <RightSidebarWrapper $isCollapsed={!isExpanded}>
       <RightSidebarMenu $isCollapsed={!isExpanded}>
-        <div>
-          <h3>Ось новий сайдбар</h3>
-          <p>
-            Це тимчасовий вміст правої панелі. Ви можете замінити його будь-якими компонентами, які
-            вам потрібні, наприклад, віджетами, нотатками або додатковою інформацією.
-          </p>
-          {isMobile && (
-            <button onClick={toggleRightSidebarSplit}>
-              {isRightSidebarSplit ? "З'єднати екран" : "Розділити екран"}
-            </button>
-          )}
-        </div>
+        <BibleMenu
+          isRightSidebarSplit={isRightSidebarSplit}
+          toggleRightSidebarSplit={toggleRightSidebarSplit}
+          isMobile={isMobile}
+        />
       </RightSidebarMenu>
 
-      {/* Кнопка колапсу тільки для десктопу */}
       {!isMobile && (
-        <RightSidebarCollapseBtn onClick={onToggle}>
+        <RightSidebarCollapseBtn onClick={toggleRightSidebarSplit}>
           {isExpanded ? "›" : "‹"}
         </RightSidebarCollapseBtn>
       )}

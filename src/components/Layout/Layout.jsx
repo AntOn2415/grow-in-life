@@ -31,12 +31,10 @@ const leftSidebarVariants = {
 
 const getInitialSidebarState = () => {
   const savedLeftSidebarState = sessionStorage.getItem("leftSidebarCollapsed");
-  const savedRightSidebarState = sessionStorage.getItem("rightSidebarExpanded");
   const savedRightSidebarSplitState = sessionStorage.getItem("isRightSidebarSplit");
 
   return {
     leftSidebarCollapsed: savedLeftSidebarState ? JSON.parse(savedLeftSidebarState) : false,
-    rightSidebarExpanded: savedRightSidebarState ? JSON.parse(savedRightSidebarState) : false,
     isRightSidebarSplit: savedRightSidebarSplitState
       ? JSON.parse(savedRightSidebarSplitState)
       : false,
@@ -46,14 +44,10 @@ const getInitialSidebarState = () => {
 const Layout = () => {
   const [showNav, setShowNav] = useState(true);
   const lastScroll = useRef(0);
-  const {
-    leftSidebarCollapsed: initialLeftCollapsed,
-    rightSidebarExpanded: initialRightExpanded,
-    isRightSidebarSplit: initialRightSplit,
-  } = getInitialSidebarState();
+  const { leftSidebarCollapsed: initialLeftCollapsed, isRightSidebarSplit: initialRightSplit } =
+    getInitialSidebarState();
 
   const [leftSidebarCollapsed, setLeftSidebarCollapsed] = useState(initialLeftCollapsed);
-  const [rightSidebarExpanded, setRightSidebarExpanded] = useState(initialRightExpanded);
   const [previousLeftCollapsedState, setPreviousLeftCollapsedState] = useState(false);
   const [isRightSidebarSplit, setIsRightSidebarSplit] = useState(initialRightSplit);
   const [mainHeight, setMainHeight] = useState("100%");
@@ -73,17 +67,12 @@ const Layout = () => {
   }, [leftSidebarCollapsed]);
 
   useEffect(() => {
-    sessionStorage.setItem("rightSidebarExpanded", JSON.stringify(rightSidebarExpanded));
-  }, [rightSidebarExpanded]);
-
-  useEffect(() => {
     sessionStorage.setItem("isRightSidebarSplit", JSON.stringify(isRightSidebarSplit));
   }, [isRightSidebarSplit]);
 
   useEffect(() => {
     if (isMobile) {
       setLeftSidebarCollapsed(false);
-      setRightSidebarExpanded(false);
       setIsRightSidebarSplit(false);
     }
   }, [isMobile]);
@@ -104,9 +93,6 @@ const Layout = () => {
     return () => clearTimeout(timeoutId);
   }, [isRightSidebarSplit, showMobileRightSidebar, isMobile]);
 
-  // ✅ ВИПРАВЛЕНО: Зміна умов для показу хедера
-  // Тепер хедер показується, тільки якщо лівий сайдбар відкритий
-  // АБО правий сайдбар відкритий НЕ в режимі розділення екрана (тобто на весь екран)
   useEffect(() => {
     if (isMobile && (showMobileLeftSidebar || (showMobileRightSidebar && !isRightSidebarSplit))) {
       setShowNav(true);
@@ -124,7 +110,6 @@ const Layout = () => {
       const mainElement = mainRef.current;
       const curr = mainElement ? mainElement.scrollTop : 0;
 
-      // ✅ ВИПРАВЛЕНО: Умова повернення, коли хедер має бути показаний
       if (isMobile && (showMobileLeftSidebar || (showMobileRightSidebar && !isRightSidebarSplit))) {
         return;
       }
@@ -175,19 +160,6 @@ const Layout = () => {
     }
   }, [showMobileLeftSidebar, showMobileRightSidebar, isRightSidebarSplit, isMobile]);
 
-  const handleRightSidebarToggle = () => {
-    setRightSidebarExpanded(prev => {
-      const newExpandedState = !prev;
-      if (newExpandedState) {
-        setPreviousLeftCollapsedState(leftSidebarCollapsed);
-        setLeftSidebarCollapsed(true);
-      } else {
-        setLeftSidebarCollapsed(previousLeftCollapsedState);
-      }
-      return newExpandedState;
-    });
-  };
-
   const toggleMobileLeftSidebar = shouldOpen => {
     if (shouldOpen === false) {
       setShowMobileLeftSidebar(false);
@@ -222,7 +194,18 @@ const Layout = () => {
   };
 
   const toggleRightSidebarSplit = () => {
-    setIsRightSidebarSplit(prev => !prev);
+    setIsRightSidebarSplit(prev => {
+      const newSplitState = !prev;
+      if (!isMobile) {
+        if (newSplitState) {
+          setPreviousLeftCollapsedState(leftSidebarCollapsed);
+          setLeftSidebarCollapsed(true);
+        } else {
+          setLeftSidebarCollapsed(previousLeftCollapsedState);
+        }
+      }
+      return newSplitState;
+    });
   };
 
   const isHome = location.pathname === "/";
@@ -233,7 +216,7 @@ const Layout = () => {
       <ContentGrid
         sidebarCollapsed={leftSidebarCollapsed}
         isHome={isHome}
-        rightSidebarExpanded={rightSidebarExpanded}
+        rightSidebarExpanded={isRightSidebarSplit}
         isRightSidebarSplit={isRightSidebarSplit}
       >
         {!isHome && !isMobile && (
@@ -249,13 +232,12 @@ const Layout = () => {
         <Main
           ref={mainRef}
           sidebarCollapsed={leftSidebarCollapsed}
-          rightSidebarExpanded={rightSidebarExpanded}
+          rightSidebarExpanded={isRightSidebarSplit}
           navHeight={navHeight}
           isRightSidebarSplit={isRightSidebarSplit}
           as={motion.main}
           style={{
             height: isMobile ? mainHeight : "100%",
-            //transition: isMobile ? "height 0.25s ease-in-out" : "padding-top 0.25s ease-in-out",
           }}
         >
           <Outlet context={{ mainRef }} />
@@ -265,13 +247,12 @@ const Layout = () => {
             isHome={isHome}
             isMobile={false}
             navHeight={navHeight}
-            expanded={rightSidebarExpanded}
+            expanded={isRightSidebarSplit}
           >
             <RightSidebar
-              onToggle={handleRightSidebarToggle}
-              rightSidebarExpanded={rightSidebarExpanded}
               toggleRightSidebarSplit={toggleRightSidebarSplit}
               isRightSidebarSplit={isRightSidebarSplit}
+              isMobile={isMobile} // Передача isMobile як пропсу
             />
           </RightSidebarContainer>
         )}
@@ -323,11 +304,10 @@ const Layout = () => {
                   transition={{ duration: 0.25, ease: "easeInOut" }}
                 >
                   <RightSidebar
-                    onToggle={handleRightSidebarToggle}
-                    rightSidebarExpanded={rightSidebarExpanded}
-                    onCloseMobileSidebar={() => setShowMobileRightSidebar(false)}
                     toggleRightSidebarSplit={toggleRightSidebarSplit}
                     isRightSidebarSplit={isRightSidebarSplit}
+                    isMobile={isMobile} // Передача isMobile як пропсу
+                    onCloseMobileSidebar={() => setShowMobileRightSidebar(false)}
                   />
                 </MobileRightSidebarDiv>
               )}

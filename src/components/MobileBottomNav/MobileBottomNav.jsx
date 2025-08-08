@@ -50,7 +50,7 @@ const MobileBottomNav = ({
         <IconWrapper>
           <i className="fas fa-info-circle"></i>
         </IconWrapper>
-        <span>Інфо</span>
+        <span>Біблія</span>
       </NavLinkItem>
     </BottomNavContainer>
   );
