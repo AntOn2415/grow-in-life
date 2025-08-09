@@ -36,6 +36,13 @@ export const Verse = styled.div`
   display: flex;
   align-items: baseline;
   line-height: 1.6;
+  padding: ${({ theme }) => theme.spacing.xxsmall};
+  border-radius: ${({ theme }) => theme.borderRadius.small};
+
+  &.highlighted-verse {
+    background-color: ${({ theme }) => theme.colors.neutralBackground1};
+    transition: background-color 0.3s ease-in-out;
+  }
 `;
 
 export const VerseNumber = styled.span`

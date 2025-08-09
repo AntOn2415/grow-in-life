@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react";
 import { BOOK_CATEGORIES } from "../components/BibleMenu/constants";
+import { parseVersesFromQuery } from "../utils/parseVersesFromQuery";
 
 export const BibleContext = createContext();
 
@@ -14,15 +15,8 @@ export const BibleProvider = ({ children }) => {
 
   const navigateTo = (bookRef, source = "text") => {
     const cleanRef = bookRef.replace(/[[\]]/g, "");
-    const match = cleanRef.match(/^([a-z0-9_]+)(?::([\d:,-]+))?$/);
-
-    if (!match) {
-      console.error(`Невірний формат посилання: ${bookRef}`);
-      return;
-    }
-
-    const [, newBookKey, refStr] = match;
-
+    const parts = cleanRef.split(":");
+    const newBookKey = parts[0];
     const newTestament = BOOK_CATEGORIES.find(cat =>
       cat.items.some(book => book.internalKey === newBookKey)
     )?.testament;
@@ -34,51 +28,41 @@ export const BibleProvider = ({ children }) => {
 
     setBookKey(newBookKey);
     setTestament(newTestament);
-    setHighlightedVerses(null);
-
-    let startChapter = 1;
-    let startVerse = 1;
-    let versesToHighlight = [];
-
-    if (!refStr) {
-      setChapter(1);
-      setVerse(1);
-    } else if (refStr.includes(",")) {
-      const [chapterStr, ...verseParts] = refStr.split(":");
-      startChapter = parseInt(chapterStr, 10);
-      versesToHighlight = verseParts
-        .join(":")
-        .split(",")
-        .map(v => parseInt(v.trim(), 10));
-      if (versesToHighlight.length > 0) startVerse = versesToHighlight[0];
-    } else if (refStr.includes("-")) {
-      const [startRef, endRef] = refStr.split("-");
-      const [startChapterStr, startVerseStr] = startRef.split(":").map(Number);
-
-      startChapter = startChapterStr;
-      if (startVerseStr) startVerse = startVerseStr;
-
-      const [endChapterStr, endVerseStr] = endRef.split(":").map(Number);
-      if (endChapterStr && startChapter === endChapterStr) {
-        for (let i = startVerse; i <= endVerseStr; i++) {
-          versesToHighlight.push(i);
-        }
-      }
-    } else {
-      const [chapterStr, verseStr] = refStr.split(":");
-      startChapter = parseInt(chapterStr, 10);
-      if (verseStr) startVerse = parseInt(verseStr, 10);
-    }
-
-    setChapter(startChapter);
-    setVerse(startVerse);
-
-    if (versesToHighlight.length > 0) {
-      setHighlightedVerses(versesToHighlight);
-    }
-
     setNavId(Date.now() + Math.random());
     setNavSource(source);
+
+    // Скидаємо виділення та вірш перед новою навігацією
+    setHighlightedVerses(null);
+    let newChapter = 1;
+    let newVerse = 1;
+
+    if (parts.length > 1) {
+      const chapterAndVerseStr = parts.slice(1).join(":");
+
+      // Перевірка на міжглавний діапазон
+      const chapterRangeMatch = chapterAndVerseStr.match(/^(\d+):(\d+)-(\d+):(\d+)$/);
+      if (chapterRangeMatch) {
+        const [, startChapter, startVerse] = chapterRangeMatch;
+        newChapter = parseInt(startChapter, 10);
+        newVerse = parseInt(startVerse, 10);
+        console.log("Це міжглавний діапазон, виділення неможливе.");
+      } else {
+        // Обробка посилань в межах однієї глави
+        const verseQuery = parts.length > 2 ? parts[2] : null;
+        newChapter = parseInt(parts[1], 10);
+
+        if (verseQuery) {
+          const parsedVerses = parseVersesFromQuery(verseQuery);
+          if (parsedVerses.length > 0) {
+            setHighlightedVerses(parsedVerses);
+            newVerse = parsedVerses[0];
+          }
+        }
+      }
+    }
+
+    setChapter(newChapter);
+    setVerse(newVerse);
   };
 
   const value = {

@@ -48,7 +48,7 @@ const BibleTextDisplay = ({
           containerRect.top +
           textContainerRef.current.scrollTop -
           headerHeight -
-          offset; // <<< Використовуємо змінну
+          offset;
 
         textContainerRef.current.scrollTo({
           top: scrollPosition,
@@ -76,6 +76,7 @@ const BibleTextDisplay = ({
 
   const isVerseHighlighted = verseNumber => {
     if (!highlightedVerses) return false;
+    // Перевіряємо, чи є highlightedVerses масивом і чи містить він поточний номер вірша
     return Array.isArray(highlightedVerses) && highlightedVerses.includes(verseNumber);
   };
 
@@ -93,6 +94,7 @@ const BibleTextDisplay = ({
                 verseRefs.current[verse.verse_number - 1] = el;
               }
             }}
+            // Тут ми динамічно додаємо клас, якщо вірш виділений
             className={isVerseHighlighted(verse.verse_number) ? "highlighted-verse" : ""}
           >
             <VerseNumber>{verse.verse_number}</VerseNumber>
