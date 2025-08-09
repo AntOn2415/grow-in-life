@@ -1,4 +1,3 @@
-// src/components/BibleMenu/BibleMenu.styled.js
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
@@ -22,10 +21,10 @@ export const NavigationContainer = styled(motion.div)`
   justify-content: start;
   align-items: center;
   padding: ${({ theme }) => theme.spacing.xsmall};
-  //background-color: ${({ theme }) => theme.colors.navBg};
+  background-color: ${({ theme }) => theme.colors.navBg};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
   gap: ${({ theme }) => theme.spacing.small};
-
+  transition: background-color 0.25s ease-in-out, border-bottom 0.25s ease-in-out;
   z-index: 10;
 
   // Налаштування для планшетів та десктопів
@@ -38,6 +37,28 @@ export const NavigationContainer = styled(motion.div)`
     gap: ${({ theme }) => theme.spacing.medium};
     border-bottom: none;
     position: static;
+  `}
+`;
+
+export const MobileHeader = styled.h2`
+  font-size: ${({ theme }) => theme.fontSizes.small};
+  color: ${({ theme }) => theme.colors.color};
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+
+  background-color: ${({ theme }) => theme.colors.buttonBg};
+  color: ${({ theme }) => theme.colors.buttonColor};
+  padding: ${({ theme }) => theme.spacing.xxsmall} ${({ theme }) => theme.spacing.xsmall};
+  border-radius: ${({ theme }) => theme.borderRadius.small};
+  box-shadow: ${({ theme }) => theme.shadows.small};
+  transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+
+  ${({ theme }) => theme.media.up("md")`
+    display: none;
   `}
 `;
 

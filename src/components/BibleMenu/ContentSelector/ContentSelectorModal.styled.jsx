@@ -110,11 +110,14 @@ export const TestamentButton = styled.button`
 
 export const BookList = styled.div`
   padding: ${({ theme }) => theme.spacing.medium};
-  padding-bottom: 60px; // Додано відступ знизу
+  padding-bottom: 60px;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xsmall};
+  color: ${({ theme }) => theme.colors.color};
   overflow-y: auto;
+
+  transition: color 0.25s ease-in-out;
 `;
 
 export const BookItem = styled.div`
@@ -137,6 +140,7 @@ export const BookTitle = styled.h4`
   padding: ${({ theme }) => theme.spacing.small};
   font-size: ${({ theme }) => theme.fontSizes.large};
   color: ${({ theme }) => theme.colors.color};
+
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
   transition: color 0.25s ease-in-out, border-bottom 0.25s ease-in-out;
 `;
@@ -144,10 +148,10 @@ export const BookTitle = styled.h4`
 export const BookTitleBack = styled.span`
   cursor: pointer;
   font-size: ${({ theme }) => theme.fontSizes.large};
-  color: ${({ theme }) => theme.colors.colorSecondary};
+  color: ${({ theme }) => theme.colors.color};
   transition: color 0.25s ease-in-out;
   &:hover {
-    color: ${({ theme }) => theme.colors.color};
+    color: ${({ theme }) => theme.colors.colorSecondary};
   }
 `;
 
@@ -165,11 +169,13 @@ export const ChapterItem = styled.div`
   background: ${({ theme }) => theme.colors.cardBackground};
   border: 1px solid ${({ theme }) => theme.colors.borderColor};
   border-radius: ${({ theme }) => theme.borderRadius.small};
+  color: ${({ theme }) => theme.colors.colorSecondary};
   text-align: center;
   cursor: pointer;
-  transition: background 0.25s ease-in-out, border 0.25s ease-in-out;
+  transition: background 0.25s ease-in-out, border 0.25s ease-in-out, color 0.25s ease-in-out;
 
   &:hover {
     background: ${({ theme }) => theme.colors.hoverBg};
+    color: ${({ theme }) => theme.colors.color};
   }
 `;

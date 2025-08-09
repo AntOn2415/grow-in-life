@@ -1,4 +1,3 @@
-// contexts/BibleContext.js
 import React, { createContext, useState } from "react";
 import { BOOK_CATEGORIES } from "../components/BibleMenu/constants";
 
@@ -11,11 +10,9 @@ export const BibleProvider = ({ children }) => {
   const [testament, setTestament] = useState(null);
   const [highlightedVerses, setHighlightedVerses] = useState(null);
   const [navId, setNavId] = useState(null);
-  // Новий стан для зберігання джерела навігації
   const [navSource, setNavSource] = useState(null);
 
-  // Оновлена функція navigateTo, яка приймає navSource
-  const navigateTo = (bookRef, source = "menu") => {
+  const navigateTo = (bookRef, source = "text") => {
     const cleanRef = bookRef.replace(/[[\]]/g, "");
     const match = cleanRef.match(/^([a-z0-9_]+)(?::([\d:,-]+))?$/);
 
@@ -81,7 +78,7 @@ export const BibleProvider = ({ children }) => {
     }
 
     setNavId(Date.now() + Math.random());
-    setNavSource(source); // Зберігаємо джерело навігації
+    setNavSource(source);
   };
 
   const value = {
@@ -91,7 +88,7 @@ export const BibleProvider = ({ children }) => {
     testament,
     highlightedVerses,
     navId,
-    navSource, // Додаємо новий стан до контексту
+    navSource,
     navigateTo,
   };
 

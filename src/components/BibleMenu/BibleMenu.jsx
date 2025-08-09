@@ -5,13 +5,14 @@ import {
   NavigationContainer,
   NavigationButton,
   ContentContainer,
+  MobileHeader,
 } from "./BibleMenu.styled";
 import BibleTextDisplay from "./BibleTextDisplay/BibleTextDisplay";
 import ContentSelectorModal from "./ContentSelector/ContentSelectorModal";
 import { BibleContext } from "../../contexts/BibleContext";
 
 export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit, isMobile }) {
-  const { bookKey, chapter, verse, testament, highlightedVerses, navigateTo, navId } =
+  const { bookKey, chapter, verse, testament, highlightedVerses, navigateTo, navId, navSource } =
     useContext(BibleContext);
 
   const [bookData, setBookData] = useState(null);
@@ -48,11 +49,29 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
       lastOpenedNavIdRef.current = navId;
       isUserClosingRef.current = false;
 
-      if (!isRightSidebarSplit) {
-        toggleRightSidebarSplit();
+      // Якщо це мобільна версія і навігація не з меню, відкриваємо сайдбар
+      if (isMobile && navSource === "text") {
+        if (!isRightSidebarSplit) {
+          toggleRightSidebarSplit();
+        }
+      }
+      // Якщо це десктоп або навігація з меню, зберігаємо поточний стан
+      else if (!isMobile) {
+        if (!isRightSidebarSplit) {
+          toggleRightSidebarSplit();
+        }
       }
     }
-  }, [navId, bookKey, chapter, verse, isRightSidebarSplit, toggleRightSidebarSplit]);
+  }, [
+    navId,
+    bookKey,
+    chapter,
+    verse,
+    isRightSidebarSplit,
+    toggleRightSidebarSplit,
+    isMobile,
+    navSource,
+  ]);
 
   const handleCloseSidebar = () => {
     isUserClosingRef.current = true;
@@ -75,23 +94,8 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
   };
 
   const handleSelectBookAndChapter = (newBookKey, newChapter) => {
-    // Зберігаємо поточний стан сайдбару перед навігацією
-    const wasSidebarOpen = isRightSidebarSplit;
-    navigateTo(`[${newBookKey}:${newChapter}]`);
+    navigateTo(`[${newBookKey}:${newChapter}]`, "menu");
     setShowModal(false);
-
-    // Якщо це мобільна версія
-    if (isMobile) {
-      // Якщо сайдбар був відкритий, нічого не робимо, щоб зберегти його стан
-      // Це дозволить уникнути небажаного закриття
-      if (wasSidebarOpen) {
-        return;
-      }
-      // Якщо сайдбар був закритий, відкриваємо його
-      if (!wasSidebarOpen) {
-        toggleRightSidebarSplit();
-      }
-    }
   };
 
   const handleCloseModal = useCallback(() => {
@@ -113,8 +117,9 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
   return (
     <BibleMenuWrapper>
       <NavigationContainer>
+        {/* Кнопка меню для планшетів та десктопів */}
         <AnimatePresence>
-          {!showModal && (
+          {!isMobile && !showModal && (
             <motion.div
               key="menu-button"
               initial={{ opacity: 0 }}
@@ -130,12 +135,18 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
             </motion.div>
           )}
         </AnimatePresence>
+
         {isMobile && (
           <NavigationButton onClick={handleCloseSidebar}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
               <path d="M10 5L10 19L14 19L14 5L10 5ZM4 5L4 19L8 19L8 5L4 5ZM16 5L16 19L20 19L20 5L16 5Z" />
             </svg>
           </NavigationButton>
+        )}
+        {isMobile && bookData && (
+          <MobileHeader onClick={handleOpenMenu}>
+            {bookData.book_name_ua} {chapter}
+          </MobileHeader>
         )}
       </NavigationContainer>
 

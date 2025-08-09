@@ -1,4 +1,3 @@
-// src/components/BibleMenu/BibleTextDisplay.jsx
 import React, { useRef, useEffect } from "react";
 import {
   BibleTextContainer,
@@ -26,15 +25,21 @@ const BibleTextDisplay = ({
 
   const verseRefs = useRef([]);
   const textContainerRef = useRef(null);
-  //const location = useLocation();
+  const headerRef = useRef(null);
 
   useEffect(() => {
     // Додаємо невелику затримку, щоб DOM встиг оновитися
     const scrollTimeout = setTimeout(() => {
       if (verseToScroll && verseRefs.current[verseToScroll - 1]) {
-        verseRefs.current[verseToScroll - 1].scrollIntoView({
+        const verseElement = verseRefs.current[verseToScroll - 1];
+        const headerHeight = headerRef.current ? headerRef.current.offsetHeight + 20 : 0;
+
+        // Визначаємо позицію для скролу з урахуванням висоти заголовка
+        const scrollPosition = verseElement.offsetTop - headerHeight;
+
+        textContainerRef.current.scrollTo({
+          top: scrollPosition,
           behavior: "smooth",
-          block: "start",
         });
       } else if (textContainerRef.current) {
         // Якщо вірш не вказано, скролимо на початок розділу
@@ -59,7 +64,7 @@ const BibleTextDisplay = ({
 
   return (
     <BibleTextContainer ref={textContainerRef}>
-      <ChapterHeader>
+      <ChapterHeader ref={headerRef}>
         {bookData.book_name_ua} {chapter}
       </ChapterHeader>
       <VerseList>

@@ -64,26 +64,25 @@ const Layout = () => {
 
   const isMobile = useMediaQuery(`(max-width: ${breakpoints.md})`);
 
-  // Отримуємо navId з контексту
-  const { navId } = useContext(BibleContext);
+  const { navId, navSource } = useContext(BibleContext);
   const lastNavIdRef = useRef(null);
 
-  // Новий useEffect для відстеження змін у navId
   useEffect(() => {
     if (navId && navId !== lastNavIdRef.current) {
       lastNavIdRef.current = navId;
-
-      // Якщо це мобільна версія, відкриваємо сайдбар на половину
       if (isMobile) {
-        if (!showMobileRightSidebar) {
-          setIsRightSidebarSplit(true);
+        if (navSource === "text") {
+          setShowMobileLeftSidebar(false);
           setShowMobileRightSidebar(true);
-        } else {
-          // Якщо вже відкрито, просто оновлюємо вміст, не змінюючи стан
+          setIsRightSidebarSplit(true);
+        } else if (navSource === "menu") {
+          setShowMobileLeftSidebar(false);
+          setShowMobileRightSidebar(true);
+          setIsRightSidebarSplit(false);
         }
       }
     }
-  }, [navId, isMobile, showMobileRightSidebar, setIsRightSidebarSplit, setShowMobileRightSidebar]);
+  }, [navId, isMobile, navSource]);
 
   useEffect(() => {
     sessionStorage.setItem("leftSidebarCollapsed", JSON.stringify(leftSidebarCollapsed));
@@ -175,7 +174,8 @@ const Layout = () => {
   }, [location.pathname]);
 
   useEffect(() => {
-    const isAnySidebarOpen = showMobileLeftSidebar || showMobileRightSidebar || isRightSidebarSplit;
+    const isAnySidebarOpen =
+      showMobileLeftSidebar || showMobileRightSidebar || showMobileRightSidebar;
     if (isMobile && isAnySidebarOpen) {
       document.body.style.overflow = "hidden";
     } else {

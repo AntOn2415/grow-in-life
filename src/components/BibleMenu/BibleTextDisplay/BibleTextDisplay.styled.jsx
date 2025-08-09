@@ -1,4 +1,3 @@
-// src/components/BibleMenu/BibleTextDisplay.styled.js
 import styled from "styled-components";
 
 export const BibleTextContainer = styled.div`
@@ -11,9 +10,20 @@ export const BibleTextContainer = styled.div`
 export const ChapterHeader = styled.h3`
   font-size: ${({ theme }) => theme.fontSizes.xlarge};
   color: ${({ theme }) => theme.colors.color};
-  margin-top: ${({ theme }) => theme.spacing.medium};
-  margin-bottom: ${({ theme }) => theme.spacing.medium};
+  margin: 0;
   text-align: center;
+
+  transition: background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out,
+    color 0.25s ease-in-out;
+
+  /* Стилі для закріпленого заголовка застосовуються тільки для розмірів "md" і більше */
+  ${({ theme }) => theme.media.up("md")`
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: ${({ theme }) => theme.colors.navBg};
+    box-shadow: 0 5px 8px ${({ theme }) => theme.colors.navBg};
+  `}
 `;
 
 export const VerseList = styled.div`
