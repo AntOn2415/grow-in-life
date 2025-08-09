@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/grow-in-life/static/css/main.696afcd1.css",
-    "main.js": "/grow-in-life/static/js/main.73853417.js",
+    "main.js": "/grow-in-life/static/js/main.ba349299.js",
     "static/js/2747.e58d75b4.chunk.js": "/grow-in-life/static/js/2747.e58d75b4.chunk.js",
     "static/js/7167.b2638e82.chunk.js": "/grow-in-life/static/js/7167.b2638e82.chunk.js",
     "static/js/2374.169abcd0.chunk.js": "/grow-in-life/static/js/2374.169abcd0.chunk.js",
@@ -85,7 +85,7 @@
     "static/media/wall_of_Jerusalem.jpg": "/grow-in-life/static/media/wall_of_Jerusalem.7a91d7b8ac7c62b0882c.jpg",
     "index.html": "/grow-in-life/index.html",
     "main.696afcd1.css.map": "/grow-in-life/static/css/main.696afcd1.css.map",
-    "main.73853417.js.map": "/grow-in-life/static/js/main.73853417.js.map",
+    "main.ba349299.js.map": "/grow-in-life/static/js/main.ba349299.js.map",
     "2747.e58d75b4.chunk.js.map": "/grow-in-life/static/js/2747.e58d75b4.chunk.js.map",
     "7167.b2638e82.chunk.js.map": "/grow-in-life/static/js/7167.b2638e82.chunk.js.map",
     "2374.169abcd0.chunk.js.map": "/grow-in-life/static/js/2374.169abcd0.chunk.js.map",
@@ -102,6 +102,6 @@
   },
   "entrypoints": [
     "static/css/main.696afcd1.css",
-    "static/js/main.73853417.js"
+    "static/js/main.ba349299.js"
   ]
 }
