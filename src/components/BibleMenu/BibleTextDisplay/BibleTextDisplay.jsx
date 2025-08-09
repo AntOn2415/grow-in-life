@@ -9,31 +9,53 @@ import {
   VerseText,
   NextChapterButton,
 } from "./BibleTextDisplay.styled";
-import { useLocation } from "react-router-dom";
 
 // Компонент основного тексту Біблії
-const BibleTextDisplay = ({ bookData, chapter, onNextChapter }) => {
+const BibleTextDisplay = ({
+  bookData,
+  chapter,
+  verseToScroll,
+  highlightedVerses,
+  onNextChapter,
+}) => {
   const currentChapterIndex = bookData.chapters.findIndex(c => c.chapter_number === chapter);
   const currentChapter = bookData.chapters[currentChapterIndex];
 
   // Визначаємо, чи існує наступний розділ
   const nextChapterExists = currentChapterIndex < bookData.chapters.length - 1;
 
-  // Використовуємо ref для скролу
+  const verseRefs = useRef([]);
   const textContainerRef = useRef(null);
-
-  const location = useLocation();
+  //const location = useLocation();
 
   useEffect(() => {
-    // Скролимо до початку розділу при його зміні
-    if (textContainerRef.current) {
-      textContainerRef.current.scrollTo(0, 0);
-    }
-  }, [chapter, location.pathname]);
+    // Додаємо невелику затримку, щоб DOM встиг оновитися
+    const scrollTimeout = setTimeout(() => {
+      if (verseToScroll && verseRefs.current[verseToScroll - 1]) {
+        verseRefs.current[verseToScroll - 1].scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      } else if (textContainerRef.current) {
+        // Якщо вірш не вказано, скролимо на початок розділу
+        textContainerRef.current.scrollTo(0, 0);
+      }
+    }, 100); // 100 мс — достатньо для рендеру
+
+    // Очищення таймауту при зникненні компонента
+    return () => clearTimeout(scrollTimeout);
+  }, [chapter, verseToScroll]);
 
   if (!currentChapter) {
     return <div>Розділ не знайдено.</div>;
   }
+
+  // Додаємо функцію для перевірки, чи потрібно виділяти вірш
+  const isVerseHighlighted = verseNumber => {
+    if (!highlightedVerses) return false;
+    // Обробка діапазону та вибіркових віршів
+    return Array.isArray(highlightedVerses) && highlightedVerses.includes(verseNumber);
+  };
 
   return (
     <BibleTextContainer ref={textContainerRef}>
@@ -42,7 +64,11 @@ const BibleTextDisplay = ({ bookData, chapter, onNextChapter }) => {
       </ChapterHeader>
       <VerseList>
         {currentChapter.verses.map(verse => (
-          <Verse key={verse.verse_number}>
+          <Verse
+            key={verse.verse_number}
+            ref={el => (verseRefs.current[verse.verse_number - 1] = el)}
+            className={isVerseHighlighted(verse.verse_number) ? "highlighted-verse" : ""}
+          >
             <VerseNumber>{verse.verse_number}</VerseNumber>
             <VerseText>{verse.text}</VerseText>
           </Verse>

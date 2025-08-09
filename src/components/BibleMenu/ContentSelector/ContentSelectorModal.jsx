@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { motion } from "framer-motion";
 import Portal from "../../Portal/Portal";
+import { BibleContext } from "../../../contexts/BibleContext";
 import {
   ModalContentWrapper,
   ModalContainer,
@@ -31,7 +32,9 @@ const desktopModalVariants = {
   exit: { opacity: 0 },
 };
 
-const ContentSelectorModal = ({ onClose, onSelect, isMobile }) => {
+const ContentSelectorModal = ({ onClose, isMobile }) => {
+  // Використовуємо контекст замість пропсу onSelect
+  const { navigateTo } = useContext(BibleContext);
   const [selectedTestament, setSelectedTestament] = useState("new-testament");
   const [selectedBookKey, setSelectedBookKey] = useState(null);
 
@@ -41,7 +44,8 @@ const ContentSelectorModal = ({ onClose, onSelect, isMobile }) => {
     : null;
 
   const handleSelectChapter = chapterNum => {
-    onSelect(selectedBookKey, chapterNum, selectedTestament);
+    // Використовуємо navigateTo з контексту
+    navigateTo(`[${selectedBookKey}:${chapterNum}]`);
     onClose();
   };
 

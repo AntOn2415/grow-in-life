@@ -4,16 +4,16 @@ import Card from "../../Common/Card/Card";
 import SectionHeading from "../../Common/SectionHeading/SectionHeading";
 import QuizCard from "../../InteractiveContent/QuizCard/QuizCard";
 import RevealCard from "../../InteractiveContent/RevealCard/RevealCard";
-
 import HomeGroupLessonMetaInfo from "../HomeGroupLessonMetaInfo/HomeGroupLessonMetaInfo";
 import Diagram from "../../InteractiveContent/Diagram/Diagram";
 import ImagePlaceholder from "../../InteractiveContent/ImagePlaceholder/ImagePlaceholder";
 import HighlightBox from "../../InteractiveContent/HighlightBox/HighlightBox";
 import QuestionPrompt from "../../InteractiveContent/QuestionPrompt/QuestionPrompt";
 import ListCards from "../../InteractiveContent/ListCards/ListCards";
-import Timeline from "../../InteractiveContent/Timeline/Timeline"; // Це вже є!
+import Timeline from "../../InteractiveContent/Timeline/Timeline";
 import ContrastDisplay from "../../InteractiveContent/ContrastDisplay/ContrastDisplay";
 import DescriptionWithImage from "../../InteractiveContent/DescriptionWithImage/DescriptionWithImage";
+import { parseBibleLinks } from "../../../utils/parseBibleLinks"; // Імпортуємо утиліту
 
 import {
   HomeGroupLessonDisplayContainer,
@@ -44,7 +44,7 @@ function HomeGroupLessonDisplay({ lessonData }) {
   return (
     <HomeGroupLessonDisplayContainer>
       <HomeGroupLessonTitleWrapper>
-        <h2>{title}</h2>
+        <h2>{parseBibleLinks(title)}</h2>
         <HomeGroupLessonMetaInfo
           author={author}
           book={book}
@@ -59,7 +59,8 @@ function HomeGroupLessonDisplay({ lessonData }) {
       <MainContentWrapper>
         <Card>
           <HomeGroupLessonTextWrapper>
-            {description && description}
+            {/* Парсимо опис, якщо він є */}
+            {description && parseBibleLinks(description)}
             {sections.map((section, index) => {
               switch (section.type) {
                 case "text":
@@ -70,76 +71,144 @@ function HomeGroupLessonDisplay({ lessonData }) {
                           as={section.subtitle ? "h4" : "h3"}
                           size={section.subtitle ? "medium" : "default"}
                         >
-                          {section.title}
+                          {/* Парсимо заголовок секції */}
+                          {parseBibleLinks(section.title)}
                         </SectionHeading>
                       )}
-                      {/* content тепер масив JSX елементів, рендеримо їх напряму */}
                       {section.content.map((paragraph, pIndex) => (
-                        <React.Fragment key={pIndex}>{paragraph}</React.Fragment>
+                        <React.Fragment key={pIndex}>
+                          {/* Парсимо кожен параграф */}
+                          {parseBibleLinks(paragraph)}
+                        </React.Fragment>
                       ))}
                     </React.Fragment>
                   );
                 case "quiz":
-                  return <QuizCard key={section.id} quizData={section} />;
+                  // Парсимо текст питання та обґрунтування
+                  return (
+                    <QuizCard
+                      key={section.id}
+                      quizData={{
+                        ...section,
+                        question: parseBibleLinks(section.question),
+                        options: section.options.map(opt => ({
+                          ...opt,
+                          rationale: parseBibleLinks(opt.rationale),
+                        })),
+                      }}
+                    />
+                  );
                 case "reveal-cards":
                   return (
                     <React.Fragment key={index}>
                       {section.title && (
                         <SectionHeading as="h3" size="default">
-                          {section.title}
+                          {parseBibleLinks(section.title)}
                         </SectionHeading>
                       )}
                       {section.cards.map(card => (
-                        <RevealCard key={card.id} cardData={card} />
+                        <RevealCard
+                          key={card.id}
+                          cardData={{
+                            ...card,
+                            content: parseBibleLinks(card.content),
+                          }}
+                        />
                       ))}
                     </React.Fragment>
                   );
                 case "highlight-box":
-                  return <HighlightBox key={index} {...section} />;
+                  // Парсимо контент у виділеному блоці
+                  return (
+                    <HighlightBox
+                      key={index}
+                      {...section}
+                      content={parseBibleLinks(section.content)}
+                    />
+                  );
                 case "question-prompt":
-                  return <QuestionPrompt key={index} {...section} />;
+                  // Парсимо питання та відповідь
+                  return (
+                    <QuestionPrompt
+                      key={index}
+                      {...section}
+                      question={parseBibleLinks(section.question)}
+                      answer={parseBibleLinks(section.answer)}
+                    />
+                  );
                 case "list-cards":
-                  return <ListCards key={index} {...section} />;
+                  // Парсимо контент карток зі списку
+                  return (
+                    <ListCards
+                      key={index}
+                      {...section}
+                      cards={section.cards.map(card => ({
+                        ...card,
+                        content: parseBibleLinks(card.content),
+                      }))}
+                    />
+                  );
                 case "timeline":
-                  return <Timeline key={index} {...section} />;
+                  // Парсимо опис кожного пункту в таймлайні
+                  return (
+                    <Timeline
+                      key={index}
+                      {...section}
+                      events={section.events.map(event => ({
+                        ...event,
+                        description: parseBibleLinks(event.description),
+                      }))}
+                    />
+                  );
                 case "contrast-section":
-                  return <ContrastDisplay key={index} {...section} />;
-
+                  // Парсимо контент у ContrastDisplay
+                  return (
+                    <ContrastDisplay
+                      key={index}
+                      {...section}
+                      items={section.items.map(item => ({
+                        ...item,
+                        content: parseBibleLinks(item.content),
+                      }))}
+                    />
+                  );
                 case "diagram":
+                  // Парсимо опис діаграми
                   return (
                     <Diagram
                       key={index}
                       chartType={section.chartType}
-                      title={section.title}
-                      description={section.description}
+                      title={parseBibleLinks(section.title)}
+                      description={parseBibleLinks(section.description)}
                       chartData={section.chartData}
                       chartOptions={section.chartOptions}
                     />
                   );
                 case "image-placeholder":
+                  // Парсимо опис та підпис до зображення
                   return (
                     <ImagePlaceholder
                       key={index}
-                      title={section.title}
-                      description={section.description}
+                      title={parseBibleLinks(section.title)}
+                      description={parseBibleLinks(section.description)}
                       imageUrl={section.imageUrl}
                       altText={section.altText}
-                      caption={section.caption}
+                      caption={parseBibleLinks(section.caption)}
                     />
                   );
                 case "description-with-image":
+                  // Парсимо заголовок та контент
                   return (
                     <DescriptionWithImage
                       key={index}
-                      title={section.title}
-                      content={section.content}
+                      title={parseBibleLinks(section.title)}
+                      content={parseBibleLinks(section.content)}
                       imageUrl={section.imageUrl}
                       altText={section.altText}
-                      caption={section.caption}
+                      caption={parseBibleLinks(section.caption)}
                       imagePosition={section.imagePosition}
                     />
                   );
-
                 default:
                   console.warn(`Невідомий тип секції: ${section.type}`);
                   return null;

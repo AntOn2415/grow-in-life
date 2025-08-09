@@ -9,12 +9,7 @@ import {
 } from "./RightSidebar.styled";
 import BibleMenu from "../BibleMenu/BibleMenu";
 
-export default function RightSidebar({
-  isRightSidebarSplit,
-  toggleRightSidebarSplit,
-  isMobile,
-  onCloseMobileSidebar,
-}) {
+export default function RightSidebar({ isRightSidebarSplit, toggleRightSidebarSplit, isMobile }) {
   const location = useLocation();
 
   if (location.pathname === "/") {

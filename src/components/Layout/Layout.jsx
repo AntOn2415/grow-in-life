@@ -17,6 +17,8 @@ import {
   MobileRightSidebarOverlay,
   MobileRightSidebarDiv,
 } from "./Layout.styled";
+import { BibleContext } from "../../contexts/BibleContext";
+import { useContext } from "react";
 
 const leftSidebarVariants = {
   hidden: {
@@ -61,6 +63,27 @@ const Layout = () => {
   const mainRef = useRef(null);
 
   const isMobile = useMediaQuery(`(max-width: ${breakpoints.md})`);
+
+  // Отримуємо navId з контексту
+  const { navId } = useContext(BibleContext);
+  const lastNavIdRef = useRef(null);
+
+  // Новий useEffect для відстеження змін у navId
+  useEffect(() => {
+    if (navId && navId !== lastNavIdRef.current) {
+      lastNavIdRef.current = navId;
+
+      // Якщо це мобільна версія, відкриваємо сайдбар на половину
+      if (isMobile) {
+        if (!showMobileRightSidebar) {
+          setIsRightSidebarSplit(true);
+          setShowMobileRightSidebar(true);
+        } else {
+          // Якщо вже відкрито, просто оновлюємо вміст, не змінюючи стан
+        }
+      }
+    }
+  }, [navId, isMobile, showMobileRightSidebar, setIsRightSidebarSplit, setShowMobileRightSidebar]);
 
   useEffect(() => {
     sessionStorage.setItem("leftSidebarCollapsed", JSON.stringify(leftSidebarCollapsed));
@@ -252,7 +275,7 @@ const Layout = () => {
             <RightSidebar
               toggleRightSidebarSplit={toggleRightSidebarSplit}
               isRightSidebarSplit={isRightSidebarSplit}
-              isMobile={isMobile} // Передача isMobile як пропсу
+              isMobile={isMobile}
             />
           </RightSidebarContainer>
         )}
@@ -306,7 +329,7 @@ const Layout = () => {
                   <RightSidebar
                     toggleRightSidebarSplit={toggleRightSidebarSplit}
                     isRightSidebarSplit={isRightSidebarSplit}
-                    isMobile={isMobile} // Передача isMobile як пропсу
+                    isMobile={isMobile}
                     onCloseMobileSidebar={() => setShowMobileRightSidebar(false)}
                   />
                 </MobileRightSidebarDiv>

@@ -133,6 +133,19 @@ export const homeGroupsContent = {
       ],
       loadLesson: () => import("./lessons/oldTestament/nehemiah/lessonTemplate5"),
     },
+    {
+      id: "nehemiah-5-test",
+      title: "Тестовий урок з посиланнями",
+      shortTitle: "Тест посилань",
+      book: "Неемії",
+      bookInternalKey: "nehemiah",
+      chapter: "5",
+      verses: "1–19",
+      date: "2025-08-03",
+      author: "Тестувальник",
+      tags: ["тест", "посилання"],
+      loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah5Lesson-test.json"),
+    },
   ], // Неемії
   esther: [], // Естер
   job: [], // Йова

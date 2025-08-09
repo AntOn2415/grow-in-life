@@ -6,6 +6,8 @@ import Layout from "./Layout";
 
 import { SermonsProvider } from "../contexts/SermonsContext";
 import { HomeGroupsProvider } from "../contexts/HomeGroupsContext";
+import { BibleProvider } from "../contexts/BibleContext"; // Імпортуємо новий провайдер
+
 import GlobalStyles from "../styles/global/GlobalStyles";
 import NotFoundPage from "../components/NotFoundPage/NotFoundPage";
 
@@ -19,22 +21,25 @@ const NewsPage = lazy(() => import("../pages/NewsPage"));
 const App = () => (
   <HomeGroupsProvider>
     <SermonsProvider>
-      <ThemeProvider>
-        <GlobalStyles />
-        <Suspense fallback={<div>Завантаження сторінки...</div>}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<HomePage />} />
-              <Route path="sermons" element={<SermonsPage />} />
-              <Route path="home-groups" element={<HomeGroupsPage />} />
-              <Route path="sunday-school" element={<SundaySchoolPage />} />
-              <Route path="seminars" element={<SeminarsPage />} />
-              <Route path="news" element={<NewsPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Route>
-          </Routes>
-        </Suspense>
-      </ThemeProvider>
+      {/* Додаємо BibleProvider, щоб він був доступний для всіх маршрутів */}
+      <BibleProvider>
+        <ThemeProvider>
+          <GlobalStyles />
+          <Suspense fallback={<div>Завантаження сторінки...</div>}>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<HomePage />} />
+                <Route path="sermons" element={<SermonsPage />} />
+                <Route path="home-groups" element={<HomeGroupsPage />} />
+                <Route path="sunday-school" element={<SundaySchoolPage />} />
+                <Route path="seminars" element={<SeminarsPage />} />
+                <Route path="news" element={<NewsPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Route>
+            </Routes>
+          </Suspense>
+        </ThemeProvider>
+      </BibleProvider>
     </SermonsProvider>
   </HomeGroupsProvider>
 );

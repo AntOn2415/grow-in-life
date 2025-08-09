@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { AnimatePresence, motion } from "framer-motion"; // Імпортуємо motion
+import React, { useState, useEffect, useRef, useCallback, useContext } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   BibleMenuWrapper,
   NavigationContainer,
@@ -8,42 +8,60 @@ import {
 } from "./BibleMenu.styled";
 import BibleTextDisplay from "./BibleTextDisplay/BibleTextDisplay";
 import ContentSelectorModal from "./ContentSelector/ContentSelectorModal";
-
-const loadBookJson = async (bookKey, testament) => {
-  try {
-    const data = await import(`../../data/booksBible/${testament}/${bookKey}.json`);
-    return data.default;
-  } catch (error) {
-    console.error(`Не вдалося завантажити книгу: ${bookKey}`, error);
-    return null;
-  }
-};
+import { BibleContext } from "../../contexts/BibleContext";
 
 export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit, isMobile }) {
-  const [bookKey, setBookKey] = useState("matthew");
-  const [chapter, setChapter] = useState(1);
-  const [testament, setTestament] = useState("new-testament");
+  const { bookKey, chapter, verse, testament, highlightedVerses, navigateTo, navId } =
+    useContext(BibleContext);
 
   const [bookData, setBookData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const isSidebarSplitBeforeModalRef = useRef(false);
-
   const contentRef = useRef(null);
 
+  const lastOpenedNavIdRef = useRef(null);
+  const isUserClosingRef = useRef(false);
+
   useEffect(() => {
+    if (!bookKey || !testament) return;
     const fetchBook = async () => {
       setIsLoading(true);
-      const data = await loadBookJson(bookKey, testament);
-      setBookData(data);
+      try {
+        const data = await import(`../../data/booksBible/${testament}/${bookKey}.json`);
+        setBookData(data.default);
+      } catch (error) {
+        console.error(`Не вдалося завантажити книгу: ${bookKey}`, error);
+        setBookData(null);
+      }
       setIsLoading(false);
     };
     fetchBook();
   }, [bookKey, testament]);
 
+  useEffect(() => {
+    if (!bookKey) return;
+
+    const isNewNavigation = navId && navId !== lastOpenedNavIdRef.current;
+
+    if (isNewNavigation) {
+      lastOpenedNavIdRef.current = navId;
+      isUserClosingRef.current = false;
+
+      if (!isRightSidebarSplit) {
+        toggleRightSidebarSplit();
+      }
+    }
+  }, [navId, bookKey, chapter, verse, isRightSidebarSplit, toggleRightSidebarSplit]);
+
+  const handleCloseSidebar = () => {
+    isUserClosingRef.current = true;
+    toggleRightSidebarSplit();
+  };
+
   const handleNextChapter = () => {
     if (bookData && chapter < bookData.chapters.length) {
-      setChapter(prevChapter => prevChapter + 1);
+      navigateTo(`[${bookKey}:${chapter + 1}]`);
     }
   };
 
@@ -53,13 +71,27 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
       toggleRightSidebarSplit();
     }
     setShowModal(true);
+    isUserClosingRef.current = false;
   };
 
-  const handleSelectBookAndChapter = (newBookKey, newChapter, newTestament) => {
-    setBookKey(newBookKey);
-    setChapter(newChapter);
-    setTestament(newTestament);
+  const handleSelectBookAndChapter = (newBookKey, newChapter) => {
+    // Зберігаємо поточний стан сайдбару перед навігацією
+    const wasSidebarOpen = isRightSidebarSplit;
+    navigateTo(`[${newBookKey}:${newChapter}]`);
     setShowModal(false);
+
+    // Якщо це мобільна версія
+    if (isMobile) {
+      // Якщо сайдбар був відкритий, нічого не робимо, щоб зберегти його стан
+      // Це дозволить уникнути небажаного закриття
+      if (wasSidebarOpen) {
+        return;
+      }
+      // Якщо сайдбар був закритий, відкриваємо його
+      if (!wasSidebarOpen) {
+        toggleRightSidebarSplit();
+      }
+    }
   };
 
   const handleCloseModal = useCallback(() => {
@@ -81,7 +113,6 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
   return (
     <BibleMenuWrapper>
       <NavigationContainer>
-        {/* Використовуємо AnimatePresence для анімації появи/зникнення */}
         <AnimatePresence>
           {!showModal && (
             <motion.div
@@ -100,7 +131,7 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
           )}
         </AnimatePresence>
         {isMobile && (
-          <NavigationButton onClick={toggleRightSidebarSplit}>
+          <NavigationButton onClick={handleCloseSidebar}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
               <path d="M10 5L10 19L14 19L14 5L10 5ZM4 5L4 19L8 19L8 5L4 5ZM16 5L16 19L20 19L20 5L16 5Z" />
             </svg>
@@ -114,11 +145,12 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
           <BibleTextDisplay
             bookData={bookData}
             chapter={chapter}
+            verseToScroll={verse}
+            highlightedVerses={highlightedVerses}
             onNextChapter={handleNextChapter}
           />
         )}
       </ContentContainer>
-
       <AnimatePresence>
         {showModal && (
           <ContentSelectorModal
