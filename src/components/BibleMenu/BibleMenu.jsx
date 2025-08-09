@@ -49,14 +49,11 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
       lastOpenedNavIdRef.current = navId;
       isUserClosingRef.current = false;
 
-      // Якщо це мобільна версія і навігація не з меню, відкриваємо сайдбар
       if (isMobile && navSource === "text") {
         if (!isRightSidebarSplit) {
           toggleRightSidebarSplit();
         }
-      }
-      // Якщо це десктоп або навігація з меню, зберігаємо поточний стан
-      else if (!isMobile) {
+      } else if (!isMobile) {
         if (!isRightSidebarSplit) {
           toggleRightSidebarSplit();
         }
@@ -117,7 +114,6 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
   return (
     <BibleMenuWrapper>
       <NavigationContainer>
-        {/* Кнопка меню для планшетів та десктопів */}
         <AnimatePresence>
           {!isMobile && !showModal && (
             <motion.div
@@ -154,6 +150,7 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
         {isLoading && <p>Завантаження...</p>}
         {bookData && !isLoading && (
           <BibleTextDisplay
+            key={navId} // <<< Ключова зміна тут
             bookData={bookData}
             chapter={chapter}
             verseToScroll={verse}
