@@ -155,6 +155,7 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
             verseToScroll={verse}
             highlightedVerses={highlightedVerses}
             onNextChapter={handleNextChapter}
+            isMobile={isMobile}
           />
         )}
       </ContentContainer>

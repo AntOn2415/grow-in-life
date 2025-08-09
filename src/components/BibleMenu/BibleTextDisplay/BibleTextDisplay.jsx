@@ -9,12 +9,15 @@ import {
   NextChapterButton,
 } from "./BibleTextDisplay.styled";
 
+const FOUR_LINES_OFFSET = 100;
+
 const BibleTextDisplay = ({
   bookData,
   chapter,
   verseToScroll,
   highlightedVerses,
   onNextChapter,
+  isMobile,
 }) => {
   const currentChapterIndex = bookData.chapters.findIndex(c => c.chapter_number === chapter);
   const currentChapter = bookData.chapters[currentChapterIndex];
@@ -31,13 +34,21 @@ const BibleTextDisplay = ({
     if (verseToScroll && verseElement && textContainerRef.current) {
       const headerHeight = headerRef.current ? headerRef.current.offsetHeight + 20 : 0;
 
-      // Функція для виконання прокрутки
       const performScroll = behavior => {
         const verseRect = verseElement.getBoundingClientRect();
         const containerRect = textContainerRef.current.getBoundingClientRect();
 
+        let offset = 0;
+        if (!isMobile) {
+          offset = FOUR_LINES_OFFSET;
+        }
+
         const scrollPosition =
-          verseRect.top - containerRect.top + textContainerRef.current.scrollTop - headerHeight;
+          verseRect.top -
+          containerRect.top +
+          textContainerRef.current.scrollTop -
+          headerHeight -
+          offset; // <<< Використовуємо змінну
 
         textContainerRef.current.scrollTo({
           top: scrollPosition,
@@ -45,13 +56,10 @@ const BibleTextDisplay = ({
         });
       };
 
-      // Етап 1: Миттєва прокрутка, щоб змусити DOM перерахувати макет
       performScroll("auto");
 
-      // Етап 2: Відкладена плавна прокрутка з коректними значеннями
       const smoothScrollTimeout = setTimeout(() => {
         if (textContainerRef.current) {
-          // Перевірка на існування елемента
           performScroll("smooth");
         }
       }, 0);
@@ -60,7 +68,7 @@ const BibleTextDisplay = ({
     } else if (textContainerRef.current) {
       textContainerRef.current.scrollTo(0, 0);
     }
-  }, [chapter, verseToScroll, bookData, highlightedVerses]);
+  }, [chapter, verseToScroll, bookData, highlightedVerses, isMobile]);
 
   if (!currentChapter) {
     return <div>Розділ не знайдено.</div>;
