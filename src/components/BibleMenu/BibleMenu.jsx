@@ -150,7 +150,6 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
         {isLoading && <p>Завантаження...</p>}
         {bookData && !isLoading && (
           <BibleTextDisplay
-            key={navId} // <<< Ключова зміна тут
             bookData={bookData}
             chapter={chapter}
             verseToScroll={verse}

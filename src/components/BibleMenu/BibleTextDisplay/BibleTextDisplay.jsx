@@ -15,7 +15,6 @@ const BibleTextDisplay = ({
   verseToScroll,
   highlightedVerses,
   onNextChapter,
-  isRightSidebarSplit,
 }) => {
   const currentChapterIndex = bookData.chapters.findIndex(c => c.chapter_number === chapter);
   const currentChapter = bookData.chapters[currentChapterIndex];
@@ -26,25 +25,42 @@ const BibleTextDisplay = ({
   const textContainerRef = useRef(null);
   const headerRef = useRef(null);
 
-  // Оновлений useLayoutEffect з доданою залежністю
   useLayoutEffect(() => {
-    // verseRefs.current = []; // Цей рядок тепер непотрібний, оскільки key={navId} перемонтовує компонент
-
     const verseElement = verseToScroll ? verseRefs.current[verseToScroll - 1] : null;
 
-    if (verseToScroll && verseElement) {
+    if (verseToScroll && verseElement && textContainerRef.current) {
       const headerHeight = headerRef.current ? headerRef.current.offsetHeight + 20 : 0;
-      const scrollPosition = verseElement.offsetTop - headerHeight;
 
-      textContainerRef.current.scrollTo({
-        top: scrollPosition,
-        behavior: "smooth",
-      });
+      // Функція для виконання прокрутки
+      const performScroll = behavior => {
+        const verseRect = verseElement.getBoundingClientRect();
+        const containerRect = textContainerRef.current.getBoundingClientRect();
+
+        const scrollPosition =
+          verseRect.top - containerRect.top + textContainerRef.current.scrollTop - headerHeight;
+
+        textContainerRef.current.scrollTo({
+          top: scrollPosition,
+          behavior,
+        });
+      };
+
+      // Етап 1: Миттєва прокрутка, щоб змусити DOM перерахувати макет
+      performScroll("auto");
+
+      // Етап 2: Відкладена плавна прокрутка з коректними значеннями
+      const smoothScrollTimeout = setTimeout(() => {
+        if (textContainerRef.current) {
+          // Перевірка на існування елемента
+          performScroll("smooth");
+        }
+      }, 0);
+
+      return () => clearTimeout(smoothScrollTimeout);
     } else if (textContainerRef.current) {
-      // Якщо вірш не вказано або його елемент не знайдено, прокручуємо на початок
       textContainerRef.current.scrollTo(0, 0);
     }
-  }, [chapter, verseToScroll, bookData, highlightedVerses]); // Додано highlightedVerses до залежностей
+  }, [chapter, verseToScroll, bookData, highlightedVerses]);
 
   if (!currentChapter) {
     return <div>Розділ не знайдено.</div>;
