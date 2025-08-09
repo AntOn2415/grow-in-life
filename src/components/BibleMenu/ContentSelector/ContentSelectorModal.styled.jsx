@@ -52,8 +52,8 @@ export const ModalHeader = styled.div`
 
 export const CloseButton = styled.button`
   position: absolute;
-  top: 16px;
-  right: 11px;
+  top: 14px;
+  right: 16px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -94,7 +94,7 @@ export const TestamentButton = styled.button`
     $active ? theme.colors.accentColor : theme.colors.colorSecondary};
   border: none;
   border-radius: ${({ theme }) => theme.borderRadius.small};
-  padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.medium};
+  padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.small};
   cursor: pointer;
   font-size: ${({ theme }) => theme.fontSizes.medium};
   transition: all 0.25s ease-in-out;
@@ -110,6 +110,7 @@ export const TestamentButton = styled.button`
 
 export const BookList = styled.div`
   padding: ${({ theme }) => theme.spacing.medium};
+  padding-bottom: 60px; // Додано відступ знизу
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xsmall};
@@ -155,6 +156,7 @@ export const ChapterGrid = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
   gap: ${({ theme }) => theme.spacing.small};
   padding: ${({ theme }) => theme.spacing.medium};
+  padding-bottom: 60px; // Додано відступ знизу
   overflow-y: auto;
 `;
 

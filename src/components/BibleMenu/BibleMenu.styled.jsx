@@ -60,17 +60,14 @@ export const NavigationButton = styled.button`
   transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.colorSecondary};
-  }
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.colorSecondary};
+    background-color: ${({ theme }) => theme.colors.hoverBtn};
   }
 
   svg {
     width: 16px;
     height: 16px;
     fill: ${({ theme }) => theme.colors.buttonColor};
+    transition: fill 0.25s ease-in-out;
   }
 `;
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion"; // Імпортуємо motion
 import {
   BibleMenuWrapper,
   NavigationContainer,
@@ -27,7 +27,7 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
   const [bookData, setBookData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [isSidebarSplitBeforeModal, setIsSidebarSplitBeforeModal] = useState(false);
+  const isSidebarSplitBeforeModalRef = useRef(false);
 
   const contentRef = useRef(null);
 
@@ -47,35 +47,33 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
     }
   };
 
-  const handleSelectBookAndChapter = (newBookKey, newChapter, newTestament) => {
-    setBookKey(newBookKey);
-    setChapter(newChapter);
-    setTestament(newTestament);
-    setShowModal(false);
-
-    // **Зміни тут: закриваємо сайдбар, якщо не мобільна версія і сайдбар відкритий**
-    if (!isMobile && isRightSidebarSplit) {
-      toggleRightSidebarSplit();
-    }
-  };
-
   const handleOpenMenu = () => {
-    setIsSidebarSplitBeforeModal(isRightSidebarSplit);
+    isSidebarSplitBeforeModalRef.current = isRightSidebarSplit;
     if (!isRightSidebarSplit) {
       toggleRightSidebarSplit();
     }
     setShowModal(true);
   };
 
+  const handleSelectBookAndChapter = (newBookKey, newChapter, newTestament) => {
+    setBookKey(newBookKey);
+    setChapter(newChapter);
+    setTestament(newTestament);
+    setShowModal(false);
+  };
+
   const handleCloseModal = useCallback(() => {
     setShowModal(false);
-    if (isSidebarSplitBeforeModal === false && isRightSidebarSplit === true) {
-      toggleRightSidebarSplit();
+    if (isMobile) {
+      const sidebarStateBeforeModal = isSidebarSplitBeforeModalRef.current;
+      if (isRightSidebarSplit !== sidebarStateBeforeModal) {
+        toggleRightSidebarSplit();
+      }
     }
-  }, [isSidebarSplitBeforeModal, isRightSidebarSplit, toggleRightSidebarSplit]);
+  }, [isMobile, isRightSidebarSplit, toggleRightSidebarSplit]);
 
   useEffect(() => {
-    if (isRightSidebarSplit === false && showModal === true) {
+    if (!isRightSidebarSplit && showModal) {
       handleCloseModal();
     }
   }, [isRightSidebarSplit, showModal, handleCloseModal]);
@@ -83,11 +81,24 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
   return (
     <BibleMenuWrapper>
       <NavigationContainer>
-        <NavigationButton onClick={handleOpenMenu}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M4 4C4 3.44772 4.44772 3 5 3H19C19.5523 3 20 3.44772 20 4V20C20 20.5523 19.5523 21 19 21H5C4.44772 21 4 20.5523 4 20V4ZM6 6V18H18V6H6ZM8 8H16V16H8V8Z" />
-          </svg>
-        </NavigationButton>
+        {/* Використовуємо AnimatePresence для анімації появи/зникнення */}
+        <AnimatePresence>
+          {!showModal && (
+            <motion.div
+              key="menu-button"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <NavigationButton onClick={handleOpenMenu}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M4 4C4 3.44772 4.44772 3 5 3H19C19.5523 3 20 3.44772 20 4V20C20 20.5523 19.5523 21 19 21H5C4.44772 21 4 20.5523 4 20V4ZM6 6V18H18V6H6ZM8 8H16V16H8V8Z" />
+                </svg>
+              </NavigationButton>
+            </motion.div>
+          )}
+        </AnimatePresence>
         {isMobile && (
           <NavigationButton onClick={toggleRightSidebarSplit}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -111,7 +122,7 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
       <AnimatePresence>
         {showModal && (
           <ContentSelectorModal
-            key="modal" // Додано унікальний key
+            key="modal"
             onClose={handleCloseModal}
             onSelect={handleSelectBookAndChapter}
             isMobile={isMobile}

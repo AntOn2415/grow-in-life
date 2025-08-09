@@ -6,16 +6,14 @@ export const SectionTitle = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xsmall};
   font-weight: bold;
   font-size: ${({ theme }) => theme.fontSizes.small};
-  // Колір SectionTitle залежить від $isEmpty
+
   color: ${({ theme }) => theme.colors.color};
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: ${({ isCollapsed }) => (isCollapsed ? "center" : "space-between")};
   transition: color 0.25s ease-in-out;
-
   &:hover {
-    // Ховер-ефект лише якщо не порожній
     color: ${({ theme }) => theme.colors.sectionTitleHover};
   }
 `;
@@ -53,8 +51,7 @@ export const ListItem = styled.li`
     transform 0.2s ease-in-out, border-color 0.25s ease-in-out;
 
   &:hover {
-    ${({ theme, $isEmpty }) =>
-      !$isEmpty && // Застосовуємо ховер лише якщо не порожній
+    ${({ theme }) =>
       `
       color: ${theme.colors.color};
       background-color: ${theme.colors.navItemHover};
@@ -85,7 +82,7 @@ export const CircularNumber = styled.span`
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  // Колір border та color залежить від $isEmpty
+
   border: 1px solid ${({ theme }) => theme.colors.colorSecondary};
   font-size: ${({ theme }) => theme.fontSizes.xsmall};
   color: ${({ theme }) => theme.colors.colorSecondary};
@@ -110,7 +107,6 @@ export const SectionCategoryNumber = styled.span`
   transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
 
   &:hover {
-    // Ховер-ефект лише якщо не порожній
-    background-color: ${({ theme }) => theme.colors.colorSecondary};
+    background-color: ${({ theme }) => theme.colors.hoverBtn};
   }
 `;

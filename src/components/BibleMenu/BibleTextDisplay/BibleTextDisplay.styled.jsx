@@ -11,6 +11,7 @@ export const BibleTextContainer = styled.div`
 export const ChapterHeader = styled.h3`
   font-size: ${({ theme }) => theme.fontSizes.xlarge};
   color: ${({ theme }) => theme.colors.color};
+  margin-top: ${({ theme }) => theme.spacing.medium};
   margin-bottom: ${({ theme }) => theme.spacing.medium};
   text-align: center;
 `;
@@ -47,7 +48,7 @@ export const NextChapterButton = styled.button`
   margin-left: auto;
   margin-right: auto;
   margin-top: ${({ theme }) => theme.spacing.small};
-  margin-bottom: ${({ theme }) => theme.spacing.small};
+  margin-bottom: ${({ theme }) => theme.spacing.xlarge};
   background: ${({ theme }) => theme.colors.buttonBg};
   color: ${({ theme }) => theme.colors.buttonColor};
   border: none;
