@@ -25,7 +25,6 @@ export const CardTitle = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.large};
   cursor: pointer;
   transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
-
   &:hover {
     background-color: ${({ theme }) => theme.colors.accentBgHover || theme.colors.accentBg};
   }

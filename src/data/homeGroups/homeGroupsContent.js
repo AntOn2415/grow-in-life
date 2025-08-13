@@ -22,131 +22,147 @@ export const homeGroupsContent = {
   secondKings: [], // 2 Царів
   firstChronicles: [], // 1 Хронік
   secondChronicles: [], // 2 Хронік
-  ezra: [], // Ездри
-  nehemiah: [
+  ezra: [
     {
-      id: "nehemiah-4-commentary",
-      title: "Неемія 4: Будівництво та Боротьба з Опозицією",
-      shortTitle: "Неемії 4:1-23",
-      book: "Неемія",
-      bookInternalKey: "nehemiah",
-      chapter: "4",
-      date: "2025-07-27",
-      author: "Збірник коментарів (В. Вірсбі)",
-      duration: "90-120 хв",
-      tags: ["Неемія", "будівництво", "опозиція", "віра", "випробування", "боротьба"],
-      loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah4"), // ✅ Шлях до файлу уроку
-    },
-    {
-      id: "nehemiah-1-reflections", // Унікальний ID
-      title: "Неемія 1: Роздуми Живих Братів", // Повна назва
-      shortTitle: "Неемія 1", // Скорочена назва для меню
-      book: "Неемія",
-      bookInternalKey: "nehemiah", // internalKey книги Неемії
-      chapter: "1", // Глава
-      verses: "Неемії 1:1-11", // Вірші
-      date: "2025-07-27", // Дата уроку (можна змінити на реальну)
-      author: "Живі Брати", // Автор
-      duration: "60-90 хв", // Тривалість
-      tags: [
-        "Неемія",
-        "молитва",
-        "відновлення",
-        "лідерство",
-        "біль за народ",
-        "заповіт",
-        "Божа воля",
-      ], // Теги
-      loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah1Lesson"),
-    },
-    {
-      id: "nehemiah-2-reflections", // ✅ Унікальний ID для уроку Неемія 2
-      title: "Неемія 2: Боже Бажання та Початок Відбудови", // ✅ Повна назва
-      shortTitle: "Неемія 2", // ✅ Скорочена назва для меню
-      book: "Неемія",
-      bookInternalKey: "nehemiah",
-      chapter: "2", // ✅ Глава
-      verses: "Неемії 2:1-20", // ✅ Вірші
-      date: "2025-07-15", // ✅ Дата уроку
-      author: "Живі Брати", // ✅ Автор
-      duration: "60-90 хв", // ✅ Тривалість
-      tags: ["Неемія", "лідерство", "Божа рука", "відбудова", "протидія", "молитва", "Божа воля"], // ✅ Теги
-      // ✅ Ліниве завантаження уроку 2
-      loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah2Lesson"),
-    },
-    {
-      id: "nehemiah-3-rebuilding",
-      title: "Неемія 3: Відбудова Стін Єрусалиму – Кожен на Своєму Місці",
-      shortTitle: "Неемія 3",
-      book: "Неемія",
-      bookInternalKey: "nehemiah",
-      chapter: "3",
-      verses: "Неемії 3:1-32",
-      date: "2025-07-22",
-      author: "Живі Брати",
-      duration: "60-90 хв",
-      tags: [
-        "Неемія",
-        "відбудова",
-        "єдність",
-        "служіння",
-        "різноманіття",
-        "організація",
-        "Божа рука",
-        "протидія",
-        "церква",
-        "Божа воля",
-      ],
-      loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah3Lesson"),
-    },
-    {
-      id: "lesson-fear-of-god",
-      title: "Внутрішній конфлікт та страх Божий",
-      shortTitle: "Страх Божий",
+      id: "nehemiah-5-demo",
+      title: "Демо урок: JSON → UI",
+      shortTitle: "Демо",
       book: "Неемії",
       bookInternalKey: "nehemiah",
       chapter: "5",
       verses: "1–19",
-      date: "2025-08-03",
-      author: "Антон (на основі обговорення 'Роздумів Живих Братів')",
-      duration: "60 хвилин",
-      tags: ["страх Божий", "Неемія", "справедливість", "служіння"],
-      loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah5Lesson"),
+      date: "2025-08-13",
+      author: "Система",
+      duration: "45 хв",
+      tags: ["демо", "парсер", "zod"],
+      loadLesson: () => import("./lessons/demoLesson"),
     },
-    {
-      id: "Nehemiah-5",
-      title: "2 Внутрішній конфлікт та страх Божий",
-      shortTitle: "Неемія 5",
-      book: "Неемії",
-      bookInternalKey: "nehemiah",
-      chapter: "5",
-      verses: "5:1–19",
-      date: "2025-08-03",
-      author: "Антон",
-      tags: [
-        "страх Божий",
-        "соціальна справедливість",
-        "Неемія",
-        "внутрішній конфлікт",
-        "лихварство",
-        "милосердя",
-      ],
-      loadLesson: () => import("./lessons/oldTestament/nehemiah/lessonTemplate5"),
-    },
-    {
-      id: "nehemiah-5-test",
-      title: "Тестовий урок з посиланнями",
-      shortTitle: "Тест посилань",
-      book: "Неемії",
-      bookInternalKey: "nehemiah",
-      chapter: "5",
-      verses: "1–19",
-      date: "2025-08-03",
-      author: "Тестувальник",
-      tags: ["тест", "посилання"],
-      loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah5Lesson-test.json"),
-    },
-  ], // Неемії
+  ], // Ездри
+  // nehemiah: [
+  //   {
+  //     id: "nehemiah-1-reflections", // Унікальний ID
+  //     title: "Неемія 1: Роздуми Живих Братів", // Повна назва
+  //     shortTitle: "Неемія 1", // Скорочена назва для меню
+  //     book: "Неемія",
+  //     bookInternalKey: "nehemiah", // internalKey книги Неемії
+  //     chapter: "1", // Глава
+  //     verses: "Неемії 1:1-11", // Вірші
+  //     date: "2025-07-27", // Дата уроку (можна змінити на реальну)
+  //     author: "Живі Брати", // Автор
+  //     duration: "60-90 хв", // Тривалість
+  //     tags: [
+  //       "Неемія",
+  //       "молитва",
+  //       "відновлення",
+  //       "лідерство",
+  //       "біль за народ",
+  //       "заповіт",
+  //       "Божа воля",
+  //     ], // Теги
+  //     loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah1Lesson"),
+  //   },
+  //   {
+  //     id: "nehemiah-2-reflections", // ✅ Унікальний ID для уроку Неемія 2
+  //     title: "Неемія 2: Боже Бажання та Початок Відбудови", // ✅ Повна назва
+  //     shortTitle: "Неемія 2", // ✅ Скорочена назва для меню
+  //     book: "Неемія",
+  //     bookInternalKey: "nehemiah",
+  //     chapter: "2", // ✅ Глава
+  //     verses: "Неемії 2:1-20", // ✅ Вірші
+  //     date: "2025-07-15", // ✅ Дата уроку
+  //     author: "Живі Брати", // ✅ Автор
+  //     duration: "60-90 хв", // ✅ Тривалість
+  //     tags: ["Неемія", "лідерство", "Божа рука", "відбудова", "протидія", "молитва", "Божа воля"], // ✅ Теги
+  //     // ✅ Ліниве завантаження уроку 2
+  //     loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah2Lesson"),
+  //   },
+  //   {
+  //     id: "nehemiah-3-rebuilding",
+  //     title: "Неемія 3: Відбудова Стін Єрусалиму – Кожен на Своєму Місці",
+  //     shortTitle: "Неемія 3",
+  //     book: "Неемія",
+  //     bookInternalKey: "nehemiah",
+  //     chapter: "3",
+  //     verses: "Неемії 3:1-32",
+  //     date: "2025-07-22",
+  //     author: "Живі Брати",
+  //     duration: "60-90 хв",
+  //     tags: [
+  //       "Неемія",
+  //       "відбудова",
+  //       "єдність",
+  //       "служіння",
+  //       "різноманіття",
+  //       "організація",
+  //       "Божа рука",
+  //       "протидія",
+  //       "церква",
+  //       "Божа воля",
+  //     ],
+  //     loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah3Lesson"),
+  //   },
+  //   {
+  //     id: "lesson-fear-of-god",
+  //     title: "Внутрішній конфлікт та страх Божий",
+  //     shortTitle: "Страх Божий",
+  //     book: "Неемії",
+  //     bookInternalKey: "nehemiah",
+  //     chapter: "5",
+  //     verses: "1–19",
+  //     date: "2025-08-03",
+  //     author: "Антон (на основі обговорення 'Роздумів Живих Братів')",
+  //     duration: "60 хвилин",
+  //     tags: ["страх Божий", "Неемія", "справедливість", "служіння"],
+  //     loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah5Lesson"),
+  //   },
+  //   {
+  //     id: "Nehemiah-5",
+  //     title: "2 Внутрішній конфлікт та страх Божий",
+  //     shortTitle: "Неемія 5",
+  //     book: "Неемії",
+  //     bookInternalKey: "nehemiah",
+  //     chapter: "5",
+  //     verses: "5:1–19",
+  //     date: "2025-08-03",
+  //     author: "Антон",
+  //     tags: [
+  //       "страх Божий",
+  //       "соціальна справедливість",
+  //       "Неемія",
+  //       "внутрішній конфлікт",
+  //       "лихварство",
+  //       "милосердя",
+  //     ],
+  //     loadLesson: () => import("./lessons/oldTestament/nehemiah/lessonTemplate5"),
+  //   },
+  //   {
+  //     id: "nehemiah-5-test",
+  //     title: "Тестовий урок з посиланнями",
+  //     shortTitle: "Тест посилань",
+  //     book: "Неемії",
+  //     bookInternalKey: "nehemiah",
+  //     chapter: "5",
+  //     verses: "1–19",
+  //     date: "2025-08-03",
+  //     author: "Тестувальник",
+  //     tags: ["тест", "посилання"],
+  //     loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah5Lesson-test.json"),
+  //   },
+  //   {
+  //     id: "nehemiah-lesson-6",
+  //     title: "Неемія 6: Ворожі пастки та Божа перемога",
+  //     shortTitle: "Ворожі пастки",
+  //     book: "Неемія",
+  //     bookInternalKey: "nehemiah",
+  //     chapter: "6",
+  //     verses: "1-19",
+  //     date: "2025-07-31", // Приклад
+  //     author: "Автор уроку",
+  //     duration: "45-60 хв",
+  //     tags: ["Неемія", "спокуса", "вірність", "перемога"],
+  //     loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiahLesson6"),
+  //   },
+  // ], // Неемії
   esther: [], // Естер
   job: [], // Йова
   psalms: [], // Псалми

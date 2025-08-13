@@ -1,3 +1,5 @@
+// src/components/SpecificContentDisplays/Timeline/Timeline.jsx
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "../../../contexts/ThemeProvider";
@@ -44,27 +46,25 @@ const Timeline = ({ title, events }) => {
           transition={{ duration: 0.5, delay: index * 0.1 }}
         >
           <EventDot
-            // ✅ Оновлено: колір точки змінюється лише при активному стані
             animate={
               activeEventId === index
-                ? { scale: [1, 1.2, 1], backgroundColor: currentTheme.accentColor } // Активний стан: миготіння та колір акценту
-                : { scale: 1, backgroundColor: currentTheme.accentColor } // Неактивний стан: без анімації scale, колір акценту
+                ? { scale: [1, 1.2, 1], backgroundColor: currentTheme.accentColor }
+                : { scale: 1, backgroundColor: currentTheme.accentColor }
             }
             transition={{
               duration: 0.5,
-              repeat: activeEventId === index ? Infinity : 0, // Миготіння лише при активному стані
+              repeat: activeEventId === index ? Infinity : 0,
               repeatType: "loop",
             }}
           />
           <EventContent
             onClick={() => handleToggle(index)}
-            // ✅ Змінено: Додано окремий transition для whileHover
             whileHover={{
               scale: 1.03,
             }}
             transition={{
-              scale: { duration: 0.15, ease: "easeOut" }, // ✅ Окрема, швидка анімація для масштабу при ховері
-              backgroundColor: { duration: 0.2, ease: "easeOut" }, // Анімація фону залишається окремою, але тут не потрібна для ховеру
+              scale: { duration: 0.15, ease: "easeOut" },
+              backgroundColor: { duration: 0.2, ease: "easeOut" },
             }}
             animate={{
               scale: activeEventId === index ? 1.03 : 1,
@@ -90,11 +90,10 @@ const Timeline = ({ title, events }) => {
             <CollapsibleContent isOpen={activeEventId === index}>
               {event.description && <EventDescription>{event.description}</EventDescription>}
 
+              {/* ✅ ВИПРАВЛЕННЯ: Спрощена логіка рендерингу */}
               {event.verses && event.verses.length > 0 && (
                 <EventVersesContainer onClick={handleVerseClick}>
-                  {event.verses.map((verseComponent, verseIndex) =>
-                    React.cloneElement(verseComponent, { key: verseIndex })
-                  )}
+                  {event.verses}
                 </EventVersesContainer>
               )}
             </CollapsibleContent>

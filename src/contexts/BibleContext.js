@@ -45,7 +45,6 @@ export const BibleProvider = ({ children }) => {
         const [, startChapter, startVerse] = chapterRangeMatch;
         newChapter = parseInt(startChapter, 10);
         newVerse = parseInt(startVerse, 10);
-        console.log("Це міжглавний діапазон, виділення неможливе.");
       } else {
         // Обробка посилань в межах однієї глави
         const verseQuery = parts.length > 2 ? parts[2] : null;

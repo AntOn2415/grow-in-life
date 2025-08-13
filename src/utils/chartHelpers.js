@@ -22,8 +22,6 @@ export const getChartOptionsWithTheme = (options, theme) => {
     plugins: {
       ...options.plugins,
       legend: {
-        // Вмикаємо легенду тільки для Line/Bar/Radar/Scatter/Bubble/PolarArea.
-        // Для Pie/Doughnut вона буде вимкнена, оскільки для них використовується кастомна HTML-легенда.
         display: !["pie", "doughnut"].includes(options.chartType),
         labels: {
           color: theme.colors?.color,
@@ -54,7 +52,6 @@ export const getChartOptionsWithTheme = (options, theme) => {
           display: false,
         },
         ticks: {
-          // ✅ ДОДАНО: Вимкнення відображення міток на осі Y
           display: false,
           color: theme.colors?.color,
           font: {
@@ -62,7 +59,7 @@ export const getChartOptionsWithTheme = (options, theme) => {
           },
         },
         grid: {
-          display: false, // Вимкнено лінії сітки на осі Y
+          display: false,
           color: (theme.colors?.borderColor || "#D3D3D3") + "80",
         },
       },
@@ -72,7 +69,6 @@ export const getChartOptionsWithTheme = (options, theme) => {
           display: false,
         },
         ticks: {
-          // ✅ ДОДАНО: Вимкнення відображення міток на осі X
           display: false,
           color: theme.colors?.color,
           font: {
@@ -80,14 +76,15 @@ export const getChartOptionsWithTheme = (options, theme) => {
           },
         },
         grid: {
-          display: false, // Вимкнено лінії сітки на осі X
+          display: false,
           color: (theme.colors?.borderColor || "#D3D3D3") + "80",
         },
       },
     },
   };
 
-  if (["doughnut", "pie"].includes(options.chartType)) {
+  // ✅ ВИПРАВЛЕННЯ: Тепер `cutout` застосовується тільки для `doughnut`
+  if (options.chartType === "doughnut") {
     newOptions.cutout = options.cutout || "70%";
   }
 

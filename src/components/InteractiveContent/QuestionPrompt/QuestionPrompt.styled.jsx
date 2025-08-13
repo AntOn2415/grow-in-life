@@ -33,7 +33,6 @@ export const QuestionText = styled.p`
   color: ${({ theme }) => theme.colors.color};
   margin-bottom: ${({ theme }) => theme.spacing.small};
   transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту
-
   ${({ theme }) => theme.media.down("sm")`
     font-size: ${({ theme }) => theme.fontSizes.medium};
   `}
