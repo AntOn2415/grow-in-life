@@ -1,5 +1,6 @@
+// src/components/InteractiveContent/ListCards/ListCards.js
 import React, { useReducer, useCallback, useRef, useEffect, useState } from "react";
-import { motion } from "framer-motion"; // AnimatePresence не потрібен, оскільки елементи не монтуються/демонтуються
+import { motion } from "framer-motion";
 import {
   ListContainer,
   Title,
@@ -12,9 +13,9 @@ import {
   ReadMoreButton,
   ButtonWrapper,
 } from "./ListCards.styled";
+import TokenRenderer from "../../TokenRenderer/TokenRenderer"; // 👈 Імпортуємо TokenRenderer
 
 // Reducer для управління станом активного рядка
-// Тепер state буде зберігати індекс активного ряду, або null, якщо жоден ряд не активний
 const expansionReducer = (state, action) => {
   switch (action.type) {
     case "ACTIVATE_ROW":
@@ -66,9 +67,8 @@ const Card = React.memo(
     }, [isExpanded]);
 
     return (
-      // Використовуємо handleRowBlur на CardWrapper, щоб обробляти втрату фокусу з ряду
       <CardWrapper
-        onBlur={handleRowBlur} // Новий обробник
+        onBlur={handleRowBlur}
         tabIndex={isOverflowing ? 0 : -1}
         aria-expanded={isExpanded}
       >
@@ -76,7 +76,10 @@ const Card = React.memo(
           <Emoji role="img" aria-label={`Emoji for ${card.title}`}>
             {card.emoji}
           </Emoji>
-          <CardTitle>{card.title}</CardTitle>
+          {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для заголовка */}
+          <CardTitle>
+            <TokenRenderer tokens={card.title} />
+          </CardTitle>
         </CardHeader>
 
         <motion.div
@@ -87,13 +90,14 @@ const Card = React.memo(
             opacity: 1,
           }}
           transition={{
-            duration: 0.25, // Тривалість анімації
+            duration: 0.25,
             ease: [0.4, 0, 0.2, 1],
           }}
           style={{ overflow: "hidden", width: "100%" }}
         >
           <CardContentWrapper ref={contentRef} isExpanded={isExpanded} id={`card-content-${index}`}>
-            {card.content}
+            {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для контенту */}
+            <TokenRenderer tokens={card.content} />
           </CardContentWrapper>
         </motion.div>
 
@@ -183,7 +187,12 @@ const ListCards = ({ title, cards }) => {
 
   return (
     <ListContainer>
-      {title && <Title>{title}</Title>}
+      {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для заголовка ListCards */}
+      {title && (
+        <Title>
+          <TokenRenderer tokens={title} />
+        </Title>
+      )}
       <CardsGrid ref={gridRef}>
         {" "}
         {/* Призначаємо реф для відстеження фокусу */}

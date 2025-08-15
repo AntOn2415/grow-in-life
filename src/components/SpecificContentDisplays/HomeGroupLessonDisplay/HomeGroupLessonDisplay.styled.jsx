@@ -1,5 +1,6 @@
 // src/components/SpecificContentDisplays/HomeGroupLessonDisplay/HomeGroupLessonDisplay.styled.js
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 export const HomeGroupLessonDisplayContainer = styled.div`
   display: flex;
@@ -32,14 +33,12 @@ export const HomeGroupLessonTextWrapper = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   color: ${({ theme }) => theme.colors.color};
   transition: color 0.25s ease-in-out;
-
   ${({ theme }) => theme.media.down("sm")`
     font-size: ${({ theme }) => theme.fontSizes.small};
   `}
 
   p {
     margin-bottom: 1em;
-    color: red;
   }
 
   ul {
@@ -101,25 +100,39 @@ export const SectionContainer = styled.div`
   }
 `;
 
-export const VerseButton = styled.button`
+export const VerseButton = styled(motion.button)`
   background: none;
   border: none;
   padding: 0;
   font: inherit;
   cursor: pointer;
-  text-decoration: underline;
-  color: inherit;
-  display: inline;
-  transition: color 0.25s ease-in-out, text-shadow 0.2s ease-in-out;
-
-  &:hover {
-    text-decoration: none;
-  }
+  color: currentColor;
+  display: inline-block;
+  position: relative;
+  transition: color 0.25s ease-in-out;
 
   &:focus {
-    text-decoration: none;
+    outline: none;
   }
+`;
 
-  &:active {
-  }
+export const UnderlineClip = styled(motion.span)`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  will-change: clip-path;
+  clip-path: inset(0% 0% 0% 0%);
+  pointer-events: none;
+`;
+
+export const StyledDescription = styled.div`
+  margin-bottom: ${({ theme }) => theme.spacing.xlarge};
+  line-height: 1.5;
+
+  ${({ theme }) => theme.media.down("md")`
+    margin-bottom: ${({ theme }) => theme.spacing.large};
+  `}
 `;

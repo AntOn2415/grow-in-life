@@ -47,6 +47,20 @@ export const StyledHeading = styled.h3`
       `
       font-size: ${props.theme.fontSizes.medium};
     `}
+     ${props =>
+       props.size === "small" &&
+       `
+    font-size: ${props.theme.fontSizes.medium};
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: ${props.theme.spacing.medium};
+    color: ${props.theme.colors.textSecondary};
+
+    ${props.theme.media.down("md")`
+      font-size: ${props.theme.fontSizes.small};
+      margin-bottom: ${props.theme.spacing.small};
+    `}
+  `}
   `}
 
   a {

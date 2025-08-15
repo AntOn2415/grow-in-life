@@ -1,53 +1,81 @@
 import React from "react";
 import BibleLink from "../BibleLink/BibleLink";
-// Імпортуйте ваші компоненти для стилів або використовуйте вбудовані теги
+
+// Імпортуйте ваші компоненти для стилів
 const BoldText = ({ children }) => <strong style={{ color: "inherit" }}>{children}</strong>;
 const ItalicText = ({ children }) => <em style={{ color: "inherit" }}>{children}</em>;
+const QuoteText = ({ children }) => (
+  <blockquote
+    style={{
+      fontStyle: "italic",
+      borderLeft: "2px solid #ccc",
+      paddingLeft: "10px",
+      margin: "10px 0",
+    }}
+  >
+    {children}
+  </blockquote>
+);
+
+const renderSingleToken = (token, key) => {
+  switch (token.type) {
+    case "bold":
+      return (
+        <BoldText key={key}>
+          <TokenRenderer tokens={token.content} />
+        </BoldText>
+      );
+    case "italic":
+      return (
+        <ItalicText key={key}>
+          <TokenRenderer tokens={token.content} />
+        </ItalicText>
+      );
+    case "quote":
+      return (
+        <QuoteText key={key}>
+          <TokenRenderer tokens={token.content} />
+        </QuoteText>
+      );
+    case "bible-link":
+      return (
+        <BibleLink key={key} bibleRef={token.bibleRef}>
+          {token.content}
+        </BibleLink>
+      );
+    default:
+      return <React.Fragment key={key}>{token.content}</React.Fragment>;
+  }
+};
 
 const TokenRenderer = ({ tokens }) => {
   if (!tokens) {
     return null;
   }
-  // Якщо tokens - це рядок, просто рендеримо його
+
+  // Якщо tokens — це рядок, просто рендеримо його
   if (typeof tokens === "string") {
     return <React.Fragment>{tokens}</React.Fragment>;
   }
 
-  // Якщо tokens - це масив, обробляємо кожен токен
+  // ✅ ВИПРАВЛЕННЯ 1: Якщо tokens — це один об'єкт-токен (не в масиві)
+  if (typeof tokens === "object" && !Array.isArray(tokens)) {
+    return renderSingleToken(tokens, "single-token");
+  }
+
+  // ✅ ВИПРАВЛЕННЯ 2: Якщо tokens — це масив, обробляємо кожен токен
   if (Array.isArray(tokens)) {
     return tokens.map((token, index) => {
-      // Якщо токен - рядок, рендеримо його як текст
+      // Якщо токен — рядок, рендеримо його як текст
       if (typeof token === "string") {
         return <React.Fragment key={index}>{token}</React.Fragment>;
       }
 
-      // Якщо токен - об'єкт, рендеримо відповідний компонент
-      switch (token.type) {
-        case "bold":
-          // Рекурсивний виклик для вмісту
-          return (
-            <BoldText key={index}>
-              <TokenRenderer tokens={token.content} />
-            </BoldText>
-          );
-        case "italic":
-          // Рекурсивний виклик для вмісту
-          return (
-            <ItalicText key={index}>
-              <TokenRenderer tokens={token.content} />
-            </ItalicText>
-          );
-        case "bible-link":
-          return (
-            <BibleLink key={index} bibleRef={token.bibleRef}>
-              {token.content}
-            </BibleLink>
-          );
-        default:
-          return <React.Fragment key={index}>{token.content}</React.Fragment>;
-      }
+      // Якщо токен — об'єкт, рендеримо відповідний компонент
+      return renderSingleToken(token, index);
     });
   }
+
   return null;
 };
 

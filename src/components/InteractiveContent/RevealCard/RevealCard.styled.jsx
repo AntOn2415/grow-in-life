@@ -17,15 +17,18 @@ export const StyledRevealCard = styled(motion.div)`
   }
 `;
 
-export const CardTitle = styled.div`
+export const CardTitle = styled.h4`
   display: flex;
   align-items: center;
+  //justify-content: start;
   gap: ${({ theme }) => theme.spacing.xsmall};
   padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.medium};
   background-color: ${({ theme }) => theme.colors.accentBg};
   color: ${({ theme }) => theme.colors.color};
   font-weight: bold;
   font-size: ${({ theme }) => theme.fontSizes.large};
+  flex-wrap: wrap;
+  word-break: break-word;
 `;
 
 export const CardAnswerContainer = styled(motion.div)`

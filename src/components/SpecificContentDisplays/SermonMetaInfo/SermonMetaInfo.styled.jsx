@@ -20,7 +20,6 @@ export const MetaItem = styled.span`
 `;
 
 export const DescriptionText = styled.p`
-  margin-top: ${({ theme }) => theme.spacing.medium}; // ОНОВЛЕНО: використовуємо spacing
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -28,4 +27,5 @@ export const DescriptionText = styled.p`
   line-height: 1.5;
   opacity: 0.9;
   text-align: center;
+  margin-bottom: ${({ theme }) => theme.spacing.medium};
 `;

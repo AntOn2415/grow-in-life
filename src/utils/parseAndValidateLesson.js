@@ -1,6 +1,8 @@
+// src/utils/parserAndValidateLesson.js
 import { parseTags } from "./tagParser";
 import { LessonSchema } from "./validationSchemas";
 
+// ✅ ОНОВЛЕНО: Додано 'heading' і 'subtitle' до списку TOKENIZABLE_KEYS
 const TOKENIZABLE_KEYS = [
   "title",
   "shortTitle",
@@ -9,16 +11,22 @@ const TOKENIZABLE_KEYS = [
   "question",
   "answer",
   "text",
-  "heading",
+  "heading", // ✅ Додано
   "caption",
   "rationale",
-  "verses", // ✅ Цей ключ потрібно токенізувати!
+  "verses",
+  "items",
+  "subtitle", // ✅ Додано
 ];
 
 const deepParseTags = (data, parentKey = null) => {
   if (typeof data === "string") {
     if (TOKENIZABLE_KEYS.includes(parentKey)) {
-      return parseTags(data);
+      const parsedResult = parseTags(data);
+      if (Array.isArray(parsedResult)) {
+        return parsedResult;
+      }
+      return [parsedResult];
     }
     return data;
   }

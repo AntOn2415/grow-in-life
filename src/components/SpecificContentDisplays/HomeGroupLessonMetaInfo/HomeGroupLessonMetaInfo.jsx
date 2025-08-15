@@ -6,7 +6,6 @@ import styled from "styled-components";
 const MetaInfoContainer = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.small}; // ОНОВЛЕНО: Використовуємо fontSizes
   color: ${({ theme }) => theme.colors.colorSecondary}; // ОНОВЛЕНО: Використовуємо theme.colors
-  margin-top: ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: Використовуємо spacing
   // Медіа-запит для мобільних пристроїв, щоб зменшити шрифт
   ${({ theme }) => theme.media.down("sm")`
     font-size: ${({ theme }) => theme.fontSizes.xsmall};

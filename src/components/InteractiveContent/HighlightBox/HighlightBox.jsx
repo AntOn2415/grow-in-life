@@ -6,16 +6,26 @@ import {
   HighlightBoxTitle,
   HighlightBoxEmoji,
 } from "./HighlightBox.styled";
+import TokenRenderer from "../../TokenRenderer/TokenRenderer";
 
 const HighlightBox = ({ title, content, emoji }) => {
   return (
     <HighlightBoxContainer>
       {emoji && <HighlightBoxEmoji>{emoji}</HighlightBoxEmoji>}
       <HighlightBoxContent>
-        {/* ✅ ВИПРАВЛЕНО: Рендеримо title безпосередньо */}
-        {title && <HighlightBoxTitle>{title}</HighlightBoxTitle>}
+        {/* ✅ ВИПРАВЛЕННЯ: Тепер title обробляється TokenRenderer */}
+        {title && (
+          <HighlightBoxTitle>
+            <TokenRenderer tokens={title} />
+          </HighlightBoxTitle>
+        )}
 
-        {content && <p>{content}</p>}
+        {/* ✅ ДОДАТКОВО: Тепер content також обробляється TokenRenderer */}
+        {content && (
+          <p>
+            <TokenRenderer tokens={content} />
+          </p>
+        )}
       </HighlightBoxContent>
     </HighlightBoxContainer>
   );

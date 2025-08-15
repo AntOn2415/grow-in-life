@@ -1,6 +1,5 @@
 // src/components/InteractiveContent/ContrastDisplay/ContrastDisplay.jsx
 import React from "react";
-// ✅ ВИПРАВЛЕНО: Імпортуємо всі стилізовані компоненти з ContrastDisplay.styled.jsx
 import {
   ContrastDisplayContainer,
   ContrastItemsWrapper,
@@ -9,26 +8,34 @@ import {
   ItemEmoji,
   ItemContent,
 } from "./ContrastDisplay.styled";
+import SectionHeading from "../../Common/SectionHeading/SectionHeading";
+import TokenRenderer from "../../TokenRenderer/TokenRenderer"; // 👈 Імпортуємо TokenRenderer
 
-import SectionHeading from "../../Common/SectionHeading/SectionHeading"; // Залишаємо цей імпорт, якщо SectionHeading не перенесено
-
-// --- Компонент ContrastDisplay ---
 const ContrastDisplay = ({ title, items }) => {
   if (!items || items.length < 2) {
-    return null; // Потрібно принаймні два елементи для порівняння
+    return null;
   }
 
   return (
     <ContrastDisplayContainer>
-      {title && <SectionHeading as="h3">{title}</SectionHeading>}
+      {title && (
+        <SectionHeading as="h3">
+          {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для заголовка */}
+          <TokenRenderer tokens={title} />
+        </SectionHeading>
+      )}
       <ContrastItemsWrapper>
         {items.map((item, index) => (
           <ContrastItem key={index} $type={item.type}>
             <ItemHeading $type={item.type}>
               {item.emoji && <ItemEmoji>{item.emoji}</ItemEmoji>}
-              {item.heading}
+              {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для заголовка елемента */}
+              <TokenRenderer tokens={item.heading} />
             </ItemHeading>
-            <ItemContent>{item.content}</ItemContent>
+            {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для контенту елемента */}
+            <ItemContent>
+              <TokenRenderer tokens={item.content} />
+            </ItemContent>
           </ContrastItem>
         ))}
       </ContrastItemsWrapper>

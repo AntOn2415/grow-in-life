@@ -9,6 +9,7 @@ import ImagePlaceholder from "../../InteractiveContent/ImagePlaceholder/ImagePla
 import HighlightBox from "../../InteractiveContent/HighlightBox/HighlightBox";
 import QuestionPrompt from "../../InteractiveContent/QuestionPrompt/QuestionPrompt";
 import ListCards from "../../InteractiveContent/ListCards/ListCards";
+import List from "../../InteractiveContent/List/List";
 import Timeline from "../../InteractiveContent/Timeline/Timeline";
 import ContrastDisplay from "../../InteractiveContent/ContrastDisplay/ContrastDisplay";
 import DescriptionWithImage from "../../InteractiveContent/DescriptionWithImage/DescriptionWithImage";
@@ -19,6 +20,7 @@ import {
   HomeGroupLessonTitleWrapper,
   MainContentWrapper,
   SectionContainer,
+  StyledDescription,
 } from "./HomeGroupLessonDisplay.styled";
 
 function HomeGroupLessonDisplay({ lessonData }) {
@@ -48,16 +50,23 @@ function HomeGroupLessonDisplay({ lessonData }) {
           <>
             {section.title && (
               <SectionHeading
-                as={section.subtitle ? "h4" : "h3"}
+                as={section.subtitle ? "h3" : "h4"}
                 size={section.subtitle ? "medium" : "default"}
               >
                 <TokenRenderer tokens={section.title} />
               </SectionHeading>
             )}
+            {/* ✅ ДОДАНО: Підзаголовок рендериться після title */}
+            {section.subtitle && (
+              <SectionHeading as="h3" size="small">
+                <TokenRenderer tokens={section.subtitle} />
+              </SectionHeading>
+            )}
+            {/* ✅ ОНОВЛЕНО: Кожен абзац рендериться в тезі <p> */}
             {section.content.map((paragraph, pIndex) => (
-              <React.Fragment key={pIndex}>
+              <p key={pIndex}>
                 <TokenRenderer tokens={paragraph} />
-              </React.Fragment>
+              </p>
             ))}
           </>
         );
@@ -77,7 +86,6 @@ function HomeGroupLessonDisplay({ lessonData }) {
             }}
           />
         );
-
       case "reveal-cards":
         return (
           <>
@@ -89,14 +97,19 @@ function HomeGroupLessonDisplay({ lessonData }) {
             {section.cards.map(card => (
               <RevealCard
                 key={card.id}
-                cardData={{ ...card, content: <TokenRenderer tokens={card.content} /> }}
+                id={card.id}
+                emoji={card.emoji}
+                // ✅ ВИПРАВЛЕННЯ: передаємо ТІЛЬКИ необроблений масив токенів
+                title={card.title}
+                content={card.content}
               />
             ))}
           </>
         );
 
       case "highlight-box":
-        return <HighlightBox {...section} content={<TokenRenderer tokens={section.content} />} />;
+        // ✅ ВИПРАВЛЕННЯ: Передаємо обидва пропси title та content як звичайні рядки
+        return <HighlightBox {...section} />;
 
       case "question-prompt":
         return (
@@ -108,55 +121,23 @@ function HomeGroupLessonDisplay({ lessonData }) {
         );
 
       case "list-cards":
-        return (
-          <ListCards
-            {...section}
-            cards={section.cards.map(card => ({
-              ...card,
-              title: <TokenRenderer tokens={card.title} />,
-              content: <TokenRenderer tokens={card.content} />,
-            }))}
-          />
-        );
+        return <ListCards {...section} />;
 
       case "timeline":
-        return (
-          <Timeline
-            {...section}
-            events={section.events.map(event => ({
-              ...event,
-              title: <TokenRenderer tokens={event.title} />,
-              description: <TokenRenderer tokens={event.description} />,
-              verses: event.verses
-                ? // Спрощення: ми передаємо кожен рядок як окремий токен
-                  event.verses.map((verseString, verseIndex) => (
-                    <TokenRenderer key={verseIndex} tokens={verseString} />
-                  ))
-                : null,
-            }))}
-          />
-        );
+        // ✅ ВИПРАВЛЕННЯ: Передаємо секцію без змін, дозволяючи Timeline обробити її самостійно.
+        return <Timeline {...section} />;
 
       case "contrast-section":
-        return (
-          <ContrastDisplay
-            {...section}
-            items={section.items.map(item => ({
-              ...item,
-              // ✅ ВИПРАВЛЕННЯ: тепер item.type вже є рядком завдяки fix у deepParseTags
-              heading: <TokenRenderer tokens={item.heading} />,
-              content: <TokenRenderer tokens={item.content} />,
-            }))}
-          />
-        );
+        // ✅ ВИПРАВЛЕННЯ: Передаємо секцію без змін, щоб ContrastDisplay обробив дані самостійно.
+        return <ContrastDisplay {...section} />;
 
       case "diagram":
         return (
           <Diagram
             key={section.id}
             title={section.title}
-            description={section.description}
-            // ✅ ВИПРАВЛЕННЯ: chartType тепер є рядком, беремо його без [0]
+            // ✅ ВИПРАВЛЕННЯ: Передаємо TokenRenderer як prop для description
+            description={<TokenRenderer tokens={section.description} />}
             chartType={section.chartType}
             chartData={section.chartData}
             chartOptions={section.chartOptions}
@@ -183,6 +164,8 @@ function HomeGroupLessonDisplay({ lessonData }) {
             caption={<TokenRenderer tokens={section.caption} />}
           />
         );
+      case "list":
+        return <List {...section} />;
 
       default:
         console.warn("Невідомий тип секції:", section.type);
@@ -211,7 +194,9 @@ function HomeGroupLessonDisplay({ lessonData }) {
       <MainContentWrapper>
         <Card>
           <HomeGroupLessonTextWrapper>
-            {description && <TokenRenderer tokens={description} />}
+            <StyledDescription>
+              <TokenRenderer tokens={description} />
+            </StyledDescription>
             {sections.map((section, index) => (
               <SectionContainer key={index}>{renderSectionContent(section)}</SectionContainer>
             ))}

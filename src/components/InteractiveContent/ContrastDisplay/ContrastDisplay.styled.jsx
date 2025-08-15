@@ -66,8 +66,9 @@ export const ContrastItem = styled.div`
 export const ItemHeading = styled.h4`
   font-size: ${({ theme }) => theme.fontSizes.large}; // ОНОВЛЕНО: Використано fontSizes
   margin-bottom: ${({ theme }) => theme.spacing.small}; // ОНОВЛЕНО: Використано spacing
-  display: flex;
-  align-items: center;
+
+  flex-wrap: wrap;
+  word-break: break-word;
   color: ${props => {
     if (props.$type === "positive") return props.theme.colors.positiveText; // ОНОВЛЕНО
     if (props.$type === "negative") return props.theme.colors.negativeText; // ОНОВЛЕНО

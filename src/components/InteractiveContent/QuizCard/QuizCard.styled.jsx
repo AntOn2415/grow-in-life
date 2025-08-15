@@ -8,7 +8,6 @@ export const StyledQuizCard = styled.div`
   padding: ${({ theme }) => theme.spacing.medium};
   margin-bottom: ${({ theme }) => theme.spacing.medium};
   box-shadow: ${({ theme }) => theme.shadows.small};
-
   transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
     box-shadow 0.25s ease-in-out; // ДОДАНО: Переходи для фону, межі та тіні
 
@@ -24,9 +23,9 @@ export const QuizQuestion = styled.h4`
   margin-bottom: ${({ theme }) => theme.spacing.small};
   color: ${({ theme }) => theme.colors.color};
   cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+  flex-wrap: wrap;
+  word-break: break-word;
   transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту запитання
 
   ${({ theme }) => theme.media.down("sm")`

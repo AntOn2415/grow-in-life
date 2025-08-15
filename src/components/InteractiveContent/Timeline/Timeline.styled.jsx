@@ -91,14 +91,10 @@ export const EventTitle = styled.h4`
   transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору
 
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
 
+  // ✅ ВИПРАВЛЕННЯ: Змінюємо flex-direction на row
   & > div:first-of-type {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: wrap; // Додаємо, щоб текст переносився на новий рядок, якщо не вміщається
     flex-grow: 1;
     margin-right: 10px;
   }
@@ -128,6 +124,7 @@ export const EventYear = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.small};
   color: ${({ theme }) => theme.colors.colorSecondary};
   margin-bottom: ${({ theme }) => theme.spacing.xxsmall};
+  margin-right: ${({ theme }) => theme.spacing.xxsmall};
   white-space: nowrap;
   font-weight: normal;
   transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору

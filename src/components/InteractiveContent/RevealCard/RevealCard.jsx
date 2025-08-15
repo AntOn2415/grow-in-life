@@ -2,8 +2,10 @@
 import React, { useState } from "react";
 //import { motion } from "framer-motion";
 import { StyledRevealCard, CardTitle, CardAnswerContainer, CardContent } from "./RevealCard.styled";
+import TokenRenderer from "../../TokenRenderer/TokenRenderer";
 
-export default function RevealCard({ cardData }) {
+// ✅ Тут компонент приймає окремі пропси, як ми виправляли в HomeGroupLessonDisplay
+export default function RevealCard({ id, emoji, title, content }) {
   const [isRevealed, setIsRevealed] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -15,9 +17,10 @@ export default function RevealCard({ cardData }) {
       onHoverEnd={() => setIsHovered(false)}
       onClick={toggleReveal}
     >
+      {/* ✅ СЕМАНТИЧНЕ ВИПРАВЛЕННЯ: Використовуємо тег h4 замість спанів */}
       <CardTitle>
-        <span>{cardData.emoji}</span>
-        <span>{cardData.title}</span>
+        {emoji && <span>{emoji}</span>}
+        <TokenRenderer tokens={title} />
       </CardTitle>
 
       <CardAnswerContainer
@@ -30,7 +33,7 @@ export default function RevealCard({ cardData }) {
           animate={{ opacity: 1, backdropFilter: isRevealed ? "blur(0px)" : "blur(8px)" }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
-          {cardData.content}
+          <TokenRenderer tokens={content} />
         </CardContent>
       </CardAnswerContainer>
     </StyledRevealCard>
