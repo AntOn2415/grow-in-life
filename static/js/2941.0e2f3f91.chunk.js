@@ -1,4 +1,4 @@
-"use strict";(self.webpackChunkgrow_in_life=self.webpackChunkgrow_in_life||[]).push([[2941],{2941:(e,t,r)=>{r.r(t),r.d(t,{default:()=>ut});var o=r(5043),n=r(9615),i=r(4574);const s=i.Ay.div`
+"use strict";(self.webpackChunkgrow_in_life=self.webpackChunkgrow_in_life||[]).push([[2941],{2941:(e,t,r)=>{r.r(t),r.d(t,{default:()=>gt});var o=r(5043),n=r(9615),i=r(4574);const s=i.Ay.div`
   margin: 0;
   background-color: ${e=>{let{theme:t}=e;return t.colors.background}};
   transition: background-color 0.25s ease-in-out;
@@ -346,7 +346,7 @@
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     padding: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
   `}}
-`,V=e=>{let{question:t,answer:r,emoji:n}=e;const[i,s]=(0,o.useState)(!1);return(0,m.jsxs)(L,{children:[(0,m.jsx)(_,{children:n||"\u2753"}),(0,m.jsx)(H,{children:t}),r&&(0,m.jsx)(W,{onClick:()=>{s(!i)},children:i?"\u0421\u0445\u043e\u0432\u0430\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u044c":"\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u044c"}),(0,m.jsx)(q.N,{children:i&&r&&(0,m.jsx)(P.P.div,{initial:{height:0,opacity:0,overflow:"hidden"},animate:{height:"auto",opacity:1},exit:{height:0,opacity:0},transition:{duration:.25,ease:[.4,0,.2,1]},children:(0,m.jsx)(F,{children:r})})})]})},N=i.Ay.div`
+`,N=e=>{let{question:t,answer:r,emoji:n}=e;const[i,s]=(0,o.useState)(!1);return(0,m.jsxs)(L,{children:[(0,m.jsx)(_,{children:n||"\u2753"}),(0,m.jsx)(H,{children:t}),r&&(0,m.jsx)(W,{onClick:()=>{s(!i)},children:i?"\u0421\u0445\u043e\u0432\u0430\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u044c":"\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u044c"}),(0,m.jsx)(q.N,{children:i&&r&&(0,m.jsx)(P.P.div,{initial:{height:0,opacity:0,overflow:"hidden"},animate:{height:"auto",opacity:1},exit:{height:0,opacity:0},transition:{duration:.25,ease:[.4,0,.2,1]},children:(0,m.jsx)(F,{children:r})})})]})},V=i.Ay.div`
   margin-top: ${e=>{let{theme:t}=e;return t.spacing.large}};
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}};
   width: 100%;
@@ -426,13 +426,13 @@
   line-height: 1;
   filter: grayscale(10%);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-`,X=i.Ay.h3`
+`,Q=i.Ay.h3`
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.large}};
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
   margin: 0;
   line-height: 1.3;
   transition: color 0.25s ease-in-out;
-`,J=i.Ay.div`
+`,X=i.Ay.div`
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
   line-height: 1.6;
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
@@ -450,7 +450,7 @@
   p:last-child {
     margin-bottom: 0;
   }
-`,Q=i.Ay.div`
+`,J=i.Ay.div`
   position: absolute;
   bottom: 0;
   left: 0;
@@ -507,15 +507,33 @@
     color: ${e=>{let{theme:t}=e;return t.colors.hoverBtn}};
     transform: ${e=>{let{isExpanded:t}=e;return t?"translateY(-2px)":"translateY(2px)"}};
   }
-`,te=(e,t)=>{switch(t.type){case"ACTIVATE_ROW":return t.payload.rowIndex;case"DEACTIVATE_ROW":return null;default:return e}},re=160,oe=o.memo(e=>{let{card:t,index:r,isExpanded:n,toggleExpand:i,collapseCard:s,handleRowBlur:l}=e;const a=(0,o.useRef)(null),[c,d]=(0,o.useState)(!1),[u,h]=(0,o.useState)(re);return(0,o.useEffect)(()=>{const e=()=>{if(a.current){const{scrollHeight:e}=a.current;d(e>re),h(e>re?e:re)}};e(),window.addEventListener("resize",e);const t=setTimeout(e,150);return()=>{window.removeEventListener("resize",e),clearTimeout(t)}},[t.content]),(0,o.useEffect)(()=>{n&&a.current?h(a.current.scrollHeight):n||h(re)},[n]),(0,m.jsxs)(U,{onBlur:l,tabIndex:c?0:-1,"aria-expanded":n,children:[(0,m.jsxs)(Z,{children:[(0,m.jsx)(G,{role:"img","aria-label":`Emoji for ${t.title}`,children:t.emoji}),(0,m.jsx)(X,{children:(0,m.jsx)(w.A,{tokens:t.title})})]}),(0,m.jsx)(P.P.div,{layout:!0,initial:{height:re},animate:{height:n?u:re,opacity:1},transition:{duration:.25,ease:[.4,0,.2,1]},style:{overflow:"hidden",width:"100%"},children:(0,m.jsx)(J,{ref:a,isExpanded:n,id:`card-content-${r}`,children:(0,m.jsx)(w.A,{tokens:t.content})})}),c&&(0,m.jsx)(Q,{isExpanded:n,children:(0,m.jsx)(ee,{onClick:e=>{e.stopPropagation(),i(r)},"aria-controls":`card-content-${r}`,tabIndex:0,isExpanded:n,children:n?(0,m.jsx)(m.Fragment,{children:"\u0417\u0433\u043e\u0440\u043d\u0443\u0442\u0438"}):(0,m.jsx)(m.Fragment,{children:"\u0427\u0438\u0442\u0430\u0442\u0438 \u0434\u0430\u043b\u0456"})})})]})}),ne=e=>{let{title:t,cards:r}=e;const[n,i]=(0,o.useReducer)(te,null),[s,l]=(0,o.useState)(3),a=(0,o.useRef)(null),c=(0,o.useCallback)(()=>window.innerWidth<=768?1:window.innerWidth<=1200?2:3,[]);(0,o.useEffect)(()=>{const e=()=>{l(c()),i({type:"DEACTIVATE_ROW"})};return window.addEventListener("resize",e),l(c()),()=>{window.removeEventListener("resize",e)}},[c]);const d=(0,o.useCallback)(e=>{const t=Math.floor(e/s);i(n===t?{type:"DEACTIVATE_ROW"}:{type:"ACTIVATE_ROW",payload:{rowIndex:t}})},[n,s]),u=(0,o.useCallback)(e=>{a.current&&!a.current.contains(e.relatedTarget)&&i({type:"DEACTIVATE_ROW"})},[]),h=(0,o.useCallback)(e=>{i({type:"DEACTIVATE_ROW"})},[]);return(0,m.jsxs)(N,{children:[t&&(0,m.jsx)(K,{children:(0,m.jsx)(w.A,{tokens:t})}),(0,m.jsxs)(M,{ref:a,children:[" ",r.map((e,t)=>{const r=Math.floor(t/s),o=n===r;return(0,m.jsx)(oe,{card:e,index:t,isExpanded:o,toggleExpand:d,collapseCard:h,handleRowBlur:u},t)})]})]})},ie=i.Ay.ul`
-  list-style-type: disc; // Або circle, square, none
-  padding-left: 20px;
-  margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.xlarge}};
-  line-height: 1.6;
-  color: ${e=>{let{theme:t}=e;return t.colors.color}};
+`,te=(e,t)=>{switch(t.type){case"ACTIVATE_ROW":return t.payload.rowIndex;case"DEACTIVATE_ROW":return null;default:return e}},re=160,oe=o.memo(e=>{let{card:t,index:r,isExpanded:n,toggleExpand:i,collapseCard:s,handleRowBlur:l}=e;const a=(0,o.useRef)(null),[c,d]=(0,o.useState)(!1),[u,h]=(0,o.useState)(re);return(0,o.useEffect)(()=>{const e=()=>{if(a.current){const{scrollHeight:e}=a.current;d(e>re),h(e>re?e:re)}};e(),window.addEventListener("resize",e);const t=setTimeout(e,150);return()=>{window.removeEventListener("resize",e),clearTimeout(t)}},[t.content]),(0,o.useEffect)(()=>{n&&a.current?h(a.current.scrollHeight):n||h(re)},[n]),(0,m.jsxs)(U,{onBlur:l,tabIndex:c?0:-1,"aria-expanded":n,children:[(0,m.jsxs)(Z,{children:[(0,m.jsx)(G,{role:"img","aria-label":`Emoji for ${t.title}`,children:t.emoji}),(0,m.jsx)(Q,{children:(0,m.jsx)(w.A,{tokens:t.title})})]}),(0,m.jsx)(P.P.div,{layout:!0,initial:{height:re},animate:{height:n?u:re,opacity:1},transition:{duration:.25,ease:[.4,0,.2,1]},style:{overflow:"hidden",width:"100%"},children:(0,m.jsx)(X,{ref:a,isExpanded:n,id:`card-content-${r}`,children:(0,m.jsx)(w.A,{tokens:t.content})})}),c&&(0,m.jsx)(J,{isExpanded:n,children:(0,m.jsx)(ee,{onClick:e=>{e.stopPropagation(),i(r)},"aria-controls":`card-content-${r}`,tabIndex:0,isExpanded:n,children:n?(0,m.jsx)(m.Fragment,{children:"\u0417\u0433\u043e\u0440\u043d\u0443\u0442\u0438"}):(0,m.jsx)(m.Fragment,{children:"\u0427\u0438\u0442\u0430\u0442\u0438 \u0434\u0430\u043b\u0456"})})})]})}),ne=e=>{let{title:t,cards:r}=e;const[n,i]=(0,o.useReducer)(te,null),[s,l]=(0,o.useState)(3),a=(0,o.useRef)(null),c=(0,o.useCallback)(()=>window.innerWidth<=768?1:window.innerWidth<=1200?2:3,[]);(0,o.useEffect)(()=>{const e=()=>{l(c()),i({type:"DEACTIVATE_ROW"})};return window.addEventListener("resize",e),l(c()),()=>{window.removeEventListener("resize",e)}},[c]);const d=(0,o.useCallback)(e=>{const t=Math.floor(e/s);i(n===t?{type:"DEACTIVATE_ROW"}:{type:"ACTIVATE_ROW",payload:{rowIndex:t}})},[n,s]),u=(0,o.useCallback)(e=>{a.current&&!a.current.contains(e.relatedTarget)&&i({type:"DEACTIVATE_ROW"})},[]),h=(0,o.useCallback)(e=>{i({type:"DEACTIVATE_ROW"})},[]);return(0,m.jsxs)(V,{children:[t&&(0,m.jsx)(K,{children:(0,m.jsx)(w.A,{tokens:t})}),(0,m.jsxs)(M,{ref:a,children:[" ",r.map((e,t)=>{const r=Math.floor(t/s),o=n===r;return(0,m.jsx)(oe,{card:e,index:t,isExpanded:o,toggleExpand:d,collapseCard:h,handleRowBlur:u},t)})]})]})},ie=i.Ay.ul`
+  padding-left: ${e=>{let{theme:t}=e;return t.spacing.medium}};
+
+  ${e=>{let{theme:t}=e;return t.media.down("sm")`
+    padding-left: ${e=>{let{theme:t}=e;return t.spacing.large}};
+  `}}
 `,se=i.Ay.li`
-  margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
-`,le=e=>{let{title:t,items:r,heading:o}=e;return(0,m.jsxs)(m.Fragment,{children:[(t||o)&&(0,m.jsxs)(c.A,{as:o?"h4":"h3",size:o?"medium":"default",children:[t&&(0,m.jsx)(w.A,{tokens:t}),o&&(0,m.jsx)("span",{style:{display:"block"},children:(0,m.jsx)(w.A,{tokens:o})})]}),(0,m.jsx)(ie,{children:r.map((e,t)=>(0,m.jsx)(se,{children:(0,m.jsx)(w.A,{tokens:e})},t))})]})},ae=i.Ay.div`
+  font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
+  color: ${e=>{let{theme:t}=e;return t.colors.color}};
+  line-height: 1.5;
+  margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.xxsmall}};
+`,le=i.Ay.div`
+  display: flex;
+  // ✅ Змінюємо вирівнювання на baseline
+  align-items: baseline;
+  width: 100%;
+`,ae=i.Ay.span`
+  margin-right: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
+  font-size: 0.5em;
+
+  // ✅ Повертаємо transform, щоб точно підігнати позицію іконки до тексту
+  transform: translateY(-0.1em);
+`,ce=i.Ay.div``;var de=r(3204);const ue=e=>{let{title:t,items:r,heading:o}=e;return(0,m.jsxs)(m.Fragment,{children:[(t||o)&&(0,m.jsxs)(c.A,{as:o?"h4":"h3",size:o?"medium":"default",children:[t&&(0,m.jsx)(w.A,{tokens:t}),o&&(0,m.jsx)("span",{style:{display:"block"},children:(0,m.jsx)(w.A,{tokens:o})})]}),(0,m.jsx)(ie,{children:r.map((e,t)=>(0,m.jsx)(se,{children:(0,m.jsxs)(le,{children:[(0,m.jsx)(ae,{children:(0,m.jsx)(de.Qp1,{})}),(0,m.jsxs)(ce,{children:[" ",(0,m.jsx)(w.A,{tokens:e})]})]})},t))})]})},me=i.Ay.div`
   margin: ${e=>{let{theme:t}=e;return t.spacing.xlarge}} 0;
   position: relative;
   padding-left: 30px;
@@ -543,7 +561,7 @@
       left: 9px;
     }
   `}}
-`,ce=(i.Ay.div`
+`,he=(i.Ay.div`
   display: none;
 `,(0,i.Ay)(P.P.div)`
   position: relative;
@@ -555,7 +573,7 @@
     padding-left: 20px;
     margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}};
   `}}
-`),de=(0,i.Ay)(P.P.div)`
+`),pe=(0,i.Ay)(P.P.div)`
   position: absolute;
   left: 0;
   top: 5px;
@@ -573,7 +591,7 @@
     height: 10px;
     border: 1px solid ${e=>{let{theme:t}=e;return t.colors.background}};
   `}}
-`,ue=(0,i.Ay)(P.P.div)`
+`,ge=(0,i.Ay)(P.P.div)`
   background-color: ${e=>{let{theme:t}=e;return t.colors.cardBackground}};
   padding: ${e=>{let{theme:t}=e;return t.spacing.small}};
   border-radius: ${e=>{let{theme:t}=e;return t.borderRadius.small}};
@@ -586,7 +604,7 @@
   position: relative;
   cursor: pointer;
   transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out; // ДОДАНО: Перехід для фону і рамки
-`,me=i.Ay.h4`
+`,xe=i.Ay.h4`
   color: ${e=>{let{theme:t}=e;return t.colors.accentColor}};
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.large}};
   margin: 0;
@@ -622,7 +640,7 @@
         font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
     }
   `}}
-`,he=i.Ay.span`
+`,fe=i.Ay.span`
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.small}};
   color: ${e=>{let{theme:t}=e;return t.colors.colorSecondary}};
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.xxsmall}};
@@ -634,7 +652,7 @@
   ${e=>{let{theme:t}=e;return t.media.down("sm")`
     font-size: ${e=>{let{theme:t}=e;return t.fontSizes.xsmall}};
   `}}
-`,pe=(i.Ay.p`
+`,be=(i.Ay.p`
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
   color: ${e=>{let{theme:t}=e;return t.colors.color}};
   line-height: 1.5;
@@ -659,12 +677,12 @@
     margin-top: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
     padding-top: ${e=>{let{theme:t}=e;return t.spacing.xxsmall}};
   `}}
-`),ge=(0,i.Ay)(P.P.div)`
+`),$e=(0,i.Ay)(P.P.div)`
   overflow: hidden;
-`,xe=(0,i.Ay)(P.P.div)`
+`,ye=(0,i.Ay)(P.P.div)`
   padding-top: 0.8rem; /* Перемістили padding-top сюди */
   /* Зміни в opacity можна застосовувати тут, якщо потрібно */
-`,fe=e=>{let{isOpen:t,children:r,...o}=e;return(0,m.jsx)(q.N,{initial:!1,children:t&&(0,m.jsx)(ge,{initial:"collapsed",animate:"open",exit:"collapsed",variants:{open:{height:"auto",opacity:1},collapsed:{height:0,opacity:0}},transition:{duration:.25,ease:[.4,0,.2,1]},layout:!0,...o,children:(0,m.jsx)(xe,{initial:{opacity:0},animate:{opacity:1},exit:{opacity:0},transition:{duration:.2,delay:.1},children:r})})})},be=e=>{let{title:t,events:r}=e;const{currentTheme:n}=(0,A.D)(),[i,s]=(0,o.useState)(null),l=e=>{e.stopPropagation()};return(0,m.jsxs)(ae,{children:[t&&(0,m.jsx)(c.A,{as:"h3",size:"default",children:(0,m.jsx)(w.A,{tokens:t})}),r.map((e,t)=>(0,m.jsxs)(ce,{initial:{opacity:0,y:50},whileInView:{opacity:1,y:0},viewport:{once:!0,amount:.5},transition:{duration:.5,delay:.1*t},children:[(0,m.jsx)(de,{animate:i===t?{scale:[1,1.2,1],backgroundColor:n.accentColor}:{scale:1,backgroundColor:n.accentColor},transition:{duration:.5,repeat:i===t?1/0:0,repeatType:"loop"}}),(0,m.jsxs)(ue,{onClick:()=>(e=>{s(i===e?null:e)})(t),whileHover:{scale:1.03},transition:{scale:{duration:.15,ease:"easeOut"},backgroundColor:{duration:.2,ease:"easeOut"}},animate:{scale:i===t?1.03:1,backgroundColor:i===t?n.hoverBg:n.cardBackground},children:[(0,m.jsxs)(me,{style:{cursor:"pointer"},children:[(0,m.jsxs)("div",{children:[e.year&&(0,m.jsx)(he,{children:e.year}),(0,m.jsx)(w.A,{tokens:e.title})]}),(0,m.jsx)(P.P.span,{initial:!1,animate:{rotate:i===t?90:0},transition:{duration:.2},style:{marginLeft:"10px",display:"inline-block"},children:"\u25b6"})]}),(0,m.jsxs)(fe,{isOpen:i===t,children:[e.description&&(0,m.jsx)("div",{style:{padding:"0 10px",fontSize:"0.9em"},children:Array.isArray(e.description)?e.description.map((e,t)=>(0,m.jsx)(w.A,{tokens:e},t)):(0,m.jsx)(w.A,{tokens:e.description})}),e.verses&&e.verses.length>0&&(0,m.jsx)(pe,{onClick:l,children:e.verses.map((e,t)=>(0,m.jsx)(w.A,{tokens:e},t))})]})]})]},t))]})},$e=i.Ay.div`
+`,je=e=>{let{isOpen:t,children:r,...o}=e;return(0,m.jsx)(q.N,{initial:!1,children:t&&(0,m.jsx)($e,{initial:"collapsed",animate:"open",exit:"collapsed",variants:{open:{height:"auto",opacity:1},collapsed:{height:0,opacity:0}},transition:{duration:.25,ease:[.4,0,.2,1]},layout:!0,...o,children:(0,m.jsx)(ye,{initial:{opacity:0},animate:{opacity:1},exit:{opacity:0},transition:{duration:.2,delay:.1},children:r})})})},we=e=>{let{title:t,events:r}=e;const{currentTheme:n}=(0,A.D)(),[i,s]=(0,o.useState)(null),l=e=>{e.stopPropagation()};return(0,m.jsxs)(me,{children:[t&&(0,m.jsx)(c.A,{as:"h3",size:"default",children:(0,m.jsx)(w.A,{tokens:t})}),r.map((e,t)=>(0,m.jsxs)(he,{children:[(0,m.jsx)(pe,{animate:i===t?{scale:[1,1.2,1],backgroundColor:n.accentColor}:{scale:1,backgroundColor:n.accentColor},transition:{duration:.5,repeat:i===t?1/0:0,repeatType:"loop"}}),(0,m.jsxs)(ge,{onClick:()=>(e=>{s(i===e?null:e)})(t),whileHover:{scale:1.03},transition:{scale:{duration:.15,ease:"easeOut"},backgroundColor:{duration:.2,ease:"easeOut"}},animate:{scale:i===t?1.03:1,backgroundColor:i===t?n.hoverBg:n.cardBackground},children:[(0,m.jsxs)(xe,{style:{cursor:"pointer"},children:[(0,m.jsxs)("div",{children:[e.year&&(0,m.jsx)(fe,{children:e.year}),(0,m.jsx)(w.A,{tokens:e.title})]}),(0,m.jsx)(P.P.span,{initial:!1,animate:{rotate:i===t?90:0},transition:{duration:.2},style:{marginLeft:"10px",display:"inline-block"},children:"\u25b6"})]}),(0,m.jsxs)(je,{isOpen:i===t,children:[e.description&&(0,m.jsx)("div",{style:{padding:"0 10px",fontSize:"0.9em"},children:Array.isArray(e.description)?e.description.map((e,t)=>(0,m.jsx)(w.A,{tokens:e},t)):(0,m.jsx)(w.A,{tokens:e.description})}),e.verses&&e.verses.length>0&&(0,m.jsx)(be,{onClick:l,children:e.verses.map((e,t)=>(0,m.jsx)(w.A,{tokens:e},t))})]})]})]},t))]})},ke=i.Ay.div`
   margin-top: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано spacing
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.large}}; // ОНОВЛЕНО: Використано spacing
   width: 100%;
@@ -674,14 +692,14 @@
   ${e=>{let{theme:t}=e;return t.media.up("sm")` // ОНОВЛЕНО: Використано медіазапит з теми
     padding: 0;
   `}}
-`,ye=i.Ay.div`
+`,ve=i.Ay.div`
   display: flex;
   flex-wrap: wrap;
   gap: ${e=>{let{theme:t}=e;return t.spacing.medium}}; // ОНОВЛЕНО: Використано spacing
   justify-content: center;
   align-items: stretch;
   width: 100%;
-`,je=i.Ay.div`
+`,Ae=i.Ay.div`
   flex: 1 1 auto;
   max-width: calc(50% - ${e=>{let{theme:t}=e;return t.spacing.small}}); // ОНОВЛЕНО: Використано spacing
 
@@ -708,17 +726,17 @@
     max-width: 100%;
   `}}
   min-width: 280px;
-`,we=i.Ay.h4`
+`,ze=i.Ay.h4`
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.large}}; // ОНОВЛЕНО: Використано fontSizes
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.small}}; // ОНОВЛЕНО: Використано spacing
 
   flex-wrap: wrap;
   word-break: break-word;
   color: ${e=>"positive"===e.$type?e.theme.colors.positiveText:"negative"===e.$type?e.theme.colors.negativeText:"neutral1"===e.$type?e.theme.colors.neutralText1:"neutral2"===e.$type?e.theme.colors.neutralText2:e.theme.colors.color};
-`,ke=i.Ay.span`
+`,Ce=i.Ay.span`
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.xlarge}}; // ОНОВЛЕНО: Використано fontSizes
   margin-right: ${e=>{let{theme:t}=e;return t.spacing.xsmall}}; // ОНОВЛЕНО: Використано spacing
-`,ve=i.Ay.div`
+`,Se=i.Ay.div`
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}}; // ОНОВЛЕНО: Використано fontSizes
   line-height: 1.6;
   color: ${e=>{let{theme:t}=e;return t.colors.color}}; // ОНОВЛЕНО: Використано theme.colors
@@ -729,7 +747,7 @@
   p:last-child {
     margin-bottom: 0;
   }
-`,Ae=e=>{let{title:t,items:r}=e;return!r||r.length<2?null:(0,m.jsxs)($e,{children:[t&&(0,m.jsx)(c.A,{as:"h3",children:(0,m.jsx)(w.A,{tokens:t})}),(0,m.jsx)(ye,{children:r.map((e,t)=>(0,m.jsxs)(je,{$type:e.type,children:[(0,m.jsxs)(we,{$type:e.type,children:[e.emoji&&(0,m.jsx)(ke,{children:e.emoji}),(0,m.jsx)(w.A,{tokens:e.heading})]}),(0,m.jsx)(ve,{children:(0,m.jsx)(w.A,{tokens:e.content})})]},t))})]})},ze=i.Ay.section`
+`,Ye=e=>{let{title:t,items:r}=e;return!r||r.length<2?null:(0,m.jsxs)(ke,{children:[t&&(0,m.jsx)(c.A,{as:"h3",children:(0,m.jsx)(w.A,{tokens:t})}),(0,m.jsx)(ve,{children:r.map((e,t)=>(0,m.jsxs)(Ae,{$type:e.type,children:[(0,m.jsxs)(ze,{$type:e.type,children:[e.emoji&&(0,m.jsx)(Ce,{children:e.emoji}),(0,m.jsx)(w.A,{tokens:e.heading})]}),(0,m.jsx)(Se,{children:(0,m.jsx)(w.A,{tokens:e.content})})]},t))})]})},Be=i.Ay.section`
   margin: ${e=>{let{theme:t}=e;return t.spacing.large}} 0;
   padding: ${e=>{let{theme:t}=e;return t.spacing.medium}};
   background-color: ${e=>{let{theme:t}=e;return t.colors.background}};
@@ -764,7 +782,7 @@
       text-align: left;
     `}}
   }
-`,Ce=i.Ay.div`
+`,Te=i.Ay.div`
   flex: 2;
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.medium}};
   line-height: 1.6;
@@ -786,7 +804,7 @@
   ${e=>{let{theme:t}=e;return t.media.up("md")`
     padding-right: ${e=>{let{theme:t}=e;return t.spacing.medium}};
   `}}
-`,Se=i.Ay.div`
+`,Re=i.Ay.div`
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -803,15 +821,15 @@
   ${e=>{let{theme:t}=e;return t.media.up("md")`
     max-width: 45%;
   `}}
-`,Ye=i.Ay.img`
+`,Ee=i.Ay.img`
   max-width: 100%;
   height: auto;
   border-radius: ${e=>{let{theme:t}=e;return t.borderRadius.extraSmall}};
   margin-bottom: ${e=>{let{theme:t}=e;return t.spacing.xsmall}};
-`,Be=i.Ay.figcaption`
+`,Ie=i.Ay.figcaption`
   font-size: ${e=>{let{theme:t}=e;return t.fontSizes.small}};
   color: ${e=>{let{theme:t}=e;return t.colors.textColorLight}};
   line-height: 1.4;
   transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту
-`,Te=e=>{let{title:t,content:r,imageUrl:o,altText:n,caption:i,imagePosition:s}=e;return r||o?(0,m.jsxs)(ze,{imagePosition:s,children:[t&&(0,m.jsx)(c.A,{as:"h3",children:t}),(0,m.jsxs)("div",{className:"content-area",children:[r&&(0,m.jsx)(Ce,{children:r.map((e,t)=>(0,m.jsx)(w.A,{tokens:e},t))}),o&&(0,m.jsxs)(Se,{children:[(0,m.jsx)(Ye,{src:o,alt:n}),i&&(0,m.jsx)(Be,{children:i})]})]})]}):null};var Re=r(8056);const Ee=function(e){let{lessonData:t}=e;if(!t)return(0,m.jsx)("p",{children:"\u0417\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u0443\u0440\u043e\u043a\u0443 \u0434\u043e\u043c\u0430\u0448\u043d\u044c\u043e\u0457 \u0433\u0440\u0443\u043f\u0438..."});const{title:r,author:o,book:n,chapter:i,verses:s,date:l,duration:h,theme:g,tags:x,description:f,sections:b}=t,$=e=>{switch(e.type){case"text":return(0,m.jsxs)(m.Fragment,{children:[e.title&&(0,m.jsx)(c.A,{as:e.subtitle?"h3":"h4",size:e.subtitle?"medium":"default",children:(0,m.jsx)(w.A,{tokens:e.title})}),e.subtitle&&(0,m.jsx)(c.A,{as:"h3",size:"small",children:(0,m.jsx)(w.A,{tokens:e.subtitle})}),e.content.map((e,t)=>(0,m.jsx)("p",{children:(0,m.jsx)(w.A,{tokens:e})},t))]});case"quiz":return(0,m.jsx)(d.A,{quizData:{...e,question:(0,m.jsx)(w.A,{tokens:e.question}),options:e.options.map(e=>({...e,text:(0,m.jsx)(w.A,{tokens:e.text}),rationale:(0,m.jsx)(w.A,{tokens:e.rationale})}))}},e.id);case"reveal-cards":return(0,m.jsxs)(m.Fragment,{children:[e.title&&(0,m.jsx)(c.A,{as:"h3",size:"default",children:(0,m.jsx)(w.A,{tokens:e.title})}),e.cards.map(e=>(0,m.jsx)(u.A,{id:e.id,emoji:e.emoji,title:e.title,content:e.content},e.id))]});case"highlight-box":return(0,m.jsx)(D,{...e});case"question-prompt":return(0,m.jsx)(V,{...e,question:(0,m.jsx)(w.A,{tokens:e.question}),answer:(0,m.jsx)(w.A,{tokens:e.answer})});case"list-cards":return(0,m.jsx)(ne,{...e});case"timeline":return(0,m.jsx)(be,{...e});case"contrast-section":return(0,m.jsx)(Ae,{...e});case"diagram":return(0,m.jsx)(C,{title:e.title,description:(0,m.jsx)(w.A,{tokens:e.description}),chartType:e.chartType,chartData:e.chartData,chartOptions:e.chartOptions},e.id);case"image-placeholder":return(0,m.jsx)(T,{imageUrl:e.imageUrl,altText:e.altText,caption:(0,m.jsx)(w.A,{tokens:e.caption})},e.id);case"description-with-image":return(0,m.jsx)(Te,{...e,title:(0,m.jsx)(w.A,{tokens:e.title}),content:e.content,caption:(0,m.jsx)(w.A,{tokens:e.caption})},e.id);case"list":return(0,m.jsx)(le,{...e});default:return console.warn("\u041d\u0435\u0432\u0456\u0434\u043e\u043c\u0438\u0439 \u0442\u0438\u043f \u0441\u0435\u043a\u0446\u0456\u0457:",e.type),null}};return(0,m.jsxs)(Re.Sg,{children:[(0,m.jsxs)(Re.ae,{children:[(0,m.jsx)("h2",{children:(0,m.jsx)(w.A,{tokens:r})}),(0,m.jsx)(p,{author:o,book:n,chapter:i,verses:s,date:l,duration:h,theme:g,tags:x})]}),(0,m.jsx)(Re.IZ,{children:(0,m.jsx)(a.A,{children:(0,m.jsxs)(Re.tG,{children:[(0,m.jsx)(Re.yO,{children:(0,m.jsx)(w.A,{tokens:f})}),b.map((e,t)=>(0,m.jsx)(Re.nA,{children:$(e)},t))]})})})]})};var Ie=r(6841),Oe=r(5003),De=r(6139);const qe=/\[bold:(.*?)]/,Pe=/\[italic:(.*?)]/,Le=/\[verse:([a-z0-9_]+(?::[\d:,-]+)*):([^\]]+)]/,_e=/\[link:([^:]+):([^\]]+)]/,He=/\[img:([^:]+):([^:]+):([^\]]+)]/,We=/\[highlight:(.*?)]/,Fe=/\[quote:(.*?)]/,Ve=e=>{if("string"!==typeof e)return e;const t=new RegExp(`(${qe.source}|${Pe.source}|${Le.source}|${_e.source}|${He.source}|${We.source}|${Fe.source})`,"gi"),r=[];let o,n=0;for(;null!==(o=t.exec(e));){const t=e.slice(n,o.index);t&&r.push(t);const i=o[0];let s=null;if(qe.test(i)){const e=i.match(qe)[1];s={type:"bold",content:Ve(e)}}else if(Pe.test(i)){const e=i.match(Pe)[1];s={type:"italic",content:Ve(e)}}else if(We.test(i)){const e=i.match(We)[1];s={type:"highlight",content:Ve(e)}}else if(Fe.test(i)){const e=i.match(Fe)[1];s={type:"quote",content:Ve(e)}}else if(Le.test(i)){const e=i.match(Le);s={type:"bible-link",bibleRef:e[1],content:e[2]}}else if(_e.test(i)){const e=i.match(_e);s={type:"link",url:e[1],content:Ve(e[2])}}else if(He.test(i)){const e=i.match(He);s={type:"image",url:e[1],alt:e[2],caption:Ve(e[3])}}s&&r.push(s),n=o.index+i.length}const i=e.slice(n);return i&&r.push(i),r};var Ne=r(2016);const Ke=Ne.RZ(()=>Ne.KC([Ne.Yj(),Ne.YO(Ne.KC([Ne.Yj(),Ne.Ik({type:Ne.eu("bold"),content:Ke}),Ne.Ik({type:Ne.eu("italic"),content:Ke}),Ne.Ik({type:Ne.eu("bible-link"),bibleRef:Ne.Yj(),content:Ne.Yj()}),Ne.Ik({type:Ne.eu("link"),url:Ne.Yj(),content:Ke}),Ne.Ik({type:Ne.eu("image"),url:Ne.Yj(),alt:Ne.Yj(),caption:Ke}),Ne.Ik({type:Ne.eu("highlight"),content:Ke}),Ne.Ik({type:Ne.eu("quote"),content:Ke})]))])),Me=Ne.Ik({type:Ne.Yj(),title:Ke.optional()}),Ue=Me.extend({type:Ne.eu("text"),subtitle:Ke.optional(),content:Ne.YO(Ke)}),Ze=Me.extend({type:Ne.eu("list"),heading:Ke.optional(),items:Ne.YO(Ke)}),Ge=Me.extend({type:Ne.eu("list-cards"),cards:Ne.YO(Ne.Ik({title:Ke,content:Ke,emoji:Ne.Yj().optional()}))}),Xe=Me.extend({type:Ne.eu("highlight-box"),content:Ke,emoji:Ne.Yj().optional()}),Je=Me.extend({type:Ne.eu("question-prompt"),question:Ke,answer:Ke.optional(),emoji:Ne.Yj().optional()}),Qe=Me.extend({type:Ne.eu("list-cards"),cards:Ne.YO(Ne.Ik({title:Ke.optional(),content:Ke,emoji:Ne.Yj().optional()}))}),et=Me.extend({type:Ne.eu("timeline"),events:Ne.YO(Ne.Ik({year:Ne.Yj().optional(),title:Ke,description:Ke.optional(),verses:Ne.YO(Ke).optional()}))}),tt=Me.extend({type:Ne.eu("reveal-cards"),cards:Ne.YO(Ne.Ik({id:Ne.Yj(),emoji:Ne.Yj().optional(),title:Ke.optional(),content:Ke}))}),rt=Me.extend({type:Ne.eu("quiz"),id:Ne.Yj(),question:Ke,options:Ne.YO(Ne.Ik({text:Ke,isCorrect:Ne.zM(),rationale:Ke.optional()})),hint:Ke.optional()}),ot=Me.extend({type:Ne.eu("diagram"),chartType:Ne.Yj(),description:Ke.optional(),chartData:Ne.bz(),chartOptions:Ne.bz()}),nt=Me.extend({type:Ne.eu("image-placeholder"),description:Ke.optional(),imageUrl:Ne.Yj(),altText:Ne.Yj().optional(),caption:Ke.optional()}),it=Me.extend({type:Ne.eu("description-with-image"),content:Ne.YO(Ke),imageUrl:Ne.Yj(),altText:Ne.Yj().optional(),caption:Ke.optional(),imagePosition:Ne.Yj().optional()}),st=Me.extend({type:Ne.eu("contrast-section"),items:Ne.YO(Ne.Ik({heading:Ke,content:Ke,emoji:Ne.Yj().optional(),type:Ne.Yj()}))}),lt=Ne.Ik({id:Ne.Yj(),title:Ke,shortTitle:Ne.Yj(),book:Ne.Yj(),bookInternalKey:Ne.Yj(),chapter:Ne.Yj(),verses:Ne.Yj(),date:Ne.Yj(),author:Ne.Yj(),duration:Ne.Yj(),tags:Ne.YO(Ne.Yj()),description:Ke.optional(),sections:Ne.YO(Ne.KC([Ue,Ge,Ze,Xe,Je,Qe,et,tt,rt,ot,nt,it,st]))}),at=["title","shortTitle","description","content","question","answer","text","heading","caption","rationale","verses","items","subtitle"],ct=function(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;if("string"===typeof e){if(at.includes(t)){const t=Ve(e);return Array.isArray(t)?t:[t]}return e}if(Array.isArray(e))return e.map(e=>ct(e,t));if("object"===typeof e&&null!==e){const t={};for(const r in e)t[r]=ct(e[r],r);return t}return e},dt=()=>{const{mainRef:e}=(0,n.KC)(),{selectedHomeGroupLesson:t,setSelectedHomeGroupLesson:r}=(0,Oe.t)(),[i,a]=(0,o.useState)(null),[c,d]=(0,o.useState)(null),[u,h]=(0,o.useState)(!0),p=(0,n.zy)(),g=(0,o.useRef)(!0);return(0,o.useEffect)(()=>{if(!t){const e=(()=>{for(const e of De.Z)if("old-testament-books"===e.id||"new-testament-books"===e.id){const t="old-testament-books"===e.id?De.j9:De.oC;for(const e of t){const t=Ie.H[e.internalKey];if(t&&t.length>0)return t[0].id}}else if("thematic"===e.type||"special"===e.type){const t=Ie.H[e.id];if(t&&t.length>0)return t[0].id}return null})();e?r(e):h(!1)}},[t,r]),(0,o.useEffect)(()=>{const r=async()=>{h(!0),a(null),d(null),e&&e.current&&!g.current&&(e.current.scrollTop=0);const r=(e=>{if(!e)return null;for(const t in Ie.H){const r=Ie.H[t];if(r){const t=r.find(t=>t.id===e);if(t)return t}}return null})(t);if(r&&r.loadLesson)try{const e=(await r.loadLesson()).default,{success:t,lesson:o,error:n}=(e=>{try{const t=lt.parse(e);return{success:!0,lesson:ct(t,"lesson"),error:null}}catch(c){return console.error("\u041f\u043e\u043c\u0438\u043b\u043a\u0430 \u0432\u0430\u043b\u0456\u0434\u0430\u0446\u0456\u0457 \u0443\u0440\u043e\u043a\u0443:",c.message),{success:!1,lesson:null,error:c.message}}})(e);t?a(o):(d(`\u041f\u043e\u043c\u0438\u043b\u043a\u0430 \u0432\u0430\u043b\u0456\u0434\u0430\u0446\u0456\u0457 \u0443\u0440\u043e\u043a\u0443: ${n}`),a(null))}catch(c){console.error("\u041f\u043e\u043c\u0438\u043b\u043a\u0430 \u0437\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u0430\u0431\u043e \u043f\u0430\u0440\u0441\u0438\u043d\u0433\u0443 \u0443\u0440\u043e\u043a\u0443:",c),d("\u041d\u0435 \u0432\u0434\u0430\u043b\u043e\u0441\u044f \u0437\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0438\u0442\u0438 \u0443\u0440\u043e\u043a. \u0421\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u043f\u0456\u0437\u043d\u0456\u0448\u0435."),a(null)}finally{h(!1)}else h(!1),a(null),d("\u0423\u0440\u043e\u043a \u043d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e.")};t&&r()},[t,e]),(0,o.useEffect)(()=>{if(i&&e&&e.current){const t=sessionStorage.getItem(`scrollPosition-${p.pathname}`);if(t&&g.current){const r=parseInt(t,10);e.current.scrollTop=r}g.current=!1}},[i,e,p.pathname]),(0,m.jsx)(s,{children:u?(0,m.jsx)(l,{children:"\u0417\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u0443\u0440\u043e\u043a\u0443..."}):c?(0,m.jsx)(l,{children:c}):i?(0,m.jsx)(Ee,{lessonData:i}):(0,m.jsx)(l,{children:"\u0411\u0443\u0434\u044c \u043b\u0430\u0441\u043a\u0430, \u043e\u0431\u0435\u0440\u0456\u0442\u044c \u0443\u0440\u043e\u043a \u0434\u043e\u043c\u0430\u0448\u043d\u044c\u043e\u0457 \u0433\u0440\u0443\u043f\u0438 \u0437\u0456 \u0441\u043f\u0438\u0441\u043a\u0443 \u0432 \u043c\u0435\u043d\u044e."})})};function ut(){return(0,m.jsx)(dt,{})}}}]);
-//# sourceMappingURL=2941.0968d008.chunk.js.map
+`,Oe=e=>{let{title:t,content:r,imageUrl:o,altText:n,caption:i,imagePosition:s}=e;return r||o?(0,m.jsxs)(Be,{imagePosition:s,children:[t&&(0,m.jsx)(c.A,{as:"h3",children:t}),(0,m.jsxs)("div",{className:"content-area",children:[r&&(0,m.jsx)(Te,{children:r.map((e,t)=>(0,m.jsx)(w.A,{tokens:e},t))}),o&&(0,m.jsxs)(Re,{children:[(0,m.jsx)(Ee,{src:o,alt:n}),i&&(0,m.jsx)(Ie,{children:i})]})]})]}):null};var De=r(8056);const qe=function(e){let{lessonData:t}=e;if(!t)return(0,m.jsx)("p",{children:"\u0417\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u0443\u0440\u043e\u043a\u0443 \u0434\u043e\u043c\u0430\u0448\u043d\u044c\u043e\u0457 \u0433\u0440\u0443\u043f\u0438..."});const{title:r,author:o,book:n,chapter:i,verses:s,date:l,duration:h,theme:g,tags:x,description:f,sections:b}=t,$=e=>{switch(e.type){case"text":return(0,m.jsxs)(m.Fragment,{children:[e.title&&(0,m.jsx)(c.A,{as:e.subtitle?"h3":"h4",size:e.subtitle?"medium":"default",children:(0,m.jsx)(w.A,{tokens:e.title})}),e.subtitle&&(0,m.jsx)(c.A,{as:"h3",size:"small",children:(0,m.jsx)(w.A,{tokens:e.subtitle})}),e.content.map((e,t)=>(0,m.jsx)("p",{children:(0,m.jsx)(w.A,{tokens:e})},t))]});case"quiz":return(0,m.jsx)(d.A,{quizData:{...e,question:(0,m.jsx)(w.A,{tokens:e.question}),options:e.options.map(e=>({...e,text:(0,m.jsx)(w.A,{tokens:e.text}),rationale:(0,m.jsx)(w.A,{tokens:e.rationale})}))}},e.id);case"reveal-cards":return(0,m.jsxs)(m.Fragment,{children:[e.title&&(0,m.jsx)(c.A,{as:"h3",size:"default",children:(0,m.jsx)(w.A,{tokens:e.title})}),e.cards.map(e=>(0,m.jsx)(u.A,{id:e.id,emoji:e.emoji,title:e.title,content:e.content},e.id))]});case"highlight-box":return(0,m.jsx)(D,{...e});case"question-prompt":return(0,m.jsx)(N,{...e,question:(0,m.jsx)(w.A,{tokens:e.question}),answer:(0,m.jsx)(w.A,{tokens:e.answer})});case"list-cards":return(0,m.jsx)(ne,{...e});case"timeline":return(0,m.jsx)(we,{...e});case"contrast-section":return(0,m.jsx)(Ye,{...e});case"diagram":return(0,m.jsx)(C,{title:e.title,description:(0,m.jsx)(w.A,{tokens:e.description}),chartType:e.chartType,chartData:e.chartData,chartOptions:e.chartOptions},e.id);case"image-placeholder":return(0,m.jsx)(T,{imageUrl:e.imageUrl,altText:e.altText,caption:(0,m.jsx)(w.A,{tokens:e.caption})},e.id);case"description-with-image":return(0,m.jsx)(Oe,{...e,title:(0,m.jsx)(w.A,{tokens:e.title}),content:e.content,caption:(0,m.jsx)(w.A,{tokens:e.caption})},e.id);case"list":return(0,m.jsx)(ue,{...e});default:return console.warn("\u041d\u0435\u0432\u0456\u0434\u043e\u043c\u0438\u0439 \u0442\u0438\u043f \u0441\u0435\u043a\u0446\u0456\u0457:",e.type),null}};return(0,m.jsxs)(De.Sg,{children:[(0,m.jsxs)(De.ae,{children:[(0,m.jsx)("h2",{children:(0,m.jsx)(w.A,{tokens:r})}),(0,m.jsx)(p,{author:o,book:n,chapter:i,verses:s,date:l,duration:h,theme:g,tags:x})]}),(0,m.jsx)(De.IZ,{children:(0,m.jsx)(a.A,{children:(0,m.jsxs)(De.tG,{children:[(0,m.jsx)(De.yO,{children:(0,m.jsx)(w.A,{tokens:f})}),b.map((e,t)=>(0,m.jsx)(De.nA,{children:$(e)},t))]})})})]})};var Pe=r(6841),Le=r(5003),_e=r(6139);const He=/\[bold:(.*?)]/,We=/\[italic:(.*?)]/,Fe=/\[verse:([a-z0-9_]+(?::[\d:,-]+)*):([^\]]+)]/,Ne=/\[link:([^:]+):([^\]]+)]/,Ve=/\[img:([^:]+):([^:]+):([^\]]+)]/,Ke=/\[highlight:(.*?)]/,Me=/\[quote:(.*?)]/,Ue=e=>{if("string"!==typeof e)return e;const t=new RegExp(`(${He.source}|${We.source}|${Fe.source}|${Ne.source}|${Ve.source}|${Ke.source}|${Me.source})`,"gi"),r=[];let o,n=0;for(;null!==(o=t.exec(e));){const t=e.slice(n,o.index);t&&r.push(t);const i=o[0];let s=null;if(He.test(i)){const e=i.match(He)[1];s={type:"bold",content:Ue(e)}}else if(We.test(i)){const e=i.match(We)[1];s={type:"italic",content:Ue(e)}}else if(Ke.test(i)){const e=i.match(Ke)[1];s={type:"highlight",content:Ue(e)}}else if(Me.test(i)){const e=i.match(Me)[1];s={type:"quote",content:Ue(e)}}else if(Fe.test(i)){const e=i.match(Fe);s={type:"bible-link",bibleRef:e[1],content:e[2]}}else if(Ne.test(i)){const e=i.match(Ne);s={type:"link",url:e[1],content:Ue(e[2])}}else if(Ve.test(i)){const e=i.match(Ve);s={type:"image",url:e[1],alt:e[2],caption:Ue(e[3])}}s&&r.push(s),n=o.index+i.length}const i=e.slice(n);return i&&r.push(i),r};var Ze=r(2016);const Ge=Ze.RZ(()=>Ze.KC([Ze.Yj(),Ze.YO(Ze.KC([Ze.Yj(),Ze.Ik({type:Ze.eu("bold"),content:Ge}),Ze.Ik({type:Ze.eu("italic"),content:Ge}),Ze.Ik({type:Ze.eu("bible-link"),bibleRef:Ze.Yj(),content:Ze.Yj()}),Ze.Ik({type:Ze.eu("link"),url:Ze.Yj(),content:Ge}),Ze.Ik({type:Ze.eu("image"),url:Ze.Yj(),alt:Ze.Yj(),caption:Ge}),Ze.Ik({type:Ze.eu("highlight"),content:Ge}),Ze.Ik({type:Ze.eu("quote"),content:Ge})]))])),Qe=Ze.Ik({type:Ze.Yj(),title:Ge.optional()}),Xe=Qe.extend({type:Ze.eu("text"),subtitle:Ge.optional(),content:Ze.YO(Ge)}),Je=Qe.extend({type:Ze.eu("list"),heading:Ge.optional(),items:Ze.YO(Ge)}),et=Qe.extend({type:Ze.eu("list-cards"),cards:Ze.YO(Ze.Ik({title:Ge,content:Ge,emoji:Ze.Yj().optional()}))}),tt=Qe.extend({type:Ze.eu("highlight-box"),content:Ge,emoji:Ze.Yj().optional()}),rt=Qe.extend({type:Ze.eu("question-prompt"),question:Ge,answer:Ge.optional(),emoji:Ze.Yj().optional()}),ot=Qe.extend({type:Ze.eu("list-cards"),cards:Ze.YO(Ze.Ik({title:Ge.optional(),content:Ge,emoji:Ze.Yj().optional()}))}),nt=Qe.extend({type:Ze.eu("timeline"),events:Ze.YO(Ze.Ik({year:Ze.Yj().optional(),title:Ge,description:Ge.optional(),verses:Ze.YO(Ge).optional()}))}),it=Qe.extend({type:Ze.eu("reveal-cards"),cards:Ze.YO(Ze.Ik({id:Ze.Yj(),emoji:Ze.Yj().optional(),title:Ge.optional(),content:Ge}))}),st=Qe.extend({type:Ze.eu("quiz"),id:Ze.Yj(),question:Ge,options:Ze.YO(Ze.Ik({text:Ge,isCorrect:Ze.zM(),rationale:Ge.optional()})),hint:Ge.optional()}),lt=Qe.extend({type:Ze.eu("diagram"),chartType:Ze.Yj(),description:Ge.optional(),chartData:Ze.bz(),chartOptions:Ze.bz()}),at=Qe.extend({type:Ze.eu("image-placeholder"),description:Ge.optional(),imageUrl:Ze.Yj(),altText:Ze.Yj().optional(),caption:Ge.optional()}),ct=Qe.extend({type:Ze.eu("description-with-image"),content:Ze.YO(Ge),imageUrl:Ze.Yj(),altText:Ze.Yj().optional(),caption:Ge.optional(),imagePosition:Ze.Yj().optional()}),dt=Qe.extend({type:Ze.eu("contrast-section"),items:Ze.YO(Ze.Ik({heading:Ge,content:Ge,emoji:Ze.Yj().optional(),type:Ze.Yj()}))}),ut=Ze.Ik({id:Ze.Yj(),title:Ge,shortTitle:Ze.Yj(),book:Ze.Yj(),bookInternalKey:Ze.Yj(),chapter:Ze.Yj(),verses:Ze.Yj(),date:Ze.Yj(),author:Ze.Yj(),duration:Ze.Yj(),tags:Ze.YO(Ze.Yj()),description:Ge.optional(),sections:Ze.YO(Ze.KC([Xe,et,Je,tt,rt,ot,nt,it,st,lt,at,ct,dt]))}),mt=["title","shortTitle","description","content","question","answer","text","heading","caption","rationale","verses","items","subtitle"],ht=function(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null;if("string"===typeof e){if(mt.includes(t)){const t=Ue(e);return Array.isArray(t)?t:[t]}return e}if(Array.isArray(e))return e.map(e=>ht(e,t));if("object"===typeof e&&null!==e){const t={};for(const r in e)t[r]=ht(e[r],r);return t}return e},pt=()=>{const{mainRef:e}=(0,n.KC)(),{selectedHomeGroupLesson:t,setSelectedHomeGroupLesson:r}=(0,Le.t)(),[i,a]=(0,o.useState)(null),[c,d]=(0,o.useState)(null),[u,h]=(0,o.useState)(!0),p=(0,n.zy)(),g=(0,o.useRef)(!0);return(0,o.useEffect)(()=>{if(!t){const e=(()=>{for(const e of _e.Z)if("old-testament-books"===e.id||"new-testament-books"===e.id){const t="old-testament-books"===e.id?_e.j9:_e.oC;for(const e of t){const t=Pe.H[e.internalKey];if(t&&t.length>0)return t[0].id}}else if("thematic"===e.type||"special"===e.type){const t=Pe.H[e.id];if(t&&t.length>0)return t[0].id}return null})();e?r(e):h(!1)}},[t,r]),(0,o.useEffect)(()=>{const r=async()=>{h(!0),a(null),d(null),e&&e.current&&!g.current&&(e.current.scrollTop=0);const r=(e=>{if(!e)return null;for(const t in Pe.H){const r=Pe.H[t];if(r){const t=r.find(t=>t.id===e);if(t)return t}}return null})(t);if(r&&r.loadLesson)try{const e=(await r.loadLesson()).default,{success:t,lesson:o,error:n}=(e=>{try{const t=ut.parse(e);return{success:!0,lesson:ht(t,"lesson"),error:null}}catch(c){return console.error("\u041f\u043e\u043c\u0438\u043b\u043a\u0430 \u0432\u0430\u043b\u0456\u0434\u0430\u0446\u0456\u0457 \u0443\u0440\u043e\u043a\u0443:",c.message),{success:!1,lesson:null,error:c.message}}})(e);t?a(o):(d(`\u041f\u043e\u043c\u0438\u043b\u043a\u0430 \u0432\u0430\u043b\u0456\u0434\u0430\u0446\u0456\u0457 \u0443\u0440\u043e\u043a\u0443: ${n}`),a(null))}catch(c){console.error("\u041f\u043e\u043c\u0438\u043b\u043a\u0430 \u0437\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u0430\u0431\u043e \u043f\u0430\u0440\u0441\u0438\u043d\u0433\u0443 \u0443\u0440\u043e\u043a\u0443:",c),d("\u041d\u0435 \u0432\u0434\u0430\u043b\u043e\u0441\u044f \u0437\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0438\u0442\u0438 \u0443\u0440\u043e\u043a. \u0421\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u043f\u0456\u0437\u043d\u0456\u0448\u0435."),a(null)}finally{h(!1)}else h(!1),a(null),d("\u0423\u0440\u043e\u043a \u043d\u0435 \u0437\u043d\u0430\u0439\u0434\u0435\u043d\u043e.")};t&&r()},[t,e]),(0,o.useEffect)(()=>{if(i&&e&&e.current){const t=sessionStorage.getItem(`scrollPosition-${p.pathname}`);if(t&&g.current){const r=parseInt(t,10);e.current.scrollTop=r}g.current=!1}},[i,e,p.pathname]),(0,m.jsx)(s,{children:u?(0,m.jsx)(l,{children:"\u0417\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u0443\u0440\u043e\u043a\u0443..."}):c?(0,m.jsx)(l,{children:c}):i?(0,m.jsx)(qe,{lessonData:i}):(0,m.jsx)(l,{children:"\u0411\u0443\u0434\u044c \u043b\u0430\u0441\u043a\u0430, \u043e\u0431\u0435\u0440\u0456\u0442\u044c \u0443\u0440\u043e\u043a \u0434\u043e\u043c\u0430\u0448\u043d\u044c\u043e\u0457 \u0433\u0440\u0443\u043f\u0438 \u0437\u0456 \u0441\u043f\u0438\u0441\u043a\u0443 \u0432 \u043c\u0435\u043d\u044e."})})};function gt(){return(0,m.jsx)(pt,{})}}}]);
+//# sourceMappingURL=2941.0e2f3f91.chunk.js.map

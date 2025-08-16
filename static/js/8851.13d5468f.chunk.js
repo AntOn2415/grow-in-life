@@ -124,15 +124,7 @@
     margin-bottom: 1em;
   }
 
-  ul {
-    list-style-type: disc;
-    margin-left: ${e=>{let{theme:t}=e;return t.spacing.medium}};
-    margin-bottom: 1em;
-  }
-
   ol {
-    list-style-type: decimal;
-    margin-left: ${e=>{let{theme:t}=e;return t.spacing.medium}};
     margin-bottom: 1em;
   }
 
@@ -289,4 +281,4 @@
 
   transition: transform 0.2s ease-in-out, color 0.25s ease-in-out; // ОНОВЛЕНО: Перехід для кольору іконки
 `;var c=r(579);function d(e){let{quizData:t}=e;const[r,n]=(0,o.useState)(!1),[d,u]=(0,o.useState)(null);return(0,c.jsxs)(i,{children:[(0,c.jsxs)(l,{onClick:()=>{n(!r),r&&u(null)},children:[t.question,(0,c.jsx)(m,{isActive:r,children:r?"\u2212":"+"})]}),r&&(0,c.jsx)(s,{children:t.options.map((e,t)=>(0,c.jsx)(a,{onClick:()=>(e=>{u(e)})(t),isSelected:d===t,isCorrectOption:e.isCorrect,showFeedback:null!==d,children:e.text},t))})]})}},8904:(e,t,r)=>{r.d(t,{A:()=>p});var o=r(5043),n=r(9927),i=r(4119),l=r(6450),s=r(8056),a=r(579);const m=e=>{let{bibleRef:t,children:r}=e;const{navigateTo:m}=(0,o.useContext)(l.y),c=(0,n.s)();return(0,a.jsxs)(s.sY,{as:i.P.button,type:"button",onClick:e=>{e.preventDefault(),c.start({clipPath:["inset(0% 0% 0% 0%)","inset(0% 0% 0% 100%)","inset(0% 100% 0% 0%)","inset(0% 0% 0% 0%)"],transition:{duration:.6,times:[0,.45,.55,1],ease:"linear"}}),m(t)},whileHover:{scale:1.03},whileTap:{scale:.97},transition:{duration:.15,ease:"easeOut"},style:{transformOrigin:"center center"},children:[r,(0,a.jsx)(s.rh,{initial:{clipPath:"inset(0% 0% 0% 0%)"},animate:c})]})},c=e=>{let{children:t}=e;return(0,a.jsx)("strong",{style:{color:"inherit"},children:t})},d=e=>{let{children:t}=e;return(0,a.jsx)("em",{style:{color:"inherit"},children:t})},u=e=>{let{children:t}=e;return(0,a.jsx)("blockquote",{style:{fontStyle:"italic",borderLeft:"2px solid #ccc",paddingLeft:"10px",margin:"10px 0"},children:t})},h=(e,t)=>{switch(e.type){case"bold":return(0,a.jsx)(c,{children:(0,a.jsx)(g,{tokens:e.content})},t);case"italic":return(0,a.jsx)(d,{children:(0,a.jsx)(g,{tokens:e.content})},t);case"quote":return(0,a.jsx)(u,{children:(0,a.jsx)(g,{tokens:e.content})},t);case"bible-link":return(0,a.jsx)(m,{bibleRef:e.bibleRef,children:e.content},t);default:return(0,a.jsx)(o.Fragment,{children:e.content},t)}},g=e=>{let{tokens:t}=e;return t?"string"===typeof t?(0,a.jsx)(o.Fragment,{children:t}):"object"!==typeof t||Array.isArray(t)?Array.isArray(t)?t.map((e,t)=>"string"===typeof e?(0,a.jsx)(o.Fragment,{children:e},t):h(e,t)):null:h(t,"single-token"):null},p=g}}]);
-//# sourceMappingURL=8851.73d10a37.chunk.js.map
+//# sourceMappingURL=8851.13d5468f.chunk.js.map
