@@ -47,3 +47,17 @@ export const Link = styled.a`
     color: ${({ theme }) => theme.colors.accentColorHover}; // ОНОВЛЕНО: Додано hover-ефект
   }
 `;
+export const StyledSubtitle = styled.h4`
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-weight: normal;
+  font-size: ${({ theme }) => theme.fontSizes.medium};
+  margin-top: 0;
+  margin-bottom: ${({ theme }) => theme.spacing.medium}; // ✅ ВАЖЛИВО: Додаємо відступ знизу
+  line-height: 1.5;
+  transition: color 0.25s ease-in-out;
+
+  ${({ theme }) => theme.media.down("md")`
+    font-size: ${({ theme }) => theme.fontSizes.small};
+    margin-bottom: ${({ theme }) => theme.spacing.small};
+  `}
+`;

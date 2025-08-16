@@ -25,7 +25,6 @@ export const CardTitle = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.large};
   cursor: pointer;
   transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
-
   &:hover {
     background-color: ${({ theme }) => theme.colors.accentBgHover || theme.colors.accentBg};
   }
@@ -76,7 +75,6 @@ export const CardContent = styled.div`
   .bible-quote {
     font-style: italic;
     color: ${({ theme }) => theme.colors.colorSecondary};
-    margin-top: ${({ theme }) => theme.spacing.xsmall};
     padding-left: ${({ theme }) => theme.spacing.small};
     border-left: 2px solid ${({ theme }) => theme.colors.borderColor};
     transition: color 0.25s ease-in-out, border-color 0.25s ease-in-out;
@@ -94,7 +92,6 @@ export const HighlightBoxContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.interactiveBgLight};
   border-left: 5px solid ${({ theme }) => theme.colors.interactiveBorderLight};
   padding: ${({ theme }) => theme.spacing.medium};
-  margin: ${({ theme }) => theme.spacing.large} 0;
   border-radius: ${({ theme }) => theme.borderRadius.medium};
   display: flex;
   align-items: flex-start;

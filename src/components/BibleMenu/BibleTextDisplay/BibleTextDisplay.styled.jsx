@@ -40,7 +40,7 @@ export const Verse = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.small};
 
   &.highlighted-verse {
-    background-color: ${({ theme }) => theme.colors.neutralBackground1};
+    background-color: ${({ theme }) => theme.colors.navItemHover};
     transition: background-color 0.3s ease-in-out;
   }
 `;

@@ -114,6 +114,31 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
   return (
     <BibleMenuWrapper>
       <NavigationContainer>
+        {/* Кнопка закриття бічної панелі (для мобільних) */}
+        {isMobile && (
+          <NavigationButton onClick={handleCloseSidebar}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M10 5L10 19L14 19L14 5L10 5ZM4 5L4 19L8 19L8 5L4 5ZM16 5L16 19L20 19L20 5L16 5Z" />
+            </svg>
+          </NavigationButton>
+        )}
+
+        {/* Заголовок для мобільних пристроїв, якщо є bookData */}
+        {isMobile && bookData ? (
+          <MobileHeader onClick={handleOpenMenu}>
+            {bookData.book_name_ua} {chapter}
+          </MobileHeader>
+        ) : (
+          isMobile && ( // Умова: якщо це мобільний і bookData === null
+            <NavigationButton onClick={handleOpenMenu}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M4 4C4 3.44772 4.44772 3 5 3H19C19.5523 3 20 3.44772 20 4V20C20 20.5523 19.5523 21 19 21H5C4.44772 21 4 20.5523 4 20V4ZM6 6V18H18V6H6ZM8 8H16V16H8V8Z" />
+              </svg>
+            </NavigationButton>
+          )
+        )}
+
+        {/* Кнопка відкриття меню (для десктопів) */}
         <AnimatePresence>
           {!isMobile && !showModal && (
             <motion.div
@@ -131,19 +156,6 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
             </motion.div>
           )}
         </AnimatePresence>
-
-        {isMobile && (
-          <NavigationButton onClick={handleCloseSidebar}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M10 5L10 19L14 19L14 5L10 5ZM4 5L4 19L8 19L8 5L4 5ZM16 5L16 19L20 19L20 5L16 5Z" />
-            </svg>
-          </NavigationButton>
-        )}
-        {isMobile && bookData && (
-          <MobileHeader onClick={handleOpenMenu}>
-            {bookData.book_name_ua} {chapter}
-          </MobileHeader>
-        )}
       </NavigationContainer>
 
       <ContentContainer ref={contentRef}>

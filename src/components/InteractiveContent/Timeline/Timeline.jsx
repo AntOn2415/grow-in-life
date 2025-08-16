@@ -1,3 +1,5 @@
+// src/components/SpecificContentDisplays/Timeline/Timeline.jsx
+
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "../../../contexts/ThemeProvider";
@@ -7,12 +9,12 @@ import {
   EventDot,
   EventContent,
   EventTitle,
-  EventDescription,
   EventYear,
   EventVersesContainer,
 } from "./Timeline.styled";
 import SectionHeading from "../../Common/SectionHeading/SectionHeading";
 import CollapsibleContent from "../../Common/CollapsibleContent/CollapsibleContent";
+import TokenRenderer from "../../TokenRenderer/TokenRenderer"; // 👈 Імпортуємо TokenRenderer
 
 const Timeline = ({ title, events }) => {
   const { currentTheme } = useTheme();
@@ -31,7 +33,8 @@ const Timeline = ({ title, events }) => {
     <TimelineContainer>
       {title && (
         <SectionHeading as="h3" size="default">
-          {title}
+          {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для заголовка Timeline */}
+          <TokenRenderer tokens={title} />
         </SectionHeading>
       )}
 
@@ -44,27 +47,25 @@ const Timeline = ({ title, events }) => {
           transition={{ duration: 0.5, delay: index * 0.1 }}
         >
           <EventDot
-            // ✅ Оновлено: колір точки змінюється лише при активному стані
             animate={
               activeEventId === index
-                ? { scale: [1, 1.2, 1], backgroundColor: currentTheme.accentColor } // Активний стан: миготіння та колір акценту
-                : { scale: 1, backgroundColor: currentTheme.accentColor } // Неактивний стан: без анімації scale, колір акценту
+                ? { scale: [1, 1.2, 1], backgroundColor: currentTheme.accentColor }
+                : { scale: 1, backgroundColor: currentTheme.accentColor }
             }
             transition={{
               duration: 0.5,
-              repeat: activeEventId === index ? Infinity : 0, // Миготіння лише при активному стані
+              repeat: activeEventId === index ? Infinity : 0,
               repeatType: "loop",
             }}
           />
           <EventContent
             onClick={() => handleToggle(index)}
-            // ✅ Змінено: Додано окремий transition для whileHover
             whileHover={{
               scale: 1.03,
             }}
             transition={{
-              scale: { duration: 0.15, ease: "easeOut" }, // ✅ Окрема, швидка анімація для масштабу при ховері
-              backgroundColor: { duration: 0.2, ease: "easeOut" }, // Анімація фону залишається окремою, але тут не потрібна для ховеру
+              scale: { duration: 0.15, ease: "easeOut" },
+              backgroundColor: { duration: 0.2, ease: "easeOut" },
             }}
             animate={{
               scale: activeEventId === index ? 1.03 : 1,
@@ -75,7 +76,8 @@ const Timeline = ({ title, events }) => {
             <EventTitle style={{ cursor: "pointer" }}>
               <div>
                 {event.year && <EventYear>{event.year}</EventYear>}
-                {event.title}
+                {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для заголовка події */}
+                <TokenRenderer tokens={event.title} />
               </div>
               <motion.span
                 initial={false}
@@ -88,13 +90,24 @@ const Timeline = ({ title, events }) => {
             </EventTitle>
 
             <CollapsibleContent isOpen={activeEventId === index}>
-              {event.description && <EventDescription>{event.description}</EventDescription>}
+              {event.description && (
+                <div style={{ padding: "0 10px", fontSize: "0.9em" }}>
+                  {/* ✅ ВИПРАВЛЕННЯ: Рендеримо кожен елемент масиву description окремо */}
+                  {Array.isArray(event.description) ? (
+                    event.description.map((descItem, i) => (
+                      <TokenRenderer key={i} tokens={descItem} />
+                    ))
+                  ) : (
+                    <TokenRenderer tokens={event.description} />
+                  )}
+                </div>
+              )}
 
               {event.verses && event.verses.length > 0 && (
                 <EventVersesContainer onClick={handleVerseClick}>
-                  {event.verses.map((verseComponent, verseIndex) =>
-                    React.cloneElement(verseComponent, { key: verseIndex })
-                  )}
+                  {event.verses.map((verse, i) => (
+                    <TokenRenderer key={i} tokens={verse} />
+                  ))}
                 </EventVersesContainer>
               )}
             </CollapsibleContent>

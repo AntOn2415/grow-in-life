@@ -18,13 +18,13 @@ const shouldForwardProp = prop =>
   ].includes(prop);
 
 export const Wrapper = styled.div`
-  height: 100vh;
-  overflow-y: auto;
+  height: 100vh; /* Wrapper займає всю висоту екрана */
+  overflow: hidden; /* Прибираємо прокрутку з Wrapper */
+  display: flex;
+  flex-direction: column;
   background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.color};
   transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
-  display: flex;
-  flex-direction: column;
 `;
 
 export const ContentGrid = styled.div.withConfig({ shouldForwardProp })`
@@ -38,7 +38,7 @@ export const ContentGrid = styled.div.withConfig({ shouldForwardProp })`
         ${rightSidebarExpanded ? "calc(100vw / 2.5)" : "80px"}
       `};
   grid-template-rows: 1fr;
-  min-height: calc(100vh - 60px);
+  height: 100%; /* Займає всю висоту доступного простору в Wrapper */
   transition: grid-template-columns 0.3s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
@@ -55,7 +55,6 @@ export const Main = styled.main.withConfig({ shouldForwardProp })`
   grid-column: 2;
   grid-row: 1;
   overflow-y: auto;
-
   // ✅ ВИПРАВЛЕНО: Відступ зверху для десктопу тепер динамічний
   padding-top: ${({ navHeight }) => navHeight + 50}px;
 

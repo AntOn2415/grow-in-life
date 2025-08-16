@@ -1,6 +1,15 @@
 // src/components/InteractiveContent/Diagram/Diagram.jsx
 import React, { useMemo } from "react";
-import { DiagramContainer } from "./Diagram.styled";
+import {
+  DiagramContainer,
+  DiagramWrapper,
+  ChartBox,
+  LegendBox,
+  LegendItem,
+  LegendColor,
+  LegendText,
+} from "./Diagram.styled";
+import TokenRenderer from "../../TokenRenderer/TokenRenderer";
 
 import { Line, Bar, Pie, Doughnut, PolarArea, Radar, Bubble, Scatter } from "react-chartjs-2";
 
@@ -20,7 +29,6 @@ import {
 } from "chart.js";
 
 import { useTheme } from "../../../contexts/ThemeProvider";
-// ✅ ІМПОРТУЄМО ФУНКЦІЇ З НОВОГО ХЕЛПЕР-ФАЙЛУ
 import { getChartOptionsWithTheme, getChartDataWithTheme } from "../../../utils/chartHelpers";
 
 ChartJS.register(
@@ -37,8 +45,12 @@ ChartJS.register(
   Filler
 );
 
-// ✅ renderChart МОЖНА ЗАЛИШИТИ ТУТ АБО ТАКОЖ ВИНЕСТИ
 const renderChart = (chartType, chartData, chartOptions) => {
+  // ✅ ДОДАНО ПЕРЕВІРКУ: не рендеримо, якщо немає даних або datasets
+  if (!chartData || !chartData.datasets || chartData.datasets.length === 0) {
+    return <p>Недостатньо даних для побудови діаграми.</p>;
+  }
+
   switch (chartType) {
     case "line":
       return <Line data={chartData} options={chartOptions} />;
@@ -64,15 +76,16 @@ const renderChart = (chartType, chartData, chartOptions) => {
 function Diagram({ title, description, chartType, chartData, chartOptions }) {
   const { currentTheme } = useTheme();
 
-  // Хуки useMemo тепер викликають імпортовані функції
+  // ✅ ДОДАНО ПЕРЕВІРКУ: якщо chartData не існує, повертаємо пустий об'єкт
   const memoizedChartData = useMemo(() => {
-    return getChartDataWithTheme(chartData, currentTheme, chartType);
+    return getChartDataWithTheme(chartData || {}, currentTheme, chartType);
   }, [chartData, currentTheme, chartType]);
 
   const memoizedChartOptions = useMemo(() => {
     return getChartOptionsWithTheme({ ...chartOptions, chartType }, currentTheme);
   }, [chartOptions, currentTheme, chartType]);
 
+  // ✅ ДОДАНО ПЕРЕВІРКУ: якщо немає memoizedChartData, повертаємо порожній масив
   const customLegendItems = useMemo(() => {
     if (
       !memoizedChartData ||
@@ -94,62 +107,35 @@ function Diagram({ title, description, chartType, chartData, chartOptions }) {
     return <p>Завантаження діаграми...</p>;
   }
 
+  // ✅ ДОДАНО ПЕРЕВІРКУ: якщо немає chartData, повертаємо повідомлення
+  if (!chartData) {
+    return <p>Діаграма завантажується або відсутні дані.</p>;
+  }
+
   return (
     <DiagramContainer>
-      {title && <h4>{title}</h4>}
-      {description && <p>{description}</p>}
-      <div style={{ display: "flex", flexDirection: "row", width: "100%", height: "100%" }}>
-        <div style={{ flexGrow: 1, minWidth: "0", maxWidth: "calc(100% - 320px)" }}>
-          {" "}
-          {/* ✅ Змінено на 320px, щоб відповідати ширині легенди */}
-          {renderChart(chartType, memoizedChartData, memoizedChartOptions)}
-        </div>
+      {title && (
+        <h4>
+          <TokenRenderer tokens={title} />
+        </h4>
+      )}
+      {description && (
+        <p>
+          <TokenRenderer tokens={description} />
+        </p>
+      )}
 
-        <div
-          style={{
-            width: "320px", // ✅ Ширина вашої легенди
-            flexShrink: 0,
-            paddingLeft: "15px",
-            overflowY: "auto",
-            maxHeight: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
+      <DiagramWrapper>
+        <ChartBox>{renderChart(chartType, memoizedChartData, memoizedChartOptions)}</ChartBox>
+        <LegendBox>
           {customLegendItems.map((item, index) => (
-            <div
-              key={index}
-              style={{ display: "flex", alignItems: "flex-start", marginBottom: "8px" }}
-            >
-              <span
-                style={{
-                  display: "inline-block",
-                  minWidth: "15px",
-                  height: "15px",
-                  backgroundColor: item.color,
-                  marginRight: "8px",
-                  marginTop: "3px",
-                  borderRadius: "3px",
-                }}
-              ></span>
-              <span
-                style={{
-                  color: currentTheme.color,
-                  fontSize: "13px",
-                  wordBreak: "break-word",
-                  wordWrap: "break-word",
-                  whiteSpace: "normal",
-                  lineHeight: "1.3",
-                }}
-              >
-                {item.text}
-              </span>
-            </div>
+            <LegendItem key={index}>
+              <LegendColor style={{ backgroundColor: item.color }} />
+              <LegendText style={{ color: currentTheme.color }}>{item.text}</LegendText>
+            </LegendItem>
           ))}
-        </div>
-      </div>
-      {!title && !description && !chartData && <p>Діаграма завантажується або відсутні дані.</p>}
+        </LegendBox>
+      </DiagramWrapper>
     </DiagramContainer>
   );
 }

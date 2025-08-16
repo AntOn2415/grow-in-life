@@ -19,7 +19,6 @@ export const StyledCard = styled.section`
 export const StyledHeading = styled.h3`
   color: ${({ theme }) => theme.colors.accentColor}; // ОНОВЛЕНО: Використано theme.colors
   font-weight: bold;
-  margin-top: ${({ theme }) => theme.spacing.xxlarge}; // ОНОВЛЕНО: Використано theme.spacing
   margin-bottom: ${({ theme }) => theme.spacing.large}; // ОНОВЛЕНО: Використано theme.spacing
   line-height: 1.2;
   transition: color 0.25s ease-in-out;
@@ -36,7 +35,6 @@ export const StyledHeading = styled.h3`
   `}
 
   ${({ theme }) => theme.media.down("md")`
-    margin-top: ${({ theme }) => theme.spacing.large};
     margin-bottom: ${({ theme }) => theme.spacing.medium};
     
     // Адаптивні розміри шрифту для мобільних
@@ -47,6 +45,19 @@ export const StyledHeading = styled.h3`
       `
       font-size: ${props.theme.fontSizes.medium};
     `}
+     ${props =>
+       props.size === "small" &&
+       `
+    font-size: ${props.theme.fontSizes.medium};
+    font-weight: normal;
+    margin-bottom: ${props.theme.spacing.medium};
+    color: ${props.theme.colors.textSecondary};
+
+    ${props.theme.media.down("md")`
+      font-size: ${props.theme.fontSizes.small};
+      margin-bottom: ${props.theme.spacing.small};
+    `}
+  `}
   `}
 
   a {

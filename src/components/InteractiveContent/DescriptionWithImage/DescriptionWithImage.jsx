@@ -1,39 +1,32 @@
+// src/components/InteractiveContent/DescriptionWithImage/DescriptionWithImage.jsx
+
 import React from "react";
 import {
   DescriptionWithImageContainer,
-  TextContentWrapper, // Можливо, перейменувати на TextWrapper або DescriptionWrapper
+  TextContentWrapper,
   ImageWrapper,
-  StyledImage, // Додайте імпорт StyledImage
-  ImageCaption, // Додайте імпорт ImageCaption
+  StyledImage,
+  ImageCaption,
 } from "./DescriptionWithImage.styled";
 import SectionHeading from "../../Common/SectionHeading/SectionHeading";
+import TokenRenderer from "../../TokenRenderer/TokenRenderer";
 
-// Компонент очікує пропси, які передаються йому з HomeGroupLessonDisplay
-const DescriptionWithImage = ({
-  title,
-  content,
-  imageUrl,
-  altText,
-  caption,
-  imagePosition, // Додайте imagePosition до очікуваних пропсів
-}) => {
+const DescriptionWithImage = ({ title, content, imageUrl, altText, caption, imagePosition }) => {
   if (!content && !imageUrl) {
-    return null; // Якщо немає ні тексту, ні зображення, нічого не рендеримо
+    return null;
   }
 
   return (
-    // Передаємо imagePosition для стилізації, якщо це потрібно для контейнера
     <DescriptionWithImageContainer imagePosition={imagePosition}>
-      {/* Заголовок для всієї секції */}
       {title && <SectionHeading as="h3">{title}</SectionHeading>}
 
-      {/* Окремі обгортки для контенту та зображення для гнучкості */}
       <div className="content-area">
-        {" "}
-        {/* Додайте обгортку для flexbox */}
         {content && (
           <TextContentWrapper>
-            {content} {/* descriptionContent вже є JSX, рендеримо його напряму */}
+            {/* ✅ ВИПРАВЛЕННЯ: викликаємо map на пропсі content */}
+            {content.map((paragraph, pIndex) => (
+              <TokenRenderer key={pIndex} tokens={paragraph} />
+            ))}
           </TextContentWrapper>
         )}
         {imageUrl && (
