@@ -1,6 +1,14 @@
 // src/components/InteractiveContent/Diagram/Diagram.jsx
 import React, { useMemo } from "react";
-import { DiagramContainer } from "./Diagram.styled";
+import {
+  DiagramContainer,
+  DiagramWrapper,
+  ChartBox,
+  LegendBox,
+  LegendItem,
+  LegendColor,
+  LegendText,
+} from "./Diagram.styled";
 import TokenRenderer from "../../TokenRenderer/TokenRenderer";
 
 import { Line, Bar, Pie, Doughnut, PolarArea, Radar, Bubble, Scatter } from "react-chartjs-2";
@@ -117,56 +125,17 @@ function Diagram({ title, description, chartType, chartData, chartOptions }) {
         </p>
       )}
 
-      <div style={{ display: "flex", flexDirection: "row", width: "100%", height: "100%" }}>
-        <div style={{ flexGrow: 1, minWidth: "0", maxWidth: "calc(100% - 320px)" }}>
-          {renderChart(chartType, memoizedChartData, memoizedChartOptions)}
-        </div>
-        <div
-          style={{
-            width: "320px",
-            flexShrink: 0,
-            paddingLeft: "15px",
-            overflowY: "auto",
-            maxHeight: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
+      <DiagramWrapper>
+        <ChartBox>{renderChart(chartType, memoizedChartData, memoizedChartOptions)}</ChartBox>
+        <LegendBox>
           {customLegendItems.map((item, index) => (
-            <div
-              key={index}
-              style={{ display: "flex", alignItems: "flex-start", marginBottom: "8px" }}
-            >
-              <span
-                style={{
-                  display: "inline-block",
-                  minWidth: "15px",
-                  height: "15px",
-                  backgroundColor: item.color,
-                  marginRight: "8px",
-                  marginTop: "3px",
-                  borderRadius: "3px",
-                }}
-              ></span>
-              <span
-                style={{
-                  color: currentTheme.color,
-                  fontSize: "13px",
-                  wordBreak: "break-word",
-                  wordWrap: "break-word",
-                  whiteSpace: "normal",
-                  lineHeight: "1.3",
-                }}
-              >
-                {item.text}
-              </span>
-            </div>
+            <LegendItem key={index}>
+              <LegendColor style={{ backgroundColor: item.color }} />
+              <LegendText style={{ color: currentTheme.color }}>{item.text}</LegendText>
+            </LegendItem>
           ))}
-        </div>
-      </div>
-      {/* ❌ Цей рядок тепер зайвий, оскільки є перевірка на початку компонента */}
-      {/* {!title && !description && !chartData && <p>Діаграма завантажується або відсутні дані.</p>} */}
+        </LegendBox>
+      </DiagramWrapper>
     </DiagramContainer>
   );
 }

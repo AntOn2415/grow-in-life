@@ -181,7 +181,7 @@ export const LessonSchema = z.object({
   author: z.string(),
   duration: z.string(),
   tags: z.array(z.string()),
-  description: TokenizedText,
+  description: TokenizedText.optional(),
   sections: z.array(
     z.union([
       TextSectionSchema,

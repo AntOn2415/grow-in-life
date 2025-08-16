@@ -26,7 +26,7 @@ export const homeGroupsContent = {
   nehemiah: [
     {
       id: "nehemiah-1-reflections",
-      title: "Неемія 1: Роздуми Живих Братів",
+      title: "Роздуми Живих Братів",
       shortTitle: "Неемія 1",
       book: "Неемія",
       bookInternalKey: "nehemiah",
@@ -48,7 +48,7 @@ export const homeGroupsContent = {
     },
     {
       id: "nehemiah-2-reflections",
-      title: "Неемія 2: Боже Бажання та Початок Відбудови",
+      title: "Боже Бажання та Початок Відбудови",
       shortTitle: "Неемія 2",
       book: "Неемія",
       bookInternalKey: "nehemiah",
@@ -63,7 +63,7 @@ export const homeGroupsContent = {
     },
     {
       id: "nehemiah-3-rebuilding",
-      title: "Неемія 3: Відбудова Стін Єрусалиму – Кожен на Своєму Місці",
+      title: "Відбудова Стін Єрусалиму – Кожен на Своєму Місці",
       shortTitle: "Неемія 3",
       book: "Неемія",
       bookInternalKey: "nehemiah",
@@ -129,8 +129,8 @@ export const homeGroupsContent = {
     //   },
     {
       id: "nehemiah-lesson-6",
-      title: "Неемія 6: Ворожі пастки та Божа перемога",
-      shortTitle: "Ворожі пастки",
+      title: "Ворожі пастки та Божа перемога",
+      shortTitle: "Неемія 6",
       book: "Неемія",
       bookInternalKey: "nehemiah",
       chapter: "6",
