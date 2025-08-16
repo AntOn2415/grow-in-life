@@ -2,13 +2,12 @@
 import React from "react";
 import TokenRenderer from "../../TokenRenderer/TokenRenderer";
 import SectionHeading from "../../Common/SectionHeading/SectionHeading";
-import { StyledList, StyledListItem } from "./List.styled";
+import { StyledList, StyledListItem, BulletIcon, ListItemContent, ListText } from "./List.styled"; // Додано ListText
+import { FaCircle } from "react-icons/fa";
 
-// Компонент для рендерингу списку
 const List = ({ title, items, heading }) => {
   return (
     <>
-      {/* Рендеримо заголовок, якщо він є */}
       {(title || heading) && (
         <SectionHeading as={heading ? "h4" : "h3"} size={heading ? "medium" : "default"}>
           {title && <TokenRenderer tokens={title} />}
@@ -20,11 +19,19 @@ const List = ({ title, items, heading }) => {
         </SectionHeading>
       )}
 
-      {/* Рендеримо сам список */}
       <StyledList>
         {items.map((item, index) => (
           <StyledListItem key={index}>
-            <TokenRenderer tokens={item} />
+            <ListItemContent>
+              <BulletIcon>
+                <FaCircle />
+              </BulletIcon>
+              <ListText>
+                {" "}
+                {/* ✅ Новий контейнер для тексту */}
+                <TokenRenderer tokens={item} />
+              </ListText>
+            </ListItemContent>
           </StyledListItem>
         ))}
       </StyledList>

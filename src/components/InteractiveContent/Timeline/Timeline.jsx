@@ -39,13 +39,7 @@ const Timeline = ({ title, events }) => {
       )}
 
       {events.map((event, index) => (
-        <TimelineEventWrapper
-          key={index}
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
-        >
+        <TimelineEventWrapper key={index}>
           <EventDot
             animate={
               activeEventId === index

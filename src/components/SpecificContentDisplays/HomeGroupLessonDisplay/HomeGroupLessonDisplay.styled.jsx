@@ -41,15 +41,7 @@ export const HomeGroupLessonTextWrapper = styled.div`
     margin-bottom: 1em;
   }
 
-  ul {
-    list-style-type: disc;
-    margin-left: ${({ theme }) => theme.spacing.medium};
-    margin-bottom: 1em;
-  }
-
   ol {
-    list-style-type: decimal;
-    margin-left: ${({ theme }) => theme.spacing.medium};
     margin-bottom: 1em;
   }
 
