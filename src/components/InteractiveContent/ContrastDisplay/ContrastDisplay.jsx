@@ -8,31 +8,24 @@ import {
   ItemEmoji,
   ItemContent,
 } from "./ContrastDisplay.styled";
-import SectionHeading from "../../Common/SectionHeading/SectionHeading";
-import TokenRenderer from "../../TokenRenderer/TokenRenderer"; // 👈 Імпортуємо TokenRenderer
+import TokenRenderer from "../../TokenRenderer/TokenRenderer";
 
-const ContrastDisplay = ({ title, items }) => {
+// ✅ Додано новий пропс itemTitleLevel
+const ContrastDisplay = ({ items, itemTitleLevel = 4 }) => {
   if (!items || items.length < 2) {
     return null;
   }
 
   return (
-    <ContrastDisplayContainer>
-      {title && (
-        <SectionHeading as="h3">
-          {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для заголовка */}
-          <TokenRenderer tokens={title} />
-        </SectionHeading>
-      )}
+    <ContrastDisplayContainer as="section">
       <ContrastItemsWrapper>
         {items.map((item, index) => (
           <ContrastItem key={index} $type={item.type}>
-            <ItemHeading $type={item.type}>
+            {/* ✅ Передаємо рівень заголовка через пропс 'as' */}
+            <ItemHeading as={`h${itemTitleLevel}`} $type={item.type}>
               {item.emoji && <ItemEmoji>{item.emoji}</ItemEmoji>}
-              {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для заголовка елемента */}
-              <TokenRenderer tokens={item.heading} />
+              <TokenRenderer tokens={item.heading} isHeading={true} />
             </ItemHeading>
-            {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для контенту елемента */}
             <ItemContent>
               <TokenRenderer tokens={item.content} />
             </ItemContent>

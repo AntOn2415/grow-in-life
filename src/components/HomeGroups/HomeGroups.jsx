@@ -9,14 +9,10 @@ import {
   oldTestamentBooksList,
   newTestamentBooksList,
 } from "../../data/homeGroups/homeGroupCategories";
+import { parseAndValidateContent } from "../../utils/parseAndValidateLesson";
 
-// --- ВАЖЛИВО ---: Імпортуємо вашу нову утиліту для парсингу
-import { parseAndValidateLesson } from "../../utils/parseAndValidateLesson";
-
-// Оптимізована функція для пошуку уроку
 const getLessonMetaDataById = lessonId => {
   if (!lessonId) return null;
-
   for (const categoryKey in homeGroupsContent) {
     const lessonsArray = homeGroupsContent[categoryKey];
     if (lessonsArray) {
@@ -29,7 +25,6 @@ const getLessonMetaDataById = lessonId => {
   return null;
 };
 
-// Оптимізована функція для пошуку першого уроку
 const findFirstLesson = () => {
   for (const category of homeGroupCategories) {
     if (category.id === "old-testament-books" || category.id === "new-testament-books") {
@@ -54,60 +49,52 @@ const findFirstLesson = () => {
 const HomeGroups = () => {
   const { mainRef } = useOutletContext();
   const { selectedHomeGroupLesson, setSelectedHomeGroupLesson } = useHomeGroups();
-  // --- ЗМІНА 1 ---: Змінюємо стан для зберігання спарсеного уроку або помилки
   const [parsedLesson, setParsedLesson] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
+  const hasLoaded = useRef(false);
 
-  const isInitialLoad = useRef(true);
-
-  // useEffect для ініціалізації уроку
   useEffect(() => {
-    if (!selectedHomeGroupLesson) {
-      const firstLessonId = findFirstLesson();
-      if (firstLessonId) {
-        setSelectedHomeGroupLesson(firstLessonId);
-      } else {
-        setLoading(false);
-      }
+    // ✅ Додаткова перевірка: Запобігаємо повторному запуску після першого успішного завантаження
+    if (hasLoaded.current) {
+      return;
     }
-  }, [selectedHomeGroupLesson, setSelectedHomeGroupLesson]);
 
-  // ВИПРАВЛЕНИЙ useEffect для завантаження контенту уроку
-  useEffect(() => {
-    const loadAndParseLessonContent = async () => {
+    // ✅ Пошук уроку для завантаження: або обраний, або перший доступний
+    const lessonToLoad = selectedHomeGroupLesson || findFirstLesson();
+
+    // Якщо уроку немає, встановлюємо стан і виходимо
+    if (!lessonToLoad) {
+      setLoading(false);
+      return;
+    }
+
+    // ✅ Ініціалізація завантаження тільки один раз
+    const loadContent = async () => {
       setLoading(true);
-      setParsedLesson(null);
       setError(null);
 
-      if (mainRef && mainRef.current && !isInitialLoad.current) {
-        mainRef.current.scrollTop = 0;
-      }
-
-      const lessonMetaData = getLessonMetaDataById(selectedHomeGroupLesson);
+      const lessonMetaData = getLessonMetaDataById(lessonToLoad);
       if (lessonMetaData && lessonMetaData.loadLesson) {
         try {
-          // Динамічно завантажуємо модуль
           const module = await lessonMetaData.loadLesson();
           const lessonJson = module.default;
-
-          // --- ЗМІНА 2 ---: Викликаємо parseAndValidateLesson для валідації та парсингу
-          const { success, lesson, error: validationError } = parseAndValidateLesson(lessonJson);
+          const { success, lesson, error: validationError } = parseAndValidateContent(lessonJson);
 
           if (success) {
             setParsedLesson(lesson);
           } else {
-            // Зберігаємо помилку валідації в стані
-            setError(`Помилка валідації уроку: ${validationError}`);
+            setError(`Помилка валідації: ${validationError}`);
             setParsedLesson(null);
           }
-        } catch (error) {
-          console.error("Помилка завантаження або парсингу уроку:", error);
+        } catch (err) {
+          console.error("Помилка завантаження або парсингу уроку:", err);
           setError("Не вдалося завантажити урок. Спробуйте пізніше.");
           setParsedLesson(null);
         } finally {
           setLoading(false);
+          hasLoaded.current = true; // ✅ Позначаємо, що перший рендер завершено
         }
       } else {
         setLoading(false);
@@ -116,22 +103,16 @@ const HomeGroups = () => {
       }
     };
 
-    if (selectedHomeGroupLesson) {
-      loadAndParseLessonContent();
-    }
-  }, [selectedHomeGroupLesson, mainRef]);
+    loadContent();
+  }, [selectedHomeGroupLesson, setSelectedHomeGroupLesson]); // Залежності, які можуть змінюватись
 
-  // useEffect для відновлення скролу після завантаження контенту
   useEffect(() => {
     if (parsedLesson && mainRef && mainRef.current) {
       const savedScrollY = sessionStorage.getItem(`scrollPosition-${location.pathname}`);
-
-      if (savedScrollY && isInitialLoad.current) {
+      if (savedScrollY) {
         const parsedScroll = parseInt(savedScrollY, 10);
         mainRef.current.scrollTop = parsedScroll;
       }
-
-      isInitialLoad.current = false;
     }
   }, [parsedLesson, mainRef, location.pathname]);
 
@@ -140,10 +121,8 @@ const HomeGroups = () => {
       {loading ? (
         <NoLessonMessage>Завантаження уроку...</NoLessonMessage>
       ) : error ? (
-        // --- ЗМІНА 3 ---: Показуємо повідомлення про помилку
         <NoLessonMessage>{error}</NoLessonMessage>
       ) : parsedLesson ? (
-        // --- ЗМІНА 4 ---: Передаємо вже спарсений об'єкт уроку
         <HomeGroupLessonDisplay lessonData={parsedLesson} />
       ) : (
         <NoLessonMessage>

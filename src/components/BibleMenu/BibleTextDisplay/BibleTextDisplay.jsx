@@ -19,11 +19,7 @@ const BibleTextDisplay = ({
   onNextChapter,
   isMobile,
 }) => {
-  const currentChapterIndex = bookData.chapters.findIndex(c => c.chapter_number === chapter);
-  const currentChapter = bookData.chapters[currentChapterIndex];
-
-  const nextChapterExists = currentChapterIndex < bookData.chapters.length - 1;
-
+  // Хуки React завжди повинні бути на верхньому рівні компонента
   const verseRefs = useRef([]);
   const textContainerRef = useRef(null);
   const headerRef = useRef(null);
@@ -70,14 +66,30 @@ const BibleTextDisplay = ({
     }
   }, [chapter, verseToScroll, bookData, highlightedVerses, isMobile]);
 
+  if (!bookData || !bookData.chapters) {
+    return <div>Завантаження...</div>;
+  }
+
+  const currentChapterIndex = bookData.chapters.findIndex(c => c.chapter_number === chapter);
+  const currentChapter = bookData.chapters[currentChapterIndex];
+
   if (!currentChapter) {
     return <div>Розділ не знайдено.</div>;
   }
 
+  const nextChapterExists = currentChapterIndex < bookData.chapters.length - 1;
+
   const isVerseHighlighted = verseNumber => {
     if (!highlightedVerses) return false;
-    // Перевіряємо, чи є highlightedVerses масивом і чи містить він поточний номер вірша
     return Array.isArray(highlightedVerses) && highlightedVerses.includes(verseNumber);
+  };
+
+  const handleNextChapter = () => {
+    if (nextChapterExists && bookData && bookData.book_key) {
+      const nextChapterNumber = currentChapter.chapter_number + 1;
+      const nextChapterKey = `[${bookData.book_key}:${nextChapterNumber}]`;
+      onNextChapter(nextChapterKey, "next-chapter-button");
+    }
   };
 
   return (
@@ -94,7 +106,6 @@ const BibleTextDisplay = ({
                 verseRefs.current[verse.verse_number - 1] = el;
               }
             }}
-            // Тут ми динамічно додаємо клас, якщо вірш виділений
             className={isVerseHighlighted(verse.verse_number) ? "highlighted-verse" : ""}
           >
             <VerseNumber>{verse.verse_number}</VerseNumber>
@@ -102,7 +113,7 @@ const BibleTextDisplay = ({
           </Verse>
         ))}
       </VerseList>
-      {nextChapterExists && <NextChapterButton onClick={onNextChapter}>Далі</NextChapterButton>}
+      {nextChapterExists && <NextChapterButton onClick={handleNextChapter}>Далі</NextChapterButton>}
     </BibleTextContainer>
   );
 };

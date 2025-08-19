@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-// Обгортка для мобільної версії, щоб забрати інлайнові стилі
 export const ModalContentWrapper = styled(motion.div)`
   position: fixed;
   top: 0;
@@ -9,7 +8,8 @@ export const ModalContentWrapper = styled(motion.div)`
   width: 100vw;
   height: 100vh;
   z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${({ theme }) => theme.colors.background + "99"};
+  backdrop-filter: blur(1px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,7 +94,7 @@ export const TestamentButton = styled.button`
     $active ? theme.colors.accentColor : theme.colors.colorSecondary};
   border: none;
   border-radius: ${({ theme }) => theme.borderRadius.small};
-  padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.small};
+  padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.xsmall};
   cursor: pointer;
   font-size: ${({ theme }) => theme.fontSizes.medium};
   transition: all 0.25s ease-in-out;

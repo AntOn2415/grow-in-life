@@ -1,14 +1,16 @@
+// src/components/InteractiveContent/QuestionPrompt/QuestionPrompt.jsx
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion"; // Імпортуємо motion та AnimatePresence
+import { motion, AnimatePresence } from "framer-motion";
+import TokenRenderer from "../../TokenRenderer/TokenRenderer";
 import {
   QuestionPromptContainer,
-  QuestionText,
+  QuestionHeading, // ✅ Використовуємо новий стилізований компонент
   ToggleAnswerButton,
   AnswerText,
   QuestionEmoji,
 } from "./QuestionPrompt.styled";
 
-const QuestionPrompt = ({ question, answer, emoji }) => {
+const QuestionPrompt = ({ question, answer, emoji, headingLevel = 3 }) => {
   const [showAnswer, setShowAnswer] = useState(false);
 
   const handleToggleAnswer = () => {
@@ -16,31 +18,31 @@ const QuestionPrompt = ({ question, answer, emoji }) => {
   };
 
   return (
-    <QuestionPromptContainer>
+    <QuestionPromptContainer as="section">
       <QuestionEmoji>{emoji || "❓"}</QuestionEmoji>
-      <QuestionText>{question}</QuestionText>
+      {/* ✅ Замінюємо QuestionText на QuestionHeading та передаємо рівень заголовка */}
+      <QuestionHeading as={`h${headingLevel}`}>
+        <TokenRenderer tokens={question} isHeading={true} />
+      </QuestionHeading>
       {answer && (
         <ToggleAnswerButton onClick={handleToggleAnswer}>
           {showAnswer ? "Сховати відповідь" : "Показати відповідь"}
         </ToggleAnswerButton>
       )}
-      {/* Використовуємо AnimatePresence для входу/виходу анімації */}
       <AnimatePresence>
         {showAnswer && answer && (
           <motion.div
-            // Початковий стан: висота 0, прозорість 0
             initial={{ height: 0, opacity: 0, overflow: "hidden" }}
-            // Кінцевий стан: автоматична висота, прозорість 1
             animate={{ height: "auto", opacity: 1 }}
-            // Стан виходу: висота 0, прозорість 0
             exit={{ height: 0, opacity: 0 }}
-            // Параметри переходу для жвавості
             transition={{
-              duration: 0.25, // Тривалість анімації
-              ease: [0.4, 0, 0.2, 1], // Крива Безьє для "жвавого" відчуття (ease-in-out-cubic)
+              duration: 0.25,
+              ease: [0.4, 0, 0.2, 1],
             }}
           >
-            <AnswerText>{answer}</AnswerText>
+            <AnswerText>
+              <TokenRenderer tokens={answer} />
+            </AnswerText>
           </motion.div>
         )}
       </AnimatePresence>

@@ -52,26 +52,35 @@ const ContentSelectorModal = ({ onClose, isMobile }) => {
   const modalContent = (
     <>
       <ModalHeader>
-        <TestamentNav>
-          <TestamentButton
-            $active={selectedTestament === "old-testament"}
-            onClick={() => {
-              setSelectedTestament("old-testament");
-              setSelectedBookKey(null);
-            }}
-          >
-            Старий Заповіт
-          </TestamentButton>
-          <TestamentButton
-            $active={selectedTestament === "new-testament"}
-            onClick={() => {
-              setSelectedTestament("new-testament");
-              setSelectedBookKey(null);
-            }}
-          >
-            Новий Заповіт
-          </TestamentButton>
-        </TestamentNav>
+        <motion.div
+          key="modal-desktop-wrapper"
+          variants={desktopModalVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+        >
+          <TestamentNav>
+            <TestamentButton
+              $active={selectedTestament === "old-testament"}
+              onClick={() => {
+                setSelectedTestament("old-testament");
+                setSelectedBookKey(null);
+              }}
+            >
+              Старий Заповіт
+            </TestamentButton>
+            <TestamentButton
+              $active={selectedTestament === "new-testament"}
+              onClick={() => {
+                setSelectedTestament("new-testament");
+                setSelectedBookKey(null);
+              }}
+            >
+              Новий Заповіт
+            </TestamentButton>
+          </TestamentNav>
+        </motion.div>
         <CloseButton onClick={onClose}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -88,6 +97,7 @@ const ContentSelectorModal = ({ onClose, isMobile }) => {
           </svg>
         </CloseButton>
       </ModalHeader>
+
       {!selectedBookKey ? (
         <BookList>
           {testamentData.items.map(book => (

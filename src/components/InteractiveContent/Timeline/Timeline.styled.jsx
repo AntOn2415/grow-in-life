@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-export const TimelineContainer = styled.div`
+// ✅ Замінено на styled(motion.section) для правильної семантики
+export const TimelineContainer = styled(motion.section)`
   margin: ${({ theme }) => theme.spacing.xlarge} 0;
   position: relative;
   padding-left: 30px;
@@ -18,7 +19,7 @@ export const TimelineContainer = styled.div`
     width: 2px;
     background-color: ${({ theme }) => theme.colors.borderColor};
     z-index: 0;
-    transition: background-color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору лінії
+    transition: background-color 0.25s ease-in-out;
   }
 
   ${({ theme }) => theme.media.down("sm")`
@@ -58,7 +59,7 @@ export const EventDot = styled(motion.div)`
   border: 2px solid ${({ theme }) => theme.colors.background};
   z-index: 1;
   transform-origin: center;
-  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out; // ДОДАНО: Перехід для кольорів точки
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out;
 
   ${({ theme }) => theme.media.down("sm")`
     width: 10px;
@@ -79,22 +80,24 @@ export const EventContent = styled(motion.div)`
   justify-content: center;
   position: relative;
   cursor: pointer;
-  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out; // ДОДАНО: Перехід для фону і рамки
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out;
 `;
 
-export const EventTitle = styled.h4`
+// ✅ Оновлено, щоб підтримувати динамічні заголовки
+export const EventTitle = styled.h3.attrs(props => ({
+  as: props.as || "h4",
+}))`
   color: ${({ theme }) => theme.colors.accentColor};
   font-size: ${({ theme }) => theme.fontSizes.large};
   margin: 0;
   font-weight: bold;
   line-height: 1.3;
-  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.25s ease-in-out;
 
   display: flex;
 
-  // ✅ ВИПРАВЛЕННЯ: Змінюємо flex-direction на row
   & > div:first-of-type {
-    flex-wrap: wrap; // Додаємо, щоб текст переносився на новий рядок, якщо не вміщається
+    flex-wrap: wrap;
     flex-grow: 1;
     margin-right: 10px;
   }
@@ -104,7 +107,7 @@ export const EventTitle = styled.h4`
     line-height: 1.3;
     font-size: ${({ theme }) => theme.fontSizes.large};
     color: ${({ theme }) => theme.colors.colorSecondary};
-    transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору іконки
+    transition: color 0.25s ease-in-out;
   }
 
   ${({ theme }) => theme.media.down("sm")`
@@ -123,11 +126,11 @@ export const EventTitle = styled.h4`
 export const EventYear = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.small};
   color: ${({ theme }) => theme.colors.colorSecondary};
-  margin-bottom: ${({ theme }) => theme.spacing.xxsmall};
-  margin-right: ${({ theme }) => theme.spacing.xxsmall};
+  margin-bottom: ${({ theme }) => theme.spacing.xsmall};
+  margin-right: ${({ theme }) => theme.spacing.xsmall};
   white-space: nowrap;
   font-weight: normal;
-  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.25s ease-in-out;
 
   ${({ theme }) => theme.media.down("sm")`
     font-size: ${({ theme }) => theme.fontSizes.xsmall};
@@ -140,7 +143,7 @@ export const EventDescription = styled.p`
   line-height: 1.5;
   margin-bottom: 0;
   word-wrap: break-word;
-  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору
+  transition: color 0.25s ease-in-out;
 
   ${({ theme }) => theme.media.down("sm")`
     font-size: ${({ theme }) => theme.fontSizes.small};
@@ -154,7 +157,7 @@ export const EventVersesContainer = styled.div`
   flex-wrap: wrap;
   gap: 8px;
   cursor: default;
-  transition: border-top-color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору рамки
+  transition: border-top-color 0.25s ease-in-out;
 
   ${({ theme }) => theme.media.down("sm")`
     gap: 6px;

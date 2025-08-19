@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useTheme } from "../../contexts/ThemeProvider";
-import { Nav, Link, ToggleButton, HamburgerIcon, MobileMenu } from "./Navigation.styled";
+import {
+  Nav,
+  Link,
+  ToggleButton,
+  HamburgerIcon,
+  MobileMenu,
+  StyledList,
+  StyledListItem,
+} from "./Navigation.styled";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { breakpoints } from "../../styles/shared/breakpoints";
 import { useClickOutside } from "../../hooks/useClickOutside";
@@ -21,7 +29,6 @@ const Navigation = React.forwardRef(({ showNav }, ref) => {
   const isMobile = useMediaQuery(`(max-width: ${breakpoints.md})`);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Використовуємо наш хук для автоматичного закриття меню
   const wrapperRef = useClickOutside(() => {
     if (mobileMenuOpen) {
       setMobileMenuOpen(false);
@@ -37,7 +44,12 @@ const Navigation = React.forwardRef(({ showNav }, ref) => {
       <Nav ref={ref} className={showNav ? "nav-visible" : "nav-hidden"}>
         {isMobile ? (
           <>
-            <HamburgerIcon onClick={toggleMobileMenu} isOpen={mobileMenuOpen}>
+            <HamburgerIcon
+              onClick={toggleMobileMenu}
+              isOpen={mobileMenuOpen}
+              aria-label="Відкрити/закрити меню"
+              aria-expanded={mobileMenuOpen}
+            >
               <div />
               <div />
               <div />
@@ -46,30 +58,38 @@ const Navigation = React.forwardRef(({ showNav }, ref) => {
               Лого
             </Link>
             <ToggleButton onClick={toggleTheme}>{mode === "light" ? "Ніч" : "День"}</ToggleButton>
+
             <MobileMenu isOpen={mobileMenuOpen}>
-              {navItems.map(item => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className={location.pathname === item.to ? "active" : ""}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              <nav>
+                <StyledList>
+                  {navItems.map(item => (
+                    <StyledListItem key={item.to}>
+                      <Link
+                        to={item.to}
+                        className={location.pathname === item.to ? "active" : ""}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    </StyledListItem>
+                  ))}
+                </StyledList>
+              </nav>
             </MobileMenu>
           </>
         ) : (
           <>
-            {navItems.map(item => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={location.pathname === item.to ? "active" : ""}
-              >
-                {item.label}
-              </Link>
-            ))}
+            <nav>
+              <StyledList>
+                {navItems.map(item => (
+                  <StyledListItem key={item.to}>
+                    <Link to={item.to} className={location.pathname === item.to ? "active" : ""}>
+                      {item.label}
+                    </Link>
+                  </StyledListItem>
+                ))}
+              </StyledList>
+            </nav>
             <ToggleButton onClick={toggleTheme}>{mode === "light" ? "Ніч" : "День"}</ToggleButton>
           </>
         )}

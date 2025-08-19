@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import { motion } from "framer-motion";
 
-// ОНОВЛЕНО: Цей масив тепер містить всі пропси, які потрібно ігнорувати
 const shouldForwardProp = prop =>
   ![
     "sidebarCollapsed",
@@ -15,11 +13,12 @@ const shouldForwardProp = prop =>
     "expanded",
     "show",
     "isOpen",
+    "isMainSplit",
   ].includes(prop);
 
 export const Wrapper = styled.div`
-  height: 100vh; /* Wrapper займає всю висоту екрана */
-  overflow: hidden; /* Прибираємо прокрутку з Wrapper */
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   background: ${({ theme }) => theme.colors.background};
@@ -32,14 +31,14 @@ export const ContentGrid = styled.div.withConfig({ shouldForwardProp })`
   grid-template-columns: ${({ sidebarCollapsed, isHome, rightSidebarExpanded }) =>
     isHome
       ? "0 1fr 0"
-      : `
-        ${sidebarCollapsed ? "80px" : "calc(100vw / 5)"}
-        1fr
-        ${rightSidebarExpanded ? "calc(100vw / 2.5)" : "80px"}
-      `};
+      : ` 
+         ${sidebarCollapsed ? "64px" : "calc(100vw / 5)"} 
+         1fr 
+         ${rightSidebarExpanded ? "calc(100vw / 2.5)" : "75px"} 
+       `};
   grid-template-rows: 1fr;
-  height: 100%; /* Займає всю висоту доступного простору в Wrapper */
-  transition: grid-template-columns 0.3s ease-in-out;
+  height: 100%;
+  transition: grid-template-columns 0.25s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`
     display: grid;
@@ -55,11 +54,8 @@ export const Main = styled.main.withConfig({ shouldForwardProp })`
   grid-column: 2;
   grid-row: 1;
   overflow-y: auto;
-  // ✅ ВИПРАВЛЕНО: Відступ зверху для десктопу тепер динамічний
   padding-top: ${({ navHeight }) => navHeight + 50}px;
-
   transition: padding 0.2s ease-in-out, background 0.25s ease-in-out;
-
   padding-left: ${({ theme, sidebarCollapsed, rightSidebarExpanded }) =>
     sidebarCollapsed && !rightSidebarExpanded ? "15%" : theme.spacing.xlarge};
   padding-right: ${({ theme, sidebarCollapsed, rightSidebarExpanded }) =>
@@ -75,63 +71,23 @@ export const Main = styled.main.withConfig({ shouldForwardProp })`
     grid-row: 1;
     padding-left: ${theme.spacing.medium};
     padding-right: ${theme.spacing.medium};
-    padding-top: calc(50px + ${theme.spacing.medium}); 
+    padding-top: calc(50px + ${theme.spacing.medium});
     padding-bottom: 50px;
     transition: none;
+    
+    height: ${({ isMainSplit }) => (isMainSplit ? "calc(50vh - 1px)" : "100%")};
+    transition: height 0.25s ease-in-out;
   `}
-  
+
   ${({ theme }) => theme.media.down("sm")`
     padding-left: ${theme.spacing.small};
     padding-right: ${theme.spacing.small};
     padding-bottom: 50px;
   `}
-  
+
   ${({ theme }) => theme.media.down("xs")`
     padding-left: ${theme.spacing.xsmall};
     padding-right: ${theme.spacing.xsmall};
-  `}
-`;
-
-export const LeftSidebarContainer = styled.div.withConfig({ shouldForwardProp })`
-  grid-column: 1;
-  grid-row: 1;
-  position: sticky;
-  top: ${({ navHeight }) => navHeight}px;
-  height: calc(100vh - ${({ navHeight }) => navHeight}px);
-  overflow-y: auto;
-  z-index: 900;
-  display: ${({ isHome, isMobile, showMobile }) =>
-    isMobile ? (showMobile ? "flex" : "none") : isHome ? "none" : "flex"};
-  flex-direction: column;
-  justify-content: flex-end;
-  margin-left: ${({ theme }) => theme.spacing.small};
-  transition: top 0.25s cubic-bezier(0.4, 0, 0.2, 1), margin 0.2s ease-in-out,
-    width 0.2s ease-in-out, padding 0.2s ease-in-out;
-
-  ${({ theme }) => theme.media.down("md")`
-    display: none;
-  `}
-`;
-
-export const RightSidebarContainer = styled.div.withConfig({ shouldForwardProp })`
-  box-sizing: border-box;
-  grid-column: 3;
-  grid-row: 1;
-  position: sticky;
-  top: ${({ navHeight }) => navHeight}px;
-  height: calc(100vh - ${({ navHeight }) => navHeight}px);
-  overflow-y: auto;
-  z-index: 900;
-  display: ${({ isHome, isMobile, showMobile }) =>
-    isMobile ? (showMobile ? "flex" : "none") : isHome ? "none" : "flex"};
-  flex-direction: column;
-  justify-content: flex-end;
-  margin-right: ${({ theme }) => theme.spacing.small};
-  transition: top 0.25s cubic-bezier(0.4, 0, 0.2, 1), margin 0.2s ease-in-out,
-    width 0.2s ease-in-out, padding 0.2s ease-in-out;
-
-  ${({ theme }) => theme.media.down("md")`
-    display: none;
   `}
 `;
 
@@ -144,12 +100,13 @@ export const MobileLeftSidebarOverlay = styled.div.withConfig({ shouldForwardPro
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: ${({ theme }) => theme.colors.background + "99"};
+    backdrop-filter: blur(1px);
     z-index: 997;
     cursor: pointer;
     opacity: ${({ show }) => (show ? 1 : 0)};
     visibility: ${({ show }) => (show ? "visible" : "hidden")};
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out, background 0.25s ease-in-out;
   `}
 `;
 
@@ -162,47 +119,17 @@ export const MobileRightSidebarOverlay = styled.div.withConfig({ shouldForwardPr
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: ${({ theme }) => theme.colors.background + "99"};
+    backdrop-filter: blur(1px);
     z-index: 997;
     cursor: pointer;
     opacity: ${({ show }) => (show ? 1 : 0)};
     visibility: ${({ show }) => (show ? "visible" : "hidden")};
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-
+    transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out, background 0.25s ease-in-out;
     ${({ isRightSidebarSplit }) =>
       isRightSidebarSplit &&
       `
       display: none;
     `}
-  `}
-`;
-
-export const MobileRightSidebarDiv = styled(motion.div).withConfig({ shouldForwardProp })`
-  position: fixed;
-  right: 0;
-  width: 100%;
-  overflow-y: auto;
-  z-index: 998;
-  background: ${({ theme }) => theme.colors.navBg};
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-
-  height: ${({ isRightSidebarSplit }) =>
-    isRightSidebarSplit ? "calc(50vh - 50px)" : "calc(100vh - 100px)"};
-`;
-
-export const Overlay = styled.div.withConfig({ shouldForwardProp })`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 999;
-  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
-  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
-  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-
-  ${({ theme }) => theme.media.up("md")`
-    display: none;
   `}
 `;

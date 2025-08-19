@@ -194,9 +194,9 @@ export default function HomeGroupsMenu({ isCollapsed, onNavLinkClick, isMobile }
           <Section key={category.id}>
             <SectionTitle
               isCollapsed={isCollapsed}
-              role="button"
-              tabIndex={0}
               onClick={() => toggleSection(category.id)}
+              aria-expanded={openSections[category.id]}
+              aria-controls={`section-content-${category.id}`}
               onKeyDown={e => ["Enter", " "].includes(e.key) && toggleSection(category.id)}
             >
               {isCollapsed && showCollapsedItems ? (
@@ -269,6 +269,8 @@ export default function HomeGroupsMenu({ isCollapsed, onNavLinkClick, isMobile }
                               role="button"
                               tabIndex={0}
                               onClick={() => handleBookToggle(book.internalKey)}
+                              aria-expanded={openSections.openBook === book.internalKey}
+                              aria-controls={`book-lessons-${book.internalKey}`}
                               onKeyDown={e =>
                                 ["Enter", " "].includes(e.key) && handleBookToggle(book.internalKey)
                               }
@@ -323,6 +325,7 @@ export default function HomeGroupsMenu({ isCollapsed, onNavLinkClick, isMobile }
                                 homeGroupsContent[book.internalKey].length > 0 && (
                                   <motion.div
                                     key={book.internalKey + "-lessons"}
+                                    id={`book-lessons-${book.internalKey}`}
                                     initial="hidden"
                                     animate="visible"
                                     exit="exit"

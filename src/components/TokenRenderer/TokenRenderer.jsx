@@ -5,16 +5,16 @@ import BibleLink from "../BibleLink/BibleLink";
 const BoldText = ({ children }) => <strong style={{ color: "inherit" }}>{children}</strong>;
 const ItalicText = ({ children }) => <em style={{ color: "inherit" }}>{children}</em>;
 const QuoteText = ({ children }) => (
-  <blockquote
+  <span
     style={{
       fontStyle: "italic",
       borderLeft: "2px solid #ccc",
       paddingLeft: "10px",
-      margin: "10px 0",
+      margin: "0 0 10px 0",
     }}
   >
     {children}
-  </blockquote>
+  </span>
 );
 
 const renderSingleToken = (token, key) => {

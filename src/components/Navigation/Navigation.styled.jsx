@@ -1,15 +1,29 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
+// Компонент для стилізації UL
+export const StyledList = styled.ul`
+  display: flex;
+  list-style: none; /* Прибираємо маркери списку */
+  margin: 0;
+  padding: 0;
+  gap: ${({ theme }) => theme.spacing.small}; /* Додаємо відступ між елементами */
+  align-items: center;
+`;
+
+// Компонент для стилізації LI
+export const StyledListItem = styled.li`
+  display: flex;
+  align-items: center;
+`;
+
 export const Nav = styled.nav`
-  /* ✅ Змінено: замість sticky використовуємо fixed для десктопу */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 70px;
   padding: ${({ theme }) => theme.spacing.xsmall};
-  gap: ${({ theme }) => theme.spacing.small};
   background: ${({ theme }) => theme.colors.navBg};
   display: flex;
   justify-content: center;
@@ -30,7 +44,6 @@ export const Nav = styled.nav`
 
   ${({ theme }) => theme.media.down("md")`
     position: fixed;
-    
     height: 50px;
     padding: 0 ${({ theme }) => theme.spacing.medium};
     justify-content: space-between;
@@ -73,9 +86,8 @@ export const ToggleButton = styled.button`
 `;
 
 export const HamburgerIcon = styled.button`
-  display: none; // За замовчуванням прихований
+  display: none;
 
-  // Зміна: вмикаємо його лише на мобільних
   ${({ theme }) => theme.media.down("md")`
     display: flex;
     flex-direction: column;
@@ -87,7 +99,6 @@ export const HamburgerIcon = styled.button`
     cursor: pointer;
     padding: 0;
     z-index: 10;
-
 
     div {
       width: 25px;
@@ -130,6 +141,10 @@ export const MobileMenu = styled.div`
     transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(-100%)")};
     transition: transform 0.25s ease-in-out, background 0.25s ease-in-out;
     z-index: 999;
+    
+    ${StyledList} {
+      flex-direction: column;
+    }
 
     ${Link} {
       display: block;

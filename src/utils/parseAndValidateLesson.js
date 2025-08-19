@@ -1,8 +1,8 @@
-// src/utils/parserAndValidateLesson.js
+// src/utils/parseAndValidateContent.js
+
 import { parseTags } from "./tagParser";
 import { LessonSchema } from "./validationSchemas";
 
-// ✅ ОНОВЛЕНО: Додано 'heading' і 'subtitle' до списку TOKENIZABLE_KEYS
 const TOKENIZABLE_KEYS = [
   "title",
   "shortTitle",
@@ -11,18 +11,22 @@ const TOKENIZABLE_KEYS = [
   "question",
   "answer",
   "text",
-  "heading", // ✅ Додано
+  "heading",
   "caption",
   "rationale",
   "verses",
   "items",
-  "subtitle", // ✅ Додано
+  "subtitle",
+  "description",
+  "year",
 ];
 
 const deepParseTags = (data, parentKey = null) => {
   if (typeof data === "string") {
+    // Перевіряємо, чи поточний ключ повинен бути токенізований
     if (TOKENIZABLE_KEYS.includes(parentKey)) {
       const parsedResult = parseTags(data);
+      // Забезпечуємо, що результат завжди є масивом, щоб уникнути помилок рендерингу
       if (Array.isArray(parsedResult)) {
         return parsedResult;
       }
@@ -31,6 +35,7 @@ const deepParseTags = (data, parentKey = null) => {
     return data;
   }
   if (Array.isArray(data)) {
+    // Рекурсивно обробляємо кожен елемент масиву
     return data.map(item => deepParseTags(item, parentKey));
   }
   if (typeof data === "object" && data !== null) {
@@ -43,7 +48,7 @@ const deepParseTags = (data, parentKey = null) => {
   return data;
 };
 
-export const parseAndValidateLesson = lessonData => {
+export const parseAndValidateContent = lessonData => {
   try {
     const validatedData = LessonSchema.parse(lessonData);
     const parsedLesson = deepParseTags(validatedData, "lesson");

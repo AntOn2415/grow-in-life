@@ -1,3 +1,5 @@
+// src/utils/validationSchemas.js
+
 import { z } from "zod";
 
 // Оновлена схема для звичайного тексту, щоб вона була універсальною
@@ -32,27 +34,22 @@ const TokenizedText = z.lazy(() =>
   ])
 );
 
-/// Базова схема для всіх секцій
+// Базова схема для всіх секцій
 const BaseSectionSchema = z.object({
-  type: z.string(),
   title: TokenizedText.optional(),
 });
 
-// ✅ ОНОВЛЕНО: Додано 'subtitle' до TextSectionSchema
 const TextSectionSchema = BaseSectionSchema.extend({
   type: z.literal("text"),
   subtitle: TokenizedText.optional(),
   content: z.array(TokenizedText),
 });
 
-// ✅ ОНОВЛЕНО: Додано 'heading' до ListSectionSchema
 const ListSectionSchema = BaseSectionSchema.extend({
   type: z.literal("list"),
-  heading: TokenizedText.optional(),
   items: z.array(TokenizedText),
 });
 
-// Схема для відображення картками
 const ListCardsSectionSchema = BaseSectionSchema.extend({
   type: z.literal("list-cards"),
   cards: z.array(
@@ -75,17 +72,6 @@ const QuestionPromptSchema = BaseSectionSchema.extend({
   question: TokenizedText,
   answer: TokenizedText.optional(),
   emoji: z.string().optional(),
-});
-
-const ListCardsSchema = BaseSectionSchema.extend({
-  type: z.literal("list-cards"),
-  cards: z.array(
-    z.object({
-      title: TokenizedText.optional(),
-      content: TokenizedText,
-      emoji: z.string().optional(),
-    })
-  ),
 });
 
 const TimelineSchema = BaseSectionSchema.extend({
@@ -163,6 +149,31 @@ const ContrastSectionSchema = BaseSectionSchema.extend({
   ),
 });
 
+// ✅ НОВА РЕКУРСИВНА СХЕМА
+const LessonSectionSchema = z.lazy(() =>
+  z.union([
+    TextSectionSchema.extend({ type: z.literal("text") }),
+    ListCardsSectionSchema.extend({ type: z.literal("list-cards") }),
+    ListSectionSchema.extend({ type: z.literal("list") }),
+    HighlightBoxSchema.extend({ type: z.literal("highlight-box") }),
+    QuestionPromptSchema.extend({ type: z.literal("question-prompt") }),
+    TimelineSchema.extend({ type: z.literal("timeline") }),
+    RevealCardsSchema.extend({ type: z.literal("reveal-cards") }),
+    QuizSchema.extend({ type: z.literal("quiz") }),
+    DiagramSchema.extend({ type: z.literal("diagram") }),
+    ImagePlaceholderSchema.extend({ type: z.literal("image-placeholder") }),
+    DescriptionWithImageSchema.extend({ type: z.literal("description-with-image") }),
+    ContrastSectionSchema.extend({ type: z.literal("contrast-section") }),
+    // Додаємо новий тип для групування
+    z.object({
+      type: z.literal("section-group"),
+      title: TokenizedText,
+      sections: z.array(LessonSectionSchema), // Рекурсія тут!
+    }),
+  ])
+);
+
+// Оновлюємо загальну схему уроку
 export const LessonSchema = z.object({
   id: z.string(),
   title: TokenizedText,
@@ -176,21 +187,5 @@ export const LessonSchema = z.object({
   duration: z.string(),
   tags: z.array(z.string()),
   description: TokenizedText.optional(),
-  sections: z.array(
-    z.union([
-      TextSectionSchema,
-      ListCardsSectionSchema,
-      ListSectionSchema,
-      HighlightBoxSchema,
-      QuestionPromptSchema,
-      ListCardsSchema,
-      TimelineSchema,
-      RevealCardsSchema,
-      QuizSchema,
-      DiagramSchema,
-      ImagePlaceholderSchema,
-      DescriptionWithImageSchema,
-      ContrastSectionSchema,
-    ])
-  ),
+  sections: z.array(LessonSectionSchema), // Використовуємо нову рекурсивну схему
 });

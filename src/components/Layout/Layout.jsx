@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext, useCallback } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Navigation from "../Navigation/Navigation";
@@ -10,16 +10,13 @@ import { breakpoints } from "../../styles/shared/breakpoints";
 import {
   Wrapper,
   ContentGrid,
-  LeftSidebarContainer,
-  RightSidebarContainer,
   Main,
   MobileLeftSidebarOverlay,
   MobileRightSidebarOverlay,
-  MobileRightSidebarDiv,
 } from "./Layout.styled";
 import { BibleContext } from "../../contexts/BibleContext";
-import { useContext } from "react";
 
+// Варіанти анімації для лівого сайдбару
 const leftSidebarVariants = {
   hidden: {
     x: "-100%",
@@ -27,6 +24,18 @@ const leftSidebarVariants = {
   },
   visible: {
     x: "0%",
+    transition: { ease: "easeIn", duration: 0.25 },
+  },
+};
+
+// Варіанти анімації для правого сайдбару (поява/зникнення)
+const rightSidebarVariants = {
+  hidden: {
+    y: "100%",
+    transition: { ease: "easeOut", duration: 0.25 },
+  },
+  visible: {
+    y: "0%",
     transition: { ease: "easeIn", duration: 0.25 },
   },
 };
@@ -48,41 +57,101 @@ const Layout = () => {
   const lastScroll = useRef(0);
   const { leftSidebarCollapsed: initialLeftCollapsed, isRightSidebarSplit: initialRightSplit } =
     getInitialSidebarState();
-
   const [leftSidebarCollapsed, setLeftSidebarCollapsed] = useState(initialLeftCollapsed);
   const [previousLeftCollapsedState, setPreviousLeftCollapsedState] = useState(false);
   const [isRightSidebarSplit, setIsRightSidebarSplit] = useState(initialRightSplit);
-  const [mainHeight, setMainHeight] = useState("100%");
   const [showMobileLeftSidebar, setShowMobileLeftSidebar] = useState(false);
   const [showMobileRightSidebar, setShowMobileRightSidebar] = useState(false);
-
+  const [isMainSplit, setIsMainSplit] = useState(initialRightSplit);
   const location = useLocation();
   const navRef = useRef(null);
   const [navHeight, setNavHeight] = useState(0);
-
   const mainRef = useRef(null);
-
   const isMobile = useMediaQuery(`(max-width: ${breakpoints.md})`);
-
   const { navId, navSource } = useContext(BibleContext);
   const lastNavIdRef = useRef(null);
+
+  const toggleMobileLeftSidebar = useCallback(shouldOpen => {
+    if (shouldOpen === false) {
+      setShowMobileLeftSidebar(false);
+    } else {
+      setShowMobileLeftSidebar(prev => {
+        const newState = !prev;
+        if (newState) {
+          setShowMobileRightSidebar(false);
+          setIsRightSidebarSplit(false);
+        }
+        return newState;
+      });
+    }
+  }, []);
+
+  const toggleMobileRightSidebar = useCallback(shouldOpen => {
+    if (shouldOpen === false) {
+      setShowMobileRightSidebar(false);
+      setIsRightSidebarSplit(false);
+      setIsMainSplit(false);
+    } else {
+      setShowMobileRightSidebar(prev => {
+        const newState = !prev;
+        if (newState) {
+          setShowMobileLeftSidebar(false);
+          setIsRightSidebarSplit(true);
+          setTimeout(() => {
+            setIsMainSplit(true);
+          }, 125);
+        } else {
+          setIsRightSidebarSplit(false);
+          setIsMainSplit(false);
+        }
+        return newState;
+      });
+    }
+  }, []);
+
+  const toggleRightSidebarSplit = useCallback(() => {
+    setIsRightSidebarSplit(prev => {
+      const newSplitState = !prev;
+      if (!isMobile) {
+        if (newSplitState) {
+          setPreviousLeftCollapsedState(leftSidebarCollapsed);
+          setLeftSidebarCollapsed(true);
+        } else {
+          setLeftSidebarCollapsed(previousLeftCollapsedState);
+        }
+      }
+      return newSplitState;
+    });
+  }, [isMobile, leftSidebarCollapsed, previousLeftCollapsedState]);
 
   useEffect(() => {
     if (navId && navId !== lastNavIdRef.current) {
       lastNavIdRef.current = navId;
+
       if (isMobile) {
-        if (navSource === "text") {
+        if (navSource === "text" && !showMobileRightSidebar) {
           setShowMobileLeftSidebar(false);
           setShowMobileRightSidebar(true);
-          setIsRightSidebarSplit(true);
-        } else if (navSource === "menu") {
+        } else if (navSource === "menu" && !showMobileRightSidebar) {
           setShowMobileLeftSidebar(false);
           setShowMobileRightSidebar(true);
-          setIsRightSidebarSplit(false);
+        }
+      } else {
+        if (navSource === "text" && !isRightSidebarSplit) {
+          toggleRightSidebarSplit();
         }
       }
     }
-  }, [navId, isMobile, navSource]);
+  }, [
+    navId,
+    isMobile,
+    navSource,
+    isRightSidebarSplit,
+    showMobileRightSidebar,
+    setShowMobileRightSidebar,
+    setShowMobileLeftSidebar,
+    toggleRightSidebarSplit,
+  ]);
 
   useEffect(() => {
     sessionStorage.setItem("leftSidebarCollapsed", JSON.stringify(leftSidebarCollapsed));
@@ -100,22 +169,6 @@ const Layout = () => {
   }, [isMobile]);
 
   useEffect(() => {
-    let timeoutId;
-    if (isMobile && showMobileRightSidebar) {
-      if (isRightSidebarSplit) {
-        timeoutId = setTimeout(() => {
-          setMainHeight("calc(50vh - 1px)");
-        }, 250);
-      } else {
-        setMainHeight("100%");
-      }
-    } else {
-      setMainHeight("100%");
-    }
-    return () => clearTimeout(timeoutId);
-  }, [isRightSidebarSplit, showMobileRightSidebar, isMobile]);
-
-  useEffect(() => {
     if (isMobile && (showMobileLeftSidebar || (showMobileRightSidebar && !isRightSidebarSplit))) {
       setShowNav(true);
     } else if (!isMobile) {
@@ -131,11 +184,9 @@ const Layout = () => {
     const handleScroll = () => {
       const mainElement = mainRef.current;
       const curr = mainElement ? mainElement.scrollTop : 0;
-
       if (isMobile && (showMobileLeftSidebar || (showMobileRightSidebar && !isRightSidebarSplit))) {
         return;
       }
-
       if (!ticking) {
         window.requestAnimationFrame(() => {
           if (curr > lastScroll.current && curr > navHeight) {
@@ -174,8 +225,7 @@ const Layout = () => {
   }, [location.pathname]);
 
   useEffect(() => {
-    const isAnySidebarOpen =
-      showMobileLeftSidebar || showMobileRightSidebar || showMobileRightSidebar;
+    const isAnySidebarOpen = showMobileLeftSidebar || showMobileRightSidebar;
     if (isMobile && isAnySidebarOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -183,59 +233,13 @@ const Layout = () => {
     }
   }, [showMobileLeftSidebar, showMobileRightSidebar, isRightSidebarSplit, isMobile]);
 
-  const toggleMobileLeftSidebar = shouldOpen => {
-    if (shouldOpen === false) {
-      setShowMobileLeftSidebar(false);
-    } else {
-      setShowMobileLeftSidebar(prev => {
-        const newState = !prev;
-        if (newState) {
-          setShowMobileRightSidebar(false);
-          setIsRightSidebarSplit(false);
-        }
-        return newState;
-      });
-    }
-  };
-
-  const toggleMobileRightSidebar = shouldOpen => {
-    if (shouldOpen === false) {
-      setShowMobileRightSidebar(false);
-      setIsRightSidebarSplit(false);
-    } else {
-      setShowMobileRightSidebar(prev => {
-        const newState = !prev;
-        if (newState) {
-          setShowMobileLeftSidebar(false);
-          setIsRightSidebarSplit(true);
-        } else {
-          setIsRightSidebarSplit(false);
-        }
-        return newState;
-      });
-    }
-  };
-
-  const toggleRightSidebarSplit = () => {
-    setIsRightSidebarSplit(prev => {
-      const newSplitState = !prev;
-      if (!isMobile) {
-        if (newSplitState) {
-          setPreviousLeftCollapsedState(leftSidebarCollapsed);
-          setLeftSidebarCollapsed(true);
-        } else {
-          setLeftSidebarCollapsed(previousLeftCollapsedState);
-        }
-      }
-      return newSplitState;
-    });
-  };
-
   const isHome = location.pathname === "/";
 
   return (
     <Wrapper>
-      <Navigation ref={navRef} showNav={showNav} />
+      <header>
+        <Navigation ref={navRef} showNav={showNav} />
+      </header>
       <ContentGrid
         sidebarCollapsed={leftSidebarCollapsed}
         isHome={isHome}
@@ -243,14 +247,12 @@ const Layout = () => {
         isRightSidebarSplit={isRightSidebarSplit}
       >
         {!isHome && !isMobile && (
-          <LeftSidebarContainer
-            isHome={isHome}
-            isMobile={false}
-            navHeight={navHeight}
+          <Sidebar
             collapsed={leftSidebarCollapsed}
-          >
-            <Sidebar collapsed={leftSidebarCollapsed} setCollapsed={setLeftSidebarCollapsed} />
-          </LeftSidebarContainer>
+            setCollapsed={setLeftSidebarCollapsed}
+            navHeight={navHeight}
+            isHome={isHome}
+          />
         )}
         <Main
           ref={mainRef}
@@ -258,81 +260,60 @@ const Layout = () => {
           rightSidebarExpanded={isRightSidebarSplit}
           navHeight={navHeight}
           isRightSidebarSplit={isRightSidebarSplit}
+          isMainSplit={isMainSplit}
           as={motion.main}
-          style={{
-            height: isMobile ? mainHeight : "100%",
-          }}
         >
           <Outlet context={{ mainRef }} />
         </Main>
         {!isHome && !isMobile && (
-          <RightSidebarContainer
-            isHome={isHome}
-            isMobile={false}
+          <RightSidebar
+            toggleRightSidebarSplit={toggleRightSidebarSplit}
+            isRightSidebarSplit={isRightSidebarSplit}
+            isMobile={isMobile}
             navHeight={navHeight}
-            expanded={isRightSidebarSplit}
-          >
-            <RightSidebar
-              toggleRightSidebarSplit={toggleRightSidebarSplit}
-              isRightSidebarSplit={isRightSidebarSplit}
-              isMobile={isMobile}
-            />
-          </RightSidebarContainer>
+            isHome={isHome}
+          />
         )}
         {isMobile && (
           <>
             <MobileBottomNav
-              onLeftMenuClick={toggleMobileLeftSidebar}
-              onRightMenuClick={toggleMobileRightSidebar}
+              onLeftMenuClick={() => toggleMobileLeftSidebar(true)}
+              onRightMenuClick={() => toggleMobileRightSidebar(true)}
               isLeftMenuOpen={showMobileLeftSidebar}
               isRightMenuOpen={showMobileRightSidebar}
             />
             <AnimatePresence>
               {showMobileLeftSidebar && (
-                <motion.div
+                <Sidebar
                   key="left-sidebar"
                   initial="hidden"
                   animate="visible"
                   exit="hidden"
                   variants={leftSidebarVariants}
-                  style={{
-                    position: "fixed",
-                    top: "50px",
-                    left: 0,
-                    width: "300px",
-                    height: "calc(100vh - 50px)",
-                    overflowY: "auto",
-                    zIndex: 998,
-                    boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-                  }}
-                >
-                  <Sidebar
-                    onCloseMobileSidebar={() => setShowMobileLeftSidebar(false)}
-                    isMobile={isMobile}
-                  />
-                </motion.div>
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label="Основне меню"
+                  onCloseMobileSidebar={() => setShowMobileLeftSidebar(false)}
+                  isMobile={isMobile}
+                />
               )}
             </AnimatePresence>
             <AnimatePresence>
               {showMobileRightSidebar && (
-                <MobileRightSidebarDiv
+                <RightSidebar
                   key="right-sidebar"
-                  initial={{ y: "100%" }}
-                  animate={{
-                    y: 0,
-                    top: isRightSidebarSplit ? "50%" : "50px",
-                    height: isRightSidebarSplit ? "calc(50vh - 50px)" : "calc(100vh - 100px)",
-                  }}
-                  exit={{ y: "100%" }}
-                  transition={{ duration: 0.25, ease: "easeInOut" }}
-                >
-                  <RightSidebar
-                    toggleRightSidebarSplit={toggleRightSidebarSplit}
-                    isRightSidebarSplit={isRightSidebarSplit}
-                    isMobile={isMobile}
-                    onCloseMobileSidebar={() => setShowMobileRightSidebar(false)}
-                  />
-                </MobileRightSidebarDiv>
+                  initial="hidden"
+                  animate="visible"
+                  exit="hidden"
+                  variants={rightSidebarVariants}
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label="Додаткові інструменти"
+                  toggleRightSidebarSplit={toggleRightSidebarSplit}
+                  isRightSidebarSplit={isRightSidebarSplit}
+                  isMobile={isMobile}
+                  onCloseMobileSidebar={() => setShowMobileRightSidebar(false)}
+                />
               )}
             </AnimatePresence>
             <MobileLeftSidebarOverlay
