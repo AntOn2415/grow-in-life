@@ -32,10 +32,10 @@ export const ContentGrid = styled.div.withConfig({ shouldForwardProp })`
     isHome
       ? "0 1fr 0"
       : ` 
-         ${sidebarCollapsed ? "64px" : "calc(100vw / 5)"} 
-         1fr 
-         ${rightSidebarExpanded ? "calc(100vw / 2.5)" : "75px"} 
-       `};
+        ${sidebarCollapsed ? "64px" : "calc(100vw / 5)"} 
+        1fr 
+        ${rightSidebarExpanded ? "calc(100vw / 2.5)" : "75px"} 
+      `};
   grid-template-rows: 1fr;
   height: 100%;
   transition: grid-template-columns 0.25s ease-in-out;
@@ -54,7 +54,7 @@ export const Main = styled.main.withConfig({ shouldForwardProp })`
   grid-column: 2;
   grid-row: 1;
   overflow-y: auto;
-  padding-top: ${({ navHeight }) => navHeight + 50}px;
+  padding-top: ${({ navHeight }) => navHeight + 10}px;
   transition: padding 0.2s ease-in-out, background 0.25s ease-in-out;
   padding-left: ${({ theme, sidebarCollapsed, rightSidebarExpanded }) =>
     sidebarCollapsed && !rightSidebarExpanded ? "15%" : theme.spacing.xlarge};

@@ -132,6 +132,8 @@ const Layout = () => {
         if (navSource === "text" && !showMobileRightSidebar) {
           setShowMobileLeftSidebar(false);
           setShowMobileRightSidebar(true);
+          // ✅ ФІКС: Відкриваємо сайдбар наполовину при першому кліку на "текст"
+          setIsRightSidebarSplit(true);
         } else if (navSource === "menu" && !showMobileRightSidebar) {
           setShowMobileLeftSidebar(false);
           setShowMobileRightSidebar(true);
@@ -150,6 +152,7 @@ const Layout = () => {
     showMobileRightSidebar,
     setShowMobileRightSidebar,
     setShowMobileLeftSidebar,
+    setIsRightSidebarSplit,
     toggleRightSidebarSplit,
   ]);
 

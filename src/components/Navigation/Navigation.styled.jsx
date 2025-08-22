@@ -4,11 +4,11 @@ import { NavLink } from "react-router-dom";
 // Компонент для стилізації UL
 export const StyledList = styled.ul`
   display: flex;
-  list-style: none; /* Прибираємо маркери списку */
+
   margin: 0;
   padding: 0;
   gap: ${({ theme }) => theme.spacing.small}; /* Додаємо відступ між елементами */
-  align-items: center;
+  align-items: start;
 `;
 
 // Компонент для стилізації LI
@@ -65,7 +65,7 @@ export const Link = styled(NavLink)`
   }
 
   ${({ theme }) => theme.media.down("md")`
-    display: none;
+    //display: none;
   `}
 `;
 
@@ -130,6 +130,8 @@ export const MobileMenu = styled.div`
   ${({ theme }) => theme.media.down("md")`
     display: flex;
     flex-direction: column;
+    align-items: start;
+
     position: fixed;
     top: 50px;
     left: 0;

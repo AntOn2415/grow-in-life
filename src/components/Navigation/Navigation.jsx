@@ -57,7 +57,13 @@ const Navigation = React.forwardRef(({ showNav }, ref) => {
             <Link to="/" style={{ marginRight: "auto", marginLeft: "10px" }}>
               Лого
             </Link>
-            <ToggleButton onClick={toggleTheme}>{mode === "light" ? "Ніч" : "День"}</ToggleButton>
+            <ToggleButton
+              onClick={toggleTheme}
+              aria-label={mode === "light" ? "Включити нічну тему" : "Включити денну тему"}
+              aria-pressed={mode === "dark"}
+            >
+              {mode === "light" ? "Ніч" : "День"}
+            </ToggleButton>
 
             <MobileMenu isOpen={mobileMenuOpen}>
               <nav>
@@ -90,7 +96,13 @@ const Navigation = React.forwardRef(({ showNav }, ref) => {
                 ))}
               </StyledList>
             </nav>
-            <ToggleButton onClick={toggleTheme}>{mode === "light" ? "Ніч" : "День"}</ToggleButton>
+            <ToggleButton
+              onClick={toggleTheme}
+              aria-label={mode === "light" ? "Включити нічну тему" : "Включити денну тему"}
+              aria-pressed={mode === "dark"}
+            >
+              {mode === "light" ? "Ніч" : "День"}
+            </ToggleButton>
           </>
         )}
       </Nav>

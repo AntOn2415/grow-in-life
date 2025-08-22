@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-export const BottomNavContainer = styled.div`
+export const BottomNavContainer = styled.nav`
+  // ✅ Змінив на <nav> для семантичної навігації
   display: none;
   ${({ theme }) => theme.media.down("md")`
     display: flex;
@@ -23,22 +24,32 @@ export const BottomNavContainer = styled.div`
   `}
 `;
 
-export const NavLinkItem = styled.div`
+export const NavLinkItem = styled.button`
+  // ✅ Змінив на <button>
+  // ✅ Це важливо! Скидаємо стандартні стилі кнопки
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+
+  // ✅ Ваші існуючі стилі
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   flex: 1;
-  color: ${({ theme }) => theme.colors.mobileNavButtonColor};
+  height: 100%;
   text-decoration: none;
   font-size: ${({ theme }) => theme.fontSizes.xsmall};
   font-weight: 500;
-  cursor: pointer;
   transition: color 0.25s ease-in-out;
-  padding: ${({ theme }) => theme.spacing.xsmall};
+  padding: ${({ theme }) => theme.spacing.xxsmall};
+  gap: ${({ theme }) => theme.spacing.xxxsmall};
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.mobileNavButtonActiveColor};
+  > span {
+    display: block;
+    line-height: 1;
   }
   &[data-active="true"] {
     color: ${({ theme }) => theme.colors.mobileNavButtonActiveColor};
@@ -47,6 +58,5 @@ export const NavLinkItem = styled.div`
 
 export const IconWrapper = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.large};
-  margin-bottom: ${({ theme }) => theme.spacing.xxsmall};
   transition: color 0.25s ease-in-out;
 `;

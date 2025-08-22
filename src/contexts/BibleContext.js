@@ -47,14 +47,6 @@ export const BibleProvider = ({ children }) => {
 
   const { bookKey, chapter, verse, testament, highlightedVerses, navId, navSource } = navState;
 
-  useEffect(() => {
-    console.log("BibleMenu Logs:", {
-      bookKey,
-      chapter,
-      testament,
-    });
-  }, [bookKey, chapter, testament]);
-
   // Використовуємо useCallback для стабілізації функції navigateTo
   const navigateTo = useCallback((bookRef, source = "text") => {
     const cleanRef = bookRef.replace(/[[\]]/g, "");

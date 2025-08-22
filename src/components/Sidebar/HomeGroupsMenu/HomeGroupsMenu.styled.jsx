@@ -69,7 +69,7 @@ export const ListItem = styled.li`
 `;
 
 export const Toggle = styled.span`
-  font-size: 1.2rem;
+  font-size: 0.7rem;
   margin-left: ${({ theme }) => theme.spacing.xsmall};
   line-height: 1;
   transition: transform 0.2s ease-in-out;

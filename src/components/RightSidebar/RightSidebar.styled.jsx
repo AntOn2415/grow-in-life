@@ -44,7 +44,6 @@ export const RightSidebarWrapper = styled(motion.aside).withConfig({ shouldForwa
     position: sticky;
     top: ${({ navHeight }) => navHeight + 20}px;
     height: calc(100% - ${({ navHeight }) => navHeight + 20}px);
-   
     overflow-y: auto;
     z-index: 900;
     display: ${({ isHome }) => (isHome ? "none" : "flex")};
@@ -66,7 +65,7 @@ export const RightSidebarWrapper = styled(motion.aside).withConfig({ shouldForwa
     box-shadow: 0 0 10px ${({ theme }) => theme.colors.navBg};
     display: flex;
     flex-direction: column;
-    padding: ${theme.spacing.small} ${theme.spacing.xsmall};
+    padding: ${theme.spacing.xxsmall} ${theme.spacing.xsmall};
     margin: 0;
     border: none;
     border-radius: 0;

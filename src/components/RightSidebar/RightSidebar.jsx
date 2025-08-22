@@ -1,6 +1,8 @@
 import React from "react";
-
 import { useLocation } from "react-router-dom";
+// ✅ Імпортуємо іконки
+import { BsChevronCompactRight, BsChevronCompactLeft } from "react-icons/bs";
+import { IoCloseOutline } from "react-icons/io5";
 
 import {
   RightSidebarWrapper,
@@ -56,13 +58,13 @@ export default function RightSidebar({
 
       {!isMobile && (
         <RightSidebarCollapseBtn onClick={toggleRightSidebarSplit}>
-          {isExpanded ? "›" : "‹"}
+          {isExpanded ? <BsChevronCompactRight /> : <BsChevronCompactLeft />}
         </RightSidebarCollapseBtn>
       )}
 
       {isMobile && (
         <RightSidebarCollapseBtn onClick={onCloseMobileSidebar}>
-          <i className="fas fa-times"></i>
+          <IoCloseOutline />
         </RightSidebarCollapseBtn>
       )}
     </RightSidebarWrapper>
