@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { MdBook, MdKeyboardDoubleArrowUp, MdKeyboardDoubleArrowDown } from "react-icons/md";
+import { MdKeyboardDoubleArrowUp, MdKeyboardDoubleArrowDown } from "react-icons/md";
+import { IoBook } from "react-icons/io5";
 import {
   BibleMenuWrapper,
   NavigationContainer,
@@ -92,7 +93,7 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
         ) : (
           isMobile && (
             <NavigationButton onClick={handleOpenMenu}>
-              <MdBook size={24} />
+              <IoBook size={24} />
             </NavigationButton>
           )
         )}
@@ -107,7 +108,7 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
               transition={{ duration: 0.2 }}
             >
               <NavigationButton onClick={handleNavigationButtonClick}>
-                <MdBook size={24} />
+                <IoBook size={24} />
               </NavigationButton>
             </motion.div>
           )}

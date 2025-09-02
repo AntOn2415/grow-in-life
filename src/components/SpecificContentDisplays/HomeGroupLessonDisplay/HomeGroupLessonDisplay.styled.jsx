@@ -1,7 +1,8 @@
+//src/components/SpecificContentDisplays/HomeGroupLessonDisplay/HomeGroupLessonDisplay.styled.jsx;
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-export const HeroSection = styled.div`
+export const HeroSection = styled.section`
   position: relative;
   width: 100%;
   background-color: ${({ theme }) => theme.colors.navBg};
@@ -69,7 +70,7 @@ export const HomeGroupLessonTextWrapper = styled.div`
   line-height: 1.8;
   font-size: ${({ theme }) => theme.fontSizes.medium};
   color: ${({ theme }) => theme.colors.color};
-  transition: color 0.25s ease-in-out; // ✅ Плавний перехід кольору тексту
+  transition: color 0.25s ease-in-out;
   ${({ theme }) => theme.media.down("sm")`
     font-size: ${({ theme }) => theme.fontSizes.small};
   `}

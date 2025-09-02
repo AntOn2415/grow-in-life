@@ -1,5 +1,6 @@
 // src/components/InteractiveContent/QuizCard/QuizCard.js
 import React, { useState } from "react";
+import TokenRenderer from "../../TokenRenderer/TokenRenderer"; // ⬅️ Імпортуйте TokenRenderer
 import {
   StyledQuizCard,
   QuizQuestion,
@@ -9,7 +10,6 @@ import {
 } from "./QuizCard.styled";
 
 export default function QuizCard({ quizData, titleLevel }) {
-  // ✅ Додано titleLevel
   const [showOptions, setShowOptions] = useState(false);
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
 
@@ -26,9 +26,9 @@ export default function QuizCard({ quizData, titleLevel }) {
 
   return (
     <StyledQuizCard>
-      {/* ✅ Заголовок тепер рендериться з динамічним тегом H-рівня */}
+      {/* 🟢 Виправлення: Тепер питання обробляється через TokenRenderer */}
       <QuizQuestion onClick={toggleOptions} as={`h${titleLevel}`}>
-        {quizData.question}
+        <TokenRenderer tokens={quizData.question} />
         <QuizToggleIcon isActive={showOptions}>{showOptions ? "−" : "+"}</QuizToggleIcon>
       </QuizQuestion>
 
@@ -42,7 +42,8 @@ export default function QuizCard({ quizData, titleLevel }) {
               isCorrectOption={option.isCorrect}
               showFeedback={selectedAnswerIndex !== null}
             >
-              {option.text}
+              {/* 🟢 Виправлення: Текст варіантів відповіді також обробляється через TokenRenderer */}
+              <TokenRenderer tokens={option.text} />
             </QuizOptionItem>
           ))}
         </QuizOptionsList>

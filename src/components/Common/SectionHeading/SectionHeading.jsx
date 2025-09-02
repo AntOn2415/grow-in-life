@@ -3,10 +3,10 @@ import React from "react";
 import { StyledHeading } from "./SectionHeading.styled";
 
 // Компонент SectionHeading
-const SectionHeading = ({ as = "h3", size = "default", children }) => {
+const SectionHeading = ({ as = "h3", size = "default", id, children }) => {
   return (
-    <StyledHeading as={as} size={size}>
-      {children} {/* ✅ ВИПРАВЛЕНО: Рендеримо children безпосередньо */}
+    <StyledHeading as={as} size={size} id={id}>
+      {children}
     </StyledHeading>
   );
 };

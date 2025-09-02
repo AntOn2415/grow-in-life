@@ -1,14 +1,15 @@
 // src/common/Tooltip/Tooltip.jsx
+
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
 import { TooltipContainer, TooltipContent } from "./Tooltip.styles";
 
-const Tooltip = ({ children, content }) => {
+const Tooltip = ({ children, content, alignment = "center" }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [position, setPosition] = useState({ top: 0, left: 0, placement: "top" }); // Додано placement
+  const [position, setPosition] = useState({ top: 0, left: 0, placement: "top" });
   const targetRef = useRef(null);
-  const tooltipContentRef = useRef(null); // Референс на сам контент підказки для вимірювання її розміру
+  const tooltipContentRef = useRef(null);
   const tooltipRoot =
     typeof document !== "undefined" ? document.getElementById("tooltip-root") : null;
 
@@ -17,31 +18,41 @@ const Tooltip = ({ children, content }) => {
       const targetRect = targetRef.current.getBoundingClientRect();
       const tooltipRect = tooltipContentRef.current.getBoundingClientRect();
 
-      let newLeft = targetRect.left + targetRect.width / 2; // Центр елемента
-      let newTop;
-      let newPlacement = "top"; // За замовчуванням розміщуємо зверху
+      let newLeft;
+      if (alignment === "left") {
+        newLeft = targetRect.left;
+      } else {
+        newLeft = targetRect.left + targetRect.width / 2;
+      }
 
-      // Перевіряємо, чи є достатньо місця зверху
+      let newTop;
+      let newPlacement = "top";
+
       const spaceAbove = targetRect.top;
       const spaceBelow = window.innerHeight - targetRect.bottom;
 
-      // Розміщуємо зверху, якщо є місце або якщо знизу місця менше
       if (spaceAbove >= tooltipRect.height + 8 || spaceAbove > spaceBelow) {
-        // 8px - відступ
-        newTop = targetRect.top - tooltipRect.height - 8; // 8px відступ від елемента
+        newTop = targetRect.top - tooltipRect.height - 8;
         newPlacement = "top";
       } else {
-        // Інакше розміщуємо знизу
-        newTop = targetRect.bottom + 8; // 8px відступ від елемента
+        newTop = targetRect.bottom + 8;
         newPlacement = "bottom";
       }
 
-      // Забезпечуємо, щоб підказка не виходила за межі екрану по горизонталі
-      const viewportPadding = 10; // Невеликий відступ від краю екрану
-      if (newLeft - tooltipRect.width / 2 < viewportPadding) {
-        newLeft = tooltipRect.width / 2 + viewportPadding;
-      } else if (newLeft + tooltipRect.width / 2 > window.innerWidth - viewportPadding) {
-        newLeft = window.innerWidth - tooltipRect.width / 2 - viewportPadding;
+      const viewportPadding = 10;
+      if (alignment === "left") {
+        if (newLeft + tooltipRect.width > window.innerWidth - viewportPadding) {
+          newLeft = window.innerWidth - tooltipRect.width - viewportPadding;
+        }
+        if (newLeft < viewportPadding) {
+          newLeft = viewportPadding;
+        }
+      } else {
+        if (newLeft - tooltipRect.width / 2 < viewportPadding) {
+          newLeft = tooltipRect.width / 2 + viewportPadding;
+        } else if (newLeft + tooltipRect.width / 2 > window.innerWidth - viewportPadding) {
+          newLeft = window.innerWidth - tooltipRect.width / 2 - viewportPadding;
+        }
       }
 
       setPosition({
@@ -50,12 +61,10 @@ const Tooltip = ({ children, content }) => {
         placement: newPlacement,
       });
     }
-  }, []);
+  }, [alignment]);
 
   useEffect(() => {
     if (isVisible) {
-      // Викликаємо updateTooltipPosition після того, як підказка відрендериться
-      // і її розміри стануть доступними. Timeout дозволяє DOM оновитися.
       const timeoutId = setTimeout(updateTooltipPosition, 0);
 
       window.addEventListener("scroll", updateTooltipPosition);
@@ -66,7 +75,7 @@ const Tooltip = ({ children, content }) => {
         window.removeEventListener("resize", updateTooltipPosition);
       };
     }
-  }, [isVisible, updateTooltipPosition]); // Додаємо updateTooltipPosition до залежностей
+  }, [isVisible, updateTooltipPosition]);
 
   if (!tooltipRoot) {
     console.warn("Tooltip root element not found. Tooltip might not render correctly.");
@@ -84,14 +93,11 @@ const Tooltip = ({ children, content }) => {
         <AnimatePresence>
           {isVisible && (
             <TooltipContent
-              ref={tooltipContentRef} // Прив'язуємо референс до контенту підказки
+              ref={tooltipContentRef}
               style={{
                 top: position.top,
                 left: position.left,
-                // Динамічний transform для коректного позиціонування
-                transform: `translateX(-50%) ${
-                  position.placement === "top" ? "translateY(0)" : "translateY(0)"
-                }`,
+                transform: alignment === "left" ? "none" : "translateX(-50%)",
               }}
               initial={{ opacity: 0, y: position.placement === "top" ? 5 : -5 }}
               animate={{ opacity: 1, y: 0 }}

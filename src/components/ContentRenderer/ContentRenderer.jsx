@@ -15,21 +15,31 @@ import ContrastDisplay from "../InteractiveContent/ContrastDisplay/ContrastDispl
 import DescriptionWithImage from "../InteractiveContent/DescriptionWithImage/DescriptionWithImage";
 import ImagePlaceholder from "../InteractiveContent/ImagePlaceholder/ImagePlaceholder";
 
-const ContentRenderer = ({ sections, level = 2 }) => {
+const ContentRenderer = ({ sections, allSectionsWithIds, parentIndex = [], level = 2 }) => {
   if (!sections || !Array.isArray(sections)) {
     return null;
   }
-
   return sections.map((section, index) => {
+    const currentIndex = [...parentIndex, index];
     const sectionHeadingLevel = level;
     const childLevel = level + 1;
+
+    const sectionData = allSectionsWithIds.find(
+      item => JSON.stringify(item.originalIndex) === JSON.stringify(currentIndex)
+    );
+    const sectionId = sectionData?.id;
+
+    const hasTitle =
+      Array.isArray(section.title) &&
+      typeof section.title[0] === "string" &&
+      section.title[0].trim().length > 0;
 
     switch (section.type) {
       case "list":
         return (
           <SectionContainer key={index}>
-            {section.title && (
-              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium">
+            {hasTitle && (
+              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium" id={sectionId}>
                 <TokenRenderer tokens={section.title} />
               </SectionHeading>
             )}
@@ -39,8 +49,8 @@ const ContentRenderer = ({ sections, level = 2 }) => {
       case "quiz":
         return (
           <SectionContainer key={index}>
-            {section.title && (
-              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium">
+            {hasTitle && (
+              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium" id={sectionId}>
                 <TokenRenderer tokens={section.title} />
               </SectionHeading>
             )}
@@ -50,8 +60,8 @@ const ContentRenderer = ({ sections, level = 2 }) => {
       case "reveal-cards":
         return (
           <SectionContainer key={index}>
-            {section.title && (
-              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium">
+            {hasTitle && (
+              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium" id={sectionId}>
                 <TokenRenderer tokens={section.title} />
               </SectionHeading>
             )}
@@ -63,14 +73,14 @@ const ContentRenderer = ({ sections, level = 2 }) => {
       case "highlight-box":
         return (
           <SectionContainer key={index}>
-            <HighlightBox {...section} titleLevel={sectionHeadingLevel} />
+            <HighlightBox {...section} titleLevel={sectionHeadingLevel} id={sectionId} />
           </SectionContainer>
         );
       case "question-prompt":
         return (
           <SectionContainer key={index}>
-            {section.title && (
-              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium">
+            {hasTitle && (
+              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium" id={sectionId}>
                 <TokenRenderer tokens={section.title} />
               </SectionHeading>
             )}
@@ -85,8 +95,8 @@ const ContentRenderer = ({ sections, level = 2 }) => {
       case "list-cards":
         return (
           <SectionContainer key={index}>
-            {section.title && (
-              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium">
+            {hasTitle && (
+              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium" id={sectionId}>
                 <TokenRenderer tokens={section.title} />
               </SectionHeading>
             )}
@@ -96,8 +106,8 @@ const ContentRenderer = ({ sections, level = 2 }) => {
       case "timeline":
         return (
           <SectionContainer key={index}>
-            {section.title && (
-              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium">
+            {hasTitle && (
+              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium" id={sectionId}>
                 <TokenRenderer tokens={section.title} />
               </SectionHeading>
             )}
@@ -107,8 +117,8 @@ const ContentRenderer = ({ sections, level = 2 }) => {
       case "contrast-section":
         return (
           <SectionContainer key={index}>
-            {section.title && (
-              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium">
+            {hasTitle && (
+              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium" id={sectionId}>
                 <TokenRenderer tokens={section.title} />
               </SectionHeading>
             )}
@@ -118,8 +128,8 @@ const ContentRenderer = ({ sections, level = 2 }) => {
       case "diagram":
         return (
           <SectionContainer key={index}>
-            {section.title && (
-              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium">
+            {hasTitle && (
+              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium" id={sectionId}>
                 <TokenRenderer tokens={section.title} />
               </SectionHeading>
             )}
@@ -129,8 +139,8 @@ const ContentRenderer = ({ sections, level = 2 }) => {
       case "description-with-image":
         return (
           <SectionContainer key={index}>
-            {section.title && (
-              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium">
+            {hasTitle && (
+              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium" id={sectionId}>
                 <TokenRenderer tokens={section.title} />
               </SectionHeading>
             )}
@@ -140,8 +150,8 @@ const ContentRenderer = ({ sections, level = 2 }) => {
       case "image-placeholder":
         return (
           <SectionContainer key={index}>
-            {section.title && (
-              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium">
+            {hasTitle && (
+              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium" id={sectionId}>
                 <TokenRenderer tokens={section.title} />
               </SectionHeading>
             )}
@@ -151,8 +161,8 @@ const ContentRenderer = ({ sections, level = 2 }) => {
       case "text":
         return (
           <SectionContainer key={index}>
-            {section.title && (
-              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium">
+            {hasTitle && (
+              <SectionHeading as={`h${sectionHeadingLevel}`} size="medium" id={sectionId}>
                 <TokenRenderer tokens={section.title} />
               </SectionHeading>
             )}
@@ -171,12 +181,17 @@ const ContentRenderer = ({ sections, level = 2 }) => {
       case "section-group":
         return (
           <SectionContainer key={index}>
-            {section.title && (
-              <SectionHeading as={`h${sectionHeadingLevel}`} size="default">
+            {hasTitle && (
+              <SectionHeading as={`h${sectionHeadingLevel}`} size="default" id={sectionId}>
                 <TokenRenderer tokens={section.title} />
               </SectionHeading>
             )}
-            <ContentRenderer sections={section.sections} level={childLevel} />
+            <ContentRenderer
+              sections={section.sections}
+              allSectionsWithIds={allSectionsWithIds}
+              parentIndex={currentIndex}
+              level={childLevel}
+            />
           </SectionContainer>
         );
       default:

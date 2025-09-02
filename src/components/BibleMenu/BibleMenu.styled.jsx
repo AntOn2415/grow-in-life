@@ -31,7 +31,7 @@ export const NavigationContainer = styled(motion.div)`
   ${({ theme }) => theme.media.up("md")`
     grid-area: navigation; // Призначаємо контейнер до області "navigation"
     flex-direction: column; // Десктоп: навігація в стовпчик
-    width: 46px;
+    width: 50px;
     height: 100%; // Контейнер займає всю висоту
     padding: 0;
     gap: ${({ theme }) => theme.spacing.medium};

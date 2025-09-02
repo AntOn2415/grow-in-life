@@ -1,22 +1,8 @@
 import styled from "styled-components";
 
-// export const StyledCard = styled.section`
-//   background-color: ${({ theme }) => theme.colors.background};
-//   border-radius: ${({ theme }) => theme.borderRadius.large};
-//   box-shadow: ${({ theme }) => theme.shadows.medium};
-//   padding: ${({ theme }) => theme.spacing.large};
-//   margin-bottom: ${({ theme }) => theme.spacing.large};
-
-//   transition: background-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
-
-//   ${({ theme }) => theme.media.down("md")`
-//     padding: ${({ theme }) => theme.spacing.medium};
-//     margin-bottom: ${({ theme }) => theme.spacing.medium};
-//   `}
-// `;
-
 export const StyledHeading = styled.h3.attrs(props => ({
   as: props.as || "h3",
+  id: props.id,
 }))`
   color: ${({ theme }) => theme.colors.accentColor};
   font-weight: bold;
@@ -36,7 +22,6 @@ export const StyledHeading = styled.h3.attrs(props => ({
     font-size: ${props.theme.fontSizes.large};
   `}
 
-  // ✅ ОНОВЛЕНО: Логіка для 'small' винесена на верхній рівень
   ${props =>
     props.size === "small" &&
     `
@@ -47,7 +32,6 @@ export const StyledHeading = styled.h3.attrs(props => ({
   `}
 
   ${({ theme }) => theme.media.down("md")`
-    // Адаптивні розміри шрифту для мобільних
     font-size: ${({ theme }) => theme.fontSizes.large};
     margin-bottom: ${({ theme }) => theme.spacing.medium};
 
@@ -57,7 +41,6 @@ export const StyledHeading = styled.h3.attrs(props => ({
       font-size: ${props.theme.fontSizes.medium};
     `}
     
-    // ✅ ОНОВЛЕНО: Коригування розмірів для мобільних, логіка працює коректно
     ${props =>
       props.size === "small" &&
       `

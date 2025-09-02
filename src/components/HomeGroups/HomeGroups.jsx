@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useOutletContext, useLocation } from "react-router-dom";
 import { HomeGroupsContainer, NoLessonMessage } from "./HomeGroups.styled";
 import HomeGroupLessonDisplay from "../SpecificContentDisplays/HomeGroupLessonDisplay/HomeGroupLessonDisplay";
@@ -53,29 +53,34 @@ const HomeGroups = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
-  const hasLoaded = useRef(false);
+
+  // ✅ Замість hasLoaded useRef, використовуємо новий ефект для ініціалізації.
+  // Цей ефект запустить `setSelectedHomeGroupLesson` лише один раз,
+  // якщо урок ще не обрано. Це дозволяє основному ефекту
+  // реагувати на наступні зміни.
+  useEffect(() => {
+    if (!selectedHomeGroupLesson) {
+      const firstLesson = findFirstLesson();
+      if (firstLesson) {
+        setSelectedHomeGroupLesson(firstLesson);
+      } else {
+        setLoading(false);
+      }
+    }
+  }, [selectedHomeGroupLesson, setSelectedHomeGroupLesson]);
 
   useEffect(() => {
-    // ✅ Додаткова перевірка: Запобігаємо повторному запуску після першого успішного завантаження
-    if (hasLoaded.current) {
+    // Якщо selectedHomeGroupLesson не встановлено, просто виходимо.
+    // Це запобігає завантаженню, поки не буде обрано урок.
+    if (!selectedHomeGroupLesson) {
       return;
     }
 
-    // ✅ Пошук уроку для завантаження: або обраний, або перший доступний
-    const lessonToLoad = selectedHomeGroupLesson || findFirstLesson();
-
-    // Якщо уроку немає, встановлюємо стан і виходимо
-    if (!lessonToLoad) {
-      setLoading(false);
-      return;
-    }
-
-    // ✅ Ініціалізація завантаження тільки один раз
     const loadContent = async () => {
       setLoading(true);
       setError(null);
 
-      const lessonMetaData = getLessonMetaDataById(lessonToLoad);
+      const lessonMetaData = getLessonMetaDataById(selectedHomeGroupLesson);
       if (lessonMetaData && lessonMetaData.loadLesson) {
         try {
           const module = await lessonMetaData.loadLesson();
@@ -94,7 +99,6 @@ const HomeGroups = () => {
           setParsedLesson(null);
         } finally {
           setLoading(false);
-          hasLoaded.current = true; // ✅ Позначаємо, що перший рендер завершено
         }
       } else {
         setLoading(false);
@@ -104,9 +108,11 @@ const HomeGroups = () => {
     };
 
     loadContent();
-  }, [selectedHomeGroupLesson, setSelectedHomeGroupLesson]); // Залежності, які можуть змінюватись
+  }, [selectedHomeGroupLesson]); // ✅ Цей ефект тепер реагує виключно на зміни selectedHomeGroupLesson
 
-  useEffect(() => {
+  // useLayoutEffect краще підходить для маніпуляцій з DOM (прокрутка),
+  // оскільки він запускається після рендерингу, але до того, як браузер відобразить зміни на екрані.
+  useLayoutEffect(() => {
     if (parsedLesson && mainRef && mainRef.current) {
       const savedScrollY = sessionStorage.getItem(`scrollPosition-${location.pathname}`);
       if (savedScrollY) {
