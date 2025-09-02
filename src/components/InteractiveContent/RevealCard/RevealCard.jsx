@@ -1,3 +1,4 @@
+// src/components/InteractiveContent/RevealCard/RevealCard.jsx
 import React, { useState } from "react";
 import {
   StyledRevealCard,
@@ -14,6 +15,18 @@ export default function RevealCard({ id, emoji, title, content, titleLevel }) {
   const [isHovered, setIsHovered] = useState(false);
 
   const toggleReveal = () => setIsRevealed(!isRevealed);
+
+  const renderContent = () => {
+    if (typeof content === "string") {
+      return <TokenRenderer tokens={content} />;
+    }
+
+    if (Array.isArray(content)) {
+      return content.map((item, index) => <TokenRenderer key={index} tokens={item} />);
+    }
+
+    return null;
+  };
 
   return (
     <StyledRevealCard
@@ -41,7 +54,7 @@ export default function RevealCard({ id, emoji, title, content, titleLevel }) {
           }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
-          <TokenRenderer tokens={content} />
+          <p>{renderContent()}</p>
         </CardContent>
       </CardAnswerContainer>
     </StyledRevealCard>

@@ -22,7 +22,22 @@ export const homeGroupsContent = {
   secondKings: [], // 2 Царів
   firstChronicles: [], // 1 Хронік
   secondChronicles: [], // 2 Хронік
-  ezra: [], // Ездри
+  ezra: [
+    {
+      id: "lesson-ezra-1",
+      title: "Кір: Інструмент Божої Волі",
+      shortTitle: "Єздра 1:1-3",
+      book: "Єздра",
+      bookInternalKey: "ezra",
+      chapter: "1",
+      verses: "1-3",
+      date: "2025-05-09",
+      author: "Тарас",
+      duration: "45-60 хв",
+      tags: ["Єздра", "Кір", "пророцтво", "домашня група"],
+      loadLesson: () => import("./lessons/oldTestament/ezra/ezra1_1-3"),
+    },
+  ], // Ездри
   nehemiah: [
     {
       id: "nested-lesson-full-example",

@@ -1,57 +1,39 @@
 // src/utils/parseAndValidateContent.js
-
 import { parseTags } from "./tagParser";
 import { LessonSchema } from "./validationSchemas";
 
-const TOKENIZABLE_KEYS = [
-  "title",
-  "shortTitle",
-  "description",
-  "content",
-  "question",
-  "answer",
-  "text",
-  "heading",
-  "caption",
-  "rationale",
-  "verses",
-  "items",
-  "subtitle",
-  "description",
-  "year",
-];
-
-const deepParseTags = (data, parentKey = null) => {
+const deepParseTags = data => {
   if (typeof data === "string") {
-    // Перевіряємо, чи поточний ключ повинен бути токенізований
-    if (TOKENIZABLE_KEYS.includes(parentKey)) {
-      const parsedResult = parseTags(data);
-      // Забезпечуємо, що результат завжди є масивом, щоб уникнути помилок рендерингу
-      if (Array.isArray(parsedResult)) {
-        return parsedResult;
-      }
-      return [parsedResult];
-    }
-    return data;
+    return parseTags(data);
   }
+
   if (Array.isArray(data)) {
-    // Рекурсивно обробляємо кожен елемент масиву
-    return data.map(item => deepParseTags(item, parentKey));
+    return data.map(item => deepParseTags(item));
   }
+
   if (typeof data === "object" && data !== null) {
     const newData = {};
     for (const key in data) {
-      newData[key] = deepParseTags(data[key], key);
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        // ✅ Ось виправлена логіка
+        // Ми ігноруємо ключі, що визначають тип, а не обробляємо їх як теги
+        if (key === "type" || key === "chartType") {
+          newData[key] = data[key];
+        } else {
+          newData[key] = deepParseTags(data[key]);
+        }
+      }
     }
     return newData;
   }
+
   return data;
 };
 
 export const parseAndValidateContent = lessonData => {
   try {
     const validatedData = LessonSchema.parse(lessonData);
-    const parsedLesson = deepParseTags(validatedData, "lesson");
+    const parsedLesson = deepParseTags(validatedData);
     return { success: true, lesson: parsedLesson, error: null };
   } catch (error) {
     console.error("Помилка валідації уроку:", error.message);

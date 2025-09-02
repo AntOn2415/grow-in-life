@@ -86,7 +86,7 @@ export const ItemEmoji = styled.span`
   margin-right: ${({ theme }) => theme.spacing.xsmall};
 `;
 
-export const ItemContent = styled.p`
+export const ItemContent = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   line-height: 1.6;
   color: ${({ theme }) => theme.colors.color};

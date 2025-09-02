@@ -1,5 +1,3 @@
-// src/utils/validationSchemas.js
-
 import { z } from "zod";
 
 // Оновлена схема для звичайного тексту, щоб вона була універсальною
@@ -149,6 +147,14 @@ const ContrastSectionSchema = BaseSectionSchema.extend({
   ),
 });
 
+// ✅ Додаємо нову схему для таблиці
+const TableSchema = BaseSectionSchema.extend({
+  type: z.literal("table"),
+  tableTitle: TokenizedText.optional(),
+  headers: z.array(TokenizedText),
+  rows: z.array(z.array(TokenizedText)),
+});
+
 // ✅ НОВА РЕКУРСИВНА СХЕМА
 const LessonSectionSchema = z.lazy(() =>
   z.union([
@@ -164,6 +170,7 @@ const LessonSectionSchema = z.lazy(() =>
     ImagePlaceholderSchema.extend({ type: z.literal("image-placeholder") }),
     DescriptionWithImageSchema.extend({ type: z.literal("description-with-image") }),
     ContrastSectionSchema.extend({ type: z.literal("contrast-section") }),
+    TableSchema.extend({ type: z.literal("table") }), // ✅ Додаємо новий тип "table"
     // Додаємо новий тип для групування
     z.object({
       type: z.literal("section-group"),

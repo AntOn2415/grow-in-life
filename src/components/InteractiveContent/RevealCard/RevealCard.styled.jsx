@@ -51,7 +51,7 @@ export const CardAnswerContainer = styled(motion.div)`
   will-change: height;
 `;
 
-export const CardContent = styled(motion.p)`
+export const CardContent = styled(motion.div)`
   padding: ${({ theme }) => theme.spacing.medium};
   font-size: ${({ theme }) => theme.fontSizes.medium};
   color: ${({ theme }) => theme.colors.color};

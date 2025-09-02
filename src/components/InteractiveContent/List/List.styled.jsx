@@ -29,6 +29,8 @@ export const BulletIcon = styled.span`
 `;
 
 export const ListText = styled.div`
-  display: flex;
-  flex-direction: column;
+  // ✅ Видалено display: flex та flex-direction: column
+  font-size: ${({ theme }) => theme.fontSizes.medium};
+  line-height: 1.6;
+  color: ${({ theme }) => theme.colors.color};
 `;

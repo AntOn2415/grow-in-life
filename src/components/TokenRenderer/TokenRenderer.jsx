@@ -44,6 +44,7 @@ const renderSingleToken = (token, key) => {
         </BibleLink>
       );
     default:
+      // ✅ Повернуто React.Fragment
       return <React.Fragment key={key}>{token.content}</React.Fragment>;
   }
 };
@@ -55,19 +56,21 @@ const TokenRenderer = ({ tokens }) => {
 
   // Якщо tokens — це рядок, просто рендеримо його
   if (typeof tokens === "string") {
+    // ✅ Повернуто React.Fragment
     return <React.Fragment>{tokens}</React.Fragment>;
   }
 
-  // ✅ ВИПРАВЛЕННЯ 1: Якщо tokens — це один об'єкт-токен (не в масиві)
+  // Якщо tokens — це один об'єкт-токен (не в масиві)
   if (typeof tokens === "object" && !Array.isArray(tokens)) {
     return renderSingleToken(tokens, "single-token");
   }
 
-  // ✅ ВИПРАВЛЕННЯ 2: Якщо tokens — це масив, обробляємо кожен токен
+  // Якщо tokens — це масив, обробляємо кожен токен
   if (Array.isArray(tokens)) {
     return tokens.map((token, index) => {
       // Якщо токен — рядок, рендеримо його як текст
       if (typeof token === "string") {
+        // ✅ Повернуто React.Fragment
         return <React.Fragment key={index}>{token}</React.Fragment>;
       }
 
