@@ -1,4 +1,3 @@
-// src/App.js
 import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "../contexts/ThemeProvider";
@@ -6,7 +5,7 @@ import Layout from "./Layout";
 
 import { SermonsProvider } from "../contexts/SermonsContext";
 import { HomeGroupsProvider } from "../contexts/HomeGroupsContext";
-import { BibleProvider } from "../contexts/BibleContext"; // Імпортуємо новий провайдер
+import { BibleProvider } from "../contexts/BibleContext";
 
 import GlobalStyles from "../styles/global/GlobalStyles";
 import NotFoundPage from "../components/NotFoundPage/NotFoundPage";
@@ -19,9 +18,9 @@ const SeminarsPage = lazy(() => import("../pages/SeminarsPage"));
 const NewsPage = lazy(() => import("../pages/NewsPage"));
 
 const App = () => (
+  // ✅ Правильне розташування провайдерів
   <HomeGroupsProvider>
     <SermonsProvider>
-      {/* Додаємо BibleProvider, щоб він був доступний для всіх маршрутів */}
       <BibleProvider>
         <ThemeProvider>
           <GlobalStyles />

@@ -17,6 +17,7 @@ export const light = {
     buttonBg: "#A89A82", // Теплий сіро-коричневий для кнопок
     buttonColor: "#FFFFFF", // Білий текст кнопок
     hoverBtn: "#B8ACA2", // Світліший відтінок для ховеру кнопок
+    heroText: "#fff",
 
     // для кольорів тексту кнопок мобільної навігації
     mobileNavButtonColor: "#8A7D69",
@@ -66,10 +67,15 @@ export const light = {
     gradientEnd: "#FEFBF2", // Закінчуємо на базовому фоні
 
     // Інтерактивні елементи
-    interactiveBgLight: "#E0F2F7", // Збережений блакитний
+    interactiveBgLight: "#E0F2F7",
     interactiveBorderLight: "#A7D9EE",
-    interactiveBgYellow: "#F7EEC4", // Використовуємо F7EEC4 як фон інтерактивного жовтого
-    interactiveBorderYellow: "#E8D9B4", // Темніший відтінок F7EEC4 для бордера
+    interactiveBgYellow: "#F7EEC4",
+    interactiveBorderYellow: "#E8D9B4",
+
+    overlayColor: "rgba(0, 0, 0, 0.4)",
+    metaKey: "#B0B0B0",
+    metaValue: "#fff",
+    tagColor: "#fff",
   },
   fontSizes: {
     xsmall: "0.75rem",

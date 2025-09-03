@@ -2,11 +2,9 @@
 import styled from "styled-components";
 
 export const StyledList = styled.ul`
-  padding-left: ${({ theme }) => theme.spacing.medium};
-
-  ${({ theme }) => theme.media.down("sm")`
-    padding-left: ${({ theme }) => theme.spacing.large};
-  `}
+  padding-left: 20px;
+  list-style-type: none;
+  margin-left: 0;
 `;
 
 export const StyledListItem = styled.li`
@@ -14,14 +12,10 @@ export const StyledListItem = styled.li`
   color: ${({ theme }) => theme.colors.color};
   line-height: 1.5;
   margin-bottom: ${({ theme }) => theme.spacing.xxsmall};
-`;
 
-// Контейнер для іконки та тексту
-export const ListItemContent = styled.div`
+  // ✅ Стилі для вирівнювання іконки та тексту
   display: flex;
-  // ✅ Змінюємо вирівнювання на baseline
   align-items: baseline;
-  width: 100%;
 `;
 
 export const BulletIcon = styled.span`
@@ -31,10 +25,12 @@ export const BulletIcon = styled.span`
   justify-content: center;
   color: ${({ theme }) => theme.colors.accentColor};
   font-size: 0.5em;
-
-  // ✅ Повертаємо transform, щоб точно підігнати позицію іконки до тексту
   transform: translateY(-0.1em);
 `;
 
-// ✅ Новий глобальний стиль для елементів всередині `ListItemContent`
-export const ListText = styled.div``;
+export const ListText = styled.div`
+  // ✅ Видалено display: flex та flex-direction: column
+  font-size: ${({ theme }) => theme.fontSizes.medium};
+  line-height: 1.6;
+  color: ${({ theme }) => theme.colors.color};
+`;

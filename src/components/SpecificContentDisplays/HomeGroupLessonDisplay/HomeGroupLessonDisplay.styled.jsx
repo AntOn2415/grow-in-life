@@ -1,31 +1,69 @@
-// src/components/SpecificContentDisplays/HomeGroupLessonDisplay/HomeGroupLessonDisplay.styled.js
+//src/components/SpecificContentDisplays/HomeGroupLessonDisplay/HomeGroupLessonDisplay.styled.jsx;
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-export const HomeGroupLessonDisplayContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 auto;
+export const HeroSection = styled.section`
+  position: relative;
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.navBg};
+  background-image: ${({ $heroImage }) => ($heroImage ? `url(${$heroImage})` : "none")};
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid ${({ theme }) => theme.colors.borderColor};
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
+  transition: background-image 0.5s ease-in-out, background-color 0.5s ease-in-out,
+    border 0.25s ease-in-out;
+  // ✅ ЗМІНИ В ПСЕВДОЕЛЕМЕНТІ ДЛЯ ДИНАМІЧНОГО ЗАТЕМНЕННЯ
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: ${({ theme }) => theme.borderRadius.medium};
+    // Використовуємо колір із теми для затемнення
+    background-color: ${({ theme }) => theme.colors.overlayColor};
+    z-index: 0;
+  }
 `;
 
-export const HomeGroupLessonTitleWrapper = styled.div`
+export const HeroContentWrapper = styled.div`
+  position: relative;
+  z-index: 1;
   text-align: center;
-  margin-bottom: ${({ theme }) => theme.spacing.large};
-  h2 {
-    font-size: ${({ theme }) => theme.fontSizes.xxlarge};
-    color: ${({ theme }) => theme.colors.color};
-    margin-bottom: ${({ theme }) => theme.spacing.xsmall};
-    transition: color 0.25s ease-in-out;
+  padding: ${({ theme }) => theme.spacing.xlarge} 0 ${({ theme }) => theme.spacing.xlarge} 0;
+  padding-bottom: ${({ theme }) => theme.spacing.large};
 
+  h1 {
+    font-size: ${({ theme }) => theme.fontSizes.xxlarge};
+    color: ${({ theme }) => theme.colors.heroText};
+    margin: 0 auto;
+    margin-bottom: ${({ theme }) => theme.spacing.large};
+    max-width: 500px;
+    line-height: 1.2;
+    transition: color 0.25s ease-in-out;
     ${({ theme }) => theme.media.down("sm")`
       font-size: ${({ theme }) => theme.fontSizes.xlarge};
+      max-width: 300px;
     `}
   }
 `;
 
+export const HomeGroupLessonDisplayContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+`;
+
 export const MainContentWrapper = styled.div`
   width: 100%;
+  max-width: ${({ theme }) => theme.breakpoints.lg};
+  margin: 0 auto;
+  padding: ${({ theme }) => theme.spacing.medium} 0 ${({ theme }) => theme.spacing.medium} 0;
+  z-index: 2;
+  position: relative;
 `;
 
 export const HomeGroupLessonTextWrapper = styled.div`
@@ -51,41 +89,35 @@ export const HomeGroupLessonTextWrapper = styled.div`
 
   strong {
     color: ${({ theme }) => theme.colors.color};
-    transition: color 0.25s ease-in-out;
+    transition: color 0.25s ease-in-out; // ✅ Плавний перехід кольору жирного тексту
   }
 
-  // Додаємо відступ між компонентами, що знаходяться всередині обгортки
   > * {
     margin-bottom: ${({ theme }) => theme.spacing.medium};
 
-    // Забираємо відступ у останнього елемента, щоб не було зайвого порожнього місця
     &:last-child {
       margin-bottom: 0;
     }
   }
 
-  // Додаємо відступ для SectionHeading
   .section-heading {
     margin-bottom: ${({ theme }) => theme.spacing.small};
   }
 `;
 
-// Створюємо новий стилізований компонент для обгортки секцій
 export const SectionContainer = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xlarge};
-  // Щоб останній елемент не мав зайвого відступу
+
   &:last-child {
     margin-bottom: 0;
   }
 
-  // Додаємо стилі для заголовків всередині секції
   h3,
   h4 {
     margin-bottom: ${({ theme }) => theme.spacing.small};
     margin-top: ${({ theme }) => theme.spacing.small};
   }
 
-  // Забираємо відступ у першого заголовка, якщо він є першим елементом секції
   h3:first-child,
   h4:first-child {
     margin-top: 0;
@@ -101,7 +133,7 @@ export const VerseButton = styled(motion.button)`
   color: currentColor;
   display: inline-block;
   position: relative;
-  transition: color 0.25s ease-in-out;
+  transition: color 0.25s ease-in-out; // ✅ Плавний перехід для кнопки-вірша
 
   &:focus {
     outline: none;

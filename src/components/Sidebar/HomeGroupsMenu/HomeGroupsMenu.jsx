@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+// ✅ Імпортуємо іконку зі стрілкою
+import { FaChevronRight } from "react-icons/fa";
 import {
   Section,
   SectionTitle,
@@ -18,7 +20,6 @@ import { homeGroupsContent } from "../../../data/homeGroups/homeGroupsContent";
 import { useHomeGroups } from "../../../contexts/HomeGroupsContext";
 import Tooltip from "../../Common/Tooltip/Tooltip";
 
-// 1. Нова функція для отримання початкового стану з localStorage
 const getInitialOpenSections = () => {
   try {
     const savedState = localStorage.getItem("openSections");
@@ -41,22 +42,19 @@ export default function HomeGroupsMenu({ isCollapsed, onNavLinkClick, isMobile }
   const { setSelectedHomeGroupLesson, selectedHomeGroupLesson, setSelectedHomeGroupBook } =
     useHomeGroups();
 
-  // 2. Використовуємо функцію для ініціалізації стану
   const [openSections, setOpenSections] = useState(getInitialOpenSections);
-
   const [showContent, setShowContent] = useState(!isCollapsed);
   const [showCollapsedItems, setShowCollapsedItems] = useState(isCollapsed);
 
   const animationDuration = 250;
 
-  // 3. Новий useEffect для збереження стану в localStorage
   useEffect(() => {
     try {
       localStorage.setItem("openSections", JSON.stringify(openSections));
     } catch (error) {
       console.error("Failed to save openSections to localStorage", error);
     }
-  }, [openSections]); // Залежність від openSections
+  }, [openSections]);
 
   useEffect(() => {
     let timer1, timer2;
@@ -194,9 +192,9 @@ export default function HomeGroupsMenu({ isCollapsed, onNavLinkClick, isMobile }
           <Section key={category.id}>
             <SectionTitle
               isCollapsed={isCollapsed}
-              role="button"
-              tabIndex={0}
               onClick={() => toggleSection(category.id)}
+              aria-expanded={openSections[category.id]}
+              aria-controls={`section-content-${category.id}`}
               onKeyDown={e => ["Enter", " "].includes(e.key) && toggleSection(category.id)}
             >
               {isCollapsed && showCollapsedItems ? (
@@ -237,7 +235,8 @@ export default function HomeGroupsMenu({ isCollapsed, onNavLinkClick, isMobile }
                     transform: openSections[category.id] ? "rotate(90deg)" : "rotate(0deg)",
                   }}
                 >
-                  {openSections[category.id] ? "−" : "▶"}
+                  {/* ✅ Використовуємо іконку замість символу */}
+                  <FaChevronRight />
                 </Toggle>
               )}
             </SectionTitle>
@@ -269,6 +268,8 @@ export default function HomeGroupsMenu({ isCollapsed, onNavLinkClick, isMobile }
                               role="button"
                               tabIndex={0}
                               onClick={() => handleBookToggle(book.internalKey)}
+                              aria-expanded={openSections.openBook === book.internalKey}
+                              aria-controls={`book-lessons-${book.internalKey}`}
                               onKeyDown={e =>
                                 ["Enter", " "].includes(e.key) && handleBookToggle(book.internalKey)
                               }
@@ -313,7 +314,8 @@ export default function HomeGroupsMenu({ isCollapsed, onNavLinkClick, isMobile }
                                         : "rotate(0deg)",
                                   }}
                                 >
-                                  {openSections.openBook === book.internalKey ? "−" : "▶"}
+                                  {/* ✅ Використовуємо іконку замість символу */}
+                                  <FaChevronRight />
                                 </Toggle>
                               )}
                             </ListItem>
@@ -323,6 +325,7 @@ export default function HomeGroupsMenu({ isCollapsed, onNavLinkClick, isMobile }
                                 homeGroupsContent[book.internalKey].length > 0 && (
                                   <motion.div
                                     key={book.internalKey + "-lessons"}
+                                    id={`book-lessons-${book.internalKey}`}
                                     initial="hidden"
                                     animate="visible"
                                     exit="exit"

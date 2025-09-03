@@ -22,8 +22,40 @@ export const homeGroupsContent = {
   secondKings: [], // 2 Царів
   firstChronicles: [], // 1 Хронік
   secondChronicles: [], // 2 Хронік
-  ezra: [], // Ездри
+  ezra: [
+    {
+      id: "lesson-ezra-1",
+      title: "Кір: Інструмент Божої Волі",
+      shortTitle: "Єздра 1:1-3",
+      book: "Єздра",
+      bookInternalKey: "ezra",
+      chapter: "1",
+      verses: "1-3",
+      date: "2025-05-09",
+      author: "Тарас",
+      duration: "45-60 хв",
+      tags: ["Єздра", "Кір", "пророцтво", "домашня група"],
+      loadLesson: () => import("./lessons/oldTestament/ezra/ezra1_1-3"),
+    },
+  ], // Ездри
   nehemiah: [
+    {
+      id: "nested-lesson-full-example",
+      title: "Урок: Приклад Глибокої Вкладеності з усіма секціями",
+      shortTitle: "Шаблон Вкладеності",
+      book: "Псалми",
+      bookInternalKey: "psalms",
+      chapter: "1",
+      verses: "Псалом 1:1-6",
+      date: "2025-08-16",
+      author: "Живі Брати",
+      duration: "45-60 хв",
+      tags: ["зразок", "вкладеність", "тестування", "ієрархія"],
+      description:
+        "Цей JSON-файл є прикладом уроку з глибокою вкладеністю, який демонструє, як усі типи секцій працюють у новій структурі.",
+      // ✅ Ліниве завантаження уроку 2
+      loadLesson: () => import("./lessons/lessonTemplate1"),
+    },
     {
       id: "nehemiah-1-reflections",
       title: "Роздуми Живих Братів",
@@ -63,7 +95,7 @@ export const homeGroupsContent = {
     },
     {
       id: "nehemiah-3-rebuilding",
-      title: "Відбудова Стін Єрусалиму – Кожен на Своєму Місці",
+      title: "Неемія 3: Відбудова Стін Єрусалиму – Кожен на Своєму Місці",
       shortTitle: "Неемія 3",
       book: "Неемія",
       bookInternalKey: "nehemiah",
@@ -86,20 +118,6 @@ export const homeGroupsContent = {
       ],
       loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah3"),
     },
-    //   {
-    //     id: "lesson-fear-of-god",
-    //     title: "Внутрішній конфлікт та страх Божий",
-    //     shortTitle: "Страх Божий",
-    //     book: "Неемії",
-    //     bookInternalKey: "nehemiah",
-    //     chapter: "5",
-    //     verses: "1–19",
-    //     date: "2025-08-03",
-    //     author: "Антон (на основі обговорення 'Роздумів Живих Братів')",
-    //     duration: "60 хвилин",
-    //     tags: ["страх Божий", "Неемія", "справедливість", "служіння"],
-    //     loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah5Lesson"),
-    //   },
     {
       id: "nehemiah-5",
       title: "Внутрішній конфлікт та страх Божий",
@@ -114,19 +132,6 @@ export const homeGroupsContent = {
       tags: ["страх Божий", "соціальна справедливість", "Неемія", "внутрішній конфлікт"],
       loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah5"),
     },
-    //   {
-    //     id: "nehemiah-5-test",
-    //     title: "Тестовий урок з посиланнями",
-    //     shortTitle: "Тест посилань",
-    //     book: "Неемії",
-    //     bookInternalKey: "nehemiah",
-    //     chapter: "5",
-    //     verses: "1–19",
-    //     date: "2025-08-03",
-    //     author: "Тестувальник",
-    //     tags: ["тест", "посилання"],
-    //     loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah5Lesson-test.json"),
-    //   },
     {
       id: "nehemiah-lesson-6",
       title: "Ворожі пастки та Божа перемога",
@@ -139,7 +144,29 @@ export const homeGroupsContent = {
       author: "Автор уроку",
       duration: "45-60 хв",
       tags: ["Неемія", "спокуса", "вірність", "перемога"],
-      loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiahLesson6"),
+      loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah6"),
+    },
+    {
+      id: "nehemiah-7-reflection",
+      title: "Неємія 7: Від Відбудови до Відродження",
+      shortTitle: "Неємія 7",
+      book: "Неємія",
+      bookInternalKey: "nehemiah",
+      chapter: "7",
+      verses: "1-73",
+      date: "2025-08-18",
+      author: "Живі Брати",
+      duration: "60-90 хв",
+      tags: [
+        "Неємія",
+        "відбудова",
+        "збереження",
+        "родовід",
+        "ідентичність",
+        "Слово Боже",
+        "відродження",
+      ],
+      loadLesson: () => import("./lessons/oldTestament/nehemiah/nehemiah7"),
     },
   ], // Неемії
   esther: [], // Естер

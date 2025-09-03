@@ -1,5 +1,9 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { TfiMenuAlt } from "react-icons/tfi";
+import { RiArticleLine, RiArticleFill } from "react-icons/ri";
+import { IoBookOutline, IoBook } from "react-icons/io5";
+import { motion, AnimatePresence } from "framer-motion";
 import { BottomNavContainer, NavLinkItem, IconWrapper } from "./MobileBottomNav.styled";
 
 const MobileBottomNav = ({
@@ -10,45 +14,116 @@ const MobileBottomNav = ({
 }) => {
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const navigate = useNavigate();
 
-  // Визначаємо, яка кнопка має бути активною
   const isLeftMenuActive = isLeftMenuOpen;
   const isRightMenuActive = isRightMenuOpen;
-  // Центральна кнопка активна, якщо жодне меню не відкрите
   const isCentralMenuActive = !isLeftMenuOpen && !isRightMenuOpen;
 
   const handleCentralButtonClick = () => {
-    // Логіка для центральної кнопки
     if (isLeftMenuOpen) {
       onLeftMenuClick(false);
-    }
-    if (isRightMenuOpen) {
+    } else if (isRightMenuOpen) {
       onRightMenuClick(false);
+    } else {
+      // ✅ Відновлена логіка переходу назад
+      navigate(-1);
     }
+  };
+
+  const iconVariants = {
+    initial: { scale: 1 },
+    animate: { scale: 1.1 },
+    exit: { scale: 1 },
   };
 
   return (
     <BottomNavContainer className={isHome ? "hidden" : ""}>
-      <NavLinkItem onClick={() => onLeftMenuClick(true)} data-active={isLeftMenuActive}>
+      <NavLinkItem
+        onClick={() => onLeftMenuClick(true)}
+        data-active={isLeftMenuActive}
+        // ✅ Додані ARIA-атрибути
+        aria-label="Відкрити бічне меню"
+        aria-expanded={isLeftMenuActive}
+      >
         <IconWrapper>
-          <i className="fas fa-bars"></i>
+          <motion.div
+            key="menu-icon"
+            initial={{ scale: 1 }}
+            animate={{ scale: isLeftMenuActive ? 1.1 : 1 }}
+            transition={{ duration: 0.2 }}
+          >
+            <TfiMenuAlt />
+          </motion.div>
         </IconWrapper>
         <span>Меню</span>
       </NavLinkItem>
 
       <NavLinkItem
-        onClick={handleCentralButtonClick} // або handlePageReturn
+        onClick={handleCentralButtonClick}
         data-active={isCentralMenuActive}
+        // ✅ Оновлений aria-label, щоб відображати обидві дії кнопки
+        aria-label={isCentralMenuActive ? "Повернутися назад" : "Закрити меню"}
       >
         <IconWrapper>
-          <i className="fas fa-times"></i>
+          <AnimatePresence mode="wait">
+            {isCentralMenuActive ? (
+              <motion.div
+                key="content-active"
+                variants={iconVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+              >
+                <RiArticleFill />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="content-inactive"
+                variants={iconVariants}
+                initial="initial"
+                animate="initial"
+                exit="exit"
+              >
+                <RiArticleLine />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </IconWrapper>
         <span>Сторінка</span>
       </NavLinkItem>
 
-      <NavLinkItem onClick={() => onRightMenuClick(true)} data-active={isRightMenuActive}>
+      <NavLinkItem
+        onClick={() => onRightMenuClick(true)}
+        data-active={isRightMenuActive}
+        // ✅ Додані ARIA-атрибути
+        aria-label="Відкрити біблійний пошук"
+        aria-expanded={isRightMenuActive}
+      >
         <IconWrapper>
-          <i className="fas fa-info-circle"></i>
+          <AnimatePresence mode="wait">
+            {isRightMenuActive ? (
+              <motion.div
+                key="bible-active"
+                variants={iconVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+              >
+                <IoBook />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="bible-inactive"
+                variants={iconVariants}
+                initial="initial"
+                animate="initial"
+                exit="exit"
+              >
+                <IoBookOutline />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </IconWrapper>
         <span>Біблія</span>
       </NavLinkItem>

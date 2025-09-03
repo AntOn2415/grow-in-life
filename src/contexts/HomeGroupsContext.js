@@ -1,91 +1,105 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 import { homeGroupsContent } from "../data/homeGroups/homeGroupsContent";
+import {
+  homeGroupCategories,
+  oldTestamentBooksList,
+  newTestamentBooksList,
+} from "../data/homeGroups/homeGroupCategories";
 
 const HomeGroupsContext = createContext(null);
 
-// ✅ Нова функція для отримання початкового стану з localStorage
+// ✅ Moved the entire initialization logic into a single function
 const getInitialState = () => {
+  let savedState = null;
   try {
-    const savedState = localStorage.getItem("homeGroupsState");
-    if (savedState) {
-      return JSON.parse(savedState);
+    const serializedState = localStorage.getItem("homeGroupsState");
+    if (serializedState) {
+      savedState = JSON.parse(serializedState);
     }
   } catch (error) {
     console.error("Помилка при отриманні стану з localStorage", error);
   }
-  return {
-    selectedHomeGroupLesson: null,
-    selectedHomeGroupBook: null,
-  };
-};
 
-// Функція для пошуку першого доступного уроку
-const findFirstLesson = () => {
-  for (const categoryKey in homeGroupsContent) {
-    const lessonsArray = homeGroupsContent[categoryKey];
-    if (lessonsArray && lessonsArray.length > 0) {
-      return {
-        lessonId: lessonsArray[0].id,
-        bookKey: categoryKey,
-      };
+  // ✅ Find the first lesson as a fallback, outside of the useEffect
+  const findFirstLesson = () => {
+    for (const category of homeGroupCategories) {
+      if (category.id === "old-testament-books" || category.id === "new-testament-books") {
+        const booksList =
+          category.id === "old-testament-books" ? oldTestamentBooksList : newTestamentBooksList;
+        for (const book of booksList) {
+          const lessons = homeGroupsContent[book.internalKey];
+          if (lessons && lessons.length > 0) {
+            return {
+              lessonId: lessons[0].id,
+              bookKey: book.internalKey,
+            };
+          }
+        }
+      } else if (category.type === "thematic" || category.type === "special") {
+        const lessons = homeGroupsContent[category.id];
+        if (lessons && lessons.length > 0) {
+          return {
+            lessonId: lessons[0].id,
+            bookKey: category.id,
+          };
+        }
+      }
     }
+    return { lessonId: null, bookKey: null };
+  };
+
+  if (savedState && savedState.selectedHomeGroupLesson) {
+    return savedState;
+  } else {
+    return findFirstLesson();
   }
-  return { lessonId: null, bookKey: null };
 };
 
 export const HomeGroupsProvider = ({ children }) => {
-  // ✅ Використовуємо єдиний об'єкт стану, ініціалізований з localStorage
+  // ✅ Initialize state once using the `getInitialState` function
   const [state, setState] = useState(getInitialState);
 
-  // ✅ useEffect для встановлення першого уроку, якщо жодного не вибрано
-  useEffect(() => {
-    if (!state.selectedHomeGroupLesson) {
-      const { lessonId, bookKey } = findFirstLesson();
-      if (lessonId) {
-        setState(prevState => ({
-          ...prevState,
-          selectedHomeGroupLesson: lessonId,
-          selectedHomeGroupBook: bookKey,
-        }));
-      }
-    }
-  }, [state.selectedHomeGroupLesson]);
+  // ✅ Stabilized state setters with useCallback to prevent re-renders
+  const setSelectedHomeGroupLesson = useCallback(lessonId => {
+    setState(prev => ({
+      ...prev,
+      selectedHomeGroupLesson: lessonId,
+    }));
+  }, []);
 
-  // ✅ useEffect для збереження стану в localStorage при кожній зміні
+  const setSelectedHomeGroupBook = useCallback(bookKey => {
+    setState(prev => ({
+      ...prev,
+      selectedHomeGroupBook: bookKey,
+    }));
+  }, []);
+
+  // ✅ useEffect for saving state to localStorage
   useEffect(() => {
     try {
       localStorage.setItem("homeGroupsState", JSON.stringify(state));
     } catch (error) {
       console.error("Помилка при збереженні стану в localStorage", error);
     }
-  }, [state]); // Залежність від всього об'єкта стану
+  }, [state]);
 
-  const setSelectedHomeGroupLesson = lessonId => {
-    setState(prev => ({
-      ...prev,
-      selectedHomeGroupLesson: lessonId,
-    }));
-  };
-
-  const setSelectedHomeGroupBook = bookKey => {
-    setState(prev => ({
-      ...prev,
-      selectedHomeGroupBook: bookKey,
-    }));
-  };
-
-  return (
-    <HomeGroupsContext.Provider
-      value={{
-        selectedHomeGroupLesson: state.selectedHomeGroupLesson,
-        setSelectedHomeGroupLesson,
-        selectedHomeGroupBook: state.selectedHomeGroupBook,
-        setSelectedHomeGroupBook,
-      }}
-    >
-      {children}
-    </HomeGroupsContext.Provider>
+  // ✅ Stabilize the context value with useMemo
+  const value = useMemo(
+    () => ({
+      selectedHomeGroupLesson: state.selectedHomeGroupLesson,
+      setSelectedHomeGroupLesson,
+      selectedHomeGroupBook: state.selectedHomeGroupBook,
+      setSelectedHomeGroupBook,
+    }),
+    [
+      state.selectedHomeGroupLesson,
+      state.selectedHomeGroupBook,
+      setSelectedHomeGroupLesson,
+      setSelectedHomeGroupBook,
+    ]
   );
+
+  return <HomeGroupsContext.Provider value={value}>{children}</HomeGroupsContext.Provider>;
 };
 
 export const useHomeGroups = () => {

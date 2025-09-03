@@ -9,7 +9,7 @@ export const StyledQuizCard = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.medium};
   box-shadow: ${({ theme }) => theme.shadows.small};
   transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
-    box-shadow 0.25s ease-in-out; // ДОДАНО: Переходи для фону, межі та тіні
+    box-shadow 0.25s ease-in-out;
 
   ${({ theme }) => theme.media.down("sm")`
     padding: ${({ theme }) => theme.spacing.small};
@@ -17,16 +17,18 @@ export const StyledQuizCard = styled.div`
   `}
 `;
 
-export const QuizQuestion = styled.h4`
+export const QuizQuestion = styled.h4.attrs(props => ({
+  // ✅ Додано .attrs
+  as: props.as || "h4",
+}))`
   font-size: ${({ theme }) => theme.fontSizes.large};
   font-weight: 600;
   margin-bottom: ${({ theme }) => theme.spacing.small};
   color: ${({ theme }) => theme.colors.color};
   cursor: pointer;
-
   flex-wrap: wrap;
   word-break: break-word;
-  transition: color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору тексту запитання
+  transition: color 0.25s ease-in-out;
 
   ${({ theme }) => theme.media.down("sm")`
     font-size: ${({ theme }) => theme.fontSizes.medium};
@@ -37,14 +39,11 @@ export const QuizQuestion = styled.h4`
 export const QuizOptionsList = styled.ul`
   list-style: none;
   padding: 0;
-  margin-top: ${({ theme }) => theme.spacing.small};
   border-top: 1px solid ${({ theme }) => theme.colors.borderColor};
   padding-top: ${({ theme }) => theme.spacing.small};
-
-  transition: border-color 0.25s ease-in-out; // ДОДАНО: Перехід для кольору верхньої межі списку опцій
+  transition: border-color 0.25s ease-in-out;
 
   ${({ theme }) => theme.media.down("sm")`
-    margin-top: ${({ theme }) => theme.spacing.xsmall};
     padding-top: ${({ theme }) => theme.spacing.xsmall};
   `}
 `;
@@ -60,7 +59,7 @@ export const QuizOptionItem = styled.li`
   cursor: pointer;
 
   transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
-    color 0.25s ease-in-out; // ОНОВЛЕНО: Перехід для всіх кольорових властивостей
+    color 0.25s ease-in-out;
 
   &:last-child {
     margin-bottom: 0;
@@ -108,6 +107,5 @@ export const QuizToggleIcon = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.xlarge};
   font-weight: bold;
   color: ${({ theme }) => theme.colors.color};
-
-  transition: transform 0.2s ease-in-out, color 0.25s ease-in-out; // ОНОВЛЕНО: Перехід для кольору іконки
+  transition: transform 0.2s ease-in-out, color 0.25s ease-in-out;
 `;

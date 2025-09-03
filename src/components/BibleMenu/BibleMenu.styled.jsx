@@ -4,13 +4,13 @@ import { motion } from "framer-motion";
 export const BibleMenuWrapper = styled.div`
   display: flex;
   height: 100%;
-  flex-direction: column; // Мобільна версія: контент і навігація в стовпчик
-  // Налаштування для планшетів та десктопів
+  flex-direction: column;
+
   ${({ theme }) => theme.media.up("md")`
-    // Використовуємо CSS Grid для надійної двоколонкової верстки
     display: grid;
     grid-template-columns: 1fr 48px;
     grid-template-areas: "content navigation";
+    justify-content: end;
   `}
 `;
 
@@ -21,7 +21,7 @@ export const NavigationContainer = styled(motion.div)`
   justify-content: start;
   align-items: center;
   padding: ${({ theme }) => theme.spacing.xsmall};
-  background-color: ${({ theme }) => theme.colors.navBg};
+  background-color: inherit;
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
   gap: ${({ theme }) => theme.spacing.small};
   transition: background-color 0.25s ease-in-out, border-bottom 0.25s ease-in-out;
@@ -31,7 +31,7 @@ export const NavigationContainer = styled(motion.div)`
   ${({ theme }) => theme.media.up("md")`
     grid-area: navigation; // Призначаємо контейнер до області "navigation"
     flex-direction: column; // Десктоп: навігація в стовпчик
-    width: 46px;
+    width: 50px;
     height: 100%; // Контейнер займає всю висоту
     padding: 0;
     gap: ${({ theme }) => theme.spacing.medium};
@@ -99,5 +99,5 @@ export const ContentContainer = styled.div`
   ${({ theme }) => theme.media.up("md")`
     grid-area: content; // Призначаємо контейнер до області "content"
     overflow-y: auto; // Забезпечуємо прокручування лише цього контейнера
-  `}
+  `};
 `;

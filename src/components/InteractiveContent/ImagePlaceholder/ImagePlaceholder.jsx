@@ -1,17 +1,17 @@
 // src/components/InteractiveContent/ImagePlaceholder/ImagePlaceholder.jsx
 import React from "react";
-import { ImageContainer, StyledImage, ImageCaption } from "./ImagePlaceholder.styled";
+import { StyledFigure, StyledImage, StyledFigcaption } from "./ImagePlaceholder.styled";
 
 function ImagePlaceholder({ imageUrl, caption, altText }) {
   return (
-    <ImageContainer>
+    <StyledFigure>
       {imageUrl ? (
         <StyledImage src={imageUrl} alt={altText || "Зображення"} />
       ) : (
         <p>Зображення відсутнє.</p>
       )}
-      {caption && <ImageCaption>{caption}</ImageCaption>}
-    </ImageContainer>
+      {caption && <StyledFigcaption>{caption}</StyledFigcaption>}
+    </StyledFigure>
   );
 }
 

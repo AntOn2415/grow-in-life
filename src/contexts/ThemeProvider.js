@@ -1,5 +1,4 @@
-// src/contexts/ThemeProvider.js
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { themes } from "../styles/themes";
 
@@ -23,12 +22,25 @@ export const ThemeProvider = ({ children }) => {
     localStorage.setItem("themeMode", mode);
   }, [mode]);
 
-  const toggleTheme = () => setMode(mode === "light" ? "dark" : "light");
+  // ✅ Використовуємо useCallback для стабілізації функції
+  const toggleTheme = useCallback(() => {
+    setMode(prevMode => (prevMode === "light" ? "dark" : "light"));
+  }, []);
 
   const currentTheme = themes[mode];
 
+  // ✅ Використовуємо useMemo для стабілізації об'єкта value
+  const value = useMemo(
+    () => ({
+      mode,
+      toggleTheme,
+      currentTheme,
+    }),
+    [mode, toggleTheme, currentTheme]
+  );
+
   return (
-    <ThemeContext.Provider value={{ mode, toggleTheme, currentTheme }}>
+    <ThemeContext.Provider value={value}>
       <StyledThemeProvider theme={currentTheme}>{children}</StyledThemeProvider>
     </ThemeContext.Provider>
   );

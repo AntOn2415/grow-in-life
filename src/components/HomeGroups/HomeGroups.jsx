@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useOutletContext, useLocation } from "react-router-dom";
 import { HomeGroupsContainer, NoLessonMessage } from "./HomeGroups.styled";
 import HomeGroupLessonDisplay from "../SpecificContentDisplays/HomeGroupLessonDisplay/HomeGroupLessonDisplay";
@@ -9,14 +9,10 @@ import {
   oldTestamentBooksList,
   newTestamentBooksList,
 } from "../../data/homeGroups/homeGroupCategories";
+import { parseAndValidateContent } from "../../utils/parseAndValidateLesson";
 
-// --- ВАЖЛИВО ---: Імпортуємо вашу нову утиліту для парсингу
-import { parseAndValidateLesson } from "../../utils/parseAndValidateLesson";
-
-// Оптимізована функція для пошуку уроку
 const getLessonMetaDataById = lessonId => {
   if (!lessonId) return null;
-
   for (const categoryKey in homeGroupsContent) {
     const lessonsArray = homeGroupsContent[categoryKey];
     if (lessonsArray) {
@@ -29,7 +25,6 @@ const getLessonMetaDataById = lessonId => {
   return null;
 };
 
-// Оптимізована функція для пошуку першого уроку
 const findFirstLesson = () => {
   for (const category of homeGroupCategories) {
     if (category.id === "old-testament-books" || category.id === "new-testament-books") {
@@ -54,56 +49,52 @@ const findFirstLesson = () => {
 const HomeGroups = () => {
   const { mainRef } = useOutletContext();
   const { selectedHomeGroupLesson, setSelectedHomeGroupLesson } = useHomeGroups();
-  // --- ЗМІНА 1 ---: Змінюємо стан для зберігання спарсеного уроку або помилки
   const [parsedLesson, setParsedLesson] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
 
-  const isInitialLoad = useRef(true);
-
-  // useEffect для ініціалізації уроку
+  // ✅ Замість hasLoaded useRef, використовуємо новий ефект для ініціалізації.
+  // Цей ефект запустить `setSelectedHomeGroupLesson` лише один раз,
+  // якщо урок ще не обрано. Це дозволяє основному ефекту
+  // реагувати на наступні зміни.
   useEffect(() => {
     if (!selectedHomeGroupLesson) {
-      const firstLessonId = findFirstLesson();
-      if (firstLessonId) {
-        setSelectedHomeGroupLesson(firstLessonId);
+      const firstLesson = findFirstLesson();
+      if (firstLesson) {
+        setSelectedHomeGroupLesson(firstLesson);
       } else {
         setLoading(false);
       }
     }
   }, [selectedHomeGroupLesson, setSelectedHomeGroupLesson]);
 
-  // ВИПРАВЛЕНИЙ useEffect для завантаження контенту уроку
   useEffect(() => {
-    const loadAndParseLessonContent = async () => {
-      setLoading(true);
-      setParsedLesson(null);
-      setError(null);
+    // Якщо selectedHomeGroupLesson не встановлено, просто виходимо.
+    // Це запобігає завантаженню, поки не буде обрано урок.
+    if (!selectedHomeGroupLesson) {
+      return;
+    }
 
-      if (mainRef && mainRef.current && !isInitialLoad.current) {
-        mainRef.current.scrollTop = 0;
-      }
+    const loadContent = async () => {
+      setLoading(true);
+      setError(null);
 
       const lessonMetaData = getLessonMetaDataById(selectedHomeGroupLesson);
       if (lessonMetaData && lessonMetaData.loadLesson) {
         try {
-          // Динамічно завантажуємо модуль
           const module = await lessonMetaData.loadLesson();
           const lessonJson = module.default;
-
-          // --- ЗМІНА 2 ---: Викликаємо parseAndValidateLesson для валідації та парсингу
-          const { success, lesson, error: validationError } = parseAndValidateLesson(lessonJson);
+          const { success, lesson, error: validationError } = parseAndValidateContent(lessonJson);
 
           if (success) {
             setParsedLesson(lesson);
           } else {
-            // Зберігаємо помилку валідації в стані
-            setError(`Помилка валідації уроку: ${validationError}`);
+            setError(`Помилка валідації: ${validationError}`);
             setParsedLesson(null);
           }
-        } catch (error) {
-          console.error("Помилка завантаження або парсингу уроку:", error);
+        } catch (err) {
+          console.error("Помилка завантаження або парсингу уроку:", err);
           setError("Не вдалося завантажити урок. Спробуйте пізніше.");
           setParsedLesson(null);
         } finally {
@@ -116,22 +107,18 @@ const HomeGroups = () => {
       }
     };
 
-    if (selectedHomeGroupLesson) {
-      loadAndParseLessonContent();
-    }
-  }, [selectedHomeGroupLesson, mainRef]);
+    loadContent();
+  }, [selectedHomeGroupLesson]); // ✅ Цей ефект тепер реагує виключно на зміни selectedHomeGroupLesson
 
-  // useEffect для відновлення скролу після завантаження контенту
-  useEffect(() => {
+  // useLayoutEffect краще підходить для маніпуляцій з DOM (прокрутка),
+  // оскільки він запускається після рендерингу, але до того, як браузер відобразить зміни на екрані.
+  useLayoutEffect(() => {
     if (parsedLesson && mainRef && mainRef.current) {
       const savedScrollY = sessionStorage.getItem(`scrollPosition-${location.pathname}`);
-
-      if (savedScrollY && isInitialLoad.current) {
+      if (savedScrollY) {
         const parsedScroll = parseInt(savedScrollY, 10);
         mainRef.current.scrollTop = parsedScroll;
       }
-
-      isInitialLoad.current = false;
     }
   }, [parsedLesson, mainRef, location.pathname]);
 
@@ -140,10 +127,8 @@ const HomeGroups = () => {
       {loading ? (
         <NoLessonMessage>Завантаження уроку...</NoLessonMessage>
       ) : error ? (
-        // --- ЗМІНА 3 ---: Показуємо повідомлення про помилку
         <NoLessonMessage>{error}</NoLessonMessage>
       ) : parsedLesson ? (
-        // --- ЗМІНА 4 ---: Передаємо вже спарсений об'єкт уроку
         <HomeGroupLessonDisplay lessonData={parsedLesson} />
       ) : (
         <NoLessonMessage>

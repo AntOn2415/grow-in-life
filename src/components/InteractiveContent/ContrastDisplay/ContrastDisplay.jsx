@@ -8,33 +8,38 @@ import {
   ItemEmoji,
   ItemContent,
 } from "./ContrastDisplay.styled";
-import SectionHeading from "../../Common/SectionHeading/SectionHeading";
-import TokenRenderer from "../../TokenRenderer/TokenRenderer"; // 👈 Імпортуємо TokenRenderer
+import TokenRenderer from "../../TokenRenderer/TokenRenderer";
 
-const ContrastDisplay = ({ title, items }) => {
+const ContrastDisplay = ({ items, itemTitleLevel = 4 }) => {
   if (!items || items.length < 2) {
     return null;
   }
 
+  // Функція для коректного рендерингу контенту
+  const renderContent = content => {
+    // Якщо content - це масив, перебираємо його та рендеримо кожен елемент як параграф
+    if (Array.isArray(content)) {
+      return content.map((item, index) => <TokenRenderer key={index} tokens={item} />);
+    }
+    // Якщо content - це рядок, просто рендеримо його в одному параграфі
+    if (typeof content === "string") {
+      return <TokenRenderer tokens={content} />;
+    }
+    // В інших випадках нічого не рендеримо
+    return null;
+  };
+
   return (
-    <ContrastDisplayContainer>
-      {title && (
-        <SectionHeading as="h3">
-          {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для заголовка */}
-          <TokenRenderer tokens={title} />
-        </SectionHeading>
-      )}
+    <ContrastDisplayContainer as="section">
       <ContrastItemsWrapper>
         {items.map((item, index) => (
           <ContrastItem key={index} $type={item.type}>
-            <ItemHeading $type={item.type}>
+            <ItemHeading as={`h${itemTitleLevel}`} $type={item.type}>
               {item.emoji && <ItemEmoji>{item.emoji}</ItemEmoji>}
-              {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для заголовка елемента */}
-              <TokenRenderer tokens={item.heading} />
+              <TokenRenderer tokens={item.heading} isHeading={true} />
             </ItemHeading>
-            {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для контенту елемента */}
             <ItemContent>
-              <TokenRenderer tokens={item.content} />
+              <p>{renderContent(item.content)}</p>
             </ItemContent>
           </ContrastItem>
         ))}

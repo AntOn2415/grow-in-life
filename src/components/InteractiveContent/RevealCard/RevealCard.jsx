@@ -1,15 +1,32 @@
-// src/components/InteractiveContent/RevealCard/RevealCard.js
+// src/components/InteractiveContent/RevealCard/RevealCard.jsx
 import React, { useState } from "react";
-//import { motion } from "framer-motion";
-import { StyledRevealCard, CardTitle, CardAnswerContainer, CardContent } from "./RevealCard.styled";
+import {
+  StyledRevealCard,
+  CardHeader,
+  Emoji,
+  CardTitle,
+  CardAnswerContainer,
+  CardContent,
+} from "./RevealCard.styled";
 import TokenRenderer from "../../TokenRenderer/TokenRenderer";
 
-// ✅ Тут компонент приймає окремі пропси, як ми виправляли в HomeGroupLessonDisplay
-export default function RevealCard({ id, emoji, title, content }) {
+export default function RevealCard({ id, emoji, title, content, titleLevel }) {
   const [isRevealed, setIsRevealed] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   const toggleReveal = () => setIsRevealed(!isRevealed);
+
+  const renderContent = () => {
+    if (typeof content === "string") {
+      return <TokenRenderer tokens={content} />;
+    }
+
+    if (Array.isArray(content)) {
+      return content.map((item, index) => <TokenRenderer key={index} tokens={item} />);
+    }
+
+    return null;
+  };
 
   return (
     <StyledRevealCard
@@ -17,11 +34,12 @@ export default function RevealCard({ id, emoji, title, content }) {
       onHoverEnd={() => setIsHovered(false)}
       onClick={toggleReveal}
     >
-      {/* ✅ СЕМАНТИЧНЕ ВИПРАВЛЕННЯ: Використовуємо тег h4 замість спанів */}
-      <CardTitle>
-        {emoji && <span>{emoji}</span>}
-        <TokenRenderer tokens={title} />
-      </CardTitle>
+      <CardHeader>
+        {emoji && <Emoji>{emoji}</Emoji>}
+        <CardTitle as={`h${titleLevel}`}>
+          <TokenRenderer tokens={title} />
+        </CardTitle>
+      </CardHeader>
 
       <CardAnswerContainer
         initial={false}
@@ -30,10 +48,13 @@ export default function RevealCard({ id, emoji, title, content }) {
       >
         <CardContent
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1, backdropFilter: isRevealed ? "blur(0px)" : "blur(8px)" }}
+          animate={{
+            opacity: 1,
+            backdropFilter: isRevealed ? "blur(0px)" : "blur(8px)",
+          }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
-          <TokenRenderer tokens={content} />
+          <p>{renderContent()}</p>
         </CardContent>
       </CardAnswerContainer>
     </StyledRevealCard>

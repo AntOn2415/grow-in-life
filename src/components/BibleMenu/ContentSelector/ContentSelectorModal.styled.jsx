@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-// Обгортка для мобільної версії, щоб забрати інлайнові стилі
 export const ModalContentWrapper = styled(motion.div)`
   position: fixed;
   top: 0;
@@ -9,7 +8,8 @@ export const ModalContentWrapper = styled(motion.div)`
   width: 100vw;
   height: 100vh;
   z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${({ theme }) => theme.colors.background + "99"};
+  backdrop-filter: blur(1px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,7 +27,6 @@ export const ModalContainer = styled.div`
   z-index: 10;
   transition: background-color 0.25s ease-in-out;
 
-  // Стилі для модалки на мобільних
   ${({ theme }) => theme.media.down("md")`
     position: fixed;
     top: 0px;
@@ -45,7 +44,7 @@ export const ModalHeader = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
   background-color: ${({ theme }) => theme.colors.navBg};
   transition: background-color 0.25s ease-in-out, border-bottom 0.25s ease-in-out;
-  ${({ theme }) => theme.media.down("md")`
+  ${({ theme }) => theme.media.down("sm")`
     padding: ${({ theme }) => theme.spacing.xsmall};
   `}
 `;
@@ -69,12 +68,12 @@ export const CloseButton = styled.button`
     width: 28px;
     height: 28px;
     color: ${({ theme }) => theme.colors.color};
-    transition: background 0.25s ease-in-out;
+    transition: fill 0.25s ease-in-out;
   }
 
-  ${({ theme }) => theme.media.down("md")`
-  top: 8px;
-  right: 8px;
+  ${({ theme }) => theme.media.down("sm")`
+    top: 8px;
+    right: 8px;
   `}
 `;
 
@@ -83,7 +82,7 @@ export const TestamentNav = styled.div`
   justify-content: center;
   gap: ${({ theme }) => theme.spacing.xsmall};
 
-  ${({ theme }) => theme.media.down("md")`
+  ${({ theme }) => theme.media.down("sm")`
     gap: ${({ theme }) => theme.spacing.small};
   `}
 `;
@@ -94,7 +93,7 @@ export const TestamentButton = styled.button`
     $active ? theme.colors.accentColor : theme.colors.colorSecondary};
   border: none;
   border-radius: ${({ theme }) => theme.borderRadius.small};
-  padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.small};
+  padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.xsmall};
   cursor: pointer;
   font-size: ${({ theme }) => theme.fontSizes.medium};
   transition: all 0.25s ease-in-out;
@@ -103,7 +102,7 @@ export const TestamentButton = styled.button`
     background: ${({ theme }) => theme.colors.navActive};
   }
 
-  ${({ theme }) => theme.media.down("md")`
+  ${({ theme }) => theme.media.down("sm")`
     padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.xsmall};
   `}
 `;
@@ -140,7 +139,6 @@ export const BookTitle = styled.h4`
   padding: ${({ theme }) => theme.spacing.small};
   font-size: ${({ theme }) => theme.fontSizes.large};
   color: ${({ theme }) => theme.colors.color};
-
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
   transition: color 0.25s ease-in-out, border-bottom 0.25s ease-in-out;
 `;
@@ -150,6 +148,8 @@ export const BookTitleBack = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.large};
   color: ${({ theme }) => theme.colors.color};
   transition: color 0.25s ease-in-out;
+  display: flex;
+  align-items: center;
   &:hover {
     color: ${({ theme }) => theme.colors.colorSecondary};
   }
@@ -160,7 +160,7 @@ export const ChapterGrid = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
   gap: ${({ theme }) => theme.spacing.small};
   padding: ${({ theme }) => theme.spacing.medium};
-  padding-bottom: 60px; // Додано відступ знизу
+  padding-bottom: 60px;
   overflow-y: auto;
 `;
 

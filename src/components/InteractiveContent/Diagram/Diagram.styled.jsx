@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
-export const DiagramContainer = styled.div`
+export const DiagramContainer = styled.section`
   width: 100%;
   max-width: 950px;
-  margin: ${({ theme }) => theme.spacing.medium} auto;
   padding: ${({ theme }) => theme.spacing.small};
   background-color: ${({ theme }) => theme.colors.background};
   border: 1px solid ${({ theme }) => theme.colors.borderColor};
@@ -22,7 +21,7 @@ export const DiagramWrapper = styled.div`
   height: 100%;
 
   ${({ theme }) => theme.media.down("md")`
-    flex-direction: column; /* діаграма зверху, легенда знизу */
+    flex-direction: column;
   `}
 `;
 

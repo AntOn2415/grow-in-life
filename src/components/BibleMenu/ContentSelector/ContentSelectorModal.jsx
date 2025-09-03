@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Portal from "../../Portal/Portal";
 import { BibleContext } from "../../../contexts/BibleContext";
+import { MdArrowForward, MdArrowBack } from "react-icons/md";
 import {
   ModalContentWrapper,
   ModalContainer,
@@ -33,7 +34,6 @@ const desktopModalVariants = {
 };
 
 const ContentSelectorModal = ({ onClose, isMobile }) => {
-  // Використовуємо контекст замість пропсу onSelect
   const { navigateTo } = useContext(BibleContext);
   const [selectedTestament, setSelectedTestament] = useState("new-testament");
   const [selectedBookKey, setSelectedBookKey] = useState(null);
@@ -44,7 +44,6 @@ const ContentSelectorModal = ({ onClose, isMobile }) => {
     : null;
 
   const handleSelectChapter = chapterNum => {
-    // Використовуємо navigateTo з контексту
     navigateTo(`[${selectedBookKey}:${chapterNum}]`);
     onClose();
   };
@@ -52,42 +51,45 @@ const ContentSelectorModal = ({ onClose, isMobile }) => {
   const modalContent = (
     <>
       <ModalHeader>
-        <TestamentNav>
-          <TestamentButton
-            $active={selectedTestament === "old-testament"}
-            onClick={() => {
-              setSelectedTestament("old-testament");
-              setSelectedBookKey(null);
-            }}
-          >
-            Старий Заповіт
-          </TestamentButton>
-          <TestamentButton
-            $active={selectedTestament === "new-testament"}
-            onClick={() => {
-              setSelectedTestament("new-testament");
-              setSelectedBookKey(null);
-            }}
-          >
-            Новий Заповіт
-          </TestamentButton>
-        </TestamentNav>
-        <CloseButton onClick={onClose}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </CloseButton>
+        <motion.div
+          key="modal-desktop-wrapper"
+          variants={desktopModalVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+        >
+          <TestamentNav>
+            <TestamentButton
+              $active={selectedTestament === "old-testament"}
+              onClick={() => {
+                setSelectedTestament("old-testament");
+                setSelectedBookKey(null);
+              }}
+            >
+              Старий Заповіт
+            </TestamentButton>
+            <TestamentButton
+              $active={selectedTestament === "new-testament"}
+              onClick={() => {
+                setSelectedTestament("new-testament");
+                setSelectedBookKey(null);
+              }}
+            >
+              Новий Заповіт
+            </TestamentButton>
+          </TestamentNav>
+        </motion.div>
+        {/* Анімація для кнопки закриття */}
+        <AnimatePresence>
+          <motion.div initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+            <CloseButton onClick={onClose}>
+              <MdArrowForward size={24} />
+            </CloseButton>
+          </motion.div>
+        </AnimatePresence>
       </ModalHeader>
+
       {!selectedBookKey ? (
         <BookList>
           {testamentData.items.map(book => (
@@ -99,7 +101,9 @@ const ContentSelectorModal = ({ onClose, isMobile }) => {
       ) : (
         <>
           <BookTitle>
-            <BookTitleBack onClick={() => setSelectedBookKey(null)}>←</BookTitleBack>
+            <BookTitleBack onClick={() => setSelectedBookKey(null)}>
+              <MdArrowBack />
+            </BookTitleBack>
             {selectedBookData.full}
           </BookTitle>
           <ChapterGrid>

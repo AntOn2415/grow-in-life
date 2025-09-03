@@ -1,5 +1,6 @@
 // src/components/InteractiveContent/QuizCard/QuizCard.js
 import React, { useState } from "react";
+import TokenRenderer from "../../TokenRenderer/TokenRenderer"; // ⬅️ Імпортуйте TokenRenderer
 import {
   StyledQuizCard,
   QuizQuestion,
@@ -8,13 +9,12 @@ import {
   QuizToggleIcon,
 } from "./QuizCard.styled";
 
-export default function QuizCard({ quizData }) {
+export default function QuizCard({ quizData, titleLevel }) {
   const [showOptions, setShowOptions] = useState(false);
-  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null); // Новий стан для обраної відповіді
+  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
 
   const toggleOptions = () => {
     setShowOptions(!showOptions);
-    // Приховуємо вибрану відповідь, якщо знову закриваємо список
     if (showOptions) {
       setSelectedAnswerIndex(null);
     }
@@ -22,14 +22,13 @@ export default function QuizCard({ quizData }) {
 
   const handleOptionClick = index => {
     setSelectedAnswerIndex(index);
-    // Якщо хочете автоматично показувати результат після вибору, можна тут додати логіку
-    // Наразі просто фіксуємо вибір
   };
 
   return (
     <StyledQuizCard>
-      <QuizQuestion onClick={toggleOptions}>
-        {quizData.question}
+      {/* 🟢 Виправлення: Тепер питання обробляється через TokenRenderer */}
+      <QuizQuestion onClick={toggleOptions} as={`h${titleLevel}`}>
+        <TokenRenderer tokens={quizData.question} />
         <QuizToggleIcon isActive={showOptions}>{showOptions ? "−" : "+"}</QuizToggleIcon>
       </QuizQuestion>
 
@@ -38,12 +37,13 @@ export default function QuizCard({ quizData }) {
           {quizData.options.map((option, index) => (
             <QuizOptionItem
               key={index}
-              onClick={() => handleOptionClick(index)} // Обробник кліку на опцію
-              isSelected={selectedAnswerIndex === index} // Проп для стилізації обраної відповіді
-              isCorrectOption={option.isCorrect} // Проп для стилізації правильної відповіді (не змінює поведінку, але впливає на вигляд)
-              showFeedback={selectedAnswerIndex !== null} // Показувати фідбек лише після вибору відповіді
+              onClick={() => handleOptionClick(index)}
+              isSelected={selectedAnswerIndex === index}
+              isCorrectOption={option.isCorrect}
+              showFeedback={selectedAnswerIndex !== null}
             >
-              {option.text}
+              {/* 🟢 Виправлення: Текст варіантів відповіді також обробляється через TokenRenderer */}
+              <TokenRenderer tokens={option.text} />
             </QuizOptionItem>
           ))}
         </QuizOptionsList>

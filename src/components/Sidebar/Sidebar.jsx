@@ -3,9 +3,16 @@ import { useLocation } from "react-router-dom";
 import { SidebarWrapper, Menu, CollapseBtn } from "./Sidebar.styled";
 import SermonsMenu from "./SermonsMenu/SermonsMenu";
 import HomeGroupsMenu from "./HomeGroupsMenu/HomeGroupsMenu";
-import { motion } from "framer-motion";
 
-export default function Sidebar({ collapsed, setCollapsed, onCloseMobileSidebar, isMobile }) {
+export default function Sidebar({
+  collapsed,
+  setCollapsed,
+  onCloseMobileSidebar,
+  isMobile,
+  isHome,
+  navHeight,
+  ...props
+}) {
   const location = useLocation();
   const [showOverlay, setShowOverlay] = useState(false);
   const [menuVisible, setMenuVisible] = useState(true);
@@ -22,7 +29,6 @@ export default function Sidebar({ collapsed, setCollapsed, onCloseMobileSidebar,
 
   if (location.pathname === "/") return null;
 
-  // Ця функція тепер буде передаватися до вкладених меню
   const handleNavLinkClick = () => {
     if (isMobile && onCloseMobileSidebar) {
       onCloseMobileSidebar();
@@ -44,7 +50,6 @@ export default function Sidebar({ collapsed, setCollapsed, onCloseMobileSidebar,
 
   const handleToggle = () => {
     if (isMobile) {
-      // Закриття сайдбару на мобільному
       onCloseMobileSidebar();
     } else {
       setMenuVisible(false);
@@ -53,13 +58,17 @@ export default function Sidebar({ collapsed, setCollapsed, onCloseMobileSidebar,
     }
   };
 
-  const isCollapsed = isMobile ? false : collapsed;
-
   return (
-    <SidebarWrapper $isCollapsed={isCollapsed}>
+    <SidebarWrapper
+      $isCollapsed={isMobile ? false : collapsed}
+      isHome={isHome}
+      navHeight={navHeight}
+      isMobile={isMobile}
+      aria-label="Бічна панель з навігацією"
+      className={isMobile ? "mobile" : ""}
+      {...props}
+    >
       <Menu
-        as={motion.nav}
-        $isCollapsed={isCollapsed}
         initial={false}
         animate={{ opacity: menuVisible ? 1 : 0.5 }}
         transition={{ duration: 0.25, ease: "easeInOut" }}
@@ -67,13 +76,11 @@ export default function Sidebar({ collapsed, setCollapsed, onCloseMobileSidebar,
       >
         {extraMenu}
       </Menu>
-
       {!isMobile && (
-        <CollapseBtn $isCollapsed={isCollapsed} onClick={handleToggle}>
-          {isCollapsed ? "›" : "‹"}
+        <CollapseBtn $isCollapsed={isMobile ? false : collapsed} onClick={handleToggle}>
+          {isMobile ? <i className="fas fa-times"></i> : (isMobile ? false : collapsed) ? "›" : "‹"}
         </CollapseBtn>
       )}
-
       {isMobile && (
         <CollapseBtn $isCollapsed={false} onClick={handleToggle}>
           <i className="fas fa-times"></i>

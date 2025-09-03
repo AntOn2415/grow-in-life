@@ -4,6 +4,8 @@
 // Тут описано структуру, яка підтверджує всі наші правила та типи даних.
 // =========================================================================
 
+// src/utils/validationSchemas.js
+
 import { z } from "zod";
 
 // Оновлена схема для звичайного тексту, щоб вона була універсальною
@@ -40,25 +42,20 @@ const TokenizedText = z.lazy(() =>
 
 // Базова схема для всіх секцій
 const BaseSectionSchema = z.object({
-  type: z.string(),
   title: TokenizedText.optional(),
 });
 
-// ✅ ОНОВЛЕНО: Додано 'subtitle' до TextSectionSchema
 const TextSectionSchema = BaseSectionSchema.extend({
   type: z.literal("text"),
   subtitle: TokenizedText.optional(),
   content: z.array(TokenizedText),
 });
 
-// ✅ ОНОВЛЕНО: Додано 'heading' до ListSectionSchema
 const ListSectionSchema = BaseSectionSchema.extend({
   type: z.literal("list"),
-  heading: TokenizedText.optional(),
   items: z.array(TokenizedText),
 });
 
-// Схема для відображення картками
 const ListCardsSectionSchema = BaseSectionSchema.extend({
   type: z.literal("list-cards"),
   cards: z.array(
@@ -81,17 +78,6 @@ const QuestionPromptSchema = BaseSectionSchema.extend({
   question: TokenizedText,
   answer: TokenizedText.optional(),
   emoji: z.string().optional(),
-});
-
-const ListCardsSchema = BaseSectionSchema.extend({
-  type: z.literal("list-cards"),
-  cards: z.array(
-    z.object({
-      title: TokenizedText.optional(),
-      content: TokenizedText,
-      emoji: z.string().optional(),
-    })
-  ),
 });
 
 const TimelineSchema = BaseSectionSchema.extend({
@@ -169,6 +155,31 @@ const ContrastSectionSchema = BaseSectionSchema.extend({
   ),
 });
 
+// ✅ НОВА РЕКУРСИВНА СХЕМА
+const LessonSectionSchema = z.lazy(() =>
+  z.union([
+    TextSectionSchema.extend({ type: z.literal("text") }),
+    ListCardsSectionSchema.extend({ type: z.literal("list-cards") }),
+    ListSectionSchema.extend({ type: z.literal("list") }),
+    HighlightBoxSchema.extend({ type: z.literal("highlight-box") }),
+    QuestionPromptSchema.extend({ type: z.literal("question-prompt") }),
+    TimelineSchema.extend({ type: z.literal("timeline") }),
+    RevealCardsSchema.extend({ type: z.literal("reveal-cards") }),
+    QuizSchema.extend({ type: z.literal("quiz") }),
+    DiagramSchema.extend({ type: z.literal("diagram") }),
+    ImagePlaceholderSchema.extend({ type: z.literal("image-placeholder") }),
+    DescriptionWithImageSchema.extend({ type: z.literal("description-with-image") }),
+    ContrastSectionSchema.extend({ type: z.literal("contrast-section") }),
+    // Додаємо новий тип для групування
+    z.object({
+      type: z.literal("section-group"),
+      title: TokenizedText,
+      sections: z.array(LessonSectionSchema), // Рекурсія тут!
+    }),
+  ])
+);
+
+// Оновлюємо загальну схему уроку
 export const LessonSchema = z.object({
   id: z.string(),
   title: TokenizedText,
@@ -182,23 +193,7 @@ export const LessonSchema = z.object({
   duration: z.string(),
   tags: z.array(z.string()),
   description: TokenizedText.optional(),
-  sections: z.array(
-    z.union([
-      TextSectionSchema,
-      ListCardsSectionSchema,
-      ListSectionSchema,
-      HighlightBoxSchema,
-      QuestionPromptSchema,
-      ListCardsSchema,
-      TimelineSchema,
-      RevealCardsSchema,
-      QuizSchema,
-      DiagramSchema,
-      ImagePlaceholderSchema,
-      DescriptionWithImageSchema,
-      ContrastSectionSchema,
-    ])
-  ),
+  sections: z.array(LessonSectionSchema), // Використовуємо нову рекурсивну схему
 });
 
 // =========================================================================
@@ -295,14 +290,11 @@ export const parseTags = text => {
   return parts;
 };
 
-// =========================================================================
+// src/utils/parseAndValidateContent.js
 
-// src/utils/parserAndValidateLesson.js
+//import { parseTags } from "./tagParser";
+//import { LessonSchema } from "./validationSchemas";
 
-// ✅ ОНОВЛЕНО: Додаємо 'items' до списку TOKENIZABLE_KEYS
-// src/utils/parserAndValidateLesson.js
-
-// ✅ ОНОВЛЕНО: Додано 'heading' і 'subtitle' до списку TOKENIZABLE_KEYS
 const TOKENIZABLE_KEYS = [
   "title",
   "shortTitle",
@@ -311,18 +303,22 @@ const TOKENIZABLE_KEYS = [
   "question",
   "answer",
   "text",
-  "heading", // ✅ Додано
+  "heading",
   "caption",
   "rationale",
   "verses",
   "items",
-  "subtitle", // ✅ Додано
+  "subtitle",
+  "description",
+  "year",
 ];
 
 const deepParseTags = (data, parentKey = null) => {
   if (typeof data === "string") {
+    // Перевіряємо, чи поточний ключ повинен бути токенізований
     if (TOKENIZABLE_KEYS.includes(parentKey)) {
       const parsedResult = parseTags(data);
+      // Забезпечуємо, що результат завжди є масивом, щоб уникнути помилок рендерингу
       if (Array.isArray(parsedResult)) {
         return parsedResult;
       }
@@ -331,6 +327,7 @@ const deepParseTags = (data, parentKey = null) => {
     return data;
   }
   if (Array.isArray(data)) {
+    // Рекурсивно обробляємо кожен елемент масиву
     return data.map(item => deepParseTags(item, parentKey));
   }
   if (typeof data === "object" && data !== null) {
@@ -343,7 +340,7 @@ const deepParseTags = (data, parentKey = null) => {
   return data;
 };
 
-export const parseAndValidateLesson = lessonData => {
+export const parseAndValidateContent = lessonData => {
   try {
     const validatedData = LessonSchema.parse(lessonData);
     const parsedLesson = deepParseTags(validatedData, "lesson");
@@ -355,287 +352,231 @@ export const parseAndValidateLesson = lessonData => {
 };
 
 // =========================================================================
-// 3. ПОВНИЙ ШАБЛОН УРОКУ (JSON)
-// Це приклад уроку, який повністю відповідає всім правилам, що ми встановили.
+// 3. ШАБЛОН (JSON)
+// Це приклад, який повністю відповідає всім правилам, що ми встановили.
 // =========================================================================
 
-const lessonTemplate = {
-  id: "full-lesson-template",
-  title: "Урок-Шаблон: Повний Приклад Оформлення",
-  shortTitle: "Шаблон",
-  book: "Неемія",
-  bookInternalKey: "nehemiah",
-  chapter: "2",
-  verses: "2:1-20",
-  date: "2025-07-31",
-  author: "Живі Брати",
-  duration: "60-90 хв",
-  tags: ["шаблон", "приклад", "інструкція", "тестування"],
-  description: [
-    "Цей JSON-файл є вичерпним шаблоном, що демонструє правильне оформлення всіх типів секцій та внутрішніх правил форматування тексту.",
-  ],
-  sections: [
-    {
-      type: "text",
-      title: "Основний контент уроку",
-      subtitle: "Додаткова інформація та роз'яснення",
-      content: [
-        "Цей розділ використовується для розміщення основного тексту уроку. Він підтримує різні типи форматування, такі як [bold:жирний шрифт], [italic:курсив], а також [link:https://example.com:зовнішні посилання] та посилання на біблійні вірші, як-от [verse:genesis:1:1:(Бут. 1:1)].",
-        "Кожен окремий рядок у масиві `content` буде відображатися як новий абзац. Це дозволяє структурувати текст і додавати цитати, наприклад [quote:Тут може бути важлива цитата або висновок].",
-      ],
-    },
-    {
-      type: "list",
-      heading: "Перелік ключових пунктів",
-      items: [
-        "[bold:Пункт 1]: Опис першого пункту, що підкреслює його важливість.",
-        "[bold:Пункт 2]: Розгорнутий опис другого пункту з додатковими деталями.",
-        "[bold:Пункт 3]: Коротке зведення або висновок з третього пункту, що містить [verse:john:3:16:(Ів. 3:16)].",
-        "Пункт 4: Опис, який не потребує виділення жирним шрифтом.",
-      ],
-    },
-    {
-      type: "highlight-box",
-      title: "2. Секція 'highlight-box'",
-      content:
-        "Цей блок виділяє важливу думку або ключову ідею. Поле `content` завжди є одним рядком (`TokenizedText`).",
-      emoji: "💡",
-    },
-    {
-      type: "question-prompt",
-      question: "3. Секція 'question-prompt': Запитання для роздумів?",
-      answer: "Відповідь тут, і вона також може містити [bold:форматування].",
-      emoji: "🤔",
-    },
-    {
-      type: "list-cards",
-      title: "4. Секція 'list-cards'",
-      cards: [
-        {
-          title: "Картка 1: Назва",
-          content:
-            "Тут опис картки. Він може бути розгорнутим і містити посилання на [verse:proverbs:3:5:(Прип. 3:5)] а якщо посилань може бути перелік в скобках то оформлювати ([verse:nehemiah:5:(Неем. 5)]; [verse:proverbs:3:5:Прип. 3:5]) .",
-          emoji: "👍",
-        },
-        {
-          title: "Картка 2: Ще одна картка",
-          content: "Всі поля тут є `TokenizedText`, тому підтримують форматування.",
-          emoji: "✨",
-        },
-      ],
-    },
-    {
-      type: "timeline",
-      title: "5. Секція 'timeline'",
-      events: [
-        {
-          year: "722 до Р.Х.",
-          title: "Подія 1: Перший етап",
-          description: "Опис події. Тут може бути текст, що займає кілька абзаців або рядків.",
-          verses: ["[verse:2_kings:17:23-34:(2 Цар. 17:23–34)]"],
-        },
-        {
-          title: "Подія 2: Другий етап",
-          description:
-            "Ця подія не прив'язана до конкретного року, але має свій опис, що також підтримує [bold:форматування].",
-        },
-      ],
-    },
-    {
-      type: "reveal-cards",
-      title: "6. Секція 'reveal-cards'",
-      cards: [
-        {
-          id: "template-card-1",
-          emoji: "🔒",
-          title: "Картка з прихованим контентом",
-          content: "Натисніть на картку, щоб розкрити цей текст.",
-        },
-      ],
-    },
-    {
-      type: "quiz",
-      id: "template-quiz-1",
-      question: "7. Секція 'quiz': Це тестове запитання?",
-      options: [
-        {
-          text: "Варіант 1 (правильний)",
-          isCorrect: true,
-          rationale: "Це пояснення, чому відповідь правильна.",
-        },
-        {
-          text: "Варіант 2 (неправильний)",
-          isCorrect: false,
-          rationale: "Це пояснення, чому відповідь неправильна.",
-        },
-      ],
-      hint: "Ця підказка допоможе знайти правильну відповідь.",
-    },
-    {
-      type: "diagram",
-      title: "8. Секція 'diagram'",
-      description:
-        "Цей розділ ілюструє, як можна додати діаграму. Ви можете використовувати різні типи графіків.",
-      chartType: "bar",
-      chartData: {
-        labels: ["Перший", "Другий", "Третій"],
-        datasets: [
-          {
-            label: "Приклад даних",
-            data: [12, 19, 3],
-          },
-        ],
-      },
-      chartOptions: {},
-    },
-    {
-      type: "image-placeholder",
-      title: "9. Секція 'image-placeholder'",
-      description: "Тут ви можете вставити одне зображення, що ілюструє ідею.",
-      imageUrl: "https://images.unsplash.com/photo-1540879948083-d2d46e300302",
-      altText: "Приклад зображення",
-      caption:
-        "Це підпис під зображенням, який також підтримує форматування, наприклад [bold:жирний шрифт].",
-    },
-    {
-      type: "description-with-image",
-      title: "10. Секція 'description-with-image'",
-      content: [
-        "Ця секція поєднує текст та зображення в одному блоці. Ви можете розмістити зображення зліва або справа від тексту.",
-        " Тут ми демонструємо, що `content` — це масив, що дозволяє створювати кілька абзаців.",
-      ],
-      imageUrl: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61",
-      altText: "Приклад з текстом",
-      imagePosition: "right",
-    },
-    {
-      type: "contrast-section",
-      title: "11. Секція 'contrast-section'",
-      items: [
-        {
-          heading: "Позитив",
-          content: "Єдність, жертовність, справедливість [verse:nehemiah:5:(Неем. 5)]",
-          emoji: "➕",
-          type: "positive",
-        },
-        {
-          heading: "Негатив",
-          content: "Відсотки, утиски, байдужість",
-          emoji: "➖",
-          type: "negative",
-        },
-        {
-          heading: "Нейтральний 1",
-          content: "Фактичний фон без оцінки",
-          type: "neutral1",
-        },
-        {
-          heading: "Нейтральний 2",
-          content: "Джерела даних і посилання",
-          type: "neutral2",
-        },
-      ],
-    },
-  ],
-};
-
-// =========================================================================
-// 4. ТЕСТОВИЙ БЛОК ДЛЯ ПЕРЕВІРКИ
-// =========================================================================
-
-const result = parseAndValidateLesson(lessonTemplate);
-
-if (result.success) {
-  console.log("✅ Валідація пройшла успішно!");
-} else {
-  console.error("❌ Помилка валідації!");
-  console.error("Деталі помилки:", result.error);
-}
-
-// =========================================================================
-// 5. шаблон назв книг для оформлювання посилань
-// =========================================================================
-// src/components/BibleMenu/constants.js
-// Дані про книги Біблії для навігації
-export const BOOK_CATEGORIES = [
-  {
-    id: "old-testament-books",
-    label: "Книги Старого Заповіту",
-    testament: "old-testament",
-    items: [
-      { full: "Буття", short: "Бут", internalKey: "genesis", chapters: 50 },
-      { full: "Вихід", short: "Вих", internalKey: "exodus", chapters: 40 },
-      { full: "Левит", short: "Лев", internalKey: "leviticus", chapters: 27 },
-      { full: "Числа", short: "Чис", internalKey: "numbers", chapters: 36 },
-      { full: "Повторення Закону", short: "Втор", internalKey: "deuteronomy", chapters: 34 },
-      { full: "Ісуса Навина", short: "Нав", internalKey: "joshua", chapters: 24 },
-      { full: "Суддів", short: "Суд", internalKey: "judges", chapters: 21 },
-      { full: "Рут", short: "Рут", internalKey: "ruth", chapters: 4 },
-      { full: "1 Самуїлова", short: "1Сам", internalKey: "1_samuel", chapters: 31 },
-      { full: "2 Самуїлова", short: "2Сам", internalKey: "2_samuel", chapters: 24 },
-      { full: "1 Царів", short: "1Цар", internalKey: "1_kings", chapters: 22 },
-      { full: "2 Царів", short: "2Цар", internalKey: "2_kings", chapters: 25 },
-      { full: "1 Хронік", short: "1Хр", internalKey: "1_chronicles", chapters: 29 },
-      { full: "2 Хронік", short: "2Хр", internalKey: "2_chronicles", chapters: 36 },
-      { full: "Ездри", short: "Езд", internalKey: "ezra", chapters: 10 },
-      { full: "Неемії", short: "Неем", internalKey: "nehemiah", chapters: 13 },
-      { full: "Естер", short: "Ест", internalKey: "esther", chapters: 10 },
-      { full: "Йова", short: "Йов", internalKey: "job", chapters: 42 },
-      { full: "Псалми", short: "Пс", internalKey: "psalms", chapters: 150 },
-      { full: "Приповісті", short: "Пр", internalKey: "proverbs", chapters: 31 },
-      { full: "Екклезіяст", short: "Ек", internalKey: "ecclesiastes", chapters: 12 },
-      { full: "Пісня над Піснями", short: "Пісн", internalKey: "song_of_solomon", chapters: 8 },
-      { full: "Ісаї", short: "Іс", internalKey: "isaiah", chapters: 66 },
-      { full: "Єремії", short: "Єр", internalKey: "jeremiah", chapters: 52 },
-      { full: "Плач Єремії", short: "Плач", internalKey: "lamentations", chapters: 5 },
-      { full: "Єзекіїля", short: "Єз", internalKey: "ezekiel", chapters: 48 },
-      { full: "Даниїла", short: "Дан", internalKey: "daniel", chapters: 12 },
-      { full: "Осії", short: "Ос", internalKey: "hosea", chapters: 14 },
-      { full: "Йоіла", short: "Йоіл", internalKey: "joel", chapters: 3 },
-      { full: "Амоса", short: "Ам", internalKey: "amos", chapters: 9 },
-      { full: "Овдія", short: "Ов", internalKey: "obadiah", chapters: 1 },
-      { full: "Йони", short: "Йона", internalKey: "jonah", chapters: 4 },
-      { full: "Михея", short: "Мих", internalKey: "micah", chapters: 7 },
-      { full: "Наума", short: "Наум", internalKey: "nahum", chapters: 3 },
-      { full: "Авакума", short: "Авак", internalKey: "habakkuk", chapters: 3 },
-      { full: "Софонії", short: "Соф", internalKey: "zephaniah", chapters: 3 },
-      { full: "Огія", short: "Ог", internalKey: "haggai", chapters: 2 },
-      { full: "Захарії", short: "Зах", internalKey: "zechariah", chapters: 14 },
-      { full: "Малахії", short: "Мал", internalKey: "malachi", chapters: 4 },
-    ],
-  },
-  {
-    id: "new-testament-books",
-    label: "Книги Нового Заповіту",
-    testament: "new-testament",
-    items: [
-      { full: "Матвія", short: "Мт", internalKey: "matthew", chapters: 28 },
-      { full: "Марка", short: "Мк", internalKey: "mark", chapters: 16 },
-      { full: "Луки", short: "Лк", internalKey: "luke", chapters: 24 },
-      { full: "Івана", short: "Ів", internalKey: "john", chapters: 21 },
-      { full: "Дії", short: "Дії", internalKey: "acts", chapters: 28 },
-      { full: "Римлян", short: "Рим", internalKey: "romans", chapters: 16 },
-      { full: "1 Коринтян", short: "1Кор", internalKey: "1_corinthians", chapters: 16 },
-      { full: "2 Коринтян", short: "2Кор", internalKey: "2_corinthians", chapters: 13 },
-      { full: "Галатів", short: "Гал", internalKey: "galatians", chapters: 6 },
-      { full: "Ефесян", short: "Еф", internalKey: "ephesians", chapters: 6 },
-      { full: "Филипʼян", short: "Флп", internalKey: "philippians", chapters: 4 },
-      { full: "Колосян", short: "Кол", internalKey: "colossians", chapters: 4 },
-      { full: "1 Солунян", short: "1Сол", internalKey: "1_thessalonians", chapters: 5 },
-      { full: "2 Солунян", short: "2Сол", internalKey: "2_thessalonians", chapters: 3 },
-      { full: "1 Тимофія", short: "1Тим", internalKey: "1_timothy", chapters: 6 },
-      { full: "2 Тимофія", short: "2Тим", internalKey: "2_timothy", chapters: 4 },
-      { full: "Тита", short: "Тит", internalKey: "titus", chapters: 3 },
-      { full: "Филимона", short: "Флм", internalKey: "philemon", chapters: 1 },
-      { full: "Євреїв", short: "Євр", internalKey: "hebrews", chapters: 13 },
-      { full: "Якова", short: "Як", internalKey: "james", chapters: 5 },
-      { full: "1 Петра", short: "1Пет", internalKey: "1_peter", chapters: 5 },
-      { full: "2 Петра", short: "2Пет", internalKey: "2_peter", chapters: 3 },
-      { full: "1 Івана", short: "1Ів", internalKey: "1_john", chapters: 5 },
-      { full: "2 Івана", short: "2Ів", internalKey: "2_john", chapters: 1 },
-      { full: "3 Івана", short: "3Ів", internalKey: "3_john", chapters: 1 },
-      { full: "Юди", short: "Юд", internalKey: "jude", chapters: 1 },
-      { full: "Обʼявлення", short: "Об", internalKey: "revelation", chapters: 22 },
-    ],
-  },
-];
+//   {
+//   "id": "nested-lesson-full-example",
+//   "title": "Урок: Приклад Глибокої Вкладеності з усіма секціями",
+//   "shortTitle": "Шаблон Вкладеності",
+//   "book": "Псалми",
+//   "bookInternalKey": "psalms",
+//   "chapter": "1",
+//   "verses": "1:1-6",
+//   "date": "2025-08-16",
+//   "author": "Живі Брати",
+//   "duration": "45-60 хв",
+//   "tags": ["зразок", "вкладеність", "тестування", "ієрархія"],
+//   "description": "Цей JSON-файл є прикладом уроку з глибокою вкладеністю, який демонструє, як усі типи секцій працюють у новій структурі. Кожен елемент містить текст, що вказує на очікувану HTML-семантику.",
+//   "sections": [
+//     {
+//       "type": "section-group",
+//       "title": "1. Основна частина (Очікуваний HTML: H2)",
+//       "sections": [
+//         {
+//           "type": "text",
+//           "title": "Основний контент уроку",
+//           "subtitle": "Додаткова інформація та роз'яснення",
+//           "content": [
+//             "Цей розділ використовується для розміщення основного тексту уроку. Він підтримує різні типи форматування, такі як [bold:жирний шрифт], [italic:курсив], а також [link:https://example.com:зовнішні посилання] та посилання на біблійні вірші, як-от [verse:genesis:1:1:(Бут. 1:1)].",
+//             "Кожен окремий рядок у масиві `content` буде відображатися як новий абзац. Це дозволяє структурувати текст і додавати цитати, наприклад [quote:Тут може бути важлива цитата або висновок]."
+//           ]
+//         },
+//         {
+//           "type": "text",
+//           "title": "1.1. Базові елементи (Очікуваний HTML: H3)",
+//           "content": [
+//             "Цей підрозділ показує базові елементи, що працюють з вкладеністю.",
+//             "Тут ми маємо приклад звичайного тексту, що повинен бути відрендерений коректно як [bold:окремий абзац <p>].",
+//             "[quote:Мудрість будує дім, і розум утверджує його. - Прип. 24:3]"
+//           ]
+//         },
+//         {
+//           "type": "list",
+//           "title": "1.2. Вкладений список (Очікуваний HTML: H3)",
+//           "items": [
+//             "Пункт 1: Перший рівень вкладеності.",
+//             "[bold:Пункт 2]: Жирний текст у списку. Очікуваний HTML: <ul>, <li>.",
+//             "Пункт 3: Ще один пункт."
+//           ]
+//         },
+//         {
+//           "type": "highlight-box",
+//           "title": "2. Секція 'highlight-box'",
+//           "content": "Цей блок виділяє важливу думку або ключову ідею. Поле `content` завжди є одним рядком (`TokenizedText`).",
+//           "emoji": "💡"
+//         },
+//         {
+//           "type": "question-prompt",
+//           "question": "1.4. Запитання для роздумів? (Очікуваний HTML: H3)",
+//           "answer": "Відповідь на це питання. Очікуваний HTML: <p>."
+//         }
+//       ]
+//     },
+//     {
+//       "type": "section-group",
+//       "title": "2. Інтерактивні елементи (Очікуваний HTML: H2)",
+//       "sections": [
+//         {
+//           "type": "text",
+//           "title": "Основний контент уроку",
+//           "subtitle": "Додаткова інформація та роз'яснення",
+//           "content": [
+//             "Цей розділ використовується для розміщення основного тексту уроку. Він підтримує різні типи форматування, такі як [bold:жирний шрифт], [italic:курсив], а також [link:https://example.com:зовнішні посилання] та посилання на біблійні вірші, як-от [verse:genesis:1:1:(Бут. 1:1)].",
+//             "Кожен окремий рядок у масиві `content` буде відображатися як новий абзац. Це дозволяє структурувати текст і додавати цитати, наприклад [quote:Тут може бути важлива цитата або висновок]."
+//           ]
+//         },
+//         {
+//           "type": "section-group",
+//           "title": "2.1. Вкладені картки (Очікуваний HTML: H3)",
+//           "sections": [
+//             {
+//               "type": "text",
+//               "content": [
+//                 "Цей підрозділ показує, як різні типи карток працюють всередині `section-group`. Очікуваний HTML: <p>."
+//               ]
+//             },
+//             {
+//               "type": "list-cards",
+//               "title": "2.1.1. Список карток (Очікуваний HTML: H4)",
+//               "cards": [
+//                 {
+//                   "title": "Картка 1 (Очікуваний HTML: H5)",
+//                   "content": "Ця картка знаходиться на другому рівні вкладеності. Вона повинна мати заголовок H5. Очікуваний HTML: <p>.",
+//                   "emoji": "📝"
+//                 },
+//                 {
+//                   "title": "Картка 2 (Очікуваний HTML: H5)",
+//                   "content": "Інша картка для перевірки. Очікуваний HTML: <p>.",
+//                   "emoji": "✨"
+//                 }
+//               ]
+//             },
+//             {
+//               "type": "reveal-cards",
+//               "title": "2.1.2. Картка, що розкривається (Очікуваний HTML: H4)",
+//               "cards": [
+//                 {
+//                   "id": "nested-reveal-card",
+//                   "emoji": "🕵️",
+//                   "title": "Заголовок картки, що розкривається (Очікуваний HTML: H5)",
+//                   "content": "Контент, що розкривається, знаходиться на другому рівні вкладеності. Очікуваний HTML: <p>."
+//                 }
+//               ]
+//             }
+//           ]
+//         },
+//         {
+//           "type": "quiz",
+//           "id": "nested-quiz-1",
+//           "question": "2.2. Питання для вікторини? (Очікуваний HTML: H3)",
+//           "options": [
+//             {
+//               "text": "Варіант А (правильний). Очікуваний HTML: <p> всередині обгортки.",
+//               "isCorrect": true,
+//               "rationale": "Це пояснення."
+//             },
+//             {
+//               "text": "Варіант Б (неправильний). Очікуваний HTML: <p>.",
+//               "isCorrect": false,
+//               "rationale": "Це пояснення."
+//             }
+//           ]
+//         }
+//       ]
+//     },
+//     {
+//       "type": "section-group",
+//       "title": "3. Візуальні елементи (Очікуваний HTML: H2)",
+//       "sections": [
+//         {
+//           "type": "diagram",
+//           "title": "3.1. Діаграма (Очікуваний HTML: H3)",
+//           "description": "Діаграма, що відрендерена на другому рівні вкладеності. Очікуваний HTML: <p>.",
+//           "chartType": "pie",
+//           "chartData": {
+//             "labels": ["Перший", "Другий", "Третій"],
+//             "datasets": [
+//               {
+//                 "label": "Дані",
+//                 "data": [5, 15, 10],
+//                 "borderWidth": 1
+//               }
+//             ]
+//           }
+//         },
+//         {
+//           "type": "description-with-image",
+//           "title": "3.2. Опис із зображенням (Очікуваний HTML: H3)",
+//           "content": [
+//             "Ця секція поєднує текст та зображення в одному блоці. Очікуваний HTML: <p>."
+//           ],
+//           "imageUrl": "https://images.unsplash.com/photo-1540879948083-d2d46e300302",
+//           "altText": "Приклад зображення",
+//           "imagePosition": "right"
+//         },
+//         {
+//           "type": "image-placeholder",
+//           "title": "3.3. Зображення-заповнювач (Очікуваний HTML: H3)",
+//           "description": "Просте зображення на другому рівні вкладеності. Очікуваний HTML: <p>.",
+//           "imageUrl": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61",
+//           "altText": "Приклад зображення",
+//           "caption": "Це підпис під зображенням. Очікуваний HTML: <figcaption>."
+//         }
+//       ]
+//     },
+//     {
+//       "type": "section-group",
+//       "title": "4. Додаткові елементи (Очікуваний HTML: H2)",
+//       "sections": [
+//         {
+//           "type": "contrast-section",
+//           "title": "4.1. Секція 'контрасту' (Очікуваний HTML: H3)",
+//           "items": [
+//             {
+//               "heading": "Позитив (Очікуваний HTML: H4)",
+//               "content": "Тут може бути позитивна думка. Очікуваний HTML: <p>.",
+//               "emoji": "➕",
+//               "type": "positive"
+//             },
+//             {
+//               "heading": "Негатив (Очікуваний HTML: H4)",
+//               "content": "Тут може бути негативна думка. Очікуваний HTML: <p>.",
+//               "emoji": "➖",
+//               "type": "negative"
+//             },
+// {
+//             "heading": "Нейтральний 1",
+//           "content": "Фактичний фон без оцінки",
+//           "type": "neutral1",
+//         },
+//         {
+//           "heading": "Нейтральний 2",
+//           "content": "Джерела даних і посилання",
+//           "type": "neutral2",
+//         },
+//           ]
+//         },
+//         {
+//           "type": "timeline",
+//           "title": "4.2. Хронологія (Очікуваний HTML: H3)",
+//           "events": [
+//             {
+//               "year": "Рік 1",
+//               "title": "Перша подія (Очікуваний HTML: H4)",
+//               "description": "Короткий опис першої події. Очікуваний HTML: <p>."
+//             },
+//             {
+//               "year": "Рік 2",
+//               "title": "Друга подія (Очікуваний HTML: H4)",
+//               "description": "Короткий опис другої події. Очікуваний HTML: <p>."
+//             }
+//           ]
+//         }
+//       ]
+//     }
+//   ]
+// }
+//   ],
+// };

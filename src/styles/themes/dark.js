@@ -13,6 +13,7 @@ export const dark = {
     buttonBg: "#B3B3B3",
     buttonColor: "#2C2C2C",
     hoverBtn: "#8A8A8A",
+    heroText: "#E0E0E0",
 
     borderColor: "#4A4A4A",
     dividerColor: "#5C5C5C",
@@ -62,6 +63,11 @@ export const dark = {
     interactiveBorderLight: "#6A8AA0",
     interactiveBgYellow: "#4A4030",
     interactiveBorderYellow: "#E0B000",
+
+    overlayColor: "rgba(255, 255, 255, 0.15)",
+    metaKey: "#B0B0B0",
+    metaValue: "#E0E0E0",
+    tagColor: "#E0E0E0",
   },
   fontSizes: {
     xsmall: "0.75rem",

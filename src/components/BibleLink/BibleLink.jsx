@@ -42,6 +42,7 @@ const BibleLink = ({ bibleRef, children }) => {
       whileTap={{ scale: 0.97 }}
       transition={{ duration: 0.15, ease: "easeOut" }}
       style={{ transformOrigin: "center center" }}
+      aria-label={`Відкрити посилання на Біблію: ${children}`}
     >
       {children}
       <UnderlineClip initial={{ clipPath: "inset(0% 0% 0% 0%)" }} animate={controls} />

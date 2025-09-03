@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-export const Section = styled.div``;
+export const Section = styled.section``;
 
-export const SectionTitle = styled.div`
+export const SectionTitle = styled.h3`
   margin-bottom: ${({ theme }) => theme.spacing.xsmall};
   font-weight: bold;
   font-size: ${({ theme }) => theme.fontSizes.small};
@@ -69,7 +69,7 @@ export const ListItem = styled.li`
 `;
 
 export const Toggle = styled.span`
-  font-size: 1.2rem;
+  font-size: 0.7rem;
   margin-left: ${({ theme }) => theme.spacing.xsmall};
   line-height: 1;
   transition: transform 0.2s ease-in-out;

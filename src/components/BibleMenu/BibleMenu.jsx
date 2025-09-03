@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback, useContext } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { MdKeyboardDoubleArrowUp, MdKeyboardDoubleArrowDown } from "react-icons/md";
+import { IoBook } from "react-icons/io5";
 import {
   BibleMenuWrapper,
   NavigationContainer,
@@ -10,27 +12,26 @@ import {
 import BibleTextDisplay from "./BibleTextDisplay/BibleTextDisplay";
 import ContentSelectorModal from "./ContentSelector/ContentSelectorModal";
 import { BibleContext } from "../../contexts/BibleContext";
+import Placeholder from "./Placeholder";
 
 export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit, isMobile }) {
-  const { bookKey, chapter, verse, testament, highlightedVerses, navigateTo, navId, navSource } =
+  const { bookKey, chapter, verse, testament, highlightedVerses, navigateTo, navId } =
     useContext(BibleContext);
 
   const [bookData, setBookData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const isSidebarSplitBeforeModalRef = useRef(false);
-  const contentRef = useRef(null);
-
-  const lastOpenedNavIdRef = useRef(null);
-  const isUserClosingRef = useRef(false);
 
   useEffect(() => {
     if (!bookKey || !testament) return;
     const fetchBook = async () => {
       setIsLoading(true);
       try {
-        const data = await import(`../../data/booksBible/${testament}/${bookKey}.json`);
-        setBookData(data.default);
+        const { default: bookData } = await import(
+          `../../data/booksBible/${testament}/${bookKey}.json`
+        );
+        bookData.book_key = bookData.book_name_en;
+        setBookData(bookData);
       } catch (error) {
         console.error(`Не вдалося завантажити книгу: ${bookKey}`, error);
         setBookData(null);
@@ -41,53 +42,19 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
   }, [bookKey, testament]);
 
   useEffect(() => {
-    if (!bookKey) return;
-
-    const isNewNavigation = navId && navId !== lastOpenedNavIdRef.current;
-
-    if (isNewNavigation) {
-      lastOpenedNavIdRef.current = navId;
-      isUserClosingRef.current = false;
-
-      if (isMobile && navSource === "text") {
-        if (!isRightSidebarSplit) {
-          toggleRightSidebarSplit();
-        }
-      } else if (!isMobile) {
-        if (!isRightSidebarSplit) {
-          toggleRightSidebarSplit();
-        }
-      }
+    if (navId) {
+      setShowModal(false);
     }
-  }, [
-    navId,
-    bookKey,
-    chapter,
-    verse,
-    isRightSidebarSplit,
-    toggleRightSidebarSplit,
-    isMobile,
-    navSource,
-  ]);
+  }, [navId]);
 
-  const handleCloseSidebar = () => {
-    isUserClosingRef.current = true;
-    toggleRightSidebarSplit();
-  };
-
-  const handleNextChapter = () => {
-    if (bookData && chapter < bookData.chapters.length) {
-      navigateTo(`[${bookKey}:${chapter + 1}]`);
+  useEffect(() => {
+    if (!isRightSidebarSplit) {
+      setShowModal(false);
     }
-  };
+  }, [isRightSidebarSplit]);
 
   const handleOpenMenu = () => {
-    isSidebarSplitBeforeModalRef.current = isRightSidebarSplit;
-    if (!isRightSidebarSplit) {
-      toggleRightSidebarSplit();
-    }
     setShowModal(true);
-    isUserClosingRef.current = false;
   };
 
   const handleSelectBookAndChapter = (newBookKey, newChapter) => {
@@ -97,50 +64,42 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
 
   const handleCloseModal = useCallback(() => {
     setShowModal(false);
-    if (isMobile) {
-      const sidebarStateBeforeModal = isSidebarSplitBeforeModalRef.current;
-      if (isRightSidebarSplit !== sidebarStateBeforeModal) {
-        toggleRightSidebarSplit();
-      }
-    }
-  }, [isMobile, isRightSidebarSplit, toggleRightSidebarSplit]);
+  }, []);
 
-  useEffect(() => {
-    if (!isRightSidebarSplit && showModal) {
-      handleCloseModal();
+  const handleNavigationButtonClick = () => {
+    if (!isRightSidebarSplit) {
+      toggleRightSidebarSplit(true);
     }
-  }, [isRightSidebarSplit, showModal, handleCloseModal]);
+    setShowModal(true);
+  };
 
   return (
     <BibleMenuWrapper>
       <NavigationContainer>
-        {/* Кнопка закриття бічної панелі (для мобільних) */}
         {isMobile && (
-          <NavigationButton onClick={handleCloseSidebar}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M10 5L10 19L14 19L14 5L10 5ZM4 5L4 19L8 19L8 5L4 5ZM16 5L16 19L20 19L20 5L16 5Z" />
-            </svg>
+          <NavigationButton onClick={() => toggleRightSidebarSplit(false)}>
+            {isRightSidebarSplit ? (
+              <MdKeyboardDoubleArrowUp size={24} />
+            ) : (
+              <MdKeyboardDoubleArrowDown size={24} />
+            )}
           </NavigationButton>
         )}
 
-        {/* Заголовок для мобільних пристроїв, якщо є bookData */}
         {isMobile && bookData ? (
           <MobileHeader onClick={handleOpenMenu}>
             {bookData.book_name_ua} {chapter}
           </MobileHeader>
         ) : (
-          isMobile && ( // Умова: якщо це мобільний і bookData === null
+          isMobile && (
             <NavigationButton onClick={handleOpenMenu}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M4 4C4 3.44772 4.44772 3 5 3H19C19.5523 3 20 3.44772 20 4V20C20 20.5523 19.5523 21 19 21H5C4.44772 21 4 20.5523 4 20V4ZM6 6V18H18V6H6ZM8 8H16V16H8V8Z" />
-              </svg>
+              <IoBook size={24} />
             </NavigationButton>
           )
         )}
 
-        {/* Кнопка відкриття меню (для десктопів) */}
         <AnimatePresence>
-          {!isMobile && !showModal && (
+          {!isMobile && (
             <motion.div
               key="menu-button"
               initial={{ opacity: 0 }}
@@ -148,29 +107,33 @@ export default function BibleMenu({ isRightSidebarSplit, toggleRightSidebarSplit
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <NavigationButton onClick={handleOpenMenu}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M4 4C4 3.44772 4.44772 3 5 3H19C19.5523 3 20 3.44772 20 4V20C20 20.5523 19.5523 21 19 21H5C4.44772 21 4 20.5523 4 20V4ZM6 6V18H18V6H6ZM8 8H16V16H8V8Z" />
-                </svg>
+              <NavigationButton onClick={handleNavigationButtonClick}>
+                <IoBook size={24} />
               </NavigationButton>
             </motion.div>
           )}
         </AnimatePresence>
       </NavigationContainer>
 
-      <ContentContainer ref={contentRef}>
+      <ContentContainer>
         {isLoading && <p>Завантаження...</p>}
-        {bookData && !isLoading && (
-          <BibleTextDisplay
-            bookData={bookData}
-            chapter={chapter}
-            verseToScroll={verse}
-            highlightedVerses={highlightedVerses}
-            onNextChapter={handleNextChapter}
-            isMobile={isMobile}
-          />
+        {!bookData && !isLoading ? (
+          <Placeholder onClick={handleNavigationButtonClick} />
+        ) : (
+          bookData &&
+          !isLoading && (
+            <BibleTextDisplay
+              bookData={bookData}
+              chapter={chapter}
+              verseToScroll={verse}
+              highlightedVerses={highlightedVerses}
+              isMobile={isMobile}
+              onNextChapter={navigateTo}
+            />
+          )
         )}
       </ContentContainer>
+
       <AnimatePresence>
         {showModal && (
           <ContentSelectorModal

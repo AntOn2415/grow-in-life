@@ -1,4 +1,3 @@
-// src/components/InteractiveContent/RevealCard/RevealCard.styled.js
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
@@ -11,16 +10,16 @@ export const StyledRevealCard = styled(motion.div)`
   position: relative;
   cursor: pointer;
   transition: box-shadow 0.2s ease-in-out;
-
+  will-change: height;
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.medium};
   }
 `;
 
-export const CardTitle = styled.h4`
+export const CardHeader = styled.div`
   display: flex;
+  justify-content: left;
   align-items: center;
-  //justify-content: start;
   gap: ${({ theme }) => theme.spacing.xsmall};
   padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.medium};
   background-color: ${({ theme }) => theme.colors.accentBg};
@@ -29,6 +28,22 @@ export const CardTitle = styled.h4`
   font-size: ${({ theme }) => theme.fontSizes.large};
   flex-wrap: wrap;
   word-break: break-word;
+`;
+
+export const Emoji = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xxlarge};
+  line-height: 1;
+`;
+
+export const CardTitle = styled(motion.div).attrs(props => ({
+  as: props.as || "h4",
+}))`
+  display: flex;
+  font-size: ${({ theme }) => theme.fontSizes.large};
+  color: ${({ theme }) => theme.colors.color};
+  margin: 0;
+  line-height: 1.3;
+  transition: color 0.25s ease-in-out;
 `;
 
 export const CardAnswerContainer = styled(motion.div)`
@@ -44,11 +59,8 @@ export const CardContent = styled(motion.div)`
   position: relative;
   width: 100%;
   box-sizing: border-box;
-
-  p {
-    margin-bottom: 1em;
-    &:last-child {
-      margin-bottom: 0;
-    }
+  margin-bottom: 0;
+  & > p:first-child {
+    margin-top: 0;
   }
 `;

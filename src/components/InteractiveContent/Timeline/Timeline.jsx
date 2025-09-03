@@ -12,11 +12,11 @@ import {
   EventYear,
   EventVersesContainer,
 } from "./Timeline.styled";
-import SectionHeading from "../../Common/SectionHeading/SectionHeading";
 import CollapsibleContent from "../../Common/CollapsibleContent/CollapsibleContent";
-import TokenRenderer from "../../TokenRenderer/TokenRenderer"; // 👈 Імпортуємо TokenRenderer
+import TokenRenderer from "../../TokenRenderer/TokenRenderer";
 
-const Timeline = ({ title, events }) => {
+// ✅ Прибрано 'title' з пропсів і додано 'eventTitleLevel'
+const Timeline = ({ events, eventTitleLevel = 4 }) => {
   const { currentTheme } = useTheme();
   const [activeEventId, setActiveEventId] = useState(null);
 
@@ -31,13 +31,6 @@ const Timeline = ({ title, events }) => {
 
   return (
     <TimelineContainer>
-      {title && (
-        <SectionHeading as="h3" size="default">
-          {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для заголовка Timeline */}
-          <TokenRenderer tokens={title} />
-        </SectionHeading>
-      )}
-
       {events.map((event, index) => (
         <TimelineEventWrapper key={index}>
           <EventDot
@@ -67,12 +60,12 @@ const Timeline = ({ title, events }) => {
                 activeEventId === index ? currentTheme.hoverBg : currentTheme.cardBackground,
             }}
           >
-            <EventTitle style={{ cursor: "pointer" }}>
-              <div>
+            {/* ✅ Передаємо рівень заголовка через пропс 'as' */}
+            <EventTitle as={`h${eventTitleLevel}`} style={{ cursor: "pointer" }}>
+              <span>
                 {event.year && <EventYear>{event.year}</EventYear>}
-                {/* ✅ ВИПРАВЛЕННЯ: Використовуємо TokenRenderer для заголовка події */}
-                <TokenRenderer tokens={event.title} />
-              </div>
+                <TokenRenderer tokens={event.title} isHeading={true} />
+              </span>
               <motion.span
                 initial={false}
                 animate={{ rotate: activeEventId === index ? 90 : 0 }}
@@ -85,8 +78,7 @@ const Timeline = ({ title, events }) => {
 
             <CollapsibleContent isOpen={activeEventId === index}>
               {event.description && (
-                <div style={{ padding: "0 10px", fontSize: "0.9em" }}>
-                  {/* ✅ ВИПРАВЛЕННЯ: Рендеримо кожен елемент масиву description окремо */}
+                <p>
                   {Array.isArray(event.description) ? (
                     event.description.map((descItem, i) => (
                       <TokenRenderer key={i} tokens={descItem} />
@@ -94,7 +86,7 @@ const Timeline = ({ title, events }) => {
                   ) : (
                     <TokenRenderer tokens={event.description} />
                   )}
-                </div>
+                </p>
               )}
 
               {event.verses && event.verses.length > 0 && (

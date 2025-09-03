@@ -1,52 +1,39 @@
-// src/utils/parserAndValidateLesson.js
+// src/utils/parseAndValidateContent.js
 import { parseTags } from "./tagParser";
 import { LessonSchema } from "./validationSchemas";
 
-// ✅ ОНОВЛЕНО: Додано 'heading' і 'subtitle' до списку TOKENIZABLE_KEYS
-const TOKENIZABLE_KEYS = [
-  "title",
-  "shortTitle",
-  "description",
-  "content",
-  "question",
-  "answer",
-  "text",
-  "heading", // ✅ Додано
-  "caption",
-  "rationale",
-  "verses",
-  "items",
-  "subtitle", // ✅ Додано
-];
-
-const deepParseTags = (data, parentKey = null) => {
+const deepParseTags = data => {
   if (typeof data === "string") {
-    if (TOKENIZABLE_KEYS.includes(parentKey)) {
-      const parsedResult = parseTags(data);
-      if (Array.isArray(parsedResult)) {
-        return parsedResult;
-      }
-      return [parsedResult];
-    }
-    return data;
+    return parseTags(data);
   }
+
   if (Array.isArray(data)) {
-    return data.map(item => deepParseTags(item, parentKey));
+    return data.map(item => deepParseTags(item));
   }
+
   if (typeof data === "object" && data !== null) {
     const newData = {};
     for (const key in data) {
-      newData[key] = deepParseTags(data[key], key);
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        // ✅ Ось виправлена логіка
+        // Ми ігноруємо ключі, що визначають тип, а не обробляємо їх як теги
+        if (key === "type" || key === "chartType") {
+          newData[key] = data[key];
+        } else {
+          newData[key] = deepParseTags(data[key]);
+        }
+      }
     }
     return newData;
   }
+
   return data;
 };
 
-export const parseAndValidateLesson = lessonData => {
+export const parseAndValidateContent = lessonData => {
   try {
     const validatedData = LessonSchema.parse(lessonData);
-    const parsedLesson = deepParseTags(validatedData, "lesson");
+    const parsedLesson = deepParseTags(validatedData);
     return { success: true, lesson: parsedLesson, error: null };
   } catch (error) {
     console.error("Помилка валідації уроку:", error.message);
