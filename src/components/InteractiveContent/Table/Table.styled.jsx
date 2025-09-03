@@ -68,3 +68,10 @@ export const TableCell = styled.td`
   vertical-align: top;
   transition: border-color 0.25s ease-in-out;
 `;
+export const TableParagraph = styled.p`
+  margin: 0 0 ${({ theme }) => theme.spacing.xsmall} 0;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
