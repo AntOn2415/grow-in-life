@@ -15,6 +15,10 @@ export const StyledTable = styled.table`
   border-collapse: collapse;
   font-size: ${({ theme }) => theme.fontSizes.small};
   border-radius: ${({ theme }) => theme.borderRadius.medium};
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
 
 export const TableHeading = styled.h4`
@@ -73,5 +77,85 @@ export const TableParagraph = styled.p`
 
   &:last-child {
     margin-bottom: 0;
+  }
+`;
+
+// Мобільна обгортка для карток-каруселі
+export const MobileCardsWrapper = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.medium};
+  overflow-x: auto;
+  padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.xsmall};
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
+// Одна картка
+export const MobileCard = styled.div`
+  min-width: 92vw;
+  max-width: 92vw;
+  box-sizing: border-box;
+  background: ${({ theme }) => theme.colors.cardBackground};
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
+  box-shadow: ${({ theme }) => theme.shadows.small};
+  padding: ${({ theme }) => theme.spacing.small} 0;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  border: 1.5px solid ${({ theme }) => theme.colors.borderColor};
+  margin: 0 ${({ theme }) => theme.spacing.xsmall};
+`;
+
+// Рядок у картці
+export const MobileCardRow = styled.div`
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
+  min-height: 44px;
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+// Підпис (заголовок стовпця)
+export const MobileCardLabel = styled.div`
+  width: 42%;
+  font-weight: bold;
+  color: ${({ theme }) => theme.colors.tableHeaderText};
+  background: ${({ theme }) => theme.colors.cardBackground};
+  border-right: 1px solid ${({ theme }) => theme.colors.borderColor};
+  padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.small};
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  word-break: break-word;
+  min-height: 44px;
+`;
+
+// Значення (дані)
+export const MobileCardValue = styled.div`
+  width: 58%;
+  color: ${({ theme }) => theme.colors.color};
+  padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.small};
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  word-break: break-word;
+  min-height: 44px;
+
+  & > p {
+    margin: 0 0 ${({ theme }) => theme.spacing.xsmall} 0;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 `;
