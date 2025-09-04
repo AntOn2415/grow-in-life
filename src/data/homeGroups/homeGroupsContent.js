@@ -215,7 +215,22 @@ export const homeGroupsContent = {
   hebrews: [], // Євреїв
   james: [], // Якова
   firstPeter: [], // 1 Петра
-  secondPeter: [], // 2 Петра
+  secondPeter: [
+    {
+      id: "sermon-spectrum-of-faith-4-09-25",
+      title: "Спектр нашої віри",
+      shortTitle: "Спектр віри",
+      book: "2-е Петра",
+      bookInternalKey: "2_peter",
+      chapter: "1",
+      verses: "5-7",
+      date: "4.09.25",
+      author: "Яшнік І. В.",
+      duration: "15 - 20 хв",
+      tags: ["віра", "християнське життя", "Петро", "чесноти"],
+      loadLesson: () => import("./lessons/newTestament/spectrum-of-faith"),
+    },
+  ], // 2 Петра
   firstJohn: [], // 1 Івана
   secondJohn: [], // 2 Івана
   thirdJohn: [], // 3 Івана
