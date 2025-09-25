@@ -94,6 +94,7 @@ export default function QuizCard({ quizData, titleLevel }) {
         initial="hidden"
         animate={showOptions ? "visible" : "hidden"}
         variants={listVariants}
+        style={{ pointerEvents: showOptions ? "auto" : "none" }}
       >
         <QuizOptionsList>
           {quizData.options.map((option, index) => (

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import TokenRenderer from "../../TokenRenderer/TokenRenderer";
 import {
   QuestionPromptContainer,
-  QuestionHeading, // ✅ Використовуємо новий стилізований компонент
+  QuestionHeading,
   ToggleAnswerButton,
   AnswerText,
   QuestionEmoji,
@@ -12,7 +12,8 @@ import {
 
 const QuestionPrompt = ({ question, answer, emoji, headingLevel = 3 }) => {
   const [showAnswer, setShowAnswer] = useState(false);
-
+  const shouldRenderButton =
+    answer && (Array.isArray(answer) ? answer.length > 0 : answer.length > 0);
   const handleToggleAnswer = () => {
     setShowAnswer(!showAnswer);
   };
@@ -20,11 +21,10 @@ const QuestionPrompt = ({ question, answer, emoji, headingLevel = 3 }) => {
   return (
     <QuestionPromptContainer as="section">
       <QuestionEmoji>{emoji || "❓"}</QuestionEmoji>
-      {/* ✅ Замінюємо QuestionText на QuestionHeading та передаємо рівень заголовка */}
       <QuestionHeading as={`h${headingLevel}`}>
         <TokenRenderer tokens={question} isHeading={true} />
       </QuestionHeading>
-      {answer && (
+      {shouldRenderButton && (
         <ToggleAnswerButton onClick={handleToggleAnswer}>
           {showAnswer ? "Сховати відповідь" : "Показати відповідь"}
         </ToggleAnswerButton>
