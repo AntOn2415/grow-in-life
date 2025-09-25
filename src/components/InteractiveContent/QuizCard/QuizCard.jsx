@@ -1,6 +1,10 @@
-// src/components/InteractiveContent/QuizCard/QuizCard.js
+// src/components/Quiz/QuizCard.jsx
+
 import React, { useState } from "react";
-import TokenRenderer from "../../TokenRenderer/TokenRenderer"; // ⬅️ Імпортуйте TokenRenderer
+import TokenRenderer from "../../TokenRenderer/TokenRenderer";
+import { motion, AnimatePresence } from "framer-motion";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+
 import {
   StyledQuizCard,
   QuizQuestion,
@@ -9,45 +13,104 @@ import {
   QuizToggleIcon,
 } from "./QuizCard.styled";
 
+const iconVariants = {
+  hidden: { opacity: 0, rotate: -90 },
+  visible: { opacity: 1, rotate: 0 },
+  exit: { opacity: 0, rotate: 90 },
+};
+
 export default function QuizCard({ quizData, titleLevel }) {
   const [showOptions, setShowOptions] = useState(false);
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
 
   const toggleOptions = () => {
-    setShowOptions(!showOptions);
+    setShowOptions(prev => !prev);
     if (showOptions) {
       setSelectedAnswerIndex(null);
     }
   };
 
   const handleOptionClick = index => {
-    setSelectedAnswerIndex(index);
+    if (selectedAnswerIndex === null) {
+      setSelectedAnswerIndex(index);
+    }
   };
+
+  const listVariants = {
+    hidden: { opacity: 0, height: 0, transition: { duration: 0.25 } },
+    visible: {
+      opacity: 1,
+      height: "auto",
+      transition: {
+        duration: 0.25,
+        staggerChildren: 0.1,
+        when: "beforeChildren",
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: -20, opacity: 0 },
+    visible: { y: 0, opacity: 1 },
+  };
+
+  const showFeedback = selectedAnswerIndex !== null;
 
   return (
     <StyledQuizCard>
-      {/* 🟢 Виправлення: Тепер питання обробляється через TokenRenderer */}
       <QuizQuestion onClick={toggleOptions} as={`h${titleLevel}`}>
         <TokenRenderer tokens={quizData.question} />
-        <QuizToggleIcon isActive={showOptions}>{showOptions ? "−" : "+"}</QuizToggleIcon>
+
+        <QuizToggleIcon $isActive={showOptions}>
+          <AnimatePresence mode="wait" initial={false}>
+            {showOptions ? (
+              <motion.span
+                key="up"
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                variants={iconVariants}
+                transition={{ duration: 0.25 }}
+              >
+                <FiChevronUp />
+              </motion.span>
+            ) : (
+              <motion.span
+                key="down"
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                variants={iconVariants}
+                transition={{ duration: 0.25 }}
+              >
+                <FiChevronDown />
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </QuizToggleIcon>
       </QuizQuestion>
 
-      {showOptions && (
+      <motion.div
+        initial="hidden"
+        animate={showOptions ? "visible" : "hidden"}
+        variants={listVariants}
+      >
         <QuizOptionsList>
           {quizData.options.map((option, index) => (
-            <QuizOptionItem
-              key={index}
-              onClick={() => handleOptionClick(index)}
-              isSelected={selectedAnswerIndex === index}
-              isCorrectOption={option.isCorrect}
-              showFeedback={selectedAnswerIndex !== null}
-            >
-              {/* 🟢 Виправлення: Текст варіантів відповіді також обробляється через TokenRenderer */}
-              <TokenRenderer tokens={option.text} />
-            </QuizOptionItem>
+            <motion.li key={index} variants={itemVariants}>
+              <QuizOptionItem
+                onClick={() => handleOptionClick(index)}
+                isSelected={selectedAnswerIndex === index}
+                isCorrectOption={option.isCorrect}
+                showFeedback={showFeedback}
+                disabled={showFeedback}
+              >
+                <TokenRenderer tokens={option.text} />
+              </QuizOptionItem>
+            </motion.li>
           ))}
         </QuizOptionsList>
-      )}
+      </motion.div>
     </StyledQuizCard>
   );
 }

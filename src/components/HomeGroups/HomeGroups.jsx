@@ -70,8 +70,6 @@ const HomeGroups = () => {
   }, [selectedHomeGroupLesson, setSelectedHomeGroupLesson]);
 
   useEffect(() => {
-    // Якщо selectedHomeGroupLesson не встановлено, просто виходимо.
-    // Це запобігає завантаженню, поки не буде обрано урок.
     if (!selectedHomeGroupLesson) {
       return;
     }
@@ -108,10 +106,8 @@ const HomeGroups = () => {
     };
 
     loadContent();
-  }, [selectedHomeGroupLesson]); // ✅ Цей ефект тепер реагує виключно на зміни selectedHomeGroupLesson
+  }, [selectedHomeGroupLesson]);
 
-  // useLayoutEffect краще підходить для маніпуляцій з DOM (прокрутка),
-  // оскільки він запускається після рендерингу, але до того, як браузер відобразить зміни на екрані.
   useLayoutEffect(() => {
     if (parsedLesson && mainRef && mainRef.current) {
       const savedScrollY = sessionStorage.getItem(`scrollPosition-${location.pathname}`);

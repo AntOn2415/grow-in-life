@@ -38,10 +38,9 @@ export const ListItem = styled.li`
   border-radius: ${({ theme }) => theme.borderRadius.small};
   display: flex;
   align-items: center;
-
   justify-content: ${({ isCollapsed, $isLesson }) =>
     isCollapsed && $isLesson ? "center" : "flex-start"};
-
+  text-align: left;
   width: 100%;
   background-color: transparent;
   border: 1px solid transparent;

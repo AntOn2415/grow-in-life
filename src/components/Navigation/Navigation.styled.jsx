@@ -4,14 +4,15 @@ import { NavLink } from "react-router-dom";
 // Компонент для стилізації UL
 export const StyledList = styled.ul`
   display: flex;
-
   margin: 0;
   padding: 0;
-  gap: ${({ theme }) => theme.spacing.small}; /* Додаємо відступ між елементами */
+  gap: ${({ theme }) => theme.spacing.small};
+  align-items: center;
+  ${({ theme }) => theme.media.down("md")`
   align-items: start;
+  `}
 `;
 
-// Компонент для стилізації LI
 export const StyledListItem = styled.li`
   display: flex;
   align-items: center;
@@ -31,6 +32,7 @@ export const Nav = styled.nav`
   z-index: 1000;
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
   box-shadow: ${({ theme }) => theme.shadows.small};
+
   transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease-in-out,
     border-bottom 0.25s ease-in-out;
   will-change: transform;
@@ -63,9 +65,44 @@ export const Link = styled(NavLink)`
   &.active {
     background: ${({ theme }) => theme.colors.navActive};
   }
+`;
+export const LogoLink = styled(Link)`
+  ${({ theme }) => theme.media.up("md")`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1; 
+    padding: 0 ${({ theme }) => theme.spacing.small};
+    height: 100%;
+  `}
+
+  &.active {
+    background: none;
+  }
+`;
+export const LogoImage = styled.img`
+  height: 40px;
+  width: auto;
+  vertical-align: middle;
+  transition: opacity 0.25s ease-in-out;
+
+  ${({ theme }) => theme.media.up("md")` 
+    margin-bottom: 2px;
+  `}
 
   ${({ theme }) => theme.media.down("md")`
-    //display: none;
+    height: 35px; 
+  `}
+`;
+
+export const LogoText = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xsmall};
+  color: ${({ theme }) => theme.colors.text};
+  white-space: nowrap;
+
+  ${({ theme }) => theme.media.down("md")`
+    display: none;
   `}
 `;
 
@@ -151,7 +188,7 @@ export const MobileMenu = styled.div`
     ${Link} {
       display: block;
       width: 100%;
-      padding: ${({ theme }) => theme.spacing.small};
+      padding: ${({ theme }) => theme.spacing.xsmall};
       border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
       text-align: left;
       font-size: ${({ theme }) => theme.fontSizes.medium};

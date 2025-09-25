@@ -14,7 +14,7 @@ export const HeroSection = styled.section`
   border-radius: ${({ theme }) => theme.borderRadius.medium};
   transition: background-image 0.5s ease-in-out, background-color 0.5s ease-in-out,
     border 0.25s ease-in-out;
-  // ✅ ЗМІНИ В ПСЕВДОЕЛЕМЕНТІ ДЛЯ ДИНАМІЧНОГО ЗАТЕМНЕННЯ
+
   &::before {
     content: "";
     position: absolute;
@@ -23,7 +23,6 @@ export const HeroSection = styled.section`
     width: 100%;
     height: 100%;
     border-radius: ${({ theme }) => theme.borderRadius.medium};
-    // Використовуємо колір із теми для затемнення
     background-color: ${({ theme }) => theme.colors.overlayColor};
     z-index: 0;
   }
@@ -89,7 +88,7 @@ export const HomeGroupLessonTextWrapper = styled.div`
 
   strong {
     color: ${({ theme }) => theme.colors.color};
-    transition: color 0.25s ease-in-out; // ✅ Плавний перехід кольору жирного тексту
+    transition: color 0.25s ease-in-out;
   }
 
   > * {
@@ -133,7 +132,7 @@ export const VerseButton = styled(motion.button)`
   color: currentColor;
   display: inline-block;
   position: relative;
-  transition: color 0.25s ease-in-out; // ✅ Плавний перехід для кнопки-вірша
+  transition: color 0.25s ease-in-out;
 
   &:focus {
     outline: none;

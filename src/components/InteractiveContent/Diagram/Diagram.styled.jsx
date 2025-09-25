@@ -12,6 +12,9 @@ export const DiagramContainer = styled.section`
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+
+  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out;
 `;
 
 export const DiagramWrapper = styled.div`

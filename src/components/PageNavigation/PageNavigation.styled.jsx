@@ -35,7 +35,7 @@ export const ScrollButton = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   box-shadow: ${({ theme }) => theme.shadows.small};
   padding: 0;
   margin: 0 ${({ theme }) => theme.spacing.xsmall};

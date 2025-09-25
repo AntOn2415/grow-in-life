@@ -6,6 +6,7 @@ export const TimelineContainer = styled(motion.section)`
   margin: ${({ theme }) => theme.spacing.xlarge} 0;
   position: relative;
   padding-left: 30px;
+  padding-top: 5px;
   padding-right: ${({ theme }) => theme.spacing.small};
   overflow-x: hidden;
   padding-bottom: 0;

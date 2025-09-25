@@ -1,3 +1,5 @@
+// src/components/Navigation/Navigation.jsx
+
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useTheme } from "../../contexts/ThemeProvider";
@@ -9,10 +11,16 @@ import {
   MobileMenu,
   StyledList,
   StyledListItem,
+  LogoImage,
+  LogoLink,
+  LogoText,
 } from "./Navigation.styled";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { breakpoints } from "../../styles/shared/breakpoints";
 import { useClickOutside } from "../../hooks/useClickOutside";
+
+import darkLogo from "../../images/logo-dark.png";
+import lightLogo from "../../images/logo-light.png";
 
 const navItems = [
   { to: "/", label: "Головна" },
@@ -39,6 +47,8 @@ const Navigation = React.forwardRef(({ showNav }, ref) => {
     setMobileMenuOpen(prev => !prev);
   };
 
+  const currentLogo = mode === "dark" ? darkLogo : lightLogo;
+
   return (
     <div ref={wrapperRef}>
       <Nav ref={ref} className={showNav ? "nav-visible" : "nav-hidden"}>
@@ -55,7 +65,7 @@ const Navigation = React.forwardRef(({ showNav }, ref) => {
               <div />
             </HamburgerIcon>
             <Link to="/" style={{ marginRight: "auto", marginLeft: "10px" }}>
-              Лого
+              <LogoImage src={currentLogo} alt="Логотип" />
             </Link>
             <ToggleButton
               onClick={toggleTheme}
@@ -89,9 +99,19 @@ const Navigation = React.forwardRef(({ showNav }, ref) => {
               <StyledList>
                 {navItems.map(item => (
                   <StyledListItem key={item.to}>
-                    <Link to={item.to} className={location.pathname === item.to ? "active" : ""}>
-                      {item.label}
-                    </Link>
+                    {item.to === "/" ? (
+                      <LogoLink
+                        to={item.to}
+                        className={location.pathname === item.to ? "active" : ""}
+                      >
+                        <LogoImage src={currentLogo} alt="Головна сторінка" />
+                        <LogoText>Grow in Life</LogoText>
+                      </LogoLink>
+                    ) : (
+                      <Link to={item.to} className={location.pathname === item.to ? "active" : ""}>
+                        {item.label}
+                      </Link>
+                    )}
                   </StyledListItem>
                 ))}
               </StyledList>

@@ -9,7 +9,7 @@ export const StyledRevealCard = styled(motion.div)`
   overflow: hidden;
   position: relative;
   cursor: pointer;
-  transition: box-shadow 0.2s ease-in-out;
+  transition: box-shadow 0.25s ease-in-out;
   will-change: height;
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.medium};

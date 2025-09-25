@@ -264,10 +264,4 @@ export default ContentRenderer;
 
 export const SectionContainer = styled.section`
   margin-bottom: ${({ theme }) => theme.spacing.xlarge};
-
-  &:not(:first-child) {
-    padding-left: 2rem;
-
-    border-left: 2px solid ${({ theme }) => theme.colors.borderColor};
-  }
 `;

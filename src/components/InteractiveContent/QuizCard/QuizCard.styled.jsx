@@ -1,89 +1,112 @@
-// src/components/InteractiveContent/QuizCard/QuizCard.styled.js
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 export const StyledQuizCard = styled.div`
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.cardBackground};
   border: 1px solid ${({ theme }) => theme.colors.borderColor};
-  border-radius: ${({ theme }) => theme.borderRadius.small};
+  border-radius: ${({ theme }) => theme.borderRadius.large};
   padding: ${({ theme }) => theme.spacing.medium};
   margin-bottom: ${({ theme }) => theme.spacing.medium};
-  box-shadow: ${({ theme }) => theme.shadows.small};
-  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
-    box-shadow 0.25s ease-in-out;
+  box-shadow: ${({ theme }) => theme.shadows.medium};
+  transition: all 0.25s ease-in-out;
+
+  &:hover {
+    box-shadow: ${({ theme }) => theme.shadows.large};
+    transform: translateY(-2px);
+  }
 
   ${({ theme }) => theme.media.down("sm")`
     padding: ${({ theme }) => theme.spacing.small};
     margin-bottom: ${({ theme }) => theme.spacing.small};
+    transform: none;
+    box-shadow: ${({ theme }) => theme.shadows.medium};
   `}
 `;
 
-export const QuizQuestion = styled.h4.attrs(props => ({
-  // ✅ Додано .attrs
+export const QuizQuestion = styled.div.attrs(props => ({
   as: props.as || "h4",
 }))`
-  font-size: ${({ theme }) => theme.fontSizes.large};
-  font-weight: 600;
-  margin-bottom: ${({ theme }) => theme.spacing.small};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.small};
+  font-size: ${({ theme }) => theme.fontSizes.xlarge};
+  font-weight: 700;
   color: ${({ theme }) => theme.colors.color};
   cursor: pointer;
-  flex-wrap: wrap;
-  word-break: break-word;
-  transition: color 0.25s ease-in-out;
+  padding: 0;
+  transition: all 0.25s ease-in-out;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.sectionTitleHover};
+  }
 
   ${({ theme }) => theme.media.down("sm")`
-    font-size: ${({ theme }) => theme.fontSizes.medium};
-    margin-bottom: ${({ theme }) => theme.spacing.xsmall};
+    font-size: ${({ theme }) => theme.fontSizes.large};
   `}
 `;
 
-export const QuizOptionsList = styled.ul`
+export const QuizOptionsList = styled(motion.ul)`
   list-style: none;
   padding: 0;
-  border-top: 1px solid ${({ theme }) => theme.colors.borderColor};
-  padding-top: ${({ theme }) => theme.spacing.small};
-  transition: border-color 0.25s ease-in-out;
+  margin-top: ${({ theme }) => theme.spacing.medium};
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.xsmall};
+  transition: all 0.25s ease-in-out;
 
   ${({ theme }) => theme.media.down("sm")`
-    padding-top: ${({ theme }) => theme.spacing.xsmall};
+    margin-top: ${({ theme }) => theme.spacing.small};
+    gap: ${({ theme }) => theme.spacing.xsmall};
   `}
 `;
 
-export const QuizOptionItem = styled.li`
+export const QuizOptionItem = styled.div`
   background-color: ${({ theme }) => theme.colors.background};
-  border: 1px solid ${({ theme }) => theme.colors.borderColor};
-  border-radius: ${({ theme }) => theme.borderRadius.extraSmall};
-  padding: ${({ theme }) => theme.spacing.xsmall} ${({ theme }) => theme.spacing.small};
-  margin-bottom: ${({ theme }) => theme.spacing.xsmall};
+  border: 1px solid ${({ theme }) => theme.colors.dividerColor};
+  border-radius: ${({ theme }) => theme.borderRadius.medium};
+  padding: ${({ theme }) => theme.spacing.small};
   font-size: ${({ theme }) => theme.fontSizes.medium};
   color: ${({ theme }) => theme.colors.color};
   cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  box-shadow: ${({ theme }) => theme.shadows.small};
 
-  transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out,
-    color 0.25s ease-in-out;
-
-  &:last-child {
+  &:not(:last-child) {
     margin-bottom: 0;
   }
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.hoverBg};
+    border-color: ${({ theme }) => theme.colors.accentBg};
   }
+
+  ${({ theme }) => theme.media.down("sm")`
+    transform: none;
+    &:hover {
+        background-color: ${({ theme }) => theme.colors.background};
+        border-color: ${({ theme }) => theme.colors.dividerColor};
+    }
+  `}
 
   ${props =>
     props.isSelected &&
+    !props.showFeedback &&
     `
-    background-color: ${props.theme.colors.accentBg};
-    border-color: ${props.theme.colors.accentColor};
-    color: ${props.theme.colors.buttonColor};
+    background-color: ${props.theme.colors.interactiveBgYellow};
+    border-color: ${props.theme.colors.interactiveBorderYellow};
+    color: ${props.theme.colors.accentColor};
+    font-weight: 600;
+    box-shadow: ${props.theme.shadows.medium};
   `}
 
   ${props =>
     props.showFeedback &&
     props.isCorrectOption &&
     `
-    background-color: ${props.theme.colors.successBg};
-    border-color: ${props.theme.colors.successColor};
-    color: ${props.theme.colors.successText};
+    background-color: ${props.theme.colors.positiveBackground};
+    border-color: ${props.theme.colors.positiveBorder};
+    color: ${props.theme.colors.positiveText};
     font-weight: bold;
   `}
 
@@ -92,9 +115,9 @@ export const QuizOptionItem = styled.li`
     props.isSelected &&
     !props.isCorrectOption &&
     `
-    background-color: ${props.theme.colors.dangerBg};
-    border-color: ${props.theme.colors.dangerColor};
-    color: ${props.theme.colors.dangerText};
+    background-color: ${props.theme.colors.negativeBackground};
+    border-color: ${props.theme.colors.negativeBorder};
+    color: ${props.theme.colors.negativeText};
   `}
   
   ${({ theme }) => theme.media.down("sm")`
@@ -104,8 +127,29 @@ export const QuizOptionItem = styled.li`
 `;
 
 export const QuizToggleIcon = styled.span`
-  font-size: ${({ theme }) => theme.fontSizes.xlarge};
-  font-weight: bold;
-  color: ${({ theme }) => theme.colors.color};
-  transition: transform 0.2s ease-in-out, color 0.25s ease-in-out;
+  position: relative;
+  width: ${({ theme }) => theme.fontSizes.xxlarge};
+  height: ${({ theme }) => theme.fontSizes.xxlarge};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  cursor: pointer;
+
+  > span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: ${props =>
+      props.$isActive ? props.theme.colors.sectionTitleHover : props.theme.colors.colorSecondary};
+    font-size: 120%;
+
+    transition: color 0.25s ease-in-out;
+  }
 `;

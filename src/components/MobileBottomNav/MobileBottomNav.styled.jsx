@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const BottomNavContainer = styled.nav`
-  // ✅ Змінив на <nav> для семантичної навігації
   display: none;
   ${({ theme }) => theme.media.down("md")`
     display: flex;
@@ -25,16 +24,12 @@ export const BottomNavContainer = styled.nav`
 `;
 
 export const NavLinkItem = styled.button`
-  // ✅ Змінив на <button>
-  // ✅ Це важливо! Скидаємо стандартні стилі кнопки
   background: none;
   border: none;
   font: inherit;
   color: inherit;
   cursor: pointer;
-  padding: 0;
 
-  // ✅ Ваші існуючі стилі
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,12 +37,10 @@ export const NavLinkItem = styled.button`
   height: 100%;
   text-decoration: none;
   font-size: ${({ theme }) => theme.fontSizes.xsmall};
-  font-weight: 500;
+
   transition: color 0.25s ease-in-out;
   padding: ${({ theme }) => theme.spacing.xxsmall};
-  gap: ${({ theme }) => theme.spacing.xxxsmall};
-
-  > span {
+  gap: ${({ theme }) => theme.spacing.xxxsmall} > span {
     display: block;
     line-height: 1;
   }
@@ -57,6 +50,6 @@ export const NavLinkItem = styled.button`
 `;
 
 export const IconWrapper = styled.div`
-  font-size: ${({ theme }) => theme.fontSizes.large};
+  font-size: ${({ theme }) => theme.fontSizes.medium};
   transition: color 0.25s ease-in-out;
 `;

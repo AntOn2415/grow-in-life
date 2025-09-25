@@ -182,7 +182,7 @@ export const homeGroupsContent = {
     },
     {
       id: "full-template-lesson",
-      title: "[bold:Комплексний Урок-Шаблон] з усіма типами секцій",
+      title: "Комплексний Урок-Шаблон з усіма типами секцій",
       shortTitle: "Шаблон",
       book: "Приклади",
       bookInternalKey: "examples",

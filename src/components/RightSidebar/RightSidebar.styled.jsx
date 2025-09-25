@@ -35,7 +35,8 @@ export const RightSidebarWrapper = styled(motion.aside).withConfig({ shouldForwa
     $isCollapsed ? `calc(${theme.spacing.xsmall} + 40px)` : `calc(${theme.spacing.xsmall} + 40px)`};
   box-shadow: ${({ theme }) => theme.shadows.small};
   position: relative;
-  transition: width 0.2s ease-in-out, background 0.25s ease-in-out;
+  transition: width 0.2s ease-in-out, background 0.25s ease-in-out, color 0.25s ease-in-out,
+    border-color 0.25s ease-in-out;
   margin: 0;
 
   ${({ theme }) => theme.media.up("md")`
@@ -48,7 +49,7 @@ export const RightSidebarWrapper = styled(motion.aside).withConfig({ shouldForwa
     z-index: 900;
     display: ${({ isHome }) => (isHome ? "none" : "flex")};
     flex-direction: column;
-    transition: top 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: top 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease-in-out, color 0.25s ease-in-out, border-color 0.25s ease-in-out;
     margin: 10px;
     margin-left: 0;
     margin-top: 0;
@@ -98,7 +99,8 @@ export const RightSidebarCollapseBtn = styled(CollapseBtn)`
   box-shadow: ${({ theme }) => theme.shadows.small};
   font-size: 1.2rem;
   z-index: 10;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.25s ease, color 0.25s ease;
+
   &:hover {
     background: ${({ theme }) => theme.colors.hoverBtn};
     transition: background 0.25s ease-in-out;

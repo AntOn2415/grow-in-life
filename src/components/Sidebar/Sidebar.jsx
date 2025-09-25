@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { SidebarWrapper, Menu, CollapseBtn } from "./Sidebar.styled";
 import SermonsMenu from "./SermonsMenu/SermonsMenu";
 import HomeGroupsMenu from "./HomeGroupsMenu/HomeGroupsMenu";
-
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 export default function Sidebar({
   collapsed,
   setCollapsed,
@@ -76,11 +76,13 @@ export default function Sidebar({
       >
         {extraMenu}
       </Menu>
+
       {!isMobile && (
-        <CollapseBtn $isCollapsed={isMobile ? false : collapsed} onClick={handleToggle}>
-          {isMobile ? <i className="fas fa-times"></i> : (isMobile ? false : collapsed) ? "›" : "‹"}
+        <CollapseBtn $isCollapsed={collapsed} onClick={handleToggle}>
+          {(isMobile ? false : collapsed) ? <FiChevronRight /> : <FiChevronLeft />}
         </CollapseBtn>
       )}
+
       {isMobile && (
         <CollapseBtn $isCollapsed={false} onClick={handleToggle}>
           <i className="fas fa-times"></i>

@@ -41,7 +41,7 @@ export const Verse = styled.div`
 
   &.highlighted-verse {
     background-color: ${({ theme }) => theme.colors.navItemHover};
-    transition: background-color 0.3s ease-in-out;
+    transition: background-color 0.25s ease-in-out;
   }
 `;
 

@@ -52,7 +52,7 @@ export const StyledHeading = styled.h3.attrs(props => ({
   a {
     color: ${({ theme }) => theme.colors.accentColor};
     text-decoration: none;
-    transition: color 0.2s ease-in-out;
+    transition: color 0.25s ease-in-out;
     &:hover {
       text-decoration: underline;
     }

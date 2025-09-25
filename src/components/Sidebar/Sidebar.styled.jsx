@@ -51,7 +51,8 @@ export const SidebarWrapper = styled(motion.aside).withConfig({ shouldForwardPro
     margin: 10px 16px 10px 10px;
     margin-right: 0;
     margin-top: 0;
-    transition: top 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.2s ease-in-out;
+    transition: top 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.2s ease-in-out,
+                background 0.25s ease-in-out, color 0.25s ease-in-out, border 0.25s ease-in-out;
     display: ${({ isHome }) => (isHome ? "none" : "flex")};
   `}
 
@@ -71,7 +72,7 @@ export const SidebarWrapper = styled(motion.aside).withConfig({ shouldForwardPro
     border-radius: 0;
     display: flex;
     flex-direction: column;
-     transition: background 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+     transition: background 0.25s ease-in-out, box-shadow 0.25s ease-in-out, color 0.25s ease-in-out, border-color 0.25s ease-in-out;
   `}
 `;
 
@@ -106,7 +107,7 @@ export const CollapseBtn = styled.button`
   box-shadow: ${({ theme }) => theme.shadows.small};
   font-size: 1.2rem;
   z-index: 10;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.25s ease, color 0.25s ease;
   &:hover {
     background: ${({ theme }) => theme.colors.hoverBtn};
     transition: background 0.25s ease-in-out;

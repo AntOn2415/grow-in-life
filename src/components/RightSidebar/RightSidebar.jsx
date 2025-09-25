@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-// ✅ Імпортуємо іконки
-import { BsChevronCompactRight, BsChevronCompactLeft } from "react-icons/bs";
+
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { IoCloseOutline } from "react-icons/io5";
 
 import {
@@ -58,7 +58,7 @@ export default function RightSidebar({
 
       {!isMobile && (
         <RightSidebarCollapseBtn onClick={toggleRightSidebarSplit}>
-          {isExpanded ? <BsChevronCompactRight /> : <BsChevronCompactLeft />}
+          {isExpanded ? <FiChevronRight /> : <FiChevronLeft />}
         </RightSidebarCollapseBtn>
       )}
 

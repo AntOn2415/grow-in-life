@@ -125,7 +125,7 @@ export const MobileRightSidebarOverlay = styled.div.withConfig({ shouldForwardPr
     cursor: pointer;
     opacity: ${({ show }) => (show ? 1 : 0)};
     visibility: ${({ show }) => (show ? "visible" : "hidden")};
-    transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out, background 0.25s ease-in-out;
+    transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out, background 0.25s ease-in-out, backdrop-filter 0.25s ease-in-out;
     ${({ isRightSidebarSplit }) =>
       isRightSidebarSplit &&
       `

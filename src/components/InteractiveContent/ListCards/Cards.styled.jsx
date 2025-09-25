@@ -151,7 +151,7 @@ export const ReadMoreButton = styled.button`
   cursor: pointer;
   padding: ${({ theme }) => theme.spacing.xsmall} 0;
   align-self: flex-start;
-  transition: color 0.25s ease-in-out, transform 0.2s ease;
+  transition: color 0.25s ease-in-out, transform 0.25s ease;
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xsmall};

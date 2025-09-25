@@ -27,7 +27,7 @@ const PlaceholderButton = styled.button`
   padding: 0.75rem 1.5rem;
   cursor: pointer;
   font-size: 1rem;
-  transition: background 0.2s ease-in-out;
+  transition: background 0.25s ease-in-out;
   &:hover {
     background: ${({ theme }) => theme.colors.hoverBtn};
   }
