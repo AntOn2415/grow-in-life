@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const QuestionPromptContainer = styled.section`
-  // ✅ Замінено на 'section'
   background-color: ${({ theme }) => theme.colors.interactiveBgYellow};
   border: 1px solid ${({ theme }) => theme.colors.interactiveBorderYellow};
   padding: ${({ theme }) => theme.spacing.medium};
