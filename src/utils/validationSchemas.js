@@ -1,62 +1,61 @@
+// src/utils/validationSchemas.js
+
 import { z } from "zod";
 
-// Оновлена схема для звичайного тексту, щоб вона була універсальною
+// Текст з тегами
 const TokenizedText = z.lazy(() =>
   z.union([
     z.string(),
-    z.array(
-      z.union([
-        z.string(),
-        z.object({ type: z.literal("bold"), content: TokenizedText }),
-        z.object({ type: z.literal("italic"), content: TokenizedText }),
-        z.object({
-          type: z.literal("bible-link"),
-          bibleRef: z.string(),
-          content: z.string(),
-        }),
-        z.object({
-          type: z.literal("link"),
-          url: z.string(),
-          content: TokenizedText,
-        }),
-        z.object({
-          type: z.literal("image"),
-          url: z.string(),
-          alt: z.string(),
-          caption: TokenizedText,
-        }),
-        z.object({ type: z.literal("highlight"), content: TokenizedText }),
-        z.object({ type: z.literal("quote"), content: TokenizedText }),
-      ])
-    ),
+    z
+      .array(
+        z.union([
+          z.string(),
+          z.object({ type: z.literal("bold"), content: TokenizedText }),
+          z.object({ type: z.literal("italic"), content: TokenizedText }),
+          z.object({ type: z.literal("bible-link"), bibleRef: z.string(), content: z.string() }),
+          z.object({ type: z.literal("link"), url: z.string(), content: TokenizedText }),
+          z.object({
+            type: z.literal("image"),
+            url: z.string(),
+            alt: z.string(),
+            caption: TokenizedText,
+          }),
+          z.object({ type: z.literal("highlight"), content: TokenizedText }),
+          z.object({ type: z.literal("quote"), content: TokenizedText }),
+        ])
+      )
+      .default([]),
   ])
 );
 
-// Базова схема для всіх секцій
+// Базова секція
 const BaseSectionSchema = z.object({
   title: TokenizedText.optional(),
 });
 
+// Типи секцій
 const TextSectionSchema = BaseSectionSchema.extend({
   type: z.literal("text"),
   subtitle: TokenizedText.optional(),
-  content: z.array(TokenizedText),
+  content: z.array(TokenizedText).default([]),
 });
 
 const ListSectionSchema = BaseSectionSchema.extend({
   type: z.literal("list"),
-  items: z.array(TokenizedText),
+  items: z.array(TokenizedText).default([]),
 });
 
 const ListCardsSectionSchema = BaseSectionSchema.extend({
   type: z.literal("list-cards"),
-  cards: z.array(
-    z.object({
-      title: TokenizedText,
-      content: TokenizedText,
-      emoji: z.string().optional(),
-    })
-  ),
+  cards: z
+    .array(
+      z.object({
+        title: TokenizedText,
+        content: TokenizedText,
+        emoji: z.string().optional(),
+      })
+    )
+    .default([]),
 });
 
 const HighlightBoxSchema = BaseSectionSchema.extend({
@@ -74,39 +73,45 @@ const QuestionPromptSchema = BaseSectionSchema.extend({
 
 const TimelineSchema = BaseSectionSchema.extend({
   type: z.literal("timeline"),
-  events: z.array(
-    z.object({
-      year: z.string().optional(),
-      title: TokenizedText,
-      description: TokenizedText.optional(),
-      verses: z.array(TokenizedText).optional(),
-    })
-  ),
+  events: z
+    .array(
+      z.object({
+        year: z.string().optional(),
+        title: TokenizedText,
+        description: TokenizedText.optional(),
+        verses: z.array(TokenizedText).default([]),
+      })
+    )
+    .default([]),
 });
 
 const RevealCardsSchema = BaseSectionSchema.extend({
   type: z.literal("reveal-cards"),
-  cards: z.array(
-    z.object({
-      id: z.string(),
-      emoji: z.string().optional(),
-      title: TokenizedText.optional(),
-      content: TokenizedText,
-    })
-  ),
+  cards: z
+    .array(
+      z.object({
+        id: z.string(),
+        emoji: z.string().optional(),
+        title: TokenizedText.optional(),
+        content: TokenizedText,
+      })
+    )
+    .default([]),
 });
 
 const QuizSchema = BaseSectionSchema.extend({
   type: z.literal("quiz"),
   id: z.string(),
   question: TokenizedText,
-  options: z.array(
-    z.object({
-      text: TokenizedText,
-      isCorrect: z.boolean(),
-      rationale: TokenizedText.optional(),
-    })
-  ),
+  options: z
+    .array(
+      z.object({
+        text: TokenizedText,
+        isCorrect: z.boolean(),
+        rationale: TokenizedText.optional(),
+      })
+    )
+    .default([]),
   hint: TokenizedText.optional(),
 });
 
@@ -128,7 +133,7 @@ const ImagePlaceholderSchema = BaseSectionSchema.extend({
 
 const DescriptionWithImageSchema = BaseSectionSchema.extend({
   type: z.literal("description-with-image"),
-  content: z.array(TokenizedText),
+  content: z.array(TokenizedText).default([]),
   imageUrl: z.string(),
   altText: z.string().optional(),
   caption: TokenizedText.optional(),
@@ -137,50 +142,50 @@ const DescriptionWithImageSchema = BaseSectionSchema.extend({
 
 const ContrastSectionSchema = BaseSectionSchema.extend({
   type: z.literal("contrast-section"),
-  items: z.array(
-    z.object({
-      heading: TokenizedText,
-      content: TokenizedText,
-      emoji: z.string().optional(),
-      type: z.string(),
-    })
-  ),
+  items: z
+    .array(
+      z.object({
+        heading: TokenizedText,
+        content: TokenizedText,
+        emoji: z.string().optional(),
+        type: z.string(),
+      })
+    )
+    .default([]),
 });
 
-// ✅ Додаємо нову схему для таблиці
 const TableSchema = BaseSectionSchema.extend({
   type: z.literal("table"),
   tableTitle: TokenizedText.optional(),
-  headers: z.array(TokenizedText),
-  rows: z.array(z.array(TokenizedText)),
+  headers: z.array(TokenizedText).default([]),
+  rows: z.array(z.array(TokenizedText).default([])).default([]),
 });
 
-// ✅ НОВА РЕКУРСИВНА СХЕМА
+// Рекурсивна схема секцій
 const LessonSectionSchema = z.lazy(() =>
   z.union([
-    TextSectionSchema.extend({ type: z.literal("text") }),
-    ListCardsSectionSchema.extend({ type: z.literal("list-cards") }),
-    ListSectionSchema.extend({ type: z.literal("list") }),
-    HighlightBoxSchema.extend({ type: z.literal("highlight-box") }),
-    QuestionPromptSchema.extend({ type: z.literal("question-prompt") }),
-    TimelineSchema.extend({ type: z.literal("timeline") }),
-    RevealCardsSchema.extend({ type: z.literal("reveal-cards") }),
-    QuizSchema.extend({ type: z.literal("quiz") }),
-    DiagramSchema.extend({ type: z.literal("diagram") }),
-    ImagePlaceholderSchema.extend({ type: z.literal("image-placeholder") }),
-    DescriptionWithImageSchema.extend({ type: z.literal("description-with-image") }),
-    ContrastSectionSchema.extend({ type: z.literal("contrast-section") }),
-    TableSchema.extend({ type: z.literal("table") }), // ✅ Додаємо новий тип "table"
-    // Додаємо новий тип для групування
+    TextSectionSchema,
+    ListSectionSchema,
+    ListCardsSectionSchema,
+    HighlightBoxSchema,
+    QuestionPromptSchema,
+    TimelineSchema,
+    RevealCardsSchema,
+    QuizSchema,
+    DiagramSchema,
+    ImagePlaceholderSchema,
+    DescriptionWithImageSchema,
+    ContrastSectionSchema,
+    TableSchema,
     z.object({
       type: z.literal("section-group"),
       title: TokenizedText,
-      sections: z.array(LessonSectionSchema), // Рекурсія тут!
+      sections: z.array(LessonSectionSchema).default([]),
     }),
   ])
 );
 
-// Оновлюємо загальну схему уроку
+// Основна схема уроку
 export const LessonSchema = z.object({
   id: z.string(),
   title: TokenizedText,
@@ -192,7 +197,7 @@ export const LessonSchema = z.object({
   date: z.string(),
   author: z.string(),
   duration: z.string(),
-  tags: z.array(z.string()),
+  tags: z.array(z.string()).default([]),
   description: TokenizedText.optional(),
-  sections: z.array(LessonSectionSchema), // Використовуємо нову рекурсивну схему
+  sections: z.array(LessonSectionSchema).default([]), // ✅ завжди масив
 });

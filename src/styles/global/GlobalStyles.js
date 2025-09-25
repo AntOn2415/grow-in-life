@@ -88,6 +88,9 @@ const GlobalStyles = createGlobalStyle`
   img {
     transition: filter 0.25s ease-in-out;
   }
+   h2[id], h3[id], h4[id], h5[id], h6[id] {
+    scroll-margin-top: 80px;
+  }
 `;
 
 export default GlobalStyles;

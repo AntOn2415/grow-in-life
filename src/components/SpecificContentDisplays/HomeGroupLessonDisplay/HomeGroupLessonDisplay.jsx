@@ -6,6 +6,7 @@ import TokenRenderer from "../../TokenRenderer/TokenRenderer";
 import HomeGroupLessonMetaInfo from "../HomeGroupLessonMetaInfo/HomeGroupLessonMetaInfo";
 import ContentRenderer from "../../ContentRenderer/ContentRenderer";
 import PageNavigation from "../../PageNavigation/PageNavigation";
+import { useOutletContext } from "react-router-dom";
 import {
   HomeGroupLessonDisplayContainer,
   HomeGroupLessonTextWrapper,
@@ -44,7 +45,7 @@ const collectAllSections = (sections, parentIndex = []) => {
 
 const HomeGroupLessonDisplay = React.memo(({ lessonData }) => {
   const theme = useTheme();
-
+  const { showNav, navHeight } = useOutletContext();
   // Додаємо додаткову залежність у useMemo, щоб забезпечити оновлення, якщо lessonData змінився
   const sectionsWithTitles = useMemo(() => {
     if (!lessonData || !lessonData.sections) {
@@ -92,7 +93,9 @@ const HomeGroupLessonDisplay = React.memo(({ lessonData }) => {
           />
         </HeroContentWrapper>
       </HeroSection>
-      {sectionsWithTitles.length > 0 && <PageNavigation sections={sectionsWithTitles} />}
+      {sectionsWithTitles.length > 0 && (
+        <PageNavigation sections={sectionsWithTitles} $showNav={showNav} $navHeight={navHeight} />
+      )}
       <MainContentWrapper>
         <Card>
           <HomeGroupLessonTextWrapper>

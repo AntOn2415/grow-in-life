@@ -1,10 +1,15 @@
 import styled from "styled-components";
 
+const HEADER_HEIGHT = "-9px";
+const COLLAPSED_HEADER_HEIGHT = "-79px";
+
 export const NavigationWrapper = styled.div`
   display: flex;
   align-items: center;
   position: sticky;
-  top: -79px;
+
+  top: ${({ $showNav }) => ($showNav ? HEADER_HEIGHT : COLLAPSED_HEADER_HEIGHT)};
+
   z-index: 999;
   width: 100%;
   background: ${({ theme }) => theme.colors.navBg};
@@ -13,7 +18,7 @@ export const NavigationWrapper = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.navItemActive};
   padding: ${({ theme }) => theme.spacing.xxsmall} 0;
 
-  transition: background 0.25s ease-in-out, box-shadow 0.25s ease-in-out,
+  transition: top 0.25s ease-in-out, background 0.25s ease-in-out, box-shadow 0.25s ease-in-out,
     border-color 0.25s ease-in-out;
 
   ${({ theme }) => theme.media.down("md")`

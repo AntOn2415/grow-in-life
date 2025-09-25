@@ -1,6 +1,7 @@
 // src/components/InteractiveContent/ImagePlaceholder/ImagePlaceholder.jsx
 import React from "react";
 import { StyledFigure, StyledImage, StyledFigcaption } from "./ImagePlaceholder.styled";
+import TokenRenderer from "../../TokenRenderer/TokenRenderer";
 
 function ImagePlaceholder({ imageUrl, caption, altText }) {
   return (
@@ -10,7 +11,11 @@ function ImagePlaceholder({ imageUrl, caption, altText }) {
       ) : (
         <p>Зображення відсутнє.</p>
       )}
-      {caption && <StyledFigcaption>{caption}</StyledFigcaption>}
+      {caption && (
+        <StyledFigcaption>
+          <TokenRenderer tokens={caption} />
+        </StyledFigcaption>
+      )}
     </StyledFigure>
   );
 }

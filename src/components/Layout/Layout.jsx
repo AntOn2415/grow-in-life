@@ -266,7 +266,7 @@ const Layout = () => {
           isMainSplit={isMainSplit}
           as={motion.main}
         >
-          <Outlet context={{ mainRef }} />
+          <Outlet context={{ mainRef, showNav, navHeight }} />
         </Main>
         {!isHome && !isMobile && (
           <RightSidebar

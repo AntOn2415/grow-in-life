@@ -11,53 +11,62 @@ import {
   NavigationWrapper,
 } from "./PageNavigation.styled";
 
-// ✅ 1. Логіка для підказок
+// Знаходимо всі nested заголовки для H2
 const findNestedHeadings = h2Element => {
   const nested = [];
-  let nextSibling = h2Element.nextElementSibling;
-  while (nextSibling && nextSibling.tagName.toLowerCase() !== "h2") {
-    if (nextSibling.tagName.toLowerCase().startsWith("h") && nextSibling.id) {
+  let next = h2Element.nextElementSibling;
+
+  while (next && next.tagName.toLowerCase() !== "h2") {
+    if (next.id && next.tagName.toLowerCase().startsWith("h")) {
       nested.push({
-        id: nextSibling.id,
-        title: nextSibling.textContent,
-        level: parseInt(nextSibling.tagName.substring(1)),
+        id: next.id,
+        title: next.textContent,
+        level: parseInt(next.tagName.substring(1)),
       });
     }
-    nextSibling = nextSibling.nextElementSibling;
+
+    const innerHeadings = next.querySelectorAll("h3[id], h4[id], h5[id], h6[id]");
+    innerHeadings.forEach(h => {
+      nested.push({
+        id: h.id,
+        title: h.textContent,
+        level: parseInt(h.tagName.substring(1)),
+      });
+    });
+
+    next = next.nextElementSibling;
   }
+
   return nested;
 };
 
-const PageNavigation = ({ sections }) => {
+const PageNavigation = ({ sections, $showNav, $navHeight }) => {
   const [activeId, setActiveId] = useState("");
   const [h2Sections, setH2Sections] = useState([]);
   const navigationRef = useRef(null);
   const listRef = useRef(null);
 
-  // ✅ Логіка для збору даних підказок
+  // Збір даних H2 та nested заголовків
   useEffect(() => {
     const h2Elements = Array.from(document.querySelectorAll("h2[id]"));
     if (h2Elements.length === 0) {
       setH2Sections([]);
       return;
     }
-    const sectionsData = h2Elements.map(h2 => {
-      const nested = findNestedHeadings(h2);
-      return {
-        id: h2.id,
-        title: h2.textContent,
-        nestedHeadings: nested,
-      };
-    });
+
+    const sectionsData = h2Elements.map(h2 => ({
+      id: h2.id,
+      title: h2.textContent,
+      nestedHeadings: findNestedHeadings(h2),
+    }));
+
     setH2Sections(sectionsData);
   }, [sections]);
 
-  // ✅ 2. Логіка для підкреслення (activeId)
+  // Відстеження активного H2 через IntersectionObserver
   useEffect(() => {
     const h2Elements = Array.from(document.querySelectorAll("h2[id]"));
-    if (h2Elements.length === 0) {
-      return;
-    }
+    if (h2Elements.length === 0) return;
 
     const observer = new IntersectionObserver(
       entries => {
@@ -72,14 +81,10 @@ const PageNavigation = ({ sections }) => {
             .sort(
               (a, b) => b.target.getBoundingClientRect().top - a.target.getBoundingClientRect().top
             );
-          if (passedHeadings.length > 0) {
-            currentActiveId = passedHeadings[0].target.id;
-          }
+          if (passedHeadings.length > 0) currentActiveId = passedHeadings[0].target.id;
         }
 
-        if (currentActiveId) {
-          setActiveId(currentActiveId);
-        }
+        if (currentActiveId) setActiveId(currentActiveId);
       },
       {
         root: null,
@@ -88,15 +93,11 @@ const PageNavigation = ({ sections }) => {
       }
     );
 
-    h2Elements.forEach(heading => {
-      observer.observe(heading);
-    });
-
-    return () => {
-      observer.disconnect();
-    };
+    h2Elements.forEach(heading => observer.observe(heading));
+    return () => observer.disconnect();
   }, [sections]);
 
+  // Автоскрол активного елементу в навігації
   useEffect(() => {
     if (activeId && listRef.current) {
       const activeLink = listRef.current.querySelector(".active");
@@ -110,43 +111,40 @@ const PageNavigation = ({ sections }) => {
     }
   }, [activeId]);
 
+  // Скрол кнопками
   const scrollAndSelect = direction => {
     if (!listRef.current) return;
     const listItems = Array.from(listRef.current.children);
     const activeIndex = listItems.findIndex(item => item.querySelector(".active"));
     let nextIndex = activeIndex;
-    if (direction === "right" && activeIndex < listItems.length - 1) {
-      nextIndex = activeIndex + 1;
-    } else if (direction === "left" && activeIndex > 0) {
-      nextIndex = activeIndex - 1;
-    }
+
+    if (direction === "right" && activeIndex < listItems.length - 1) nextIndex = activeIndex + 1;
+    else if (direction === "left" && activeIndex > 0) nextIndex = activeIndex - 1;
+
     const nextItem = listItems[nextIndex];
     if (nextItem) {
       const newActiveId = h2Sections[nextIndex]?.id;
       if (newActiveId) {
         setActiveId(newActiveId);
-        nextItem.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-          inline: "center",
-        });
-        const targetElement = document.getElementById(newActiveId);
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: "smooth" });
+        // стандартний скрол до елемента
+        const el = document.getElementById(newActiveId);
+        if (el) {
+          const offset = 80;
+          const top = el.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: "smooth" });
         }
       }
     }
   };
 
-  if (h2Sections.length === 0) {
-    return null;
-  }
+  if (h2Sections.length === 0) return null;
 
   return (
-    <NavigationWrapper>
+    <NavigationWrapper $showNav={$showNav} $navHeight={$navHeight}>
       <ScrollButton onClick={() => scrollAndSelect("left")} aria-label="Прокрутити навігацію вліво">
         <IoIosArrowBack size={24} />
       </ScrollButton>
+
       <NavigationContainer ref={navigationRef}>
         <NavigationList ref={listRef}>
           {h2Sections.map(({ id, title, nestedHeadings }) => (
@@ -159,7 +157,7 @@ const PageNavigation = ({ sections }) => {
                   <NavigationLink
                     href={`#${id}`}
                     className={activeId === id ? "active" : ""}
-                    onClick={() => setActiveId(id)}
+                    onClick={() => setActiveId(id)} // лише підсвітка, скрол стандартний
                   >
                     {title}
                   </NavigationLink>
@@ -168,7 +166,7 @@ const PageNavigation = ({ sections }) => {
                 <NavigationLink
                   href={`#${id}`}
                   className={activeId === id ? "active" : ""}
-                  onClick={() => setActiveId(id)}
+                  onClick={() => setActiveId(id)} // лише підсвітка
                 >
                   {title}
                 </NavigationLink>
@@ -177,6 +175,7 @@ const PageNavigation = ({ sections }) => {
           ))}
         </NavigationList>
       </NavigationContainer>
+
       <ScrollButton
         onClick={() => scrollAndSelect("right")}
         aria-label="Прокрутити навігацію вправо"

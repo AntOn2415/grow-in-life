@@ -5,7 +5,7 @@ export const HeadingsList = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
-  text-align: ${({ alignment }) => alignment};
+  text-align: left;
 
   li {
     margin: ${({ theme }) => theme.spacing.xxsmall} 0;
