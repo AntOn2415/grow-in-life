@@ -1,10 +1,9 @@
 // src/components/SpecificContentDisplays/Timeline/Timeline.jsx
 
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTheme } from "../../../contexts/ThemeProvider";
-
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiChevronRight } from "react-icons/fi";
 import {
   TimelineContainer,
   TimelineEventWrapper,
@@ -16,12 +15,6 @@ import {
 } from "./Timeline.styled";
 import CollapsibleContent from "../../Common/CollapsibleContent/CollapsibleContent";
 import TokenRenderer from "../../TokenRenderer/TokenRenderer";
-
-const iconVariants = {
-  hidden: { opacity: 0, rotate: -90 },
-  visible: { opacity: 1, rotate: 0 },
-  exit: { opacity: 0, rotate: 90 },
-};
 
 const Timeline = ({ events, eventTitleLevel = 4 }) => {
   const { currentTheme } = useTheme();
@@ -43,7 +36,7 @@ const Timeline = ({ events, eventTitleLevel = 4 }) => {
           <EventDot
             animate={
               activeEventId === index
-                ? { scale: [1, 1.2, 1], backgroundColor: currentTheme.accentColor }
+                ? { scale: [1, 1.1, 1], backgroundColor: currentTheme.accentColor }
                 : { scale: 1, backgroundColor: currentTheme.accentColor }
             }
             transition={{
@@ -62,7 +55,7 @@ const Timeline = ({ events, eventTitleLevel = 4 }) => {
               backgroundColor: { duration: 0.2, ease: "easeOut" },
             }}
             animate={{
-              scale: activeEventId === index ? 1.03 : 1,
+              scale: activeEventId === index ? 1.02 : 1,
               backgroundColor:
                 activeEventId === index ? currentTheme.hoverBg : currentTheme.cardBackground,
             }}
@@ -74,34 +67,11 @@ const Timeline = ({ events, eventTitleLevel = 4 }) => {
               </span>
 
               <motion.span
-                style={{ marginLeft: "10px", display: "inline-block", pointerEvents: "none" }}
+                style={{ pointerEvents: "none" }}
+                animate={{ rotate: activeEventId === index ? 90 : 0 }}
                 transition={{ duration: 0.25 }}
               >
-                <AnimatePresence mode="wait" initial={false}>
-                  {activeEventId === index ? (
-                    <motion.span
-                      key="up"
-                      initial="hidden"
-                      animate="visible"
-                      exit="exit"
-                      variants={iconVariants}
-                      transition={{ duration: 0.25 }}
-                    >
-                      <FiChevronUp />
-                    </motion.span>
-                  ) : (
-                    <motion.span
-                      key="down"
-                      initial="hidden"
-                      animate="visible"
-                      exit="exit"
-                      variants={iconVariants}
-                      transition={{ duration: 0.25 }}
-                    >
-                      <FiChevronDown />
-                    </motion.span>
-                  )}
-                </AnimatePresence>
+                <FiChevronRight />
               </motion.span>
             </EventTitle>
 

@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import TokenRenderer from "../../TokenRenderer/TokenRenderer";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { motion } from "framer-motion";
+import { FiChevronRight } from "react-icons/fi";
 
 import {
   StyledQuizCard,
@@ -12,12 +12,6 @@ import {
   QuizOptionItem,
   QuizToggleIcon,
 } from "./QuizCard.styled";
-
-const iconVariants = {
-  hidden: { opacity: 0, rotate: -90 },
-  visible: { opacity: 1, rotate: 0 },
-  exit: { opacity: 0, rotate: 90 },
-};
 
 export default function QuizCard({ quizData, titleLevel }) {
   const [showOptions, setShowOptions] = useState(false);
@@ -62,31 +56,9 @@ export default function QuizCard({ quizData, titleLevel }) {
         <TokenRenderer tokens={quizData.question} />
 
         <QuizToggleIcon $isActive={showOptions}>
-          <AnimatePresence mode="wait" initial={false}>
-            {showOptions ? (
-              <motion.span
-                key="up"
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                variants={iconVariants}
-                transition={{ duration: 0.25 }}
-              >
-                <FiChevronUp />
-              </motion.span>
-            ) : (
-              <motion.span
-                key="down"
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                variants={iconVariants}
-                transition={{ duration: 0.25 }}
-              >
-                <FiChevronDown />
-              </motion.span>
-            )}
-          </AnimatePresence>
+          <motion.span animate={{ rotate: showOptions ? 90 : 0 }} transition={{ duration: 0.25 }}>
+            <FiChevronRight />
+          </motion.span>
         </QuizToggleIcon>
       </QuizQuestion>
 

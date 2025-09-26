@@ -1,6 +1,8 @@
-// Table.jsx
-import React from "react";
+// src/components/SpecificContentDisplays/Table/Table.jsx
+
+import React, { useState, useEffect, useRef } from "react";
 import TokenRenderer from "../../TokenRenderer/TokenRenderer";
+import { useInView } from "framer-motion";
 import {
   StyledTableContainer,
   TableHeading,
@@ -11,22 +13,26 @@ import {
   TableHeaderCell,
   TableCell,
   TableParagraph,
-  MobileCardsWrapper,
   MobileCard,
   MobileCardRow,
   MobileCardLabel,
   MobileCardValue,
+  MotionMobileCardsWrapper,
+  PaginationDotsContainer,
+  PaginationDot,
 } from "./Table.styled";
 
+// Допоміжні функції для перевірки типу даних
 const isToken = v => typeof v === "string" || (v && typeof v === "object" && "type" in v);
 const isTokenSequence = v => Array.isArray(v) && v.every(isToken);
 const isParagraphs = v => Array.isArray(v) && v.some(Array.isArray);
 
+// Хук для визначення мобільного пристрою
 function useIsMobile(breakpoint = 768) {
-  const [isMobile, setIsMobile] = React.useState(
+  const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined" ? window.innerWidth < breakpoint : false
   );
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < breakpoint);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -37,9 +43,16 @@ function useIsMobile(breakpoint = 768) {
 const Table = ({ tableTitle, headers, rows }) => {
   const isMobile = useIsMobile();
 
+  const carouselRef = useRef(null); // Ref для контейнера прокрутки
+  const inViewRef = useRef(null); // Ref для useInView
+
+  const isInView = useInView(inViewRef, { once: true, amount: 0.1 });
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
   if (!headers || !Array.isArray(headers) || !rows || !Array.isArray(rows)) return null;
 
-  // універсальний рендер для десктопу
+  // Універсальний рендер вмісту комірки
   const renderCellContent = cell => {
     if (isParagraphs(cell)) {
       return cell.map((paragraph, i) => (
@@ -60,29 +73,74 @@ const Table = ({ tableTitle, headers, rows }) => {
     return null;
   };
 
-  // окремий рендер для мобільного, щоб рядок не розбивався на параграфи
+  // Окремий рендер для мобільного
   const renderMobileCellContent = cell => {
     if (isParagraphs(cell)) {
-      // Якщо масив параграфів — рендеримо як параграфи
       return cell.map((paragraph, i) => (
         <TableParagraph key={i}>
           <TokenRenderer tokens={paragraph} />
         </TableParagraph>
       ));
     }
-    // Якщо рядок або масив токенів — рендеримо як один блок (без <p>)
     return <TokenRenderer tokens={cell} />;
   };
 
+  // Обробник прокручування для визначення активної картки
+  const handleScroll = () => {
+    if (carouselRef.current) {
+      const scrollLeft = carouselRef.current.scrollLeft;
+      const cardWidth = carouselRef.current.children[0]?.offsetWidth || 1;
+      // Припускаємо, що всі картки мають однакову ширину.
+      const index = Math.round(scrollLeft / cardWidth);
+
+      setActiveIndex(index);
+    }
+  };
+
+  // Перехід до картки при кліку на пагінацію
+  const goToCard = index => {
+    if (carouselRef.current) {
+      const cardWidth = carouselRef.current.children[0]?.offsetWidth;
+      if (cardWidth) {
+        carouselRef.current.scrollTo({
+          left: index * cardWidth,
+          behavior: "smooth",
+        });
+        setActiveIndex(index);
+      }
+    }
+  };
+
+  // Framer Motion Variant для імітації свайпу
+  const swipeVariants = {
+    initial: { translateX: 0 },
+    hint: {
+      translateX: [0, -20, 5, 0],
+      transition: {
+        duration: 1.5,
+        times: [0, 0.25, 0.5, 1],
+        delay: 0.5,
+        ease: "easeInOut",
+      },
+    },
+  };
+
   if (isMobile) {
+    // Мобільна версія: картки-карусель
     return (
-      <StyledTableContainer>
+      <StyledTableContainer ref={inViewRef}>
         {tableTitle && (
           <TableHeading>
             <TokenRenderer tokens={tableTitle} />
           </TableHeading>
         )}
-        <MobileCardsWrapper>
+
+        <MotionMobileCardsWrapper
+          ref={carouselRef}
+          onScroll={handleScroll}
+          variants={swipeVariants}
+          animate={isInView ? "hint" : "initial"}
+        >
           {rows.map((row, rowIndex) => (
             <MobileCard key={rowIndex}>
               {headers.map((header, cellIndex) => (
@@ -97,11 +155,25 @@ const Table = ({ tableTitle, headers, rows }) => {
               ))}
             </MobileCard>
           ))}
-        </MobileCardsWrapper>
+        </MotionMobileCardsWrapper>
+
+        {/* Пагінація */}
+        {rows.length > 1 && (
+          <PaginationDotsContainer>
+            {rows.map((_, index) => (
+              <PaginationDot
+                key={index}
+                $isActive={index === activeIndex}
+                onClick={() => goToCard(index)}
+              />
+            ))}
+          </PaginationDotsContainer>
+        )}
       </StyledTableContainer>
     );
   }
 
+  // Десктопна версія: стандартна таблиця
   return (
     <StyledTableContainer>
       {tableTitle && (

@@ -1,7 +1,8 @@
+// src/components/SpecificContentDisplays/Timeline/Timeline.styled.js
+
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-// ✅ Замінено на styled(motion.section) для правильної семантики
 export const TimelineContainer = styled(motion.section)`
   margin: ${({ theme }) => theme.spacing.xlarge} 0;
   position: relative;
@@ -24,11 +25,11 @@ export const TimelineContainer = styled(motion.section)`
   }
 
   ${({ theme }) => theme.media.down("sm")`
-    padding-left: 20px;
+    padding-left: 15px;
     padding-right: ${({ theme }) => theme.spacing.xxsmall};
     
     &::before {
-      left: 9px;
+      left: 5px;
     }
   `}
 `;
@@ -84,7 +85,6 @@ export const EventContent = styled(motion.div)`
   transition: background-color 0.25s ease-in-out, border-color 0.25s ease-in-out;
 `;
 
-// ✅ Оновлено, щоб підтримувати динамічні заголовки
 export const EventTitle = styled.h3.attrs(props => ({
   as: props.as || "h4",
 }))`
@@ -95,17 +95,21 @@ export const EventTitle = styled.h3.attrs(props => ({
   line-height: 1.3;
   transition: color 0.25s ease-in-out;
 
-  display: flex;
+  position: relative;
 
-  & > div:first-of-type {
-    flex-wrap: wrap;
-    flex-grow: 1;
-    margin-right: 10px;
+  & > span:first-child {
+    display: block;
+    padding-right: 30px;
   }
 
-  & > span {
+  & > span:last-child {
+    position: absolute;
+    top: 15%;
+    right: 4px;
+    transform: translateY(-50%);
+
     flex-shrink: 0;
-    line-height: 1.3;
+    line-height: 1;
     font-size: ${({ theme }) => theme.fontSizes.large};
     color: ${({ theme }) => theme.colors.colorSecondary};
     transition: color 0.25s ease-in-out;
@@ -114,11 +118,12 @@ export const EventTitle = styled.h3.attrs(props => ({
   ${({ theme }) => theme.media.down("sm")`
     font-size: ${({ theme }) => theme.fontSizes.medium};
     
-    & > div:first-of-type {
-        margin-right: 8px;
+    & > span:first-child {
+        padding-right: 25px;
     }
     
-    & > span {
+    & > span:last-child {
+        right: 0px;
         font-size: ${({ theme }) => theme.fontSizes.medium};
     }
   `}

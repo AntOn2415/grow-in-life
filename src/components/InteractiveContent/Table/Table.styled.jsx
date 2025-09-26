@@ -1,4 +1,7 @@
+// src/components/SpecificContentDisplays/Table/Table.styled.js
+
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 export const StyledTableContainer = styled.div`
   width: 100%;
@@ -80,7 +83,7 @@ export const TableParagraph = styled.p`
   }
 `;
 
-// Мобільна обгортка для карток-каруселі
+// Мобільна обгортка для карток-каруселі (Базовий компонент - статичний)
 export const MobileCardsWrapper = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing.medium};
@@ -90,6 +93,28 @@ export const MobileCardsWrapper = styled.div`
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  position: relative;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
+// Анімований варіант (motion.div)
+export const MotionMobileCardsWrapper = styled(motion.div)`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.medium};
+  overflow-x: auto;
+  padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.xsmall};
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -158,4 +183,34 @@ export const MobileCardValue = styled.div`
       margin-bottom: 0;
     }
   }
+`;
+
+export const PaginationDotsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: ${({ theme }) => theme.spacing.xsmall};
+  margin-top: ${({ theme }) => theme.spacing.small};
+  margin-bottom: ${({ theme }) => theme.spacing.small};
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
+export const PaginationDot = styled.span`
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.colors.borderColor};
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+
+  ${props =>
+    props.$isActive &&
+    `
+    background-color: ${props.theme.colors.accentColor};
+    width: 10px;
+    height: 10px;
+  `}
 `;

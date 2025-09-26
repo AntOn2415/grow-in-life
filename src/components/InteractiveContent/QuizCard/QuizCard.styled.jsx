@@ -6,9 +6,15 @@ export const StyledQuizCard = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.borderColor};
   border-radius: ${({ theme }) => theme.borderRadius.large};
   padding: ${({ theme }) => theme.spacing.medium};
+
   margin-bottom: ${({ theme }) => theme.spacing.medium};
+
   box-shadow: ${({ theme }) => theme.shadows.medium};
   transition: all 0.25s ease-in-out;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.large};
@@ -17,9 +23,14 @@ export const StyledQuizCard = styled.div`
 
   ${({ theme }) => theme.media.down("sm")`
     padding: ${({ theme }) => theme.spacing.small};
-    margin-bottom: ${({ theme }) => theme.spacing.small};
+    margin-bottom: ${({ theme }) => theme.spacing.small}; 
+    
     transform: none;
     box-shadow: ${({ theme }) => theme.shadows.medium};
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   `}
 `;
 
@@ -30,7 +41,7 @@ export const QuizQuestion = styled.div.attrs(props => ({
   justify-content: space-between;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.small};
-  font-size: ${({ theme }) => theme.fontSizes.xlarge};
+  font-size: ${({ theme }) => theme.fontSizes.large};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.color};
   cursor: pointer;
@@ -42,7 +53,7 @@ export const QuizQuestion = styled.div.attrs(props => ({
   }
 
   ${({ theme }) => theme.media.down("sm")`
-    font-size: ${({ theme }) => theme.fontSizes.large};
+    font-size: ${({ theme }) => theme.fontSizes.medium};
   `}
 `;
 
@@ -71,10 +82,6 @@ export const QuizOptionItem = styled.div`
   cursor: pointer;
   transition: all 0.25s ease-in-out;
   box-shadow: ${({ theme }) => theme.shadows.small};
-
-  &:not(:last-child) {
-    margin-bottom: 0;
-  }
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.hoverBg};
